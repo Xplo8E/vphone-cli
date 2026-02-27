@@ -1,4 +1,19 @@
 # Project artifacts (generated during restore/patch workflow)
+_work/*
+!_work/.gitkeep
+!_work/.gitignore
+!_work/firmwares/
+!_work/firmwares/.gitkeep
+!_work/Ramdisk/
+!_work/Ramdisk/.gitkeep
+!_work/shsh/
+!_work/shsh/.gitkeep
+!_work/checkpoints/
+!_work/checkpoints/.gitkeep
+!_work/logs/
+!_work/logs/.gitkeep
+!_work/tmp/
+!_work/tmp/.gitkeep
 Ramdisk/*
 !Ramdisk/.gitkeep
 !Ramdisk/.gitignore
@@ -11,6 +26,7 @@ macos-ipsw/*
 *.shsh
 *.shsh.gz
 signcert.p12
+patch_scripts/signcert.p12
 nvram.bin
 patch_scripts/metal_cache/
 patch_scripts/metal_plugin/

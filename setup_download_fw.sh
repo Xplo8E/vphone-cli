@@ -23,7 +23,8 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FW_DIR="${REPO_ROOT}/firmwares"
+WORK_ROOT="${REPO_ROOT}/_work"
+FW_DIR="${FW_DIR:-${WORK_ROOT}/firmwares}"
 CONTENTS_DIR="${REPO_ROOT}/contents"
 
 # ── URLs and identifiers ────────────────────────────────────────────────────

@@ -1,0 +1,16 @@
+# Keep _work tracked but ignore generated runtime artifacts.
+*
+!.gitignore
+!.gitkeep
+!firmwares/
+!firmwares/.gitkeep
+!Ramdisk/
+!Ramdisk/.gitkeep
+!shsh/
+!shsh/.gitkeep
+!checkpoints/
+!checkpoints/.gitkeep
+!logs/
+!logs/.gitkeep
+!tmp/
+!tmp/.gitkeep

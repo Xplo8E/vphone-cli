@@ -20,7 +20,7 @@ Steps:
   6. Sign ramdisk + trustcache to IMG4
 
 Output:
-  Ramdisk/ directory with all .img4 files ready for boot_rd.sh
+  _work/Ramdisk/ directory with all .img4 files ready for boot_rd.sh
 
 Usage:
   python3 prepare_ramdisk.py [--firmware-dir PATH] [--output-dir PATH]
@@ -41,6 +41,7 @@ from pathlib import Path
 # =============================================================================
 SCRIPT_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPT_DIR.parent
+WORK_ROOT = REPO_ROOT / "_work"
 BIN_DIR = REPO_ROOT / "bin"
 SSHRD_DIR = REPO_ROOT / "oems" / "SSHRD_Script"
 
@@ -73,9 +74,27 @@ GTAR = os.environ.get("GTAR", str(BIN_DIR / "gtar") if (BIN_DIR / "gtar").exists
 SSH_TAR = SSHRD_DIR / "sshtars" / "ssh.tar"
 SSH_TAR_GZ = SSHRD_DIR / "sshtars" / "ssh.tar.gz"
 
-# Default firmware directory
-DEFAULT_FW_DIR = (REPO_ROOT / "firmwares" / "firmware_patched"
+# Default firmware directory (prefer _work layout).
+DEFAULT_FW_DIR = (WORK_ROOT / "firmwares" / "firmware_patched"
                   / "iPhone17,3_26.1_23B85_Restore")
+
+
+def detect_firmware_dir(explicit_fw_dir):
+    """Resolve firmware directory from explicit arg or common repo layouts."""
+    if explicit_fw_dir:
+        return str(Path(explicit_fw_dir).expanduser().resolve())
+
+    candidates = [
+        DEFAULT_FW_DIR,
+        REPO_ROOT / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
+        Path.cwd() / "_work" / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
+        Path.cwd() / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
+        Path.cwd() / "iPhone17,3_26.1_23B85_Restore",
+    ]
+    for c in candidates:
+        if (c / "BuildManifest.plist").exists():
+            return str(c)
+    return str(DEFAULT_FW_DIR)
 
 # =============================================================================
 # Firmware components to sign as IMG4
@@ -459,7 +478,7 @@ def main():
         description="Prepare IMG4-signed firmware and SSH ramdisk for DFU boot.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Output files (in Ramdisk/ directory):
+Output files (in output directory):
   iBSS.vresearch101.RELEASE.img4    - Patched iBSS bootloader
   iBEC.vresearch101.RELEASE.img4    - Patched iBEC bootloader
   sptm.vresearch1.release.img4      - SPTM firmware
@@ -473,11 +492,11 @@ Output files (in Ramdisk/ directory):
 Use boot_rd.sh to load these into the VM via irecovery.
 """)
     parser.add_argument("--firmware-dir", "-d",
-                        default=str(DEFAULT_FW_DIR),
-                        help="Path to extracted IPSW restore directory")
+                        default=None,
+                        help="Path to extracted IPSW restore directory (auto-detected if omitted)")
     parser.add_argument("--output-dir", "-o",
-                        default=str(REPO_ROOT / "Ramdisk"),
-                        help="Output directory for IMG4 files (default: Ramdisk/)")
+                        default=str(WORK_ROOT / "Ramdisk"),
+                        help="Output directory for IMG4 files (default: _work/Ramdisk/)")
     parser.add_argument("--skip-shsh", action="store_true",
                         help="Skip SHSH fetch (use existing IM4M)")
     parser.add_argument("--im4m",
@@ -488,9 +507,9 @@ Use boot_rd.sh to load these into the VM via irecovery.
                         help="Working directory for temp files")
     args = parser.parse_args()
 
-    fw_dir = args.firmware_dir
+    fw_dir = detect_firmware_dir(args.firmware_dir)
     output_dir = args.output_dir
-    work_dir = args.work_dir or os.path.join(os.path.dirname(fw_dir), "ramdisk_work")
+    work_dir = args.work_dir or str(WORK_ROOT / "ramdisk_work")
 
     # Validate firmware directory
     if not os.path.isdir(fw_dir):

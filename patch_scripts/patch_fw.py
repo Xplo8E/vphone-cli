@@ -40,6 +40,7 @@ from pathlib import Path
 # =============================================================================
 SCRIPT_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPT_DIR.parent
+WORK_ROOT = REPO_ROOT / "_work"
 BIN_DIR = REPO_ROOT / "bin"
 
 def _find_pyimg4():
@@ -840,7 +841,10 @@ All offsets are for cloudOS/iOS 23B85 build.
         else:
             # Auto-detect relative to script location
             candidates = [
+                WORK_ROOT / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
                 REPO_ROOT / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
+                REPO_ROOT / "_work" / "iPhone17,3_26.1_23B85_Restore",
+                Path.cwd() / "_work" / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
                 Path.cwd() / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
                 Path.cwd() / "iPhone17,3_26.1_23B85_Restore",
             ]

@@ -16,12 +16,13 @@ Run from repo root.
 ```bash
 pwd
 REPO="$(pwd)"
-FW="$REPO/firmwares/firmware_patched/iPhone17,3_26.1_23B85_Restore"
+FW="$REPO/_work/firmwares/firmware_patched/iPhone17,3_26.1_23B85_Restore"
 ```
 
 Why this style:
 - avoids hardcoded absolute paths
 - easier to copy/paste on any machine
+- matches current script defaults (`_work/...`); legacy `firmwares/...` is still auto-detected
 
 ---
 
@@ -257,7 +258,7 @@ ssh root@127.0.0.1 -p 2222
 If commands like `ls` fail, fix PATH/TERM/SHELL:
 
 ```bash
-export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11:/usr/games:/iosbinpack64/usr/local/sbin:/iosbinpack64/usr/local/bin:/iosbinpack64/usr/sbin:/iosbinpack64/usr/bin:/iosbinpack64/sbin:/iosbinpack64/bin'
+export PATH='/var/jb/usr/local/sbin:/var/jb/usr/local/bin:/var/jb/usr/sbin:/var/jb/usr/bin:/var/jb/sbin:/var/jb/bin:/iosbinpack64/usr/local/sbin:/iosbinpack64/usr/local/bin:/iosbinpack64/usr/sbin:/iosbinpack64/usr/bin:/iosbinpack64/sbin:/iosbinpack64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 export TERM='xterm-256color'
 export SHELL='/iosbinpack64/bin/bash'
 ```
@@ -266,15 +267,100 @@ Persist in `/var/profile`:
 
 ```bash
 /iosbinpack64/bin/cp /iosbinpack64/etc/profile /var/profile
-cat >> /var/profile <<'EOF2'
+/iosbinpack64/usr/bin/grep -q "var/jb/usr/bin" /var/profile || /iosbinpack64/bin/cat >> /var/profile <<'EOF2'
+export PATH='/var/jb/usr/local/sbin:/var/jb/usr/local/bin:/var/jb/usr/sbin:/var/jb/usr/bin:/var/jb/sbin:/var/jb/bin:/iosbinpack64/usr/local/sbin:/iosbinpack64/usr/local/bin:/iosbinpack64/usr/sbin:/iosbinpack64/usr/bin:/iosbinpack64/sbin:/iosbinpack64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 export TERM='xterm-256color'
 export SHELL='/iosbinpack64/bin/bash'
 EOF2
+/iosbinpack64/bin/cp /var/profile /var/root/.profile
 ```
 
 ---
 
-## 9) Procursus/Jailbreak Stages (A/B/C)
+## 9) FAQ: `apt` Works Once, Fails After Re-login
+
+Symptom:
+
+- `apt --version` works after manual export.
+- After reconnecting SSH, `apt: command not found`.
+
+Cause:
+
+- `apt` lives in `/var/jb/usr/bin`.
+- SSH default PATH often only includes base + `/iosbinpack64`, not `/var/jb/usr/bin`.
+
+Fix in current SSH session:
+
+```bash
+export PATH='/var/jb/usr/local/sbin:/var/jb/usr/local/bin:/var/jb/usr/sbin:/var/jb/usr/bin:/var/jb/sbin:/var/jb/bin:/iosbinpack64/usr/local/sbin:/iosbinpack64/usr/local/bin:/iosbinpack64/usr/sbin:/iosbinpack64/usr/bin:/iosbinpack64/sbin:/iosbinpack64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+export TERM='xterm-256color'
+export SHELL='/iosbinpack64/bin/bash'
+if [ ! -x /var/jb/usr/bin/apt ]; then
+  HASH="$(/iosbinpack64/bin/ls /private/preboot | /iosbinpack64/usr/bin/head -n1)"
+  /iosbinpack64/bin/ln -sfn "/private/preboot/$HASH/jb-vphone/procursus" /private/var/jb
+fi
+/var/jb/usr/bin/apt --version
+```
+
+Persist for future SSH logins:
+
+```bash
+/iosbinpack64/bin/cp /iosbinpack64/etc/profile /var/profile 2>/dev/null || true
+/iosbinpack64/usr/bin/grep -q "var/jb/usr/bin" /var/profile || /iosbinpack64/bin/cat >> /var/profile <<'EOF2'
+export PATH='/var/jb/usr/local/sbin:/var/jb/usr/local/bin:/var/jb/usr/sbin:/var/jb/usr/bin:/var/jb/sbin:/var/jb/bin:/iosbinpack64/usr/local/sbin:/iosbinpack64/usr/local/bin:/iosbinpack64/usr/sbin:/iosbinpack64/usr/bin:/iosbinpack64/sbin:/iosbinpack64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+export TERM='xterm-256color'
+export SHELL='/iosbinpack64/bin/bash'
+EOF2
+/iosbinpack64/bin/cp /var/profile /var/root/.profile
+```
+
+Reliable fallback (works even if PATH is wrong):
+
+```bash
+/var/jb/usr/bin/apt update
+/var/jb/usr/bin/apt install -y <package-name>
+```
+
+### 9.1 Fix Procursus `Signed-By` / `NO_PUBKEY` Warning
+
+If `apt update` shows:
+
+- `Missing Signed-By ...`
+- `NO_PUBKEY 6430292CF9551B0E`
+- duplicate target warnings for `procursus.sources` and `procursus.sources.list`
+
+use this exact fix:
+
+```bash
+rm -f /var/jb/etc/apt/sources.list.d/procursus.sources.list
+mkdir -p /var/jb/usr/share/keyrings
+curl -fsSL https://apt.procurs.us/memo.gpg -o /var/jb/usr/share/keyrings/procursus.gpg
+cat > /var/jb/etc/apt/sources.list.d/procursus.sources <<'EOF'
+Types: deb
+URIs: https://apt.procurs.us/
+Suites: 1900
+Components: main
+Signed-By: /var/jb/usr/share/keyrings/procursus.gpg
+EOF
+apt update
+```
+
+Note:
+
+- `https://apt.procurs.us/apt.key` currently returns 404; use `memo.gpg`.
+
+### 9.2 Add Third-Party Repo (Legacy `.list` style)
+
+Example: add Xplo8E repo for `apt`:
+
+```bash
+echo "deb [trusted=yes arch=iphoneos-arm64] https://xplo8e.github.io/sileo/ ./" > /var/jb/etc/apt/sources.list.d/xplo8e.list
+apt update
+```
+
+---
+
+## 10) Procursus/Jailbreak Stages (A/B/C)
 
 ### Stage A: DFU + ramdisk + stage Procursus payload
 

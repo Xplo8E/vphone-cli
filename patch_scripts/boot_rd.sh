@@ -2,7 +2,7 @@
 # boot_rd.sh - Load IMG4 firmware components into DFU VM via irecovery.
 #
 # Prerequisites:
-#   - prepare_ramdisk.py must have been run (IMG4 files in Ramdisk/)
+#   - prepare_ramdisk.py must have been run (IMG4 files in _work/Ramdisk/ or Ramdisk/)
 #   - VM must be in DFU mode (started with tart)
 #   - irecovery must be available
 #
@@ -21,10 +21,17 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+WORK_ROOT="$REPO_ROOT/_work"
 BIN_DIR="$REPO_ROOT/bin"
 
-# Ramdisk directory (first arg or default)
-RD_DIR="${1:-$REPO_ROOT/Ramdisk}"
+# Ramdisk directory (first arg, then _work, then legacy Ramdisk/)
+if [ -n "${1:-}" ]; then
+	RD_DIR="$1"
+elif [ -d "$WORK_ROOT/Ramdisk" ]; then
+	RD_DIR="$WORK_ROOT/Ramdisk"
+else
+	RD_DIR="$REPO_ROOT/Ramdisk"
+fi
 
 # irecovery path
 IRECOVERY="${IRECOVERY:-$BIN_DIR/irecovery}"
@@ -36,7 +43,13 @@ PROBE_TIMEOUT="${PROBE_TIMEOUT:-3}"
 SLEEP_BIN="/bin/sleep"
 PYTHON_BIN="${PYTHON_BIN:-$REPO_ROOT/.venv/bin/python3}"
 PYIMG4_BIN="${PYIMG4_BIN:-$REPO_ROOT/.venv/bin/pyimg4}"
-IM4M_PATH="${IM4M_PATH:-$REPO_ROOT/firmwares/firmware_patched/ramdisk_work/vphone.im4m}"
+if [ -z "${IM4M_PATH:-}" ]; then
+	if [ -f "$WORK_ROOT/ramdisk_work/vphone.im4m" ]; then
+		IM4M_PATH="$WORK_ROOT/ramdisk_work/vphone.im4m"
+	else
+		IM4M_PATH="$REPO_ROOT/firmwares/firmware_patched/ramdisk_work/vphone.im4m"
+	fi
+fi
 
 if [ ! -x "$IRECOVERY" ]; then
 	echo "ERROR: irecovery not found at $IRECOVERY"

@@ -18,13 +18,15 @@ bash setup_bin.sh
 
 # 2) Activate environment (adds PATH, TART_HOME, pyimg4, etc.)
 source setup_env.sh
+REPO="$(pwd)"
+FW="$REPO/_work/firmwares/firmware_patched/iPhone17,3_26.1_23B85_Restore"
 
 # 3) Download + mix firmware (large downloads)
 bash setup_download_fw.sh
 
 # 4) Patch bootchain binaries
 cd patch_scripts
-python3 patch_fw.py -d ../firmwares/firmware_patched/iPhone17,3_26.1_23B85_Restore
+python3 patch_fw.py -d "$FW"
 
 # 5) Build the SSH ramdisk + sign IMG4
 python3 prepare_ramdisk.py
@@ -38,7 +40,7 @@ cd patch_scripts
 bash boot_rd.sh
 
 # 8) Configure rootfs from the ramdisk (Cryptex, daemons, GPU)
-python3 setup_rootfs.py
+python3 setup_rootfs.py --no-halt
 # For Metal support, also pass:
 #   --pcc-gpu-bundle /path/to/AppleParavirtGPUMetalIOGPUFamily.bundle \
 #   --pcc-gpu-plugin /path/to/libAppleParavirtCompilerPluginIOGPUFamily.dylib
@@ -54,7 +56,7 @@ python3 setup_rootfs.py
   - Must be sourced (not executed).
   - Sets `TART_HOME` to `.tart/` in the repo.
 - `setup_download_fw.sh`
-  - Downloads iPhone + PCC IPSWs and mixes firmware into a patched restore directory.
+  - Downloads iPhone + PCC IPSWs and mixes firmware into `_work/firmwares/...` by default.
 - `patch_scripts/patch_fw.py`
   - Patches bootchain binaries (iBSS/iBEC/LLB/TXM/kernel/AVPBooter).
 - `patch_scripts/prepare_ramdisk.py`

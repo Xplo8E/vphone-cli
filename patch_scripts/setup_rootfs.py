@@ -52,12 +52,31 @@ from pathlib import Path
 # =============================================================================
 SCRIPT_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPT_DIR.parent
+WORK_ROOT = REPO_ROOT / "_work"
 BIN_DIR = REPO_ROOT / "bin"
 
 # Default firmware directories
-DEFAULT_FW_DIR = (REPO_ROOT / "firmwares" / "firmware_patched"
+DEFAULT_FW_DIR = (WORK_ROOT / "firmwares" / "firmware_patched"
                   / "iPhone17,3_26.1_23B85_Restore")
-DEFAULT_PCC_DIR = (REPO_ROOT / "firmwares" / "firmware_patched" / "pcc_extracted")
+DEFAULT_PCC_DIR = (WORK_ROOT / "firmwares" / "firmware_patched" / "pcc_extracted")
+
+
+def detect_firmware_dir(explicit_fw_dir):
+    """Resolve firmware directory from explicit arg or common repo layouts."""
+    if explicit_fw_dir:
+        return str(Path(explicit_fw_dir).expanduser().resolve())
+
+    candidates = [
+        DEFAULT_FW_DIR,
+        REPO_ROOT / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
+        Path.cwd() / "_work" / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
+        Path.cwd() / "firmwares" / "firmware_patched" / "iPhone17,3_26.1_23B85_Restore",
+        Path.cwd() / "iPhone17,3_26.1_23B85_Restore",
+    ]
+    for c in candidates:
+        if (c / "BuildManifest.plist").exists():
+            return str(c)
+    return str(DEFAULT_FW_DIR)
 
 # Tool paths (prefer bin/ then system)
 def _find_tool(name, env_var, fallback=None):
@@ -839,8 +858,8 @@ For GPU Metal support, pass both:
   --pcc-gpu-plugin /path/to/libAppleParavirtCompilerPluginIOGPUFamily.dylib
 """)
     parser.add_argument("--firmware-dir", "-d",
-                        default=str(DEFAULT_FW_DIR),
-                        help="Path to extracted IPSW restore directory")
+                        default=None,
+                        help="Path to extracted IPSW restore directory (auto-detected if omitted)")
     parser.add_argument("--jb-dir", "-j",
                         default=str(REPO_ROOT / "jb"),
                         help="Path to jailbreak files directory (default: jb/)")
@@ -873,10 +892,9 @@ For GPU Metal support, pass both:
 
     set_ssh_port(args.ssh_port)
 
-    fw_dir = args.firmware_dir
+    fw_dir = detect_firmware_dir(args.firmware_dir)
     jb_dir = args.jb_dir
-    work_dir = args.work_dir or os.path.join(
-        os.path.dirname(fw_dir), "rootfs_work")
+    work_dir = args.work_dir or str(WORK_ROOT / "rootfs_work")
 
     os.makedirs(work_dir, exist_ok=True)
     os.makedirs(jb_dir, exist_ok=True)

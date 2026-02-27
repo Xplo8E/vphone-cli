@@ -1,5 +1,14 @@
-import struct, pathlib
-v = pathlib.Path("../firmwares/firmware_patched/rootfs_work/verify")
+import struct
+import pathlib
+
+script_dir = pathlib.Path(__file__).resolve().parent
+repo_root = script_dir.parent
+candidates = [
+    repo_root / "_work" / "rootfs_work" / "verify",
+    repo_root / "firmwares" / "firmware_patched" / "rootfs_work" / "verify",
+]
+v = next((p for p in candidates if p.exists()), candidates[0])
+
 def u32(f,o): 
     return struct.unpack_from("<I",(v/f).read_bytes(),o)[0]
 
