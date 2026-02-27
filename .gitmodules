@@ -1,0 +1,33 @@
+[submodule "oems/SSHRD_Script"]
+	path = oems/SSHRD_Script
+	url = https://github.com/verygenericname/SSHRD_Script.git
+[submodule "oems/TrollVNC"]
+	path = oems/TrollVNC
+	url = https://github.com/OwnGoalStudio/TrollVNC.git
+[submodule "oems/idevicerestore"]
+	path = oems/idevicerestore
+	url = https://github.com/libimobiledevice/idevicerestore.git
+[submodule "oems/img4lib"]
+	path = oems/img4lib
+	url = https://github.com/xerub/img4lib.git
+[submodule "oems/img4tool"]
+	path = oems/img4tool
+	url = https://github.com/tihmstar/img4tool.git
+[submodule "oems/libgeneral"]
+	path = oems/libgeneral
+	url = https://github.com/tihmstar/libgeneral.git
+[submodule "oems/libirecovery"]
+	path = oems/libirecovery
+	url = https://github.com/wh1te4ever/libirecovery.git
+[submodule "oems/security-pcc"]
+	path = oems/security-pcc
+	url = https://github.com/apple/security-pcc.git
+[submodule "oems/super-tart"]
+	path = oems/super-tart
+	url = https://github.com/JJTech0130/super-tart.git
+[submodule "oems/trustcache"]
+	path = oems/trustcache
+	url = https://github.com/CRKatri/trustcache.git
+[submodule "oems/vma2pwn"]
+	path = oems/vma2pwn
+	url = https://github.com/nick-botticelli/vma2pwn.git

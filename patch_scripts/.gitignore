@@ -1,0 +1,8 @@
+raw/*
+!raw/.gitkeep
+!raw/.gitignore
+*.raw
+*.id0
+*.id1
+*.nam
+*.til
