@@ -5,7 +5,8 @@
 - `SETUP.md` — host + build + firmware mix + VM scaffold.
 - `VPHONE_RUNBOOK.md` — operational flow (restore, ramdisk, rootfs, SSH/VNC, jailbreak stages).
 - `docs/DETAILED_GUIDE.md` — deep-dive notes and references.
-- `docs/cc-tut.md` — deprecated pointer to `../VPHONE_RUNBOOK.md`.
+- `docs/isSupported_deep_analysis.md` — hardware model analysis.
+- `docs/vrevm_analysis_macos26b3.md` — VRE VM analysis.
 
 ## Package Manager
 - Homebrew (host deps):
@@ -61,14 +62,17 @@ python3 patch_scripts/setup_rootfs.py --skip-cryptex --skip-iosbinpack --skip-da
 
 ## Repository Layout
 - `oems/` — upstream dependency repos listed in `.gitmodules` (currently cloned locally).
-- `patch_oems/` — local OEM patch sets.
 - `patch_scripts/` — firmware/ramdisk/rootfs/jailbreak tooling.
 - `jb/` — payloads, LaunchDaemons, jailbreak assets.
 - `bin/` — built tools (generated, gitignored).
+- `vphone-cli/` — DFU boot CLI tool.
+- `scripts/repl/` — Swift probe scripts for hardware model investigation.
+- `docs/` — deep-dive guides and analysis notes.
 - `firmwares/` — IPSWs + mixed/working firmware trees (generated, gitignored).
 - `Ramdisk/` — generated IMG4s (gitignored except placeholders).
 - `shsh/` — generated tickets (gitignored except placeholders).
 - `checkpoints/` — optional local tarball snapshots (gitignored except placeholders).
+- `_work/` — runtime working directory (gitignored).
 
 ## Standard Flow
 ```bash
@@ -93,7 +97,7 @@ python3 setup_rootfs.py --no-halt
   - `bin/`, `.local/`, `.venv/`, `.tart/`, `.swiftpm/`, `.swift-home/`
   - `firmwares/*`, `Ramdisk/*`, `shsh/*`, `checkpoints/*`, `patch_scripts/raw/*`
   - `patch_scripts/metal_cache/`, `patch_scripts/metal_plugin/`
-  - `*.ipsw`, `*.im4m`, `*.shsh`, `*.shsh.gz`, `patch_scripts/signcert.p12`, `nvram.bin`
+  - `*.ipsw`, `*.im4m`, `*.shsh`, `*.shsh.gz`, `patch_scripts/signcert.p12`
 
 ## OEM Source Refresh
 - Reclone `oems/*` from `.gitmodules` URLs:
