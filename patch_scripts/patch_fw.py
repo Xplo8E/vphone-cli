@@ -130,6 +130,13 @@ TXM_PATCHES_BASE = [
     (0x2C1F8, MOV_X0_0, "trustcache: MOV X0, #0 (was BL sub_FFFFFFF01702EC70)"),
     (0x2BEF4, MOV_X0_0, "trustcache: MOV X0, #0 (was BL validation func)"),
     (0x2C060, MOV_X0_0, "trustcache: MOV X0, #0 (was BL validation func)"),
+    # Policy-bit relaxations.
+    (0x20004, 0xD2800008, "policy: mov x8, #0 (device_type=0 -> txm_cs_disable=1)"),
+    (0x20340, 0x92800000, "policy: mov x0, #-1 (enable all bits)"),
+    (0x20348, 0x7904B280, "policy: set skipTrustEvaluation_allowAnySignature"),
+    (0x20350, 0x39096A80, "policy: set allowUnrestrictedLocalSigning"),
+    (0x2035C, 0x39097A80, "policy: set relaxProfileTrust"),
+    (0x20360, 0x79058A80, "policy: set allowModifiedCodeAndUnrestrictDebug"),
 ]
 
 TXM_PATCHES_JB_EXTRA = [

@@ -151,14 +151,7 @@ def apply_patches(raw_data, patches, name):
     """Apply a list of (offset, value, description) patches to raw binary data."""
     data = bytearray(raw_data)
     for offset, value, desc in patches:
-        if isinstance(value, int):
-            patch_bytes = struct.pack('<I', value)
-        elif isinstance(value, str):
-            patch_bytes = value.encode()
-        elif isinstance(value, bytes):
-            patch_bytes = value
-        else:
-            raise ValueError(f"Unknown patch type for {desc}: {type(value)}")
+        patch_bytes = value_to_patch_bytes(value, desc)
 
         if offset + len(patch_bytes) > len(data):
             print(f"    SKIP: {desc} — offset 0x{offset:X} beyond binary ({len(data)} bytes)")
@@ -167,6 +160,59 @@ def apply_patches(raw_data, patches, name):
         data[offset:offset + len(patch_bytes)] = patch_bytes
     print(f"    Applied {len(patches)} patches to {name}")
     return bytes(data)
+
+
+def value_to_patch_bytes(value, desc="patch"):
+    """Normalize a patch value to bytes."""
+    if isinstance(value, int):
+        return struct.pack('<I', value)
+    if isinstance(value, str):
+        return value.encode()
+    if isinstance(value, bytes):
+        return value
+    raise ValueError(f"Unknown patch type for {desc}: {type(value)}")
+
+
+def count_patch_matches(raw_data, patches):
+    """Return (matched, considered) for the given patch list on raw data."""
+    matched = 0
+    considered = 0
+    for offset, value, desc in patches:
+        patch_bytes = value_to_patch_bytes(value, desc)
+        if offset + len(patch_bytes) > len(raw_data):
+            continue
+        considered += 1
+        if raw_data[offset:offset + len(patch_bytes)] == patch_bytes:
+            matched += 1
+    return matched, considered
+
+
+def detect_remote_jb_extra(remote_img4_path, work_dir, name, extra_patches):
+    """
+    Inspect currently active preboot IMG4 and detect whether jb-extra patches
+    are already present.
+
+    Returns:
+      True  -> all jb-extra patches present
+      False -> jb-extra patches not fully present
+      None  -> detection failed (keep caller's explicit mode)
+    """
+    local_img4 = os.path.join(work_dir, f"current.{name}.img4")
+    local_im4p = os.path.join(work_dir, f"current.{name}.im4p")
+    local_raw = os.path.join(work_dir, f"current.{name}.raw")
+
+    try:
+        scp_from_device(remote_img4_path, local_img4)
+        run_cmd(f'{PYIMG4} img4 extract -i "{local_img4}" -p "{local_im4p}"')
+        run_cmd(f'{PYIMG4} im4p extract -i "{local_im4p}" -o "{local_raw}"')
+
+        raw_data = Path(local_raw).read_bytes()
+        matched, considered = count_patch_matches(raw_data, extra_patches)
+        print(f"  {name}: current jb-extra matches {matched}/{considered}")
+        return considered > 0 and matched == considered
+    except SystemExit:
+        print(f"  WARNING: could not inspect current {name}; preserving requested mode.")
+        return None
 
 
 # =============================================================================
@@ -311,6 +357,10 @@ Workflow:
 
 This replaces the full re-restore cycle (DETAILED_GUIDE Section 15)
 for iterative patch development.
+
+By default, if --kernel-jb-extra/--txm-jb-extra are omitted, this tool
+inspects current preboot kernel/TXM and preserves jb-extra mode when already
+present (prevents accidental downgrade from jb-extra to minimal).
 """)
     parser.add_argument("--firmware-dir", "-d",
                         default=str(DEFAULT_FW_DIR),
@@ -323,6 +373,8 @@ for iterative patch development.
                         help="Only patch kernel (skip TXM)")
     parser.add_argument("--txm-only", action="store_true",
                         help="Only patch TXM (skip kernel)")
+    parser.add_argument("--no-preserve-modes", action="store_true",
+                        help="Don't auto-preserve existing jb-extra mode from current preboot files")
     parser.add_argument("--no-halt", action="store_true",
                         help="Don't halt device after upload")
     parser.add_argument("--dry-run", action="store_true",
@@ -337,6 +389,7 @@ for iterative patch development.
     fw_dir = args.firmware_dir
     do_kernel = not args.txm_only
     do_txm = not args.kernel_only
+    preserve_modes = not args.no_preserve_modes
 
     if not os.path.isdir(fw_dir):
         print(f"ERROR: Firmware directory not found: {fw_dir}")
@@ -378,13 +431,42 @@ for iterative patch development.
         size = os.path.getsize(apticket_local)
         print(f"  APTicket: {size:,} bytes")
 
+        remote_kernel = f"/mnt5/{boot_hash}/System/Library/Caches/com.apple.kernelcaches/kernelcache"
+        remote_txm = f"/mnt5/{boot_hash}/usr/standalone/firmware/FUD/Ap,TrustedExecutionMonitor.img4"
+
+        effective_kernel_jb_extra = args.kernel_jb_extra
+        effective_txm_jb_extra = args.txm_jb_extra
+
+        if preserve_modes:
+            print("\n" + "=" * 60)
+            print("[Step 2b] Detecting current patch mode")
+            print("=" * 60)
+            if do_kernel and not args.kernel_jb_extra:
+                detected = detect_remote_jb_extra(
+                    remote_kernel, work_dir, "kernel", KERNEL_PATCHES_JB_EXTRA
+                )
+                if detected is True:
+                    effective_kernel_jb_extra = True
+                    print("  kernel: preserving jb-extra mode")
+                elif detected is False:
+                    print("  kernel: keeping minimal mode")
+            if do_txm and not args.txm_jb_extra:
+                detected = detect_remote_jb_extra(
+                    remote_txm, work_dir, "txm", TXM_PATCHES_JB_EXTRA
+                )
+                if detected is True:
+                    effective_txm_jb_extra = True
+                    print("  txm: preserving jb-extra mode")
+                elif detected is False:
+                    print("  txm: keeping minimal mode")
+
         # =====================================================================
         # Step 3: Patch and sign kernel
         # =====================================================================
         kernel_img4 = None
         if do_kernel:
             kernel_img4 = patch_and_sign_kernel(
-                fw_dir, work_dir, apticket_local, args.kernel_jb_extra
+                fw_dir, work_dir, apticket_local, effective_kernel_jb_extra
             )
 
         # =====================================================================
@@ -393,7 +475,7 @@ for iterative patch development.
         txm_img4 = None
         if do_txm:
             txm_img4 = patch_and_sign_txm(
-                fw_dir, work_dir, apticket_local, args.txm_jb_extra
+                fw_dir, work_dir, apticket_local, effective_txm_jb_extra
             )
 
         # =====================================================================
@@ -414,7 +496,6 @@ for iterative patch development.
         print("=" * 60)
 
         if kernel_img4:
-            remote_kernel = f"/mnt5/{boot_hash}/System/Library/Caches/com.apple.kernelcaches/kernelcache"
             remote_kernel_bak = remote_kernel + ".bak"
 
             # Create backup on device if not exists
@@ -429,7 +510,6 @@ for iterative patch development.
             print("  Kernel uploaded.")
 
         if txm_img4:
-            remote_txm = f"/mnt5/{boot_hash}/usr/standalone/firmware/FUD/Ap,TrustedExecutionMonitor.img4"
             remote_txm_bak = remote_txm + ".bak"
 
             # Create backup on device if not exists
@@ -461,10 +541,10 @@ for iterative patch development.
         print("=" * 60)
         components = []
         if kernel_img4:
-            n = len(KERNEL_PATCHES_BASE) + (len(KERNEL_PATCHES_JB_EXTRA) if args.kernel_jb_extra else 0)
+            n = len(KERNEL_PATCHES_BASE) + (len(KERNEL_PATCHES_JB_EXTRA) if effective_kernel_jb_extra else 0)
             components.append(f"kernel ({n} patches)")
         if txm_img4:
-            n = len(TXM_PATCHES_BASE) + (len(TXM_PATCHES_JB_EXTRA) if args.txm_jb_extra else 0)
+            n = len(TXM_PATCHES_BASE) + (len(TXM_PATCHES_JB_EXTRA) if effective_txm_jb_extra else 0)
             components.append(f"TXM ({n} patches)")
         print(f"  Patched: {', '.join(components)}")
         if not args.no_halt:
