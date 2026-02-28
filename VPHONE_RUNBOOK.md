@@ -626,17 +626,29 @@ TrollStoreLite runs as `mobile` (euid 501). When you tap install, it tries to `p
 
 TrollStore's install mechanism bypasses `installd` entirely — it uses `ldid` to re-sign the binary with `jb.pmap_cs_custom_trust = PMAP_CS_APP_STORE` (which tells the kernel to treat it as a trusted App Store app), then installs directly via `MCMAppContainer` private API.
 
-Since we have root SSH access, we can invoke `trollstorehelper` directly:
+First, symlink `trollstorehelper` into PATH so you can call it from anywhere:
 
 ```bash
 HASH="$(ls /private/preboot/ | head -n1)"
-/private/preboot/$HASH/jb-vphone/procursus/Applications/TrollStoreLite.app/trollstorehelper install "/path/to/app.ipa"
+ln -sfn /private/preboot/$HASH/jb-vphone/procursus/Applications/TrollStoreLite.app/trollstorehelper /var/jb/usr/bin/trollstorehelper
+```
+
+Then install any IPA:
+
+```bash
+trollstorehelper install "/path/to/app.ipa"
 ```
 
 After install, register with SpringBoard:
 
 ```bash
 uicache -a
+```
+
+To remove the symlink later:
+
+```bash
+rm /var/jb/usr/bin/trollstorehelper
 ```
 
 ### Finding the IPA path
@@ -656,10 +668,7 @@ find /private/var/mobile/Containers/Shared/AppGroup -name "*.ipa" 2>/dev/null
 ### Full example
 
 ```bash
-HASH="$(ls /private/preboot/ | head -n1)"
-IPA="/private/var/mobile/Containers/Shared/AppGroup/A1B432C4-2BFB-42B9-B38D-B1F2BFBA601C/File Provider Storage/Downloads/geekbench-6-v6.1.0.ipa"
-
-/private/preboot/$HASH/jb-vphone/procursus/Applications/TrollStoreLite.app/trollstorehelper install "$IPA"
+trollstorehelper install '/private/var/mobile/Containers/Shared/AppGroup/A1B432C4-2BFB-42B9-B38D-B1F2BFBA601C/File Provider Storage/Downloads/geekbench-6-v6.1.0.ipa'
 uicache -a
 ```
 
