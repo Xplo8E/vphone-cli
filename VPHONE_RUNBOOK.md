@@ -64,7 +64,7 @@ Terminal A:
 ```bash
 cd "$REPO"
 source setup_env.sh
-./vm_boot_dfu.sh vphone
+"$REPO/bin/tart" run vphone --dfu --serial
 ```
 
 Terminal B:
@@ -367,7 +367,7 @@ apt update
 ```bash
 cd "$REPO"
 source setup_env.sh
-./vm_boot_dfu.sh vphone
+"$REPO/bin/tart" run vphone --dfu --serial
 ```
 
 ```bash
@@ -431,7 +431,7 @@ halt
 ```bash
 cd "$REPO"
 source setup_env.sh
-./vm_boot_dfu.sh vphone
+"$REPO/bin/tart" run vphone --dfu --serial
 ```
 
 ```bash

@@ -201,7 +201,7 @@ source setup_env.sh
 python3 patch_scripts/patch_fw.py -d "$FW" --kernel-jb-extra --txm-jb-extra
 
 # Terminal A — start VM in DFU
-./vm_boot_dfu.sh vphone
+"$REPO/bin/tart" run vphone --dfu --serial
 
 # Terminal B — restore patched firmware
 "$REPO/bin/idevicerestore" -e -y "$FW"
