@@ -19,6 +19,20 @@ Ramdisk/*
 !Ramdisk/.gitkeep
 !Ramdisk/.gitignore
 
+# ── Local scratch / test artifacts ───────────────────────────────────────────
+bin-test/tart
+iphone-vre/
+jb/iosbinpack64.tar
+jb/tfp0test/tfp0test
+ramdisk_work/kcache.sign.raw
+ramdisk_work/krnl.rkrn.im4p
+ramdisk_work/ramdisk.dmg
+ramdisk_work/ramdisk.im4p
+ramdisk_work/ramdisk1.dmg
+ramdisk_work/sshrd.tc
+ramdisk_work/trustcache.im4p
+ramdisk_work/vphone.shsh.dec
+
 macos-ipsw/*
 !macos-ipsw/.gitkeep
 !macos-ipsw/.gitignore
