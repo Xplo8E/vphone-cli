@@ -349,12 +349,81 @@ Note:
 
 - `https://apt.procurs.us/apt.key` currently returns 404; use `memo.gpg`.
 
-### 9.2 Add Third-Party Repo (Legacy `.list` style)
+### 9.2 Add Third-Party Repos (deb822 `.sources` format)
 
-Example: add Xplo8E repo for `apt`:
+Use the modern deb822 format (same as `procursus.sources`) instead of legacy `.list` files. Run all of these at once to add the commonly needed repos:
 
 ```bash
-echo "deb [trusted=yes arch=iphoneos-arm64] https://havoc.app/ ./" > /var/jb/etc/apt/sources.list.d/havoc.list
+cat > /var/jb/etc/apt/sources.list.d/appknox.sources << 'EOF'
+Types: deb
+URIs: https://cydia.appknox.com/
+Suites: ./
+Trusted: yes
+EOF
+
+cat > /var/jb/etc/apt/sources.list.d/ellekit_space.sources << 'EOF'
+Types: deb
+URIs: https://ellekit.space/
+Suites: ./
+Architectures: iphoneos-arm64
+Trusted: yes
+EOF
+
+cat > /var/jb/etc/apt/sources.list.d/frida.sources << 'EOF'
+Types: deb
+URIs: https://build.frida.re/
+Suites: ./
+Architectures: iphoneos-arm64
+Trusted: yes
+EOF
+
+cat > /var/jb/etc/apt/sources.list.d/havoc.sources << 'EOF'
+Types: deb
+URIs: https://havoc.app/
+Suites: ./
+Architectures: iphoneos-arm64
+Trusted: yes
+EOF
+
+cat > /var/jb/etc/apt/sources.list.d/jjolano.sources << 'EOF'
+Types: deb
+URIs: https://ios.jjolano.me/
+Suites: ./
+Architectures: iphoneos-arm64
+Trusted: yes
+EOF
+
+cat > /var/jb/etc/apt/sources.list.d/opa334.sources << 'EOF'
+Types: deb
+URIs: https://opa334.github.io/
+Suites: ./
+Architectures: iphoneos-arm64
+Trusted: yes
+EOF
+
+cat > /var/jb/etc/apt/sources.list.d/ryley.sources << 'EOF'
+Types: deb
+URIs: https://ryleyangus.com/repo/
+Suites: ./
+Architectures: iphoneos-arm64
+Trusted: yes
+EOF
+
+cat > /var/jb/etc/apt/sources.list.d/xplo8e.sources << 'EOF'
+Types: deb
+URIs: https://xplo8e.github.io/sileo/
+Suites: ./
+Architectures: iphoneos-arm64
+Trusted: yes
+EOF
+
+apt update
+```
+
+If you previously added repos using the old `.list` format, remove them first:
+
+```bash
+rm -f /var/jb/etc/apt/sources.list.d/*.list
 apt update
 ```
 
