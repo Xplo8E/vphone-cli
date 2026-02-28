@@ -673,3 +673,37 @@ uicache -a
 ```
 
 `trollstorehelper returning 0` = success.
+
+---
+
+## 13) File Transfer to Device (rsync)
+
+### Why scp fails
+
+`scp` on modern macOS defaults to SFTP protocol. Dropbear on the device doesn't ship `sftp-server`, so the connection drops immediately with `bash: scp: command not found`. Adding `-O` forces legacy SCP protocol, but that also fails because dropbear doesn't include the `scp` binary either.
+
+### Why rsync also fails without --rsync-path
+
+`rsync` works fine in an interactive SSH session because `/var/profile` sets the full PATH including `/var/jb/usr/bin`. But when rsync connects over SSH to run its remote counterpart, it uses a non-interactive shell which doesn't source `/var/profile` — so `rsync` isn't found on the remote side even though it's installed.
+
+This is a PATH issue introduced by the rootless jailbreak layout, not a missing package.
+
+### Fix — use --rsync-path
+
+First install rsync on device:
+
+```bash
+apt install -y rsync
+```
+
+Then transfer files from host using `--rsync-path` to tell rsync exactly where to find itself on the remote:
+
+```bash
+rsync -avz -e "ssh -p 2222" --rsync-path="/var/jb/usr/bin/rsync" /path/to/file root@127.0.0.1:.
+```
+
+Example — copy an IPA:
+
+```bash
+rsync -avz -e "ssh -p 2222" --rsync-path="/var/jb/usr/bin/rsync" /path/to/app.ipa root@127.0.0.1:.
+```
