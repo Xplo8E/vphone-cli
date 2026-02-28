@@ -354,7 +354,7 @@ Note:
 Example: add Xplo8E repo for `apt`:
 
 ```bash
-echo "deb [trusted=yes arch=iphoneos-arm64] https://xplo8e.github.io/sileo/ ./" > /var/jb/etc/apt/sources.list.d/xplo8e.list
+echo "deb [trusted=yes arch=iphoneos-arm64] https://havoc.app/ ./" > /var/jb/etc/apt/sources.list.d/havoc.list
 apt update
 ```
 
@@ -461,3 +461,137 @@ iproxy 2222 22222
 ssh -o StrictHostKeyChecking=no -p 2222 root@127.0.0.1 \
 'export PATH="/iosbinpack64/usr/local/bin:/iosbinpack64/usr/bin:/iosbinpack64/bin:/usr/bin:/bin:/usr/sbin:/sbin"; /iosbinpack64/bin/ls -l /cores/systemhook.dylib /cores/launchdhook.dylib /cores/libellekit.dylib /var/jb/.procursus_strapped /var/jb/.installed_dopamine'
 ```
+
+
+## 11) ElleKit — Fix Injection Permissions
+
+ElleKit uses `systemhook.dylib` (loaded into launchd) to inject dylibs into processes via `posix_spawn` hooking. If the ElleKit dylibs in `/var/jb/usr/lib/ellekit/` have wrong permissions or no entitlements, the kernel sandbox blocks them from loading — and nothing gets injected into anything.
+
+### 11.1 Symptoms
+
+- Tweaks not loading in any process
+- `idevicesyslog` shows: `kernel(Sandbox): deny(1) file-read-data .../ellekit/libinjector.dylib`
+- `lsof -p $(pgrep installd) | grep ellekit` returns nothing
+
+### 11.2 Verify ElleKit is loaded in launchd
+
+```bash
+lsof -p 1 | grep -i "systemhook\|ellekit"
+```
+
+Both `systemhook.dylib` and `libellekit.dylib` should appear. If they do, the base injection infrastructure is working.
+
+### 11.3 Fix dylib permissions and entitlements
+
+The ElleKit dylibs ship with `644` permissions (not executable) and no entitlements — this causes sandbox denials when they're mapped into processes.
+
+```bash
+# fix permissions
+chmod 755 /var/jb/usr/lib/ellekit/libinjector.dylib
+chmod 755 /var/jb/usr/lib/ellekit/pspawn.dylib
+chmod 755 /var/jb/usr/lib/ellekit/MobileSafety.dylib
+
+# create entitlements plist
+cat > /tmp/ellekit-ent.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>platform-application</key>
+    <true/>
+    <key>com.apple.private.security.no-container</key>
+    <true/>
+    <key>com.apple.private.skip-library-validation</key>
+    <true/>
+</dict>
+</plist>
+EOF
+
+# sign all three dylibs
+ldid -S/tmp/ellekit-ent.plist /var/jb/usr/lib/ellekit/libinjector.dylib
+ldid -S/tmp/ellekit-ent.plist /var/jb/usr/lib/ellekit/pspawn.dylib
+ldid -S/tmp/ellekit-ent.plist /var/jb/usr/lib/ellekit/MobileSafety.dylib
+```
+
+Verify the entitlements applied:
+
+```bash
+ldid -e /var/jb/usr/lib/ellekit/libinjector.dylib
+```
+
+### 11.4 Create ElleKit pspawn config
+
+ElleKit needs a config dir to know which dylibs to inject into which processes. Without it, nothing gets injected even if the infrastructure is working.
+
+```bash
+mkdir -p /var/jb/etc/ellekit
+cat > /var/jb/etc/ellekit/pspawn.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>installd</key>
+    <array>
+        <string>/var/jb/usr/lib/TweakInject/AppSyncUnified-installd.dylib</string>
+    </array>
+</dict>
+</plist>
+EOF
+```
+
+Reboot for changes to take effect.
+
+---
+
+## 12) Installing Apps via TrollStore
+
+### Why ideviceinstaller fails on iOS 26
+
+`ideviceinstaller` routes installs through `installd` which runs as `_installd` (non-root system user). ElleKit's `systemhook.dylib` only injects into processes launched by launchd as root — it cannot cross the user boundary into `_installd`. This means AppSync Unified never loads into installd, so `MICodeSigningVerifier` runs unhooked and rejects any adhoc-signed IPA.
+
+### Why TrollStore UI fails
+
+TrollStoreLite runs as `mobile` (euid 501). When you tap install, it tries to `posix_spawn` `trollstorehelper` to do the actual work. This spawn fails with `error 1 (EPERM)` because a sandboxed mobile-user process cannot spawn a privileged helper on iOS 26 — even with `no-sandbox` entitlements.
+
+### Working method — invoke trollstorehelper directly from root shell
+
+TrollStore's install mechanism bypasses `installd` entirely — it uses `ldid` to re-sign the binary with `jb.pmap_cs_custom_trust = PMAP_CS_APP_STORE` (which tells the kernel to treat it as a trusted App Store app), then installs directly via `MCMAppContainer` private API.
+
+Since we have root SSH access, we can invoke `trollstorehelper` directly:
+
+```bash
+HASH="$(ls /private/preboot/ | head -n1)"
+/private/preboot/$HASH/jb-vphone/procursus/Applications/TrollStoreLite.app/trollstorehelper install "/path/to/app.ipa"
+```
+
+After install, register with SpringBoard:
+
+```bash
+uicache -a
+```
+
+### Finding the IPA path
+
+IPAs downloaded via the Files app are stored in the Files app's shared container:
+
+```
+/private/var/mobile/Containers/Shared/AppGroup/<UUID>/File Provider Storage/Downloads/<app>.ipa
+```
+
+Find it on device:
+
+```bash
+find /private/var/mobile/Containers/Shared/AppGroup -name "*.ipa" 2>/dev/null
+```
+
+### Full example
+
+```bash
+HASH="$(ls /private/preboot/ | head -n1)"
+IPA="/private/var/mobile/Containers/Shared/AppGroup/A1B432C4-2BFB-42B9-B38D-B1F2BFBA601C/File Provider Storage/Downloads/geekbench-6-v6.1.0.ipa"
+
+/private/preboot/$HASH/jb-vphone/procursus/Applications/TrollStoreLite.app/trollstorehelper install "$IPA"
+uicache -a
+```
+
+`trollstorehelper returning 0` = success.
