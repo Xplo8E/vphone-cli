@@ -74,7 +74,7 @@ cd "$REPO"
 "$REPO/bin/idevicerestore" -e -y "$FW"
 ```
 
-After restore, continue with ramdisk steps.
+After restore, panic will happen, u dont need to panic it's expected, continue with ramdisk steps. 
 
 ---
 
