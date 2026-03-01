@@ -37,6 +37,78 @@ python3 patch_scripts/patch_fw.py --help
 
 Use this to confirm available flags before patching.
 
+### 1.1a `patch_fw.py` inputs and args (offline firmware patcher)
+
+What it needs:
+- `-d/--firmware-dir`: extracted restore directory (the folder that contains `Firmware/...` and `kernelcache.research.vphone600`).
+- Your current restore folder name: `iPhone17,3_26.1_23B85_Restore` (mixed variant you also used: `iPhone17,3_26.1_23B85_Restore_mixed`).
+- No DFU/ramdisk device connection is required.
+- It patches files in-place in firmware dir and keeps `.bak` originals.
+
+Current default behavior (no extra flags):
+- TXM base patches: `9`
+- Kernel base patches: `25`
+
+Useful flags:
+- `--txm-jb-extra`: add TXM jailbreak extras on top of TXM base.
+- `--kernel-jb-extra`: add full kernel jailbreak extras on top of kernel base.
+- `--component ...`: patch only selected components.
+- `--verify-only`: check expected offsets only, do not modify files.
+- `--dry-run`: show actions without writing outputs.
+
+Examples:
+
+```bash
+# base-only patch set
+python3 patch_scripts/patch_fw.py -d "$FW"
+
+# full kernel+TXM extras
+python3 patch_scripts/patch_fw.py -d "$FW" --kernel-jb-extra --txm-jb-extra
+
+# verify offsets only
+python3 patch_scripts/patch_fw.py -d "$FW" --verify-only
+```
+
+### 1.1b `live_patch.py` inputs and args (online preboot patcher)
+
+Exact requirements (all must be true):
+- Device is in **SSH ramdisk session** (after `boot_rd.sh`), not normal boot.
+- `iproxy 2222 22` is running on host.
+- `ssh root@127.0.0.1 -p 2222` works.
+- `-d/--firmware-dir` points to your restore folder (same one used by `patch_fw.py`), for example:
+  `.../iPhone17,3_26.1_23B85_Restore` or `.../iPhone17,3_26.1_23B85_Restore_mixed`.
+
+What you pass as input:
+- Required: `-d "$FW"`
+- Optional: `--ssh-port` (default is `2222`)
+
+What `live_patch.py` does with those inputs:
+- Reads `apticket.der` from preboot on device.
+- Builds patched kernel/TXM IMG4 locally from firmware files under `-d "$FW"`.
+- Uploads patched files to preboot paths under `/mnt5/<bootManifestHash>/...`.
+
+Important:
+- It does **not** use `Ramdisk/` or `ramdisk_work` directly.
+- It does **not** require re-restore.
+- Patches become active after halt/reboot into normal boot.
+
+Useful flags:
+- `--txm-only` / `--kernel-only`: patch just one component.
+- `--txm-jb-extra`, `--kernel-jb-extra`: force extra patch sets.
+- `--no-preserve-modes`: disable auto-preserve of currently active jb-extra mode.
+- `--no-halt`: leave device running; halt manually when ready.
+- `--dry-run`: build/sign locally only, no upload.
+
+Examples:
+
+```bash
+# TXM only, full TXM set
+python3 patch_scripts/live_patch.py -d "$FW" --txm-only --txm-jb-extra --no-halt
+
+# Kernel + TXM full extras
+python3 patch_scripts/live_patch.py -d "$FW" --kernel-jb-extra --txm-jb-extra --no-halt
+```
+
 ### 1.2 Patch firmware
 
 ```bash

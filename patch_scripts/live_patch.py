@@ -147,9 +147,45 @@ def check_remote_file(remote_path):
 # =============================================================================
 # Patch application (reuses patch_fw.py logic)
 # =============================================================================
-def apply_patches(raw_data, patches, name):
+def verify_patch_set(raw_data, patches, name):
+    """
+    Verify that all in-range patches match expected bytes.
+    Returns (ok, report_dict).
+    """
+    matched = 0
+    considered = 0
+    skipped_oob = 0
+    mismatches = []
+
+    for offset, value, desc in patches:
+        patch_bytes = value_to_patch_bytes(value, desc)
+        if offset + len(patch_bytes) > len(raw_data):
+            skipped_oob += 1
+            mismatches.append((offset, desc, "OOB"))
+            continue
+
+        considered += 1
+        got = raw_data[offset:offset + len(patch_bytes)]
+        if got == patch_bytes:
+            matched += 1
+        else:
+            mismatches.append((offset, desc, got.hex(), patch_bytes.hex()))
+
+    ok = skipped_oob == 0 and matched == considered
+    return ok, {
+        "matched": matched,
+        "considered": considered,
+        "skipped_oob": skipped_oob,
+        "mismatches": mismatches,
+    }
+
+
+def apply_patches(raw_data, patches, name, strict=True):
     """Apply a list of (offset, value, description) patches to raw binary data."""
     data = bytearray(raw_data)
+    changed = 0
+    already = 0
+
     for offset, value, desc in patches:
         patch_bytes = value_to_patch_bytes(value, desc)
 
@@ -157,9 +193,34 @@ def apply_patches(raw_data, patches, name):
             print(f"    SKIP: {desc} — offset 0x{offset:X} beyond binary ({len(data)} bytes)")
             continue
 
-        data[offset:offset + len(patch_bytes)] = patch_bytes
-    print(f"    Applied {len(patches)} patches to {name}")
-    return bytes(data)
+        old = data[offset:offset + len(patch_bytes)]
+        if old == patch_bytes:
+            already += 1
+        else:
+            data[offset:offset + len(patch_bytes)] = patch_bytes
+            changed += 1
+
+    patched = bytes(data)
+    ok, report = verify_patch_set(patched, patches, name)
+
+    print(
+        f"    Patch summary ({name}): changed={changed}, already={already}, "
+        f"verified={report['matched']}/{report['considered']}, oob={report['skipped_oob']}"
+    )
+    if strict and not ok:
+        print(f"    ERROR: strict patch verification failed for {name}")
+        for item in report["mismatches"][:10]:
+            if len(item) == 3:
+                off, desc, status = item
+                print(f"      0x{off:X}: {status} ({desc})")
+            else:
+                off, desc, got, exp = item
+                print(f"      0x{off:X}: mismatch {desc} got={got} expected={exp}")
+        if len(report["mismatches"]) > 10:
+            print(f"      ... {len(report['mismatches']) - 10} more mismatches")
+        sys.exit(1)
+
+    return patched
 
 
 def value_to_patch_bytes(value, desc="patch"):
@@ -187,15 +248,15 @@ def count_patch_matches(raw_data, patches):
     return matched, considered
 
 
-def detect_remote_jb_extra(remote_img4_path, work_dir, name, extra_patches):
+def detect_remote_jb_extra(remote_img4_path, work_dir, name, extra_patches, base_patches=None):
     """
     Inspect currently active preboot IMG4 and detect whether jb-extra patches
     are already present.
 
     Returns:
       True  -> all jb-extra patches present
-      False -> jb-extra patches not fully present
-      None  -> detection failed (keep caller's explicit mode)
+      False -> no jb-extra patches present
+      None  -> partial/ambiguous or detection failed (keep caller's explicit mode)
     """
     local_img4 = os.path.join(work_dir, f"current.{name}.img4")
     local_im4p = os.path.join(work_dir, f"current.{name}.im4p")
@@ -207,9 +268,27 @@ def detect_remote_jb_extra(remote_img4_path, work_dir, name, extra_patches):
         run_cmd(f'{PYIMG4} im4p extract -i "{local_im4p}" -o "{local_raw}"')
 
         raw_data = Path(local_raw).read_bytes()
-        matched, considered = count_patch_matches(raw_data, extra_patches)
-        print(f"  {name}: current jb-extra matches {matched}/{considered}")
-        return considered > 0 and matched == considered
+        extra_matched, extra_considered = count_patch_matches(raw_data, extra_patches)
+        if base_patches is not None:
+            base_matched, base_considered = count_patch_matches(raw_data, base_patches)
+            print(
+                f"  {name}: current base matches {base_matched}/{base_considered}, "
+                f"jb-extra matches {extra_matched}/{extra_considered}"
+            )
+        else:
+            print(f"  {name}: current jb-extra matches {extra_matched}/{extra_considered}")
+
+        if extra_considered == 0:
+            return False
+        if extra_matched == extra_considered:
+            return True
+        if extra_matched == 0:
+            return False
+
+        # Partial jb-extra state is ambiguous; avoid accidental mode downgrade.
+        print(f"  WARNING: {name} appears partially jb-extra patched ({extra_matched}/{extra_considered}).")
+        print("           Leaving mode unchanged unless explicitly requested via flags.")
+        return None
     except SystemExit:
         print(f"  WARNING: could not inspect current {name}; preserving requested mode.")
         return None
@@ -443,7 +522,8 @@ present (prevents accidental downgrade from jb-extra to minimal).
             print("=" * 60)
             if do_kernel and not args.kernel_jb_extra:
                 detected = detect_remote_jb_extra(
-                    remote_kernel, work_dir, "kernel", KERNEL_PATCHES_JB_EXTRA
+                    remote_kernel, work_dir, "kernel",
+                    KERNEL_PATCHES_JB_EXTRA, KERNEL_PATCHES_BASE
                 )
                 if detected is True:
                     effective_kernel_jb_extra = True
@@ -452,7 +532,8 @@ present (prevents accidental downgrade from jb-extra to minimal).
                     print("  kernel: keeping minimal mode")
             if do_txm and not args.txm_jb_extra:
                 detected = detect_remote_jb_extra(
-                    remote_txm, work_dir, "txm", TXM_PATCHES_JB_EXTRA
+                    remote_txm, work_dir, "txm",
+                    TXM_PATCHES_JB_EXTRA, TXM_PATCHES_BASE
                 )
                 if detected is True:
                     effective_txm_jb_extra = True

@@ -175,6 +175,28 @@ KERNEL_PATCHES_BASE = [
     # __Z30_proc_check_launch_constraintsP4prociiPvmP22launch_constraint_dataPPcPm
     (0x163863C, 0x52800000, "_proc_check_launch_constraints: MOV W0, #0"),
     (0x1638640, 0xD65F03C0, "_proc_check_launch_constraints: RET"),
+    # Base debugger / AMFI / dyld / APFS relaxations (vphone-cli main parity).
+    (0x12C8138, 0xD2800020, "_PE_i_can_has_debugger: MOV X0, #1"),
+    (0x12C813C, 0xD65F03C0, "_PE_i_can_has_debugger: RET"),
+    (0x00FFAB98, NOP,       "postValidation: NOP TXM error-path branch"),
+    (0x16405AC, 0x6B00001F, "postValidation: CMP W0, W0 (force zero flag)"),
+    (0x16410BC, 0x52800020, "_check_dyld_policy_internal: MOV W0, #1"),
+    (0x16410C8, 0x52800020, "_check_dyld_policy_internal: MOV W0, #1 (second)"),
+    (0x242011C, 0x52800000, "_apfs_graft: MOV W0, #0"),
+    (0x2475044, 0xEB00001F, "_apfs_vfsop_mount: CMP X0, X0 (force equal)"),
+    (0x2476C00, 0x52800000, "_apfs_mount_upgrade_checks: MOV W0, #0"),
+    (0x248C800, 0x52800000, "_handle_fsioc_graft: MOV W0, #0"),
+    # Base sandbox hook stubs (ret0 gadget parity with vphone-cli main).
+    (0x23AC528, 0xD2800000, "_hook_file_check_mmap: MOV X0, #0"),
+    (0x23AC52C, 0xD65F03C0, "_hook_file_check_mmap: RET"),
+    (0x23AAB58, 0xD2800000, "_hook_mount_check_mount: MOV X0, #0"),
+    (0x23AAB5C, 0xD65F03C0, "_hook_mount_check_mount: RET"),
+    (0x23AA9A0, 0xD2800000, "_hook_mount_check_remount: MOV X0, #0"),
+    (0x23AA9A4, 0xD65F03C0, "_hook_mount_check_remount: RET"),
+    (0x23AA80C, 0xD2800000, "_hook_mount_check_umount: MOV X0, #0"),
+    (0x23AA810, 0xD65F03C0, "_hook_mount_check_umount: RET"),
+    (0x23A5514, 0xD2800000, "_hook_vnode_check_rename: MOV X0, #0"),
+    (0x23A5518, 0xD65F03C0, "_hook_vnode_check_rename: RET"),
 ]
 
 # Jailbreak kernel patches from original research flow.
@@ -202,19 +224,6 @@ KERNEL_PATCHES_JB_EXTRA = [
     (0xAB173C,    0xD65F0FFF, "cred_label_execve shellcode: RETAB"),
     # Trampoline: redirect _cred_label_update_execve to shellcode
     (0x163C11C,   0x17D1D581, "_cred_label_update_execve trampoline: B #-0xB8A9FC (-> 0xAB1720)"),
-
-    # === postValidation bypass ===
-    (0x16405AC,   0x6B00001F, "postValidation: CMP W0, W0 (force zero flag)"),
-
-    # === Dyld policy bypass ===
-    (0x16410BC,   0x52800020, "_check_dyld_policy_internal: MOV W0, #1"),
-    (0x16410C8,   0x52800020, "_check_dyld_policy_internal: MOV W0, #1 (second)"),
-
-    # === APFS graft / mount / upgrade ===
-    (0x242011C,   0x52800000, "_apfs_graft: MOV W0, #0"),
-    (0x2475044,   0xEB00001F, "_apfs_vfsop_mount: CMP X0, X0 (force equal)"),
-    (0x2476C00,   0x52800000, "_apfs_mount_upgrade_checks: MOV W0, #0"),
-    (0x248C800,   0x52800000, "_handle_fsioc_graft: MOV W0, #0"),
 
     # === _syscallmask_apply_to_proc shellcode at 0xAB1740 ===
     # Bitmask data (10 words of 0xFFFFFFFF = allow all syscalls)
