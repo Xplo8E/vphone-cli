@@ -18,6 +18,9 @@ TARGET="${OEMS_DIR}/super-tart/Sources/tart/VM.swift"
 
 # ── patch VM.swift ────────────────────────────────────────────────────────────
 
+if rg -q 'import VirtualizationPrivate' "${TARGET}" && rg -q '!!!vsepstorageURL' "${TARGET}"; then
+    log "detected wh1te4ever-style vphone VM.swift; skipping auto-patch step"
+else
 log "patching super-tart VM.swift for vphone (VPHONE_MODE)..."
 TARGET="${TARGET}" python3 - <<'PY'
 from pathlib import Path
@@ -156,6 +159,7 @@ path.write_text(data)
 print("  ✓ VM.swift patched")
 PY
 ok "VM.swift patched"
+fi
 
 # ── build ─────────────────────────────────────────────────────────────────────
 
@@ -163,15 +167,24 @@ log "building super-tart (swift build -c release)..."
 spm_root="${REPO_ROOT}/.swiftpm"
 spm_home="${REPO_ROOT}/.swift-home"
 mkdir -p "${spm_root}/config" "${spm_root}/security" "${spm_root}/cache" "${spm_root}/xdg-cache" "${spm_home}"
+mkdir -p "${REPO_ROOT}/_work/logs"
+BUILD_LOG="${REPO_ROOT}/_work/logs/build_tart_$(date +%Y%m%d_%H%M%S).log"
+ok "build log: ${BUILD_LOG}"
 
 pushd "${OEMS_DIR}/super-tart" >/dev/null
-SWIFTPM_CONFIG_PATH="${spm_root}/config" \
+if ! SWIFTPM_CONFIG_PATH="${spm_root}/config" \
     SWIFTPM_SECURITY_PATH="${spm_root}/security" \
     SWIFTPM_CACHE_PATH="${spm_root}/cache" \
     XDG_CACHE_HOME="${spm_root}/xdg-cache" \
     HOME="${spm_home}" \
-    swift build -c release --disable-sandbox 2>&1 | tail -5
+    swift build -c release --disable-sandbox >"${BUILD_LOG}" 2>&1; then
+    popd >/dev/null
+    err "swift build failed. Last log lines:"
+    tail -n 120 "${BUILD_LOG}" >&2 || true
+    die "build log: ${BUILD_LOG}"
+fi
 popd >/dev/null
+tail -n 20 "${BUILD_LOG}" || true
 
 cp -f "${OEMS_DIR}/super-tart/.build/release/tart" "${BIN_DIR}/tart"
 ok "tart -> ${BIN_DIR}/tart"
@@ -185,7 +198,7 @@ ok "tart signed (com.apple.private.virtualization + com.apple.security.virtualiz
 
 # ── verify ────────────────────────────────────────────────────────────────────
 
-if strings "${BIN_DIR}/tart" 2>/dev/null | grep -q "_setCoprocessors"; then
+if strings "${BIN_DIR}/tart" 2>/dev/null | grep "_setCoprocessors" >/dev/null; then
     ok "binary verified: vphone support confirmed (_setCoprocessors present)"
 else
     err "warning: _setCoprocessors not found — patch may not have applied"
