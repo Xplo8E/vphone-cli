@@ -124,27 +124,17 @@ install: build
 clean:
 	swift package clean
 	rm -rf .build
-	rm -f $(SCRIPTS)/vphoned/vphoned
+	$(MAKE) -C $(SCRIPTS)/vphoned clean
 	rm -f $(BUILD_INFO)
 
 # Cross-compile vphoned daemon for iOS arm64 (installed into VM by cfw_install)
 .PHONY: vphoned
-vphoned: $(SCRIPTS)/vphoned/vphoned
-
-VPHONED_SRCS := $(addprefix $(SCRIPTS)/vphoned/, \
-	vphoned.m vphoned_protocol.m vphoned_hid.m \
-	vphoned_devmode.m vphoned_location.m vphoned_files.m)
-$(SCRIPTS)/vphoned/vphoned: $(VPHONED_SRCS)
-	@echo "=== Building vphoned (arm64, iphoneos) ==="
-	xcrun -sdk iphoneos clang -arch arm64 -Os -fobjc-arc \
-		-I$(SCRIPTS)/vphoned \
-		-DVPHONED_BUILD_HASH='"$(GIT_HASH)"' \
-		-o $@ $(VPHONED_SRCS) -framework Foundation
-	@echo "  built OK"
+vphoned:
+	$(MAKE) -C $(SCRIPTS)/vphoned GIT_HASH=$(GIT_HASH)
 
 # Sign vphoned with entitlements using cfw_input tools (requires make cfw_install to have unpacked cfw_input)
 .PHONY: vphoned_sign
-vphoned_sign: $(SCRIPTS)/vphoned/vphoned
+vphoned_sign: vphoned
 	@test -f "$(VM_DIR)/$(CFW_INPUT)/tools/ldid_macosx_arm64" \
 		|| (echo "Error: ldid not found. Run 'make cfw_install' first to unpack cfw_input." && exit 1)
 	@echo "=== Signing vphoned ==="
