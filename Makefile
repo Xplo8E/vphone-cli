@@ -39,7 +39,7 @@ help:
 	@echo ""
 	@echo "LazyCat (AIO):"
 	@echo "  make setup_machine                   Full setup through First Boot"
-	@echo "    Options: JB=1                      Jailbreak firmware/CFW path"
+	@echo "    Options: JB=1                      Jailbreak firmware/CFW path (WIP)"
 	@echo "             SKIP_PROJECT_SETUP=1      Skip setup_tools/build"
 	@echo ""
 	@echo "Setup (one-time):"
@@ -84,7 +84,7 @@ help:
 # Setup
 # ═══════════════════════════════════════════════════════════════════
 
-.PHONY: setup_machine setup_tools setup_venv setup_libimobiledevice
+.PHONY: setup_machine setup_tools
 
 setup_machine:
 	zsh $(SCRIPTS)/setup_machine.sh \
@@ -93,12 +93,6 @@ setup_machine:
 
 setup_tools:
 	zsh $(SCRIPTS)/setup_tools.sh
-
-setup_venv:
-	zsh $(SCRIPTS)/setup_venv.sh
-
-setup_libimobiledevice:
-	bash $(SCRIPTS)/setup_libimobiledevice.sh
 
 # ═══════════════════════════════════════════════════════════════════
 # Clean — remove all untracked/ignored files (preserves IPSWs only)
