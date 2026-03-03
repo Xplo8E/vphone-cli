@@ -178,6 +178,15 @@ bash boot_rd.sh
 
 Note: do not use `--skip-shsh` unless you intentionally reuse a valid matching ticket.
 
+If you use custom output/work dirs (for example root-level `Ramdisk` + `ramdisk_work`), pass `IM4M_PATH` explicitly to avoid NONC mismatches:
+
+```bash
+FW="$REPO"/firmwares/firmware_patched/iPhone17,3_26.1_23B85_RestoreFW="$REPO"/firmwares/firmware_patched/iPhone17,3_26.1_23B85_Restore
+cd "$REPO/patch_scripts"
+python3 prepare_ramdisk.py -d "$FW" -o "$REPO/Ramdisk" -w "$REPO/ramdisk_work"
+IM4M_PATH="$REPO/ramdisk_work/vphone.im4m" bash boot_rd.sh "$REPO/Ramdisk"
+```
+
 ### 2.2 First-time rootfs setup (full)
 
 ```bash
@@ -589,6 +598,22 @@ cd "$REPO/patch_scripts"
 python3 install_jb_basebin.py --jetsam-patch
 ```
 
+`install_jb_basebin.py` path requirements (repo root layout):
+
+- `jb/BaseBin/systemhook` and `jb/BaseBin/launchdhook`
+- `custom_26.1/libellekit.dylib`
+- `tools/optool`
+
+What this stage changes:
+
+- patches `/mnt1/sbin/launchd` (from `/mnt1/sbin/launchd.bak`)
+- writes `/mnt1/cores/systemhook.dylib`, `/mnt1/cores/launchdhook.dylib`, `/mnt1/cores/libellekit.dylib`
+
+What this stage does **not** change:
+
+- does not run `apt`/`dpkg`
+- does not remove Sileo sources or installed packages in `/var/jb`
+
 Final normal boot + validation:
 
 ```bash
@@ -682,17 +707,44 @@ EOF
 
 Reboot for changes to take effect.
 
+### 11.5 AppSync/ElleKit Runtime Sanity Check
+
+If AppSync is installed but still behaves like stock signature enforcement, verify injection is active at runtime:
+
+```bash
+# launchd must load base hooks
+lsof -p 1 | grep -Ei 'systemhook|ellekit'
+
+# installd must map ElleKit + AppSync dylibs
+lsof -p "$(pgrep installd)" | grep -Ei 'ellekit|AppSync'
+```
+
+Expected:
+
+- `launchd` shows `/cores/systemhook.dylib` and `/cores/libellekit.dylib`
+- `installd` shows `.../usr/lib/ellekit/libinjector.dylib`, `.../usr/lib/libellekit.dylib`, and `AppSyncUnified-*.dylib`
+
+If launchd is missing hook dylibs, rerun Stage C (`install_jb_basebin.py`) from ramdisk and reboot normal.
+
 ---
 
 ## 12) Installing Apps via TrollStore
 
-### Why ideviceinstaller fails on iOS 26
+### When ideviceinstaller fails on iOS 26
 
-`ideviceinstaller` routes installs through `installd` which runs as `_installd` (non-root system user). ElleKit's `systemhook.dylib` only injects into processes launched by launchd as root — it cannot cross the user boundary into `_installd`. This means AppSync Unified never loads into installd, so `MICodeSigningVerifier` runs unhooked and rejects any adhoc-signed IPA.
+`ideviceinstaller` goes through `installd`. If ElleKit/AppSync is not actually injected at runtime, signature checks remain stock and installs/launches fail as expected.
 
-### Why TrollStore UI fails
+After Stage C is healthy, AppSync dylibs can appear inside `installd` (verify with `lsof` in section 11.5).
 
-TrollStoreLite runs as `mobile` (euid 501). When you tap install, it tries to `posix_spawn` `trollstorehelper` to do the actual work. This spawn fails with `error 1 (EPERM)` because a sandboxed mobile-user process cannot spawn a privileged helper on iOS 26 — even with `no-sandbox` entitlements.
+### Developer trust prompt vs network connectivity
+
+If signed IPA launch shows `Profile Needs Network Validation` / `Unable to Verify App`, this is usually trust policy behavior (`trustd: network access disabled by policy`) in code-signing evaluation, not general Wi-Fi/LAN outage. Safari can still work while this path fails.
+
+Important distinction from AppSync/ElleKit + Stage C (`install_jb_basebin.py --jetsam-patch`):
+
+- Stage C + ElleKit/AppSync injection is required for tweak-based install/runtime bypass paths.
+- Without Stage C working, AppSync may be installed but inactive (no injection in `installd`).
+- The developer-trust popup path is separate and can still occur even when ElleKit/AppSync injection is healthy.
 
 ### Working method — invoke trollstorehelper directly from root shell
 

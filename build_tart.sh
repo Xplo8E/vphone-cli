@@ -169,7 +169,7 @@ spm_home="${REPO_ROOT}/.swift-home"
 mkdir -p "${spm_root}/config" "${spm_root}/security" "${spm_root}/cache" "${spm_root}/xdg-cache" "${spm_home}"
 mkdir -p "${REPO_ROOT}/_work/logs"
 BUILD_LOG="${REPO_ROOT}/_work/logs/build_tart_$(date +%Y%m%d_%H%M%S).log"
-ok "build log: ${BUILD_LOG}"
+ok "streaming build logs (also saved to ${BUILD_LOG})"
 
 pushd "${OEMS_DIR}/super-tart" >/dev/null
 if ! SWIFTPM_CONFIG_PATH="${spm_root}/config" \
@@ -177,14 +177,12 @@ if ! SWIFTPM_CONFIG_PATH="${spm_root}/config" \
     SWIFTPM_CACHE_PATH="${spm_root}/cache" \
     XDG_CACHE_HOME="${spm_root}/xdg-cache" \
     HOME="${spm_home}" \
-    swift build -c release --disable-sandbox >"${BUILD_LOG}" 2>&1; then
+    swift build -c release --disable-sandbox 2>&1 | tee "${BUILD_LOG}"; then
     popd >/dev/null
-    err "swift build failed. Last log lines:"
-    tail -n 120 "${BUILD_LOG}" >&2 || true
+    err "swift build failed."
     die "build log: ${BUILD_LOG}"
 fi
 popd >/dev/null
-tail -n 20 "${BUILD_LOG}" || true
 
 cp -f "${OEMS_DIR}/super-tart/.build/release/tart" "${BIN_DIR}/tart"
 ok "tart -> ${BIN_DIR}/tart"

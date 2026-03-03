@@ -164,7 +164,15 @@ def resolve_paths(user_jb_dir: str | None) -> tuple[Path, Path, Path]:
         REPO_ROOT / "original-research" / "super-tart-vphone" / "CFW" / "tools" / "optool",
         BIN_DIR / "optool",
     ]
+    # Derive from whichever jb_dir was selected (supports relocated worktrees like iphone-vre/vre-jb/jb).
+    optool_candidates.append(jb_dir.parent / "tools" / "optool")
     optool = next((p for p in optool_candidates if p.exists()), None)
+    if optool is None:
+        # Final fallback: search repository tree for an optool binary.
+        for p in REPO_ROOT.rglob("optool"):
+            if p.is_file():
+                optool = p
+                break
     if optool is None:
         raise FileNotFoundError("Could not find optool binary")
 
