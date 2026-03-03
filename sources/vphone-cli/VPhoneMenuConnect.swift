@@ -1,4 +1,5 @@
 import AppKit
+import UniformTypeIdentifiers
 
 // MARK: - Connect Menu
 
@@ -7,6 +8,8 @@ extension VPhoneMenuController {
         let item = NSMenuItem()
         let menu = NSMenu(title: "Connect")
         menu.addItem(makeItem("File Browser", action: #selector(openFiles)))
+        menu.addItem(makeItem("Install Package (.ipa)", action: #selector(installPackage)))
+        menu.addItem(makeItem("Install Package with Resign (.ipa)", action: #selector(installPackageResign)))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(makeItem("Developer Mode Status", action: #selector(devModeStatus)))
         menu.addItem(makeItem("Enable Developer Mode", action: #selector(devModeEnable)))
@@ -71,6 +74,52 @@ extension VPhoneMenuController {
                 showAlert(title: "Guest Version", message: "build: \(hash)", style: .informational)
             } catch {
                 showAlert(title: "Guest Version", message: "\(error)", style: .warning)
+            }
+        }
+    }
+
+    // MARK: - IPA Install
+
+    @objc func installPackage() {
+        pickAndInstall(resign: false)
+    }
+
+    @objc func installPackageResign() {
+        pickAndInstall(resign: true)
+    }
+
+    private func pickAndInstall(resign: Bool) {
+        let panel = NSOpenPanel()
+        panel.title = "Select IPA"
+        panel.allowedContentTypes = [.init(filenameExtension: "ipa")!]
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+
+        guard let installer = ipaInstaller else {
+            showAlert(
+                title: "Install Package",
+                message: "IPA installer not available (bundled tools missing).",
+                style: .warning
+            )
+            return
+        }
+
+        Task {
+            do {
+                try await installer.install(ipaURL: url, resign: resign)
+                showAlert(
+                    title: "Install Package",
+                    message: "Successfully installed \(url.lastPathComponent).",
+                    style: .informational
+                )
+            } catch {
+                showAlert(
+                    title: "Install Package",
+                    message: "\(error)",
+                    style: .warning
+                )
             }
         }
     }

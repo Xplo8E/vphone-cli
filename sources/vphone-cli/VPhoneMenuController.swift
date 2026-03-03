@@ -13,6 +13,7 @@ class VPhoneMenuController {
     var locationMenuItem: NSMenuItem?
     var screenRecorder: VPhoneScreenRecorder?
     var recordingItem: NSMenuItem?
+    var ipaInstaller: VPhoneIPAInstaller?
 
     init(keyHelper: VPhoneKeyHelper, control: VPhoneControl) {
         self.keyHelper = keyHelper
