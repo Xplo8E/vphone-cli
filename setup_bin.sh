@@ -8,6 +8,7 @@
 #
 # Usage:
 #   bash setup_bin.sh      # build everything (also sets up venv)
+#   BUILD_TART_WITH_SETUP_BIN=1 bash setup_bin.sh  # include tart build (otherwise skipped)
 #
 set -euo pipefail
 
@@ -18,6 +19,20 @@ OEMS_DIR="${REPO_ROOT}/oems"
 SUPER_TART_DIR="${REPO_ROOT}/super-tart"
 VENV_DIR="${REPO_ROOT}/.venv"
 JOBS="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
+
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
+	echo "usage: bash setup_bin.sh"
+	echo "       BUILD_TART_WITH_SETUP_BIN=1 bash setup_bin.sh"
+	echo ""
+	echo "default: builds OEM tools only and skips tart (use ./build_tart.sh for tart)"
+	exit 0
+fi
+
+if [ "$#" -ne 0 ]; then
+	echo "error: unknown argument(s): $*" >&2
+	echo "run with --help for usage" >&2
+	exit 1
+fi
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -223,22 +238,27 @@ build_super_tart() {
 	log "building super-tart (tart)..."
 	local spm_root="${REPO_ROOT}/.swiftpm"
 	local spm_home="${REPO_ROOT}/.swift-home"
+	local build_log="${REPO_ROOT}/_work/logs/setup_bin_tart_$(date +%Y%m%d_%H%M%S).log"
 	mkdir -p "${spm_root}/config" "${spm_root}/security" "${spm_root}/cache" "${spm_root}/xdg-cache" "${spm_home}"
+	mkdir -p "${REPO_ROOT}/_work/logs"
 	pushd "${SUPER_TART_DIR}" >/dev/null
 	# Use repo-local SwiftPM caches and disable sandbox to avoid macOS sandbox/cache issues.
-	SWIFTPM_CONFIG_PATH="${spm_root}/config" \
+	if ! SWIFTPM_CONFIG_PATH="${spm_root}/config" \
 		SWIFTPM_SECURITY_PATH="${spm_root}/security" \
 		SWIFTPM_CACHE_PATH="${spm_root}/cache" \
 		XDG_CACHE_HOME="${spm_root}/xdg-cache" \
 		HOME="${spm_home}" \
-		swift build -c release --disable-sandbox 2>&1 | tail -5
+		swift build -c release --disable-sandbox 2>&1 | tee "${build_log}"; then
+		popd >/dev/null
+		die "super-tart build failed. log: ${build_log}"
+	fi
 	popd >/dev/null
 	cp -f "${SUPER_TART_DIR}/.build/release/tart" "${BIN_DIR}/tart"
 	# Sign with vphone prod entitlements
 	codesign --sign - \
 		--entitlements "${SUPER_TART_DIR}/Resources/tart-prod.entitlements" \
 		--force "${BIN_DIR}/tart"
-	ok "tart -> ${BIN_DIR}/tart (signed with vphone prod entitlements)"
+	ok "tart -> ${BIN_DIR}/tart (signed with vphone prod entitlements, log: ${build_log})"
 }
 
 install_homebrew_tools() {
@@ -265,7 +285,11 @@ main() {
 
 	check_prerequisites
 	check_submodules
-	check_local_super_tart
+	if [ "${BUILD_TART_WITH_SETUP_BIN:-0}" = "1" ]; then
+		check_local_super_tart
+	else
+		log "BUILD_TART_WITH_SETUP_BIN!=1: skipping local super-tart checks/build (use ./build_tart.sh)"
+	fi
 	setup_venv
 	prepare
 
@@ -276,16 +300,28 @@ main() {
 	build_trustcache       # standalone (OpenSSL)
 	build_libirecovery     # depends on libimobiledevice-glue
 	build_idevicerestore   # depends on libirecovery + many libs
-	build_super_tart       # Swift Package Manager
+	if [ "${BUILD_TART_WITH_SETUP_BIN:-0}" = "1" ]; then
+		build_super_tart   # Swift Package Manager
+	fi
 	install_homebrew_tools # ldid, sshpass, gtar, iproxy
 
 	echo ""
 	log "all tools built successfully:"
-	ls -lh "${BIN_DIR}"/img4 "${BIN_DIR}"/img4tool "${BIN_DIR}"/trustcache \
-		"${BIN_DIR}"/irecovery "${BIN_DIR}"/idevicerestore "${BIN_DIR}"/tart \
-		"${BIN_DIR}"/ldid "${BIN_DIR}"/sshpass "${BIN_DIR}"/gtar \
-		"${BIN_DIR}"/iproxy \
-		2>/dev/null || true
+	local outputs=(
+		"${BIN_DIR}/img4"
+		"${BIN_DIR}/img4tool"
+		"${BIN_DIR}/trustcache"
+		"${BIN_DIR}/irecovery"
+		"${BIN_DIR}/idevicerestore"
+		"${BIN_DIR}/ldid"
+		"${BIN_DIR}/sshpass"
+		"${BIN_DIR}/gtar"
+		"${BIN_DIR}/iproxy"
+	)
+	if [ -f "${BIN_DIR}/tart" ]; then
+		outputs+=("${BIN_DIR}/tart")
+	fi
+	ls -lh "${outputs[@]}" 2>/dev/null || true
 	echo ""
 	log "run 'source setup_env.sh' to activate the environment"
 }
