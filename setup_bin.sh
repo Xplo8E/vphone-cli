@@ -1,5 +1,5 @@
 #!/bin/bash
-# setup_bin.sh — Build all OEM tools from submodules and install to bin/.
+# setup_bin.sh — Build OEM tools from submodules and local super-tart, install to bin/.
 #
 # Prerequisites (macOS):
 #   brew install automake autoconf libtool pkg-config \
@@ -15,6 +15,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BIN_DIR="${REPO_ROOT}/bin"
 LOCAL_PREFIX="${REPO_ROOT}/.local"
 OEMS_DIR="${REPO_ROOT}/oems"
+SUPER_TART_DIR="${REPO_ROOT}/super-tart"
 VENV_DIR="${REPO_ROOT}/.venv"
 JOBS="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
 
@@ -64,26 +65,27 @@ check_prerequisites() {
 
 check_submodules() {
 	log "checking submodules..."
-	# only init submodules we actually build (skip SSHRD_Script/sshtars etc.)
+	# Only init submodules we actually build from oems/ (super-tart is local at repo root).
 	local build_modules=(libgeneral img4lib img4tool trustcache
-		libirecovery idevicerestore super-tart)
+		libirecovery idevicerestore)
 	for mod in "${build_modules[@]}"; do
 		local mod_path="${OEMS_DIR}/${mod}"
-		if [ -d "${mod_path}/.git" ] || [ -f "${mod_path}/.git" ]; then
-			# already cloned — clean build artifacts
+		git -C "${REPO_ROOT}" submodule update --init --recursive -- "oems/${mod}"
+		# already cloned — clean build artifacts
+		if [ -d "${mod_path}" ]; then
 			git -C "${mod_path}" checkout . 2>/dev/null || true
 			git -C "${mod_path}" clean -fdx 2>/dev/null || true
-		else
-			git -C "${REPO_ROOT}" submodule update --init -- "oems/${mod}"
 		fi
 	done
+	ok "required oems submodules ready"
+}
 
-	# reset all oems/ submodule pointers (including nested ones like
-	# SSHRD_Script/sshtars) back to their committed state so oems/ stays
-	# pristine — any local modifications belong in patch_oems/ or patch_scripts/
-	log "resetting oems/ submodule pointers to committed state..."
-	git -C "${REPO_ROOT}" submodule update --init --recursive -- oems/
-	ok "submodules ready (all oems/ clean)"
+check_local_super_tart() {
+	log "checking local super-tart source..."
+	[ -d "${SUPER_TART_DIR}" ] || die "missing local super-tart dir: ${SUPER_TART_DIR}"
+	[ -f "${SUPER_TART_DIR}/Package.swift" ] || die "missing ${SUPER_TART_DIR}/Package.swift"
+	[ -f "${SUPER_TART_DIR}/Resources/tart-prod.entitlements" ] || die "missing ${SUPER_TART_DIR}/Resources/tart-prod.entitlements"
+	ok "local super-tart source ready: ${SUPER_TART_DIR}"
 }
 
 # ── python venv ──────────────────────────────────────────────────────────────
@@ -222,7 +224,7 @@ build_super_tart() {
 	local spm_root="${REPO_ROOT}/.swiftpm"
 	local spm_home="${REPO_ROOT}/.swift-home"
 	mkdir -p "${spm_root}/config" "${spm_root}/security" "${spm_root}/cache" "${spm_root}/xdg-cache" "${spm_home}"
-	pushd "${OEMS_DIR}/super-tart" >/dev/null
+	pushd "${SUPER_TART_DIR}" >/dev/null
 	# Use repo-local SwiftPM caches and disable sandbox to avoid macOS sandbox/cache issues.
 	SWIFTPM_CONFIG_PATH="${spm_root}/config" \
 		SWIFTPM_SECURITY_PATH="${spm_root}/security" \
@@ -231,12 +233,12 @@ build_super_tart() {
 		HOME="${spm_home}" \
 		swift build -c release --disable-sandbox 2>&1 | tail -5
 	popd >/dev/null
-	cp -f "${OEMS_DIR}/super-tart/.build/release/tart" "${BIN_DIR}/tart"
-	# Sign with vphone entitlements (requires security-research entitlement for PV=3 hardware model)
+	cp -f "${SUPER_TART_DIR}/.build/release/tart" "${BIN_DIR}/tart"
+	# Sign with vphone prod entitlements
 	codesign --sign - \
-		--entitlements "${OEMS_DIR}/super-tart/Resources/tart-dev.entitlements" \
+		--entitlements "${SUPER_TART_DIR}/Resources/tart-prod.entitlements" \
 		--force "${BIN_DIR}/tart"
-	ok "tart -> ${BIN_DIR}/tart (signed with vphone entitlements)"
+	ok "tart -> ${BIN_DIR}/tart (signed with vphone prod entitlements)"
 }
 
 install_homebrew_tools() {
@@ -258,11 +260,12 @@ install_homebrew_tools() {
 # ── main ─────────────────────────────────────────────────────────────────────
 
 main() {
-	log "setup_bin.sh — building all tools from oems/"
+	log "setup_bin.sh — building tools from oems/ + local super-tart/"
 	echo ""
 
 	check_prerequisites
 	check_submodules
+	check_local_super_tart
 	setup_venv
 	prepare
 

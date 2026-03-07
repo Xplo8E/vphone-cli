@@ -22,9 +22,6 @@
 [submodule "oems/security-pcc"]
 	path = oems/security-pcc
 	url = https://github.com/apple/security-pcc.git
-[submodule "oems/super-tart"]
-	path = oems/super-tart
-	url = https://github.com/JJTech0130/super-tart.git
 [submodule "oems/trustcache"]
 	path = oems/trustcache
 	url = https://github.com/CRKatri/trustcache.git
