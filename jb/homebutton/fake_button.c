@@ -3,8 +3,6 @@
 #include <mach/mach_time.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 typedef void *(*IOHIDEventSystemClientCreateSimpleClientFn)(CFAllocatorRef allocator);
@@ -21,14 +19,6 @@ typedef struct {
     IOHIDEventCreateKeyboardEventFn createKeyboardEvent;
     IOHIDEventSystemClientDispatchEventFn dispatchEvent;
 } HIDFns;
-
-static int parse_int_arg(const char *value, int fallback) {
-    if (!value || !*value) return fallback;
-    char *end = NULL;
-    long v = strtol(value, &end, 10);
-    if (!end || *end != '\0' || v <= 0 || v > 100000) return fallback;
-    return (int)v;
-}
 
 static int resolve_hid_functions(HIDFns *fns) {
     void *h = dlopen("/System/Library/Frameworks/IOKit.framework/IOKit", RTLD_NOW);
@@ -56,7 +46,7 @@ static int resolve_hid_functions(HIDFns *fns) {
     return 0;
 }
 
-static int send_home_once(const HIDFns *fns, int delay_ms) {
+static int send_key_once(const HIDFns *fns, int delay_ms, uint32_t usagePage, uint32_t usage) {
     void *client = fns->createClient(NULL);
     if (!client) {
         puts("IOHIDEventSystemClientCreateSimpleClient returned NULL");
@@ -64,8 +54,8 @@ static int send_home_once(const HIDFns *fns, int delay_ms) {
     }
 
     uint64_t now = mach_absolute_time();
-    void *down = fns->createKeyboardEvent(NULL, now, 0x0c, 0x40, true, 0);
-    void *up = fns->createKeyboardEvent(NULL, now, 0x0c, 0x40, false, 0);
+    void *down = fns->createKeyboardEvent(NULL, now, usagePage, usage, true, 0);
+    void *up = fns->createKeyboardEvent(NULL, now, usagePage, usage, false, 0);
     if (!down || !up) {
         printf("IOHIDEventCreateKeyboardEvent failed: down=%p up=%p\n", down, up);
         if (down) CFRelease(down);
@@ -84,29 +74,20 @@ static int send_home_once(const HIDFns *fns, int delay_ms) {
     return 0;
 }
 
-int main(int argc, char **argv) {
-    int delay_ms = 90;
-    int repeat = 1;
-
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "--delay-ms") == 0 && (i + 1) < argc) {
-            delay_ms = parse_int_arg(argv[++i], delay_ms);
-        } else if (strcmp(argv[i], "--repeat") == 0 && (i + 1) < argc) {
-            repeat = parse_int_arg(argv[++i], repeat);
-        }
-    }
+int main(void) {
+    const int delay_ms = 90;
+    const uint32_t kUsagePageConsumer = 0x0c;
+    const uint32_t kUsageHome = 0x40;   // Consumer "Menu" (Home button mapping).
+    const uint32_t kUsagePageKeyboard = 0x07;
+    const uint32_t kUsageEnter = 0x28;  // Keyboard Return/Enter.
 
     HIDFns fns = {0};
     if (resolve_hid_functions(&fns) != 0) return 1;
 
-    for (int n = 0; n < repeat; n++) {
-        if (send_home_once(&fns, delay_ms) != 0) return 1;
-    }
+    if (send_key_once(&fns, delay_ms, kUsagePageConsumer, kUsageHome) != 0) return 1;
+    usleep((useconds_t)delay_ms * 1000);
+    if (send_key_once(&fns, delay_ms, kUsagePageKeyboard, kUsageEnter) != 0) return 1;
 
-    if (repeat == 1) {
-        puts("sent IOHID consumer menu down/up via EventSystemClient");
-    } else {
-        printf("sent IOHID consumer menu down/up x%d via EventSystemClient\n", repeat);
-    }
+    puts("sent Home once, then Enter once via EventSystemClient");
     return 0;
 }

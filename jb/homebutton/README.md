@@ -14,14 +14,12 @@ make
 
 ## Run In Guest
 
-Single press:
+Default behavior (single run):
+- Press Home once
+- Press Enter once
 
 ```bash
 ./fake_button
 ```
 
-Custom delay/repeat:
-
-```bash
-./fake_button --delay-ms 90 --repeat 3
-```
+This helper no longer accepts CLI args (no repeat/delay flags).
