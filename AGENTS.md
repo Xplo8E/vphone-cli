@@ -4,9 +4,6 @@
 - `README.md` — script-first quickstart.
 - `SETUP.md` — host + build + firmware mix + VM scaffold.
 - `VPHONE_RUNBOOK.md` — operational flow (restore, ramdisk, rootfs, SSH/VNC, jailbreak stages).
-- `docs/DETAILED_GUIDE.md` — deep-dive notes and references.
-- `docs/isSupported_deep_analysis.md` — hardware model analysis.
-- `docs/vrevm_analysis_macos26b3.md` — VRE VM analysis.
 
 ## Package Manager
 - Homebrew (host deps):

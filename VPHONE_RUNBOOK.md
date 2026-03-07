@@ -181,7 +181,7 @@ Note: do not use `--skip-shsh` unless you intentionally reuse a valid matching t
 If you use custom output/work dirs (for example root-level `Ramdisk` + `ramdisk_work`), pass `IM4M_PATH` explicitly to avoid NONC mismatches:
 
 ```bash
-FW="$REPO"/firmwares/firmware_patched/iPhone17,3_26.1_23B85_RestoreFW="$REPO"/firmwares/firmware_patched/iPhone17,3_26.1_23B85_Restore
+FW="$REPO"/firmwares/firmware_patched/iPhone17,3_26.1_23B85_Restore
 cd "$REPO/patch_scripts"
 python3 prepare_ramdisk.py -d "$FW" -o "$REPO/Ramdisk" -w "$REPO/ramdisk_work"
 IM4M_PATH="$REPO/ramdisk_work/vphone.im4m" bash boot_rd.sh "$REPO/Ramdisk"

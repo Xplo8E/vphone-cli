@@ -104,3 +104,12 @@ Carthage/Build/
 # ── External reference (not part of this repo's source) ──────────────────────
 original-research
 experiment.md
+
+
+.research-rasp
+research-kernel-boundary
+
+super-tart/
+vphone-cli/
+iphone-vre/vre-jb/*
+

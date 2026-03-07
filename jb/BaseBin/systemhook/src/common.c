@@ -210,6 +210,21 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 			} else if (stringStartsWith(argv[1], "com.apple.WebKit.WebContent")) {
 				// The most sandboxed process on the system, we can't support it on iOS 16+ for now
 				return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+			} else if (!strcmp(argv[1], "com.apple.akd") ||
+					   !strcmp(argv[1], "com.apple.appstored") ||
+					   !strcmp(argv[1], "com.apple.itunesstored") ||
+					   !strcmp(argv[1], "com.apple.appleaccountd") ||
+					   !strcmp(argv[1], "com.apple.storeaccountd") ||
+					   !strcmp(argv[1], "com.apple.storekitd") ||
+					   !strcmp(argv[1], "com.apple.itunescloudd")) {
+				// Keep Apple account/media bootstrap daemons pristine.
+				// Hooking these can break Anisette/AMS bag initialization and cause
+				// App Store "Cannot Connect / INTERNAL ONLY" fallback UI.
+				return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+			} else if (stringStartsWith(argv[1], "UIKitApplication:com.hdfcbank.smartwealth")) {
+				// Research-specific: keep tweaks/AppSync globally enabled, but avoid injecting
+				// systemhook/TweakLoader into HDFC SmartWealth for clean RASP observation.
+				return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
 			}
 		}
 	}
@@ -228,6 +243,26 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 	for (size_t i = 0; i < blacklistCount; i++)
 	{
 		if (!strcmp(processBlacklist[i], path)) return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+	}
+
+	// Research-specific executable fallback in case process is spawned directly.
+	if (strstr(path, "/investorApp.app/investorApp") != NULL) {
+		return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+	}
+
+	const char *appleAccountStorePathSuffixes[] = {
+		"/usr/libexec/akd",
+		"/usr/libexec/appstored",
+		"/usr/libexec/itunesstored",
+		"/usr/libexec/appleaccountd",
+		"/usr/libexec/storeaccountd",
+		"/usr/libexec/storekitd",
+		"/usr/libexec/itunescloudd",
+	};
+	for (size_t i = 0; i < sizeof(appleAccountStorePathSuffixes) / sizeof(const char *); i++) {
+		if (stringEndsWith(path, appleAccountStorePathSuffixes[i])) {
+			return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+		}
 	}
 
 	if(strstr("/Applications/MTerminal.app/MTerminal", path) != NULL) {
