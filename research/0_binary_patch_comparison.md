@@ -74,8 +74,6 @@
 
 ### JB-Only Kernel Methods (Reference List)
 
-Current default schedule note (2026-03-06): `patch_cred_label_update_execve` remains temporarily excluded from `_PATCH_METHODS` pending staged re-validation. `patch_syscallmask_apply_to_proc` has been rebuilt around the real syscallmask apply wrapper and is re-enabled after focused PCC 26.1 dry-run validation plus user-side boot confirmation; refreshed XNU/IDA review also confirms historical C22 was the all-ones-mask variant, not a `NULL`-mask install. `patch_hook_cred_label_update_execve` has also been rebuilt as a faithful upstream C23 wrapper trampoline: it retargets sandbox `mac_policy_ops[18]` to a cave that copies `VSUID`/`VSGID` owner state into the pending credential, sets `P_SUGID`, and branches back to the original wrapper. `patch_iouc_failed_macf` has been rebuilt as a narrow branch-level gate patch: the old repo-only entry early-return on `0xFFFFFE000825B0C0` was discarded, and A5-v2 now patches the post-`mac_iokit_check_open` `CBZ W0, allow` gate at `0xFFFFFE000825BA98` to unconditional allow while preserving the surrounding IOUserClient setup flow. `patch_vm_fault_enter_prepare` was retargeted to the upstream PCC 26.1 research `cs_bypass` gate and re-enabled for dry-run validation. `patch_bsd_init_auth` has been retargeted to the real `_bsd_init` rootauth failure branch and re-enabled for staged validation. Fresh IDA re-analysis shows JB-14 previously used a false-positive matcher; it now targets the real `_bsd_init` rootauth failure branch using in-function Capstone-decoded control-flow semantics and is semantically redundant with base patch #3 when JB is layered on top of `fw_patch`. For JB-16, the historical hit at `0xFFFFFE000836E1F0` is now treated as semantically wrong: it patches the `"SecureRoot"` name-check gate inside `AppleARMPE::callPlatformFunction`, not the `"SecureRootName"` deny return consumed by `IOSecureBSDRoot()`. The implementation was retargeted on 2026-03-06 to `0xFFFFFE000836E464` (`CSEL W22, WZR, W9, NE -> MOV W22, #0`) and re-enabled in `KernelJBPatcher._GROUP_B_METHODS` pending restore/boot validation.
-
 | #     | Group | Method                                | Function                                                                                             | Purpose                                                                                                                                                                              | JB Enabled |
 | ----- | ----- | ------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------: |
 | JB-01 | A     | `patch_amfi_cdhash_in_trustcache`     | `AMFIIsCDHashInTrustCache`                                                                           | Always return true + store hash                                                                                                                                                      |     Y      |
@@ -103,12 +101,6 @@ Current default schedule note (2026-03-06): `patch_cred_label_update_execve` rem
 | JB-23 | B     | `patch_thid_should_crash`             | `_thid_should_crash`                                                                                 | Prevent GUARD_TYPE_MACH_PORT crash                                                                                                                                                   |     Y      |
 | JB-24 | B     | `patch_vm_fault_enter_prepare`        | `_vm_fault_enter_prepare`                                                                            | Force `cs_bypass` fast path in runtime fault validation                                                                                                                              |     Y      |
 | JB-25 | B     | `patch_vm_map_protect`                | `_vm_map_protect`                                                                                    | Skip upstream write-downgrade gate in `vm_map_protect`                                                                                                                               |     Y      |
-
-JB rework note (2026-03-06, remaining active methods): `JB-01`, `JB-08`, `JB-09`, `JB-06`, `JB-11`, `JB-12`, `JB-13`, `JB-17`, `JB-19`, and `JB-23` have now also been rechecked against `/Users/qaq/Desktop/patch_fw.py`, IDA PCC 26.1 research, `research/reference/xnu`, and focused dry-runs on both PCC 26.1 research/release. Of these, `JB-09` was materially pulled back to the upstream `mac_policy_ops` table-entry rewrite model (common allow stub retarget, matching `patch_fw.py` offsets) instead of per-hook body stubs; `JB-06` dropped its broad AMFI-text fallback; `JB-12` tightened to the exact early `ldr/cbz/bl/cbz` guard pair; and `JB-19` now requires a unique `krn.`-anchored verifyPermission gate across all string refs. The remaining six (`JB-01`, `JB-08`, `JB-11`, `JB-13`, `JB-17`, `JB-23`) matched upstream offsets and semantics without further retarget.
-
-JB retarget note (2026-03-06): `JB-15`, `JB-18`, `JB-20`, `JB-21`, `JB-22`, and `JB-25` were rechecked against `/Users/qaq/Desktop/patch_fw.py`, IDA PCC 26.1 research, and `research/reference/xnu`. Current preferred runtime behavior is to match the known-good upstream semantic gate unless binary+source evidence clearly disproves it. In this pass, `JB-22` was pulled back from a helper-return rewrite to the upstream early `pid == 0` gate, and `JB-20` was pulled back from the later preboot-fallback compare to the upstream first root-mount compare.
-
-JB-24 note (2026-03-06): the old derived matcher hit the `VM_PAGE_CONSUME_CLUSTERED()` lock/unlock sequence inside `vm_fault_enter_prepare`, i.e. `pmap_lock_phys_page()` / `pmap_unlock_phys_page()`. The implementation is now retargeted to the upstream PCC 26.1 research `cs_bypass` gate at `0x00BA9E1C` / `0xFFFFFE0007BADE1C`.
 
 ## CFW Installation Patches
 
@@ -145,6 +137,7 @@ JB-24 note (2026-03-06): the old derived matcher hit the `VM_PAGE_CONSUME_CLUSTE
 | SSH readiness wait before install                    | Y (`wait_for_device_ssh_ready`) | -                                               | Y (inherited from base run)                   |
 | launchd jetsam patch (`patch-launchd-jetsam`)        | -                               | Y (base-flow injection)                         | Y (JB-1)                                      |
 | launchd dylib injection (`inject-dylib /b`)          | -                               | -                                               | Y (JB-1)                                      |
+
 | Procursus bootstrap deployment                       | -                               | -                                               | Y (JB-2)                                      |
 | BaseBin hook deployment (`*.dylib` -> `/mnt1/cores`) | -                               | -                                               | Y (JB-3)                                      |
 | Additional input resources                           | `cfw_input`                     | `cfw_input` + `resources/cfw_dev/rpcserver_ios` | `cfw_input` + `cfw_jb_input`                  |
@@ -184,41 +177,3 @@ JB-24 note (2026-03-06): the old derived matcher hit the `VM_PAGE_CONSUME_CLUSTE
 | iOS 26.1 (`23B85`)  |             14 |                59 |
 | iOS 26.3 (`23D127`) |             14 |                59 |
 
-## Automation Notes (2026-03-06)
-
-- `scripts/setup_machine.sh` non-interactive flow fix: renamed local variable `status` to `boot_state` in first-boot log wait and boot-analysis wait helpers to avoid zsh `status` read-only special parameter collision.
-- `scripts/setup_machine.sh` non-interactive first-boot wait fix: replaced `(( waited++ ))` with `(( ++waited ))` in `monitor_boot_log_until` to avoid `set -e` abort when arithmetic expression evaluates to `0`.
-- `scripts/jb_patch_autotest.sh` loop fix for sweep stability under `set -e`: replaced `((idx++))` with `(( ++idx ))`.
-- `scripts/jb_patch_autotest.sh` zsh compatibility fix: renamed per-case result variable `status` to `case_status` to avoid `status` read-only special parameter collision.
-- `scripts/jb_patch_autotest.sh` selection logic update:
-  - default run now excludes methods listed in `KernelJBPatcher._DEV_SINGLE_WORKING_METHODS` (pending-only sweep).
-  - set `JB_AUTOTEST_INCLUDE_WORKING=1` to include already-working methods and run the full list.
-- Sweep run record:
-  - `setup_logs/jb_patch_tests_20260306_114417` (2026-03-06): aborted at `[1/20]` with `read-only variable: status` in `jb_patch_autotest.sh`.
-  - `setup_logs/jb_patch_tests_20260306_115027` (2026-03-06): rerun after `status` fix, pending-only mode (`Total methods: 19`).
-- Final run result from `jb_patch_tests_20260306_115027` at `2026-03-06 13:17`:
-  - Finished: 19/19 (`PASS=15`, `FAIL=4`, all fails `rc=2`).
-  - Failing methods at that time: `patch_bsd_init_auth`, `patch_io_secure_bsd_root`, `patch_vm_fault_enter_prepare`, `patch_cred_label_update_execve`.
-  - 2026-03-06 follow-up: `patch_io_secure_bsd_root` failure is now attributed to a wrong-site patch in `AppleARMPE::callPlatformFunction` (`"SecureRoot"` gate at `0xFFFFFE000836E1F0`), not the intended `"SecureRootName"` deny-return path. The code was retargeted the same day to `0xFFFFFE000836E464` and re-enabled for the next restore/boot check.
-  - 2026-03-06 follow-up: `patch_bsd_init_auth` was retargeted after confirming the old matcher was hitting unrelated code; keep disabled in default schedule until a fresh clean-baseline boot test passes.
-  - Final case: `[19/19] patch_syscallmask_apply_to_proc` (`PASS`).
-  - 2026-03-06 re-analysis: that historical `PASS` is now treated as a false positive for functionality, because the recorded bytes landed at `0xfffffe00093ae6e4`/`0xfffffe00093ae6e8` inside `_profile_syscallmask_destroy` underflow handling, not in `_proc_apply_syscall_masks`.
-  - 2026-03-06 code update: `scripts/patchers/kernel_jb_patch_syscallmask.py` was rebuilt to target the real syscallmask apply wrapper structurally and now dry-runs on `PCC-CloudOS-26.1-23B85 kernelcache.research.vphone600` with 3 writes: `0x02395530`, `0x023955E8`, and cave `0x00AB1720`. User-side boot validation succeeded the same day.
-- 2026-03-06 follow-up: `patch_kcall10` was rebuilt from the old ABI-unsafe pseudo-10-arg design into an ABI-correct `sysent[439]` cave. Focused dry-run on `PCC-CloudOS-26.1-23B85 kernelcache.research.vphone600` now emits 4 writes: cave `0x00AB1720`, `sy_call` `0x0073E180`, `sy_arg_munge32` `0x0073E188`, and metadata `0x0073E190`; the method was re-enabled in `_GROUP_C_METHODS`.
-  - Observed failure symptom in current failing set: first boot panic before command injection (or boot process early exit).
-- Post-run schedule change (per user request):
-  - commented out failing methods from default `KernelJBPatcher._PATCH_METHODS` schedule in `scripts/patchers/kernel_jb.py`:
-    - `patch_bsd_init_auth`
-    - `patch_io_secure_bsd_root`
-    - `patch_vm_fault_enter_prepare`
-    - `patch_cred_label_update_execve`
-- 2026-03-06 re-research note for `patch_cred_label_update_execve`:
-  - old entry-time early-return strategy was identified as boot-unsafe because it skipped AMFI exec-time `csflags` and entitlement propagation entirely.
-  - implementation was reworked to a success-tail trampoline that preserves normal AMFI processing and only clears restrictive `csflags` bits on the success path.
-  - default JB schedule still keeps the method disabled until the reworked strategy is boot-validated.
-- Manual DEV+single (`setup_machine` + `PATCH=<method>`) working set now includes:
-  - `patch_amfi_cdhash_in_trustcache`
-  - `patch_amfi_execve_kill_path`
-  - `patch_task_conversion_eval_internal`
-  - `patch_sandbox_hooks_extended`
-  - `patch_post_validation_additional`

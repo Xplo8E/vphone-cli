@@ -262,7 +262,7 @@ The triage results from those knobs are preserved in this document and in:
 
 - `vm/ab_matrix_b19_mnt_20260305_034127.csv`
 - `TODO.md` (Boot Hang Research + Progress Update sections)
-- `research/00_patch_comparison_all_variants.md` (Kernelcache section)
+- `research/0_binary_patch_comparison.md` (Kernelcache section)
 
 ---
 

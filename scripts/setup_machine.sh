@@ -875,7 +875,6 @@ Options:
 
 Environment:
   NONE_INTERACTIVE=1      Auto-continue first-boot prompts + run final boot analysis.
-  PATCH=patch_xxx         Run `make fw_patch_test` after the main fw_patch target.
   SUDO_PASSWORD=...       Preload sudo credential via askpass.
 EOF
         exit 0
@@ -930,9 +929,6 @@ main() {
   run_make "Firmware prep" vm_new
   run_make "Firmware prep" fw_prepare
   run_make "Firmware patch" "$fw_patch_target"
-  if [[ -n "${PATCH:-}" ]]; then
-    run_make "Firmware patch test" fw_patch_test
-  fi
 
   echo ""
   echo "=== Restore phase ==="

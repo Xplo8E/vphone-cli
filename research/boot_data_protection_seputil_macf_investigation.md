@@ -51,7 +51,7 @@ Patch action per entry remains:
 Updated:
 
 - `research/kernel_patch_jb/patch_sandbox_hooks_extended.md`
-- `research/00_patch_comparison_all_variants.md`
+- `research/0_binary_patch_comparison.md`
 
 ## Local Validation (static)
 

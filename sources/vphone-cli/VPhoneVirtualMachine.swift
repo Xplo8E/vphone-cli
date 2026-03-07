@@ -292,6 +292,13 @@ class VPhoneVirtualMachine: NSObject, VZVirtualMachineDelegate {
         } else {
             print("[vphone] VM started — booting normally")
         }
+
+        // Print auto-assigned debug stub port after VM starts
+        if let debugStub = Dynamic(virtualMachine)._configuration._debugStub.asAnyObject {
+            if let port = Dynamic(debugStub).port.asInt, port > 0 {
+                print("[vphone] Kernel GDB debug stub listening on tcp://127.0.0.1:\(port)")
+            }
+        }
     }
 
     // MARK: - Delegate

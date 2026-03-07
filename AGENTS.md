@@ -20,7 +20,7 @@ Virtual iPhone boot tool using Apple's Virtualization.framework with PCC researc
 - If blocked or waiting on user input, write the exact blocker and next action in `/TODO.md`.
 - If not exists, continue existing work until complete. If exists, follow `/TODO.md` instructions.
 
-For any changes applying new patches, also update research/00_patch_comparison_all_variants.md. Dont forget this.
+For any changes applying new patches, also update research/0_binary_patch_comparison.md. Dont forget this.
 
 ## Local Skills
 

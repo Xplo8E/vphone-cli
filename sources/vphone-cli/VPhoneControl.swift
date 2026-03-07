@@ -127,7 +127,6 @@ class VPhoneControl {
                     self?.connection = conn
                     self?.performHandshake(fd: conn.fileDescriptor)
                 case let .failure(error):
-                    print("[control] vsock: \(error.localizedDescription), retrying...")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         self?.attemptConnect()
                     }
