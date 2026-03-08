@@ -223,9 +223,48 @@ if [[ -n "$HAVOC_SOURCES" ]]; then
     fi
 else
     ssh_cmd "mkdir -p '${HAVOC_LIST:h}'"
-    ssh_cmd "printf '%s\n' 'deb [trusted=yes] https://havoc.app/ ./' > '$HAVOC_LIST'"
+    ssh_cmd "printf '%s\n' 'deb https://havoc.app/ ./' > '$HAVOC_LIST'"
     echo "  [+] Havoc source added: $HAVOC_LIST"
 fi
+
+EXTRA_REPOS=(
+    "dhinakg|https://dhinakg.github.io/repo/"
+    "xplo8e|https://xplo8e.github.io/sileo/"
+    "opa334|https://opa334.github.io/"
+    "jjolano|https://ios.jjolano.me/"
+    "ellekit|https://ellekit.space/"
+    "frida|https://build.frida.re/"
+)
+
+for repo in "${EXTRA_REPOS[@]}"; do
+    REPO_NAME="${repo%%|*}"
+    REPO_URL="${repo#*|}"
+    REPO_LIST="/var/jb/etc/apt/sources.list.d/${REPO_NAME}.list"
+    REPO_LINE="deb ${REPO_URL} ./"
+
+    REPO_SOURCES="$(ssh_cmd "grep -RIlF '$REPO_URL' /etc/apt /var/jb/etc/apt 2>/dev/null || true")"
+    if [[ -n "$REPO_SOURCES" ]]; then
+        echo "  [*] ${REPO_NAME} source already present:"
+        echo "$REPO_SOURCES" | sed 's/^/      - /'
+    else
+        ssh_cmd "mkdir -p '${REPO_LIST:h}'"
+        ssh_cmd "printf '%s\n' '$REPO_LINE' > '$REPO_LIST'"
+        echo "  [+] ${REPO_NAME} source added: $REPO_LIST"
+    fi
+done
+
+echo "  [*] Normalizing apt source lines for Sileo compatibility..."
+ssh_cmd 'for f in \
+    /var/jb/etc/apt/sources.list \
+    /var/jb/etc/apt/sources.list.d/*.list \
+    /etc/apt/sources.list \
+    /etc/apt/sources.list.d/*.list; do
+    [ -f "$f" ] || continue
+    if grep -q "\[trusted=yes\]" "$f" 2>/dev/null; then
+        sed -E "s|^deb[[:space:]]+\[trusted=yes\][[:space:]]+|deb |" "$f" > "${f}.tmp" \
+            && mv "${f}.tmp" "$f"
+    fi
+done'
 
 echo "  [*] Allowing unsigned third-party repos during automated apt refresh"
 ssh_cmd "DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true update -qq"
