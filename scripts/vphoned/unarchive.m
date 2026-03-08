@@ -26,8 +26,7 @@ int vp_extract_archive(NSString *archivePath, NSString *extractionPath) {
               | ARCHIVE_EXTRACT_ACL
               | ARCHIVE_EXTRACT_FFLAGS
               | ARCHIVE_EXTRACT_SECURE_SYMLINKS
-              | ARCHIVE_EXTRACT_SECURE_NODOTDOT
-              | ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS;
+              | ARCHIVE_EXTRACT_SECURE_NODOTDOT;
 
     struct archive *a = archive_read_new();
     archive_read_support_format_all(a);
@@ -61,13 +60,12 @@ int vp_extract_archive(NSString *archivePath, NSString *extractionPath) {
         r = archive_write_header(ext, entry);
         if (r < ARCHIVE_OK)
             fprintf(stderr, "%s\n", archive_error_string(ext));
-        else if (archive_entry_size(entry) > 0) {
+        else {
             r = copy_data(a, ext);
             if (r < ARCHIVE_OK)
                 fprintf(stderr, "%s\n", archive_error_string(ext));
             if (r < ARCHIVE_WARN) { ret = 1; goto cleanup; }
         }
-
         r = archive_write_finish_entry(ext);
         if (r < ARCHIVE_OK)
             fprintf(stderr, "%s\n", archive_error_string(ext));

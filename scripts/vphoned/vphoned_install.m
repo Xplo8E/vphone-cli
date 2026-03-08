@@ -5,9 +5,11 @@
 #include <dlfcn.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <mach-o/fat.h>
 #include <mach-o/loader.h>
 #include <spawn.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -801,6 +803,12 @@ NSDictionary *vp_handle_custom_install(NSDictionary *msg) {
         NSMutableDictionary *response = vp_make_response(@"err", reqId);
         response[@"msg"] = @"failed to create temporary extraction directory";
         return response;
+    }
+    // Resolve symlinks so ARCHIVE_EXTRACT_SECURE_SYMLINKS doesn't reject writes
+    // through /var/tmp -> /private/var/tmp on iOS
+    char resolvedBuf[PATH_MAX];
+    if (realpath(tmpPackagePath.fileSystemRepresentation, resolvedBuf)) {
+        tmpPackagePath = [NSString stringWithUTF8String:resolvedBuf];
     }
 
     NSString *detail = @"";
