@@ -1,31 +1,45 @@
-// KernelJBPatchAmfiTrustcache.swift — JB kernel patch: AMFI trustcache gate bypass
+// KernelPatchAmfiTrustcache.swift — Base kernel patch: AMFI trustcache gate bypass.
 //
-// Historical note: derived from the legacy Python firmware patcher during the Swift migration.
+// Ported from KernelJBPatcher Group A (KernelJBPatchAmfiTrustcache.swift) so that
+// regular + dev variants can apply it without pulling in the full JB patch set.
 //
-// Strategy (semantic function matching):
-//   Scan amfi_text for functions (PACIBSP boundaries) that match the
-//   AMFIIsCDHashInTrustCache body shape:
-//     1. mov x19, x2   (save x2 into x19)
-//     2. stp xzr, xzr, [sp, ...] (stack-zeroing pair)
-//     3. mov x2, sp    (pass stack slot as out-param)
-//     4. bl <lookup>
-//     5. mov x20, x0   (save result)
-//     6. cbnz w0, ...  (fast-path already-trusted check)
-//     7. cbz x19, ...  (nil out-param guard)
-//   Exactly one function must match. Rewrite its first 4 instructions with
-//   the always-allow stub: mov x0,#1 / cbz x2,+8 / str x0,[x2] / ret.
+// Why this lives in the base patcher now:
+//   The UIKitCore idiom byte-patch (dyld_shared_cache_arm64e.03 + 0x1a5978) modifies
+//   a page whose CDHash is baked into the shared-cache code directory. At runtime
+//   every process that memory-maps that page triggers AMFI's code-directory lookup,
+//   which calls AMFIIsCDHashInTrustCache. The function returns false for our
+//   modified page, and the kernel SIGKILLs the process with "CODESIGNING: Invalid
+//   Page". Every UIKit consumer (SpringBoard, AccessibilityUIServer, ReportCrash,
+//   chronod, ndoagent, webbookmarksd, spaceattributiond, ...) is affected.
+//
+// Rewriting AMFIIsCDHashInTrustCache to always return 1 (plus store the input
+// cdhash in the caller's out-param when provided) makes the kernel treat every
+// cdhash as trusted, which neutralises the "Invalid Page" SIGKILL without
+// touching the cache signature machinery itself.
 
 import Foundation
 
-extension KernelJBPatcher {
+extension KernelPatcherBase {
     /// AMFI trustcache gate bypass: rewrite AMFIIsCDHashInTrustCache to always return 1.
+    ///
+    /// Strategy (semantic function matching, no hardcoded offsets):
+    ///   Scan amfi_text for functions (PACIBSP boundaries) that match the
+    ///   AMFIIsCDHashInTrustCache body shape:
+    ///     1. mov x19, x2   (save x2 into x19)
+    ///     2. stp xzr, xzr, [sp, ...] (stack-zeroing pair)
+    ///     3. mov x2, sp    (pass stack slot as out-param)
+    ///     4. bl <lookup>
+    ///     5. mov x20, x0   (save result)
+    ///     6. cbnz w0, ...  (fast-path already-trusted check)
+    ///     7. cbz x19, ...  (nil out-param guard)
+    ///   Exactly one function must match. Rewrite its first 4 instructions with
+    ///   the always-allow stub: mov x0,#1 / cbz x2,+8 / str x0,[x2] / ret.
     @discardableResult
-    func patchAmfiCdhashInTrustcache() -> Bool {
-        log("\n[JB] AMFIIsCDHashInTrustCache: always allow + store flag")
+    public func patchAmfiCdhashInTrustcache() -> Bool {
+        if verbose { print("\n[CS] AMFIIsCDHashInTrustCache: always allow + store flag") }
 
         // Determine the AMFI text range. Fall back to full __TEXT_EXEC if no kext split.
-        let amfiRange = amfiTextRange()
-        let (amfiStart, amfiEnd) = amfiRange
+        let (amfiStart, amfiEnd) = amfiTextRange()
 
         // Instruction encoding constants (used for structural matching).
         // Derived semantically — no hardcoded offsets, only instruction shape.
@@ -33,7 +47,6 @@ extension KernelJBPatcher {
         let movX2Sp: UInt32 = 0x9100_03E2 // mov x2, sp   (ADD X2, SP, #0)
 
         // Mask for STP XZR,XZR,[SP,#imm]: fixed bits excluding the immediate.
-        // STP (pre-index / signed-offset) 64-bit XZR,XZR: 0xA900_7FFF base
         let stpXzrXzrMask: UInt32 = 0xFFC0_7FFF
         let stpXzrXzrVal: UInt32 = 0xA900_7FFF // any [sp, #imm_scaled]
 
@@ -47,8 +60,9 @@ extension KernelJBPatcher {
         let blMask: UInt32 = 0xFC00_0000
         let blVal: UInt32 = 0x9400_0000
 
-        var hits: [Int] = []
+        let movX20X0: UInt32 = 0xAA00_03F4
 
+        var hits: [Int] = []
         var off = amfiStart
         while off < amfiEnd - 4 {
             guard buffer.readU32(at: off) == ARM64.pacibspU32 else {
@@ -75,16 +89,6 @@ extension KernelJBPatcher {
                 insns.append(buffer.readU32(at: p))
                 p += 4
             }
-
-            // Structural shape check — mirrors Python _find_after sequence:
-            //  i1: mov x19, x2
-            //  i2: stp xzr, xzr, [sp, ...]
-            //  i3: mov x2, sp
-            //  i4: bl <anything>
-            //  i5: mov x20, x0   (ORR X20, XZR, X0 = 0xAA0003F4)
-            //  i6: cbnz w0, ...
-            //  i7: cbz x19, ...
-            let movX20X0: UInt32 = 0xAA00_03F4
 
             guard let i1 = insns.firstIndex(where: { $0 == movX19X2 }) else {
                 off = funcEnd
@@ -120,7 +124,7 @@ extension KernelJBPatcher {
         }
 
         guard hits.count == 1 else {
-            log("  [-] expected 1 AMFI trustcache body hit, found \(hits.count)")
+            if verbose { print("  [-] expected 1 AMFI trustcache body hit, found \(hits.count)") }
             return false
         }
 

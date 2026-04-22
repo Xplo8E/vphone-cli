@@ -370,3 +370,36 @@ Wiring plan in `sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift`:
 - Alternative: factor the two method bodies into a file under `sources/FirmwarePatcher/Kernel/Patches/` and add `patchAmfiCdhashInTrustcache()` / `patchAmfiExecve()` calls from `KernelPatcher.findAll()` gated on the variant. Slightly more Swift plumbing but no per-variant construction logic.
 
 Do not expand to the other Group B / Group C JB methods unless later evidence shows surviving SIGKILLs that those methods specifically cover. The goal is the minimum codesign-relaxation surface needed to keep vphone dev variant functional.
+
+### 2026-04-22 Phase 1 applied: lifted `patchAmfiCdhashInTrustcache` to base kernel patcher
+
+Implementation landed:
+
+- Moved `patchAmfiCdhashInTrustcache` from `KernelJBPatcher` extension to an extension on `KernelPatcherBase` at `sources/FirmwarePatcher/Kernel/Patches/KernelPatchAmfiTrustcache.swift`. Body is unchanged — same semantic match (PACIBSP-bounded function, mov x19,x2 / stp xzr,xzr,[sp,...] / mov x2,sp / bl / mov x20,x0 / cbnz w0 / cbz x19) and same 4-instruction always-allow stub (mov x0,#1 / cbz x2,+8 / str x0,[x2] / ret).
+- Deleted the old `sources/FirmwarePatcher/Kernel/JBPatches/KernelJBPatchAmfiTrustcache.swift` to avoid a duplicate-definition ambiguity on `KernelJBPatcher`.
+- `KernelPatcher.findAll()` now calls `patchAmfiCdhashInTrustcache()` as patch `9a`, right after the existing AMFI `postValidation` rewrite (patch 9). Applied for regular + dev (both call `KernelPatcher`).
+- `KernelJBPatcher.findAll()` still calls `patchAmfiCdhashInTrustcache()` — now resolved via the `KernelPatcherBase` extension, so JB variant keeps the same behaviour.
+- `make build` green. No other call sites needed updating.
+
+`patchAmfiExecveKillPath` (DEV-CS-2) was NOT ported. The comparison table shows it as JB-disabled (superseded by C21). If SIGKILLs survive the trustcache patch, port it next.
+
+Next session: `make fw_patch_dev` + DFU restore + `cfw_install_dev` + `make boot`. If SpringBoard stops crashing, the dev-variant codesign bypass works. If not, triage the remaining SIGKILLs and decide whether to port more JB patches.
+
+### 2026-04-22 Phase 2 applied: `make fw_patch_dev` regenerated kernelcache with CS-1
+
+Ran `make fw_patch_dev FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm`. Summary of kernel output:
+
+```
+[CS] AMFIIsCDHashInTrustCache: always allow + store flag
+  0x13F0F78: pacibsp                       → mov x0, #1
+  0x13F0F7C: sub sp, sp, #0x30             → cbz x2, 0x13F0F84
+  0x13F0F80: stp x20, x19, [sp, #0x10]     → str x0, [x2]
+  0x13F0F84: stp x29, x30, [sp, #0x20]     → ret
+  [19 kernel patches applied]
+```
+
+`AMFIIsCDHashInTrustCache` resolved to file offset `0x13F0F78` in the dev kernelcache, shape matched on first candidate, 4 instructions rewritten for the always-allow stub. Total kernel patch count went from 18 to 19.
+
+Noted pre-existing misses (do NOT touch for this session): patches 12, 13, 14, 15 all log `[-] ... not found` on the 18.5 kernelcache. These are APFS-graft / mount validation patches that were written for older kernelcache shapes. They're unrelated to the current SIGKILL work but should be re-researched when we harden the pipeline. `[9] postValidation: cmp w0,w0` also reports `0 sites found` — its anchor string is now different on 18.5 and our new `patchAmfiCdhashInTrustcache` partly covers the same semantic ground (the postValidation CMP-rewrite was about making AMFI's `postValidation` return equal; bypassing `AMFIIsCDHashInTrustCache` short-circuits earlier).
+
+Phase 2 output is written to `vm/iPhone17,3_18.5_22F76_Restore/kernelcache.research.vresearch101` etc. Next phase is the DFU restore cycle.
