@@ -73,6 +73,7 @@ public final class FirmwarePipeline {
 
     let vmDirectory: URL
     let variant: Variant
+    let firmwareProfile: FirmwareProfile
     let verbose: Bool
     let loader: any FirmwareLoader
 
@@ -81,11 +82,13 @@ public final class FirmwarePipeline {
     public init(
         vmDirectory: URL,
         variant: Variant = .regular,
+        firmwareProfile: FirmwareProfile = .defaultProfile,
         verbose: Bool = true,
         loader: (any FirmwareLoader)? = nil
     ) {
         self.vmDirectory = vmDirectory
         self.variant = variant
+        self.firmwareProfile = firmwareProfile
         self.verbose = verbose
         self.loader = loader ?? ContainerFirmwareLoader()
     }
@@ -101,6 +104,7 @@ public final class FirmwarePipeline {
 
         log("[*] VM directory:      \(vmDirectory.path)")
         log("[*] Restore directory: \(restoreDir.path)")
+        log("[*] Firmware profile:  \(firmwareProfile.rawValue)")
 
         let components = buildComponentList()
         log("[*] Patching \(components.count) boot-chain components ...")
@@ -189,7 +193,7 @@ public final class FirmwarePipeline {
         components.append(ComponentDescriptor(
             name: "iBSS",
             inRestoreDir: true,
-            searchPatterns: ["Firmware/dfu/iBSS.vresearch101.RELEASE.im4p"],
+            searchPatterns: [firmwareProfile.iBSSReleasePath],
             patcherFactories: {
                 return switch variant {
                 case .less:
@@ -215,7 +219,7 @@ public final class FirmwarePipeline {
         components.append(ComponentDescriptor(
             name: "iBEC",
             inRestoreDir: true,
-            searchPatterns: ["Firmware/dfu/iBEC.vresearch101.RELEASE.im4p"],
+            searchPatterns: [firmwareProfile.iBECReleasePath],
             patcherFactories: [{ data, verbose in
                 IBootPatcher(data: data, mode: .ibec, verbose: verbose)
             }]
@@ -225,7 +229,7 @@ public final class FirmwarePipeline {
         components.append(ComponentDescriptor(
             name: "LLB",
             inRestoreDir: true,
-            searchPatterns: ["Firmware/all_flash/LLB.vresearch101.RELEASE.im4p"],
+            searchPatterns: [firmwareProfile.llbReleasePath],
             patcherFactories: [{ data, verbose in
                 IBootPatcher(data: data, mode: .llb, verbose: verbose)
             }]
@@ -235,7 +239,7 @@ public final class FirmwarePipeline {
         components.append(ComponentDescriptor(
             name: "TXM",
             inRestoreDir: true,
-            searchPatterns: ["Firmware/txm.iphoneos.research.im4p"],
+            searchPatterns: [firmwareProfile.txmResearchPath],
             patcherFactories: {
                 return switch variant {
                 case .less:
@@ -256,7 +260,7 @@ public final class FirmwarePipeline {
         components.append(ComponentDescriptor(
             name: "kernelcache",
             inRestoreDir: true,
-            searchPatterns: ["kernelcache.research.vphone600"],
+            searchPatterns: [firmwareProfile.kernelResearchPath],
             patcherFactories: {
                 return switch variant {
                 case .less:
@@ -282,9 +286,9 @@ public final class FirmwarePipeline {
         components.append(ComponentDescriptor(
             name: "DeviceTree",
             inRestoreDir: true,
-            searchPatterns: ["Firmware/all_flash/DeviceTree.vphone600ap.im4p"],
-            patcherFactories: [{ data, verbose in
-                DeviceTreePatcher(data: data, verbose: verbose)
+            searchPatterns: [firmwareProfile.deviceTreePath],
+            patcherFactories: [{ [firmwareProfile] data, verbose in
+                DeviceTreePatcher(data: data, firmwareProfile: firmwareProfile, verbose: verbose)
             }]
         ))
         

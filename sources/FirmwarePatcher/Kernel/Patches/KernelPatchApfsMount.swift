@@ -312,8 +312,46 @@ extension KernelPatcher {
 
             var candidates: [(off: Int, target: Int)] = []
 
-            var scan = funcStart
+            // Prefer the branch immediately after the entitlement string check.
+            // iOS 18.5 shape:
+            //   adrp/add x1, "com.apple.apfs.get-dev-by-role"
+            //   bl entitlement_check
+            //   cbz w0, entitlement_error
+            var scan = ref.addOff
+            let nearEnd = min(ref.addOff + 0x40, funcEnd)
+            while scan + 4 <= nearEnd {
+                guard let insn = disasm.disassembleOne(in: buffer.data, at: scan),
+                      insn.mnemonic == "cbz" || insn.mnemonic == "cbnz",
+                      let detail = insn.aarch64,
+                      detail.operands.count >= 2
+                else {
+                    scan += 4; continue
+                }
+
+                let ops = detail.operands
+                guard ops[0].type == AARCH64_OP_REG,
+                      ops[0].reg == AARCH64_REG_W0,
+                      ops[1].type == AARCH64_OP_IMM
+                else {
+                    scan += 4; continue
+                }
+
+                let target = Int(ops[1].imm)
+                if target > scan, target >= funcStart, target < funcEnd,
+                   isEntitlementErrorBlock(at: target, funcEnd: funcEnd)
+                {
+                    candidates.append((off: scan, target: target))
+                    break
+                }
+
+                scan += 4
+            }
+
+            // Legacy fallback: scan the whole function for old entitlement-gate
+            // branches on X0/W0 into known error blocks.
+            scan = funcStart
             while scan + 4 <= funcEnd {
+                if !candidates.isEmpty { break }
                 guard let insn = disasm.disassembleOne(in: buffer.data, at: scan),
                       insn.mnemonic == "cbz" || insn.mnemonic == "cbnz",
                       let detail = insn.aarch64,
@@ -367,9 +405,14 @@ extension KernelPatcher {
         return false
     }
 
-    /// Return true if the block at `targetOff` contains `mov w8, #0x332D` or
-    /// `mov w8, #0x333B` within the first 0x30 bytes (entitlement-gate line IDs).
+    /// Return true if the block at `targetOff` contains a known entitlement-gate
+    /// line ID within the first 0x30 bytes.
     private func isEntitlementErrorBlock(at targetOff: Int, funcEnd: Int) -> Bool {
+        let entitlementLineIDs: Set<Int64> = [
+            0x332D,
+            0x333B,
+            0x3EC2, // iOS 18.5 vresearch101 handle_get_dev_by_role entitlement deny
+        ]
         let scanEnd = min(targetOff + 0x30, funcEnd)
         var off = targetOff
         while off + 4 <= scanEnd {
@@ -391,7 +434,7 @@ extension KernelPatcher {
                 if ops[0].type == AARCH64_OP_REG,
                    ops[0].reg == AARCH64_REG_W8,
                    ops[1].type == AARCH64_OP_IMM,
-                   ops[1].imm == 0x332D || ops[1].imm == 0x333B
+                   entitlementLineIDs.contains(ops[1].imm)
                 {
                     return true
                 }

@@ -136,6 +136,18 @@ struct PatchFirmwareCLI: ParsableCommand {
         }
     }
 
+    enum FirmwareProfileOption: String, CaseIterable, ExpressibleByArgument {
+        case legacy
+        case ios18_22F76 = "ios18-22F76"
+
+        var pipelineProfile: FirmwareProfile {
+            switch self {
+            case .legacy: .legacy
+            case .ios18_22F76: .ios18_22F76
+            }
+        }
+    }
+
     static let configuration = CommandConfiguration(
         commandName: "patch-firmware",
         abstract: "Patch boot-chain firmware in a VM directory using the Swift pipeline"
@@ -151,6 +163,9 @@ struct PatchFirmwareCLI: ParsableCommand {
     @Option(help: "Firmware variant to patch.")
     var variant: VariantOption = .regular
 
+    @Option(help: "Firmware layout profile to use for component paths.")
+    var firmwareProfile: FirmwareProfileOption = .legacy
+
     @Option(
         name: .customLong("records-out"),
         help: "Optional path to write emitted PatchRecord JSON."
@@ -164,6 +179,7 @@ struct PatchFirmwareCLI: ParsableCommand {
         let pipeline = FirmwarePipeline(
             vmDirectory: vmDirectory,
             variant: variant.pipelineVariant,
+            firmwareProfile: firmwareProfile.pipelineProfile,
             verbose: !quiet
         )
         let records = try pipeline.patchAll()
@@ -175,7 +191,7 @@ struct PatchFirmwareCLI: ParsableCommand {
             try encoder.encode(records).write(to: url)
             print("[patch-firmware] wrote \(records.count) patch records to \(url.path)")
         } else {
-            print("[patch-firmware] applied \(records.count) patches for \(variant.rawValue)")
+            print("[patch-firmware] applied \(records.count) patches for \(variant.rawValue) (\(firmwareProfile.rawValue))")
         }
     }
 }
@@ -183,6 +199,8 @@ struct PatchFirmwareCLI: ParsableCommand {
 struct PatchComponentCLI: ParsableCommand {
     enum ComponentOption: String, CaseIterable, ExpressibleByArgument {
         case txm
+        case txmDev = "txm-dev"
+        case deviceTree = "device-tree"
         case kernelBase = "kernel-base"
     }
 
@@ -208,6 +226,9 @@ struct PatchComponentCLI: ParsableCommand {
     )
     var output: URL
 
+    @Option(help: "Firmware layout profile to use for profile-aware components.")
+    var firmwareProfile: PatchFirmwareCLI.FirmwareProfileOption = .legacy
+
     @Flag(name: .customLong("quiet"), help: "Suppress per-patch progress output.")
     var quiet: Bool = false
 
@@ -219,6 +240,20 @@ struct PatchComponentCLI: ParsableCommand {
         switch component {
         case .txm:
             let patcher = TXMPatcher(data: payload, verbose: !quiet)
+            count = try patcher.apply()
+            patchedData = patcher.patchedData
+
+        case .txmDev:
+            let patcher = TXMDevPatcher(data: payload, verbose: !quiet)
+            count = try patcher.apply()
+            patchedData = patcher.patchedData
+
+        case .deviceTree:
+            let patcher = DeviceTreePatcher(
+                data: payload,
+                firmwareProfile: firmwareProfile.pipelineProfile,
+                verbose: !quiet
+            )
             count = try patcher.apply()
             patchedData = patcher.patchedData
 

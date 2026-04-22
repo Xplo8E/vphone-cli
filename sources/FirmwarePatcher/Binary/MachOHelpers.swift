@@ -1,7 +1,6 @@
 // MachOHelpers.swift — Mach-O parsing utilities for firmware patching.
 
 import Foundation
-import MachOKit
 
 // MARK: - Segment/Section Info
 

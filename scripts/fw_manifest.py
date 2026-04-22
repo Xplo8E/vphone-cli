@@ -1,19 +1,31 @@
 #!/usr/bin/env python3
 """Generate hybrid BuildManifest.plist and Restore.plist for vresearch1 restore.
 
-Merges cloudOS boot-chain (vresearch101ap) with vphone600 runtime components
-(device tree, SEP, kernel) and iPhone OS images into a single DFU erase-install
-Build Identity.
+Merges cloudOS boot-chain components with profile-selected runtime components
+and iPhone OS images into a single DFU erase-install Build Identity.
 
 The VM hardware identifies as vresearch101ap (BDID 0x90) in DFU mode, so the
-identity fields must match for TSS/SHSH signing.  Runtime components use the
-vphone600 variant because its device tree sets MKB dt=1 (keybag-less boot).
+identity fields must match for TSS/SHSH signing.
 
 Usage:
-    python3 fw_manifest.py <iphone_dir> <cloudos_dir>
+    python3 fw_manifest.py [--profile legacy|ios18-22F76] <iphone_dir> <cloudos_dir>
 """
 
-import copy, os, plistlib, sys
+import argparse, copy, os, plistlib, sys
+
+
+PROFILES = {
+    "legacy": {
+        "boot_device_class": "vresearch101ap",
+        "runtime_device_class": "vphone600ap",
+        "recovery_mode_required": True,
+    },
+    "ios18-22F76": {
+        "boot_device_class": "vresearch101ap",
+        "runtime_device_class": "vresearch101ap",
+        "recovery_mode_required": False,
+    },
+}
 
 
 # ---------------------------------------------------------------------------
@@ -29,6 +41,12 @@ def load(path):
 def entry(identities, idx, key):
     """Deep-copy a single Manifest entry from a build identity."""
     return copy.deepcopy(identities[idx]["Manifest"][key])
+
+
+def optional_entry(identities, idx, key):
+    """Deep-copy a Manifest entry when present."""
+    value = identities[idx].get("Manifest", {}).get(key)
+    return copy.deepcopy(value) if value is not None else None
 
 
 # ---------------------------------------------------------------------------
@@ -84,11 +102,32 @@ def find_iphone_erase(identities):
 
 
 def main():
-    if len(sys.argv) < 3:
-        print(f"Usage: {sys.argv[0]} <iphone_dir> <cloudos_dir>", file=sys.stderr)
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="Generate hybrid BuildManifest.plist and Restore.plist."
+    )
+    parser.add_argument(
+        "--profile",
+        default=os.environ.get("FIRMWARE_PROFILE", "legacy"),
+        choices=sorted(PROFILES),
+        help="Firmware layout profile. Default: %(default)s",
+    )
+    parser.add_argument(
+        "--runtime-device-class",
+        help="Override runtime DeviceClass from the selected profile.",
+    )
+    parser.add_argument("iphone_dir")
+    parser.add_argument("cloudos_dir")
+    args = parser.parse_args()
 
-    iphone_dir, cloudos_dir = sys.argv[1], sys.argv[2]
+    iphone_dir, cloudos_dir = args.iphone_dir, args.cloudos_dir
+    profile_name = args.profile
+    profile = dict(PROFILES[profile_name])
+    if args.runtime_device_class:
+        profile["runtime_device_class"] = args.runtime_device_class
+        profile["recovery_mode_required"] = args.runtime_device_class == "vphone600ap"
+
+    boot_device_class = profile["boot_device_class"]
+    runtime_device_class = profile["runtime_device_class"]
 
     cloudos_bm = load(os.path.join(cloudos_dir, "BuildManifest.plist"))
     iphone_bm = load(os.path.join(iphone_dir, "BuildManifest.plist"))
@@ -99,14 +138,15 @@ def main():
     I = iphone_bm["BuildIdentities"]
 
     # ── Discover source identities ───────────────────────────────────
-    #   PROD / RES  = vresearch101ap release / research  (boot chain)
-    #   VP   / VPR  = vphone600ap    release / research  (runtime)
-    PROD, RES = find_cloudos(C, "vresearch101ap")
-    VP, VPR = find_cloudos(C, "vphone600ap")
+    #   PROD / RES  = boot profile release / research
+    #   VP   / VPR  = runtime profile release / research
+    PROD, RES = find_cloudos(C, boot_device_class)
+    VP, VPR = find_cloudos(C, runtime_device_class)
     I_ERASE = find_iphone_erase(I)
 
-    print(f"  cloudOS vresearch101ap: release=#{PROD}, research=#{RES}")
-    print(f"  cloudOS vphone600ap:    release=#{VP}, research=#{VPR}")
+    print(f"  firmware profile: {profile_name}")
+    print(f"  cloudOS {boot_device_class}: release=#{PROD}, research=#{RES} [boot]")
+    print(f"  cloudOS {runtime_device_class}: release=#{VP}, research=#{VPR} [runtime]")
     print(f"  iPhone  erase: #{I_ERASE}")
 
     # ── Build the single DFU erase identity ──────────────────────────
@@ -160,20 +200,26 @@ def main():
     m["Ap,SecurePageTableMonitor"] = entry(C, PROD, "Ap,SecurePageTableMonitor")
     m["Ap,TrustedExecutionMonitor"] = entry(C, RES, "Ap,TrustedExecutionMonitor")
 
-    # ── Device tree (vphone600ap — sets MKB dt=1 for keybag-less boot)
+    # ── Device tree (runtime profile)
     m["DeviceTree"] = entry(C, VP, "DeviceTree")
     m["RestoreDeviceTree"] = entry(C, VP, "RestoreDeviceTree")
 
-    # ── SEP (vphone600 — matches device tree) ────────────────────────
+    # ── SEP (runtime profile) ────────────────────────────────────────
     m["SEP"] = entry(C, VP, "SEP")
     m["RestoreSEP"] = entry(C, VP, "RestoreSEP")
 
-    # ── Kernel (vphone600, patched by the Swift firmware pipeline) ─────
+    # ── Kernel (runtime profile, patched by the Swift firmware pipeline)
     m["KernelCache"] = entry(C, VPR, "KernelCache")  # research
     m["RestoreKernelCache"] = entry(C, VP, "RestoreKernelCache")  # release
 
-    # ── Recovery mode (vphone600ap carries this entry) ────────────────
-    m["RecoveryMode"] = entry(C, VP, "RecoveryMode")
+    # ── Recovery mode (legacy runtime profiles carry this entry) ──────
+    recovery_mode = optional_entry(C, VP, "RecoveryMode")
+    if recovery_mode is not None:
+        m["RecoveryMode"] = recovery_mode
+    elif profile["recovery_mode_required"]:
+        raise KeyError(f"No RecoveryMode entry for DeviceClass={runtime_device_class}")
+    else:
+        print(f"  skipping RecoveryMode: not present for {runtime_device_class}")
 
     # ── CloudOS erase ramdisk ────────────────────────────────────────
     m["RestoreRamDisk"] = entry(C, PROD, "RestoreRamDisk")
@@ -197,6 +243,10 @@ def main():
     }
 
     # ── Assemble Restore.plist ───────────────────────────────────────
+    device_map_board_configs = set(
+        dict.fromkeys([runtime_device_class, boot_device_class])
+    )
+
     restore = {
         "ProductBuildVersion": cloudos_rp["ProductBuildVersion"],
         "ProductVersion": cloudos_rp["ProductVersion"],
@@ -204,7 +254,7 @@ def main():
         + [
             d
             for d in cloudos_rp["DeviceMap"]
-            if d["BoardConfig"] in ("vphone600ap", "vresearch101ap")
+            if d["BoardConfig"] in device_map_board_configs
         ],
         "SupportedProductTypeIDs": {
             cat: (

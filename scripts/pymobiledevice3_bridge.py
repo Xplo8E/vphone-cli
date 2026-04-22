@@ -1,5 +1,6 @@
 import asyncio
 import inspect
+import os
 import plistlib
 import sys
 import time
@@ -21,6 +22,27 @@ from pymobiledevice3.restore.device import Device
 from pymobiledevice3.restore.recovery import Behavior, Recovery
 from pymobiledevice3.restore.restore import Restore
 import typer
+
+
+PROFILES = {
+    "legacy": {
+        "device_tree_img4": "DeviceTree.vphone600ap.img4",
+    },
+    "ios18-22F76": {
+        "device_tree_img4": "DeviceTree.vresearch101ap.img4",
+    },
+}
+
+
+def selected_profile():
+    name = os.environ.get("FIRMWARE_PROFILE", "legacy").strip() or "legacy"
+    if name not in PROFILES:
+        raise ValueError(
+            f"Unknown FIRMWARE_PROFILE={name!r}; expected one of {', '.join(sorted(PROFILES))}"
+        )
+    profile = dict(PROFILES[name])
+    profile["name"] = name
+    return profile
 
 
 def parse_ecid(value: Optional[str]) -> Optional[int]:
@@ -124,9 +146,11 @@ def cmd_ramdisk_send(ecid: Optional[int], ramdisk_dir: Path, timeout: int) -> No
     if not ramdisk_dir.is_dir():
         raise FileNotFoundError(f"Ramdisk directory not found: {ramdisk_dir}")
 
+    profile = selected_profile()
     kernel_img = resolve_kernel_image(ramdisk_dir)
 
     print(f"[*] Sending ramdisk from {ramdisk_dir}")
+    print(f"  [*] Firmware profile: {profile['name']}")
     if kernel_img.name == "krnl.ramdisk.img4":
         print("  [*] Using ramdisk kernel variant: krnl.ramdisk.img4")
 
@@ -164,7 +188,7 @@ def cmd_ramdisk_send(ecid: Optional[int], ramdisk_dir: Path, timeout: int) -> No
     irecv.send_command("ramdisk")
 
     print("  [7/8] Loading device tree...")
-    irecv_send_file(irecv, ramdisk_dir / "DeviceTree.vphone600ap.img4")
+    irecv_send_file(irecv, ramdisk_dir / profile["device_tree_img4"])
     irecv.send_command("devicetree")
 
     print("  [8/8] Loading SEP...")

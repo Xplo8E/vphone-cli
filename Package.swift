@@ -13,7 +13,6 @@ let package = Package(
         .package(path: "vendor/Dynamic"),
         .package(path: "vendor/libcapstone-spm"),
         .package(path: "vendor/libimg4-spm"),
-        .package(path: "vendor/MachOKit"),
     ],
     targets: [
         .target(
@@ -21,7 +20,6 @@ let package = Package(
             dependencies: [
                 .product(name: "Capstone", package: "libcapstone-spm"),
                 .product(name: "Img4tool", package: "libimg4-spm"),
-                .product(name: "MachOKit", package: "MachOKit"),
             ],
             path: "sources/FirmwarePatcher"
         ),

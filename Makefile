@@ -14,6 +14,8 @@ FORCE       ?= 0
 RESTORE_UDID ?=           # UDID for restore operations
 RESTORE_ECID ?=           # ECID for restore operations
 IRECOVERY_ECID ?=         # ECID for ramdisk send operations
+# Firmware layout profile: legacy or ios18-22F76.
+FIRMWARE_PROFILE ?= legacy
 
 # ─── Build info ──────────────────────────────────────────────────
 GIT_HASH    := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
@@ -84,6 +86,7 @@ help:
 	@echo "             IPHONE_BUILD=     Resolve a downloadable iPhone build to an IPSW URL"
 	@echo "             IPHONE_SOURCE=    URL or local path to iPhone IPSW"
 	@echo "             CLOUDOS_SOURCE=   URL or local path to cloudOS IPSW"
+	@echo "             FIRMWARE_PROFILE= Firmware layout profile (legacy or ios18-22F76)"
 	@echo "  make fw_patch                Patch boot chain with Swift pipeline (regular variant)"
 	@echo "  make fw_patch_less           Patch boot chain with Swift pipeline (less patches)"
 	@echo "  make fw_patch_dev            Patch boot chain with Swift pipeline (dev mode TXM patches)"
@@ -286,23 +289,23 @@ boot_dfu: build boot_binary_check
 .PHONY: fw_prepare fw_patch fw_patch_less fw_patch_dev fw_patch_jb
 
 fw_prepare:
-	cd $(VM_DIR) && bash "$(CURDIR)/$(SCRIPTS)/fw_prepare.sh"
+	cd $(VM_DIR) && FIRMWARE_PROFILE="$(FIRMWARE_PROFILE)" bash "$(CURDIR)/$(SCRIPTS)/fw_prepare.sh"
 
 fw_patch: patcher_build
-	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant regular
+	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant regular --firmware-profile "$(FIRMWARE_PROFILE)"
 
 fw_patch_less: patcher_build
 	@sh -c 'if [ "$$(id -u)" -ne 0 ]; then \
 		echo "fw_patch_less must be run via sudo" >&2; \
 		exit 1; \
 	fi; \
-	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant less'
+	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant less --firmware-profile "$(FIRMWARE_PROFILE)"'
 
 fw_patch_dev: patcher_build
-	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant dev
+	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant dev --firmware-profile "$(FIRMWARE_PROFILE)"
 
 fw_patch_jb: patcher_build
-	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant jb
+	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant jb --firmware-profile "$(FIRMWARE_PROFILE)"
 
 # ═══════════════════════════════════════════════════════════════════
 # Restore
@@ -329,10 +332,10 @@ restore:
 .PHONY: ramdisk_build ramdisk_send
 
 ramdisk_build: patcher_build
-	cd $(VM_DIR) && RAMDISK_UDID="$(RAMDISK_UDID)" $(PYTHON) "$(CURDIR)/$(SCRIPTS)/ramdisk_build.py" .
+	cd $(VM_DIR) && FIRMWARE_PROFILE="$(FIRMWARE_PROFILE)" RAMDISK_UDID="$(RAMDISK_UDID)" $(PYTHON) "$(CURDIR)/$(SCRIPTS)/ramdisk_build.py" .
 
 ramdisk_send:
-	cd $(VM_DIR) && PMD3_BRIDGE="$(PMD3_BRIDGE)" PYTHON="$(PYTHON)" IRECOVERY_ECID="$(IRECOVERY_ECID)" RAMDISK_UDID="$(RAMDISK_UDID)" RESTORE_UDID="$(RESTORE_UDID)" \
+	cd $(VM_DIR) && FIRMWARE_PROFILE="$(FIRMWARE_PROFILE)" PMD3_BRIDGE="$(PMD3_BRIDGE)" PYTHON="$(PYTHON)" IRECOVERY_ECID="$(IRECOVERY_ECID)" RAMDISK_UDID="$(RAMDISK_UDID)" RESTORE_UDID="$(RESTORE_UDID)" \
 		zsh "$(CURDIR)/$(SCRIPTS)/ramdisk_send.sh"
 
 # ═══════════════════════════════════════════════════════════════════

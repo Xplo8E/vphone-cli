@@ -13,6 +13,8 @@ import Foundation
 ///   4. debugger entitlement BL → mov w0, #1
 ///   5. developer-mode guard → nop
 public final class TXMDevPatcher: TXMPatcher {
+    private lazy var machOSegments: [MachOSegmentInfo] = MachOParser.parseSegments(from: buffer.data)
+
     override public func findAll() throws -> [PatchRecord] {
         patches = []
         try patchTrustcacheBypass() // base patch
@@ -24,46 +26,110 @@ public final class TXMDevPatcher: TXMPatcher {
         return patches
     }
 
-    // MARK: - Flat-binary ADRP+ADD string reference search
+    // MARK: - ADRP+ADD string reference search
 
-    /// Find all ADRP+ADD pairs in the flat binary that resolve to `targetOff`.
+    /// Convert a file offset to the address model used by ADRP.
     ///
-    /// TXM is a raw flat binary (no Mach-O), so we cannot use a pre-built ADRP index.
-    /// This mirrors the Python `_find_refs_to_offset` full linear scan.
+    /// Older TXM payloads were treated as flat binaries, where file offset and
+    /// execution address are equivalent. iOS 18 TXM is a Mach-O, so ADRP resolves
+    /// against segment VM addresses while patches are still emitted by file offset.
+    private func fileOffsetToAddress(_ offset: Int) -> UInt64? {
+        guard offset >= 0, offset < buffer.count else { return nil }
+
+        guard !machOSegments.isEmpty else {
+            return UInt64(offset)
+        }
+
+        for segment in machOSegments {
+            let start = Int(segment.fileOffset)
+            let end = start + Int(segment.fileSize)
+            if offset >= start, offset < end {
+                return segment.vmAddr + UInt64(offset - start)
+            }
+        }
+        return nil
+    }
+
+    private func decodeADRPPage(raw: UInt32, instructionAddress: UInt64) -> UInt64 {
+        let immlo = (raw >> 29) & 0x3
+        let immhi = (raw >> 5) & 0x7FFFF
+        let imm21 = (immhi << 2) | immlo
+        let signedImm21 = Int64(Int32(bitPattern: imm21 << 11) >> 11)
+        let delta = signedImm21 << 12
+        let pcPage = instructionAddress & ~UInt64(0xFFF)
+
+        if delta >= 0 {
+            return pcPage &+ UInt64(delta)
+        }
+        return pcPage &- UInt64(-delta)
+    }
+
+    private func decodeADRAddress(raw: UInt32, instructionAddress: UInt64) -> UInt64 {
+        let immlo = (raw >> 29) & 0x3
+        let immhi = (raw >> 5) & 0x7FFFF
+        let imm21 = (immhi << 2) | immlo
+        let signedImm21 = Int64(Int32(bitPattern: imm21 << 11) >> 11)
+
+        if signedImm21 >= 0 {
+            return instructionAddress &+ UInt64(signedImm21)
+        }
+        return instructionAddress &- UInt64(-signedImm21)
+    }
+
+    /// Find all ADR/ADRP references that resolve to the address of `targetOff`.
+    /// Returns an array of `(adrpOff, addOff)` file-offset pairs.
     ///
-    /// Returns an array of `(adrpOff, addOff)` pairs.
+    /// The tuple names stay compatible with the old ADRP+ADD caller contract.
+    /// For direct ADR references, both offsets are the ADR instruction offset.
     private func findRefsToOffset(_ targetOff: Int) -> [(adrpOff: Int, addOff: Int)] {
+        guard let targetAddress = fileOffsetToAddress(targetOff) else { return [] }
+        let targetPage = targetAddress & ~UInt64(0xFFF)
+        let pageOff = UInt32(targetAddress & 0xFFF)
+
         let size = buffer.count
         var refs: [(Int, Int)] = []
         var off = 0
-        while off + 8 <= size {
+        while off + 4 <= size {
             let rawA = buffer.readU32(at: off)
-            let rawB = buffer.readU32(at: off + 4)
+            guard let instructionAddress = fileOffsetToAddress(off) else { off += 4; continue }
+
+            // ADR: direct +/-1 MiB PC-relative address. iOS 18 TXM uses this
+            // for many cstring references because __TEXT_EXEC and __TEXT are
+            // close enough in the Mach-O address map.
+            if rawA & 0x9F00_0000 == 0x1000_0000 {
+                if decodeADRAddress(raw: rawA, instructionAddress: instructionAddress) == targetAddress {
+                    refs.append((off, off))
+                }
+                off += 4
+                continue
+            }
 
             // ADRP: bits[31]=1, bits[28:24]=10000
             guard rawA & 0x9F00_0000 == 0x9000_0000 else { off += 4; continue }
-            // ADD immediate (64-bit): bits[31:24] = 0x91
-            guard rawB & 0xFF80_0000 == 0x9100_0000 else { off += 4; continue }
 
-            // Decode ADRP target page
+            let adrpPage = decodeADRPPage(raw: rawA, instructionAddress: instructionAddress)
+            guard adrpPage == targetPage else { off += 4; continue }
+
             let adrpRd = rawA & 0x1F
-            let immlo = (rawA >> 29) & 0x3
-            let immhi = (rawA >> 5) & 0x7FFFF
-            let imm21 = (immhi << 2) | immlo
-            // Sign-extend imm21 from 21 bits
-            let signedImm21 = Int64(Int32(bitPattern: imm21 << 11) >> 11)
-            let pcPage = UInt64(off) & ~UInt64(0xFFF)
-            let adrpPage = UInt64(bitPattern: Int64(pcPage) + (signedImm21 << 12))
 
-            // Decode ADD: Rn must equal ADRP's Rd; imm12 is the page offset
-            let addRn = (rawB >> 5) & 0x1F
-            let addImm12 = (rawB >> 10) & 0xFFF
+            // The ADD is usually adjacent, but allow a short instruction window
+            // because newer TXM builds can interleave setup moves between ADRP
+            // and ADD.
+            for delta in stride(from: 4, through: 32, by: 4) {
+                let addOff = off + delta
+                guard addOff + 4 <= size else { break }
+                let rawB = buffer.readU32(at: addOff)
 
-            guard adrpRd == addRn else { off += 4; continue }
+                // ADD immediate (64-bit, no shift): bits[31:23] = 100100010.
+                guard rawB & 0xFF80_0000 == 0x9100_0000 else { continue }
+                guard ((rawB >> 22) & 0x1) == 0 else { continue }
 
-            let resolved = Int(adrpPage) + Int(addImm12)
-            if resolved == targetOff {
-                refs.append((off, off + 4))
+                let addRn = (rawB >> 5) & 0x1F
+                let addImm12 = (rawB >> 10) & 0xFFF
+                guard adrpRd == addRn, addImm12 == pageOff else { continue }
+
+                refs.append((off, addOff))
+                break
             }
             off += 4
         }
@@ -199,6 +265,31 @@ public final class TXMDevPatcher: TXMPatcher {
 
         guard starts.count == 1 else { return nil }
         return starts.first
+    }
+
+    private func decodeConditionalBranchTarget(insn: UInt32, pc: Int) -> Int? {
+        // B.cond: imm19:5, target = pc + sign_extend(imm19:'00')
+        if insn & 0xFF00_0010 == 0x5400_0000 {
+            let imm19 = (insn >> 5) & 0x7FFFF
+            let signedImm = Int32(bitPattern: imm19 << 13) >> 13
+            return pc + Int(signedImm) * 4
+        }
+
+        // CBZ/CBNZ: imm19:5. Match both 32-bit and 64-bit forms.
+        if insn & 0x7E00_0000 == 0x3400_0000 {
+            let imm19 = (insn >> 5) & 0x7FFFF
+            let signedImm = Int32(bitPattern: imm19 << 13) >> 13
+            return pc + Int(signedImm) * 4
+        }
+
+        // TBZ/TBNZ: imm14:5. Match both branch polarities/register widths.
+        if insn & 0x7E00_0000 == 0x3600_0000 {
+            let imm14 = (insn >> 5) & 0x3FFF
+            let signedImm = Int32(bitPattern: imm14 << 18) >> 18
+            return pc + Int(signedImm) * 4
+        }
+
+        return nil
     }
 
     // MARK: - Dev Patches
@@ -495,18 +586,68 @@ public final class TXMDevPatcher: TXMPatcher {
         }
 
         let guardMnemonics: Set = ["tbz", "tbnz", "cbz", "cbnz"]
-        var cands: [Int] = []
+        var cands: [(off: Int, patch: Data, description: String)] = []
+        var seen = Set<Int>()
 
         for (_, _, addOff) in refs {
-            var back = addOff - 4
-            while back > max(addOff - 0x20, 0) {
-                guard let ins = disasm.disassembleOne(in: buffer.data, at: back) else { back -= 4; continue }
-                if guardMnemonics.contains(ins.mnemonic),
-                   ins.operandString.hasPrefix("w9, #0,")
+            // Find the force-enable assignment immediately before the log string.
+            var forceOff: Int? = nil
+            var scan = addOff - 4
+            while scan >= max(addOff - 0x20, 0) {
+                if let ins = disasm.disassembleOne(in: buffer.data, at: scan),
+                   ins.mnemonic == "mov",
+                   ins.operandString == "w19, #1" || ins.operandString == "w20, #1"
                 {
-                    cands.append(back)
+                    forceOff = scan
+                    break
                 }
-                back -= 4
+                scan -= 4
+            }
+            guard let forceOff else { continue }
+
+            let funcStart = findFuncStart(addOff) ?? max(forceOff - 0x100, 0)
+            var back = forceOff - 4
+            while back >= max(funcStart, forceOff - 0x100) {
+                defer { back -= 4 }
+                guard let ins = disasm.disassembleOne(in: buffer.data, at: back),
+                      guardMnemonics.contains(ins.mnemonic)
+                else { continue }
+
+                // Legacy shape:
+                //   tbnz w9, #0, normal_path
+                //   mov  w20, #1
+                // NOPing the guard forces fall-through into the force-enable block.
+                if back + 4 == forceOff,
+                   ins.mnemonic == "tbz" || ins.mnemonic == "tbnz",
+                   ins.operandString.hasPrefix("w9, #0,"),
+                   seen.insert(back).inserted
+                {
+                    cands.append((
+                        off: back,
+                        patch: ARM64.nop,
+                        description: "developer mode bypass: legacy guard -> nop"
+                    ))
+                    continue
+                }
+
+                // iOS 18.5 shape:
+                //   cbz w9, force_enable
+                //   ... normal policy path ...
+                // force_enable:
+                //   mov w19, #1
+                // Replacing the conditional branch with unconditional B reaches
+                // the same force-enable block regardless of the policy byte.
+                let raw = buffer.readU32(at: back)
+                guard decodeConditionalBranchTarget(insn: raw, pc: back) == forceOff,
+                      let branch = ARM64Encoder.encodeB(from: back, to: forceOff),
+                      seen.insert(back).inserted
+                else { continue }
+
+                cands.append((
+                    off: back,
+                    patch: branch,
+                    description: "developer mode bypass: conditional branch -> force-enable branch"
+                ))
             }
         }
 
@@ -515,8 +656,8 @@ public final class TXMDevPatcher: TXMPatcher {
             return
         }
 
-        emit(cands[0], ARM64.nop,
+        emit(cands[0].off, cands[0].patch,
              patchID: "txm_dev.developer_mode_bypass",
-             description: "developer mode bypass")
+             description: cands[0].description)
     }
 }

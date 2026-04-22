@@ -2,9 +2,8 @@
 //
 // Translated from: scripts/fw_manifest.py
 //
-// Merges cloudOS boot-chain (vresearch101ap) with vphone600 runtime components
-// (device tree, SEP, kernel) and iPhone OS images into a single DFU erase-install
-// Build Identity.
+// Merges cloudOS boot-chain components with profile-selected runtime components
+// and iPhone OS images into a single DFU erase-install Build Identity.
 
 import Foundation
 
@@ -18,8 +17,8 @@ public typealias PlistDict = [String: Any]
 /// Generates hybrid BuildManifest and Restore plists for VM firmware.
 ///
 /// The VM hardware identifies as vresearch101ap (BDID 0x90) in DFU mode, so the
-/// identity fields must match for TSS/SHSH signing.  Runtime components use the
-/// vphone600 variant because its device tree sets MKB dt=1 (keybag-less boot).
+/// identity fields must match for TSS/SHSH signing. Runtime components are
+/// selected by ``FirmwareProfile``.
 public enum FirmwareManifest {
     // MARK: - Errors
 
@@ -43,22 +42,6 @@ public enum FirmwareManifest {
         }
     }
 
-    // MARK: - Identity indices
-
-    /// Discovered identity indices from cloudOS and iPhone manifests.
-    struct IdentityIndices {
-        /// vresearch101ap release identity (boot chain — matches DFU hardware).
-        let prod: Int
-        /// vresearch101ap research identity (research iBoot, TXM).
-        let res: Int
-        /// vphone600ap release identity (device tree, SEP, restore kernel).
-        let vp: Int
-        /// vphone600ap research identity (kernel cache).
-        let vpr: Int
-        /// iPhone erase identity (OS images).
-        let iPhoneErase: Int
-    }
-
     // MARK: - Public API
 
     /// Generate hybrid BuildManifest.plist and Restore.plist.
@@ -70,6 +53,7 @@ public enum FirmwareManifest {
     public static func generate(
         iPhoneDir: URL,
         cloudOSDir: URL,
+        profile: FirmwareProfile = .defaultProfile,
         verbose: Bool = true
     ) throws {
         // Load source plists.
@@ -86,13 +70,17 @@ public enum FirmwareManifest {
         }
 
         // Discover source identities.
-        let (prod, res) = try findCloudOS(cloudIdentities, deviceClass: "vresearch101ap")
-        let (vp, vpr) = try findCloudOS(cloudIdentities, deviceClass: "vphone600ap")
+        let (prod, res) = try findCloudOS(cloudIdentities, deviceClass: profile.bootDeviceClass)
+        let (runtimeRelease, runtimeResearch) = try findCloudOS(
+            cloudIdentities,
+            deviceClass: profile.runtimeDeviceClass
+        )
         let iErase = try findIPhoneErase(iPhoneIdentities)
 
         if verbose {
-            print("  cloudOS vresearch101ap: release=#\(prod), research=#\(res)")
-            print("  cloudOS vphone600ap:    release=#\(vp), research=#\(vpr)")
+            print("  firmware profile: \(profile.rawValue)")
+            print("  cloudOS \(profile.bootDeviceClass): release=#\(prod), research=#\(res) [boot]")
+            print("  cloudOS \(profile.runtimeDeviceClass): release=#\(runtimeRelease), research=#\(runtimeResearch) [runtime]")
             print("  iPhone  erase: #\(iErase)")
         }
 
@@ -100,7 +88,12 @@ public enum FirmwareManifest {
         let buildIdentity = try buildEraseIdentity(
             cloudIdentities: cloudIdentities,
             iPhoneIdentities: iPhoneIdentities,
-            prod: prod, res: res, vp: vp, vpr: vpr, iErase: iErase
+            profile: profile,
+            prod: prod,
+            res: res,
+            runtimeRelease: runtimeRelease,
+            runtimeResearch: runtimeResearch,
+            iErase: iErase
         )
 
         // Assemble BuildManifest.
@@ -115,7 +108,8 @@ public enum FirmwareManifest {
         // Assemble Restore.plist.
         let restore = try buildRestorePlist(
             cloudOSRP: cloudOSRP,
-            iPhoneRP: iPhoneRP
+            iPhoneRP: iPhoneRP,
+            profile: profile
         )
 
         // Write output.
@@ -199,11 +193,29 @@ public enum FirmwareManifest {
         return deepCopyPlistDict(value)
     }
 
+    static func optionalEntry(
+        _ identities: [PlistDict],
+        _ idx: Int,
+        _ key: String
+    ) -> PlistDict? {
+        guard let manifest = identities[idx]["Manifest"] as? PlistDict,
+              let value = manifest[key] as? PlistDict
+        else {
+            return nil
+        }
+        return deepCopyPlistDict(value)
+    }
+
     /// Build the single DFU erase identity by merging components from multiple sources.
     static func buildEraseIdentity(
         cloudIdentities C: [PlistDict],
         iPhoneIdentities I: [PlistDict],
-        prod: Int, res: Int, vp: Int, vpr: Int, iErase: Int
+        profile: FirmwareProfile,
+        prod: Int,
+        res: Int,
+        runtimeRelease: Int,
+        runtimeResearch: Int,
+        iErase: Int
     ) throws -> PlistDict {
         // Identity base from vresearch101ap PROD.
         var bi = deepCopyPlistDict(C[prod])
@@ -261,20 +273,25 @@ public enum FirmwareManifest {
         m["Ap,SecurePageTableMonitor"] = try entry(C, prod, "Ap,SecurePageTableMonitor")
         m["Ap,TrustedExecutionMonitor"] = try entry(C, res, "Ap,TrustedExecutionMonitor")
 
-        // Device tree (vphone600ap -- sets MKB dt=1 for keybag-less boot).
-        m["DeviceTree"] = try entry(C, vp, "DeviceTree")
-        m["RestoreDeviceTree"] = try entry(C, vp, "RestoreDeviceTree")
+        // Device tree from the selected runtime profile.
+        m["DeviceTree"] = try entry(C, runtimeRelease, "DeviceTree")
+        m["RestoreDeviceTree"] = try entry(C, runtimeRelease, "RestoreDeviceTree")
 
-        // SEP (vphone600 -- matches device tree).
-        m["SEP"] = try entry(C, vp, "SEP")
-        m["RestoreSEP"] = try entry(C, vp, "RestoreSEP")
+        // SEP from the selected runtime profile.
+        m["SEP"] = try entry(C, runtimeRelease, "SEP")
+        m["RestoreSEP"] = try entry(C, runtimeRelease, "RestoreSEP")
 
-        // Kernel (vphone600, patched by fw_patch).
-        m["KernelCache"] = try entry(C, vpr, "KernelCache") // research
-        m["RestoreKernelCache"] = try entry(C, vp, "RestoreKernelCache") // release
+        // Kernel from the selected runtime profile.
+        m["KernelCache"] = try entry(C, runtimeResearch, "KernelCache") // research
+        m["RestoreKernelCache"] = try entry(C, runtimeRelease, "RestoreKernelCache") // release
 
-        // Recovery mode (vphone600ap carries this entry).
-        m["RecoveryMode"] = try entry(C, vp, "RecoveryMode")
+        // Older runtime profiles carry a RecoveryMode entry. The 18.5
+        // vresearch101ap profile does not, so it is optional there.
+        if let recoveryMode = optionalEntry(C, runtimeRelease, "RecoveryMode") {
+            m["RecoveryMode"] = recoveryMode
+        } else if profile.recoveryModeRequired {
+            throw ManifestError.missingKey("RecoveryMode in identity #\(runtimeRelease)")
+        }
 
         // CloudOS erase ramdisk.
         m["RestoreRamDisk"] = try entry(C, prod, "RestoreRamDisk")
@@ -295,9 +312,10 @@ public enum FirmwareManifest {
     /// Build the merged Restore.plist from cloudOS and iPhone sources.
     static func buildRestorePlist(
         cloudOSRP: PlistDict,
-        iPhoneRP: PlistDict
+        iPhoneRP: PlistDict,
+        profile: FirmwareProfile
     ) throws -> PlistDict {
-        // DeviceMap: iPhone first entry + cloudOS vphone600ap/vresearch101ap entries.
+        // DeviceMap: iPhone first entry + profile-selected cloudOS entries.
         guard let iPhoneDeviceMap = iPhoneRP["DeviceMap"] as? [PlistDict],
               !iPhoneDeviceMap.isEmpty
         else {
@@ -308,9 +326,10 @@ public enum FirmwareManifest {
         }
 
         var deviceMap: [PlistDict] = [iPhoneDeviceMap[0]]
+        let boardConfigs = Set(profile.deviceMapBoardConfigs)
         for d in cloudDeviceMap {
             if let bc = d["BoardConfig"] as? String,
-               bc == "vphone600ap" || bc == "vresearch101ap"
+               boardConfigs.contains(bc)
             {
                 deviceMap.append(d)
             }

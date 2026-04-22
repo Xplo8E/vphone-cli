@@ -39,6 +39,7 @@ Environment variables:
   IPHONE_BUILD    Build shorthand to resolve to a downloadable IPSW URL
   IPHONE_SOURCE   Direct iPhone IPSW URL or local path
   CLOUDOS_SOURCE  Direct cloudOS IPSW URL or local path
+  FIRMWARE_PROFILE Firmware layout profile (legacy or ios18-22F76)
   IPSW_DIR        Directory used to cache downloaded/copied IPSWs
 EOF
 }
@@ -416,6 +417,7 @@ IPHONE_VERSION="${IPHONE_VERSION:-}"
 IPHONE_BUILD="${IPHONE_BUILD:-}"
 IPHONE_SOURCE="${IPHONE_SOURCE:-}"
 CLOUDOS_SOURCE="${CLOUDOS_SOURCE:-}"
+FIRMWARE_PROFILE="${FIRMWARE_PROFILE:-legacy}"
 IPSW_DIR="${IPSW_DIR:-${SCRIPT_DIR}/../ipsws}"
 
 POSITIONAL=()
@@ -530,6 +532,7 @@ echo "=== prepare_firmware ==="
 echo "  Device:   $IPHONE_DEVICE"
 echo "  iPhone:   $IPHONE_SOURCE"
 echo "  CloudOS:  $CLOUDOS_SOURCE"
+echo "  Profile:  $FIRMWARE_PROFILE"
 echo "  IPSWs:    $IPSW_DIR"
 echo "  Output:   $(pwd)/$IPHONE_DIR/"
 echo ""
@@ -579,7 +582,7 @@ cp -n "${CLOUDOS_DIR}"/Firmware/*.dmg.trustcache "$IPHONE_DIR/Firmware"/ 2>/dev/
 cp "$IPHONE_DIR/BuildManifest.plist" "$IPHONE_DIR/iPhone-BuildManifest.plist"
 
 echo "==> Generating hybrid plists ..."
-python3 "$SCRIPT_DIR/fw_manifest.py" "$IPHONE_DIR" "$CLOUDOS_DIR"
+python3 "$SCRIPT_DIR/fw_manifest.py" --profile "$FIRMWARE_PROFILE" "$IPHONE_DIR" "$CLOUDOS_DIR"
 
 echo "==> Cleaning up ..."
 rm -rf "$CLOUDOS_DIR"

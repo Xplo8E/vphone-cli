@@ -4,8 +4,7 @@
 //
 // Strategy:
 //   1. Parse the flat device tree binary into a node/property tree.
-//   2. Apply a fixed set of property patches (serial-number, home-button-type,
-//      artwork-device-subtype, island-notch-location).
+//   2. Apply profile-selected property patches.
 //   3. Serialize the modified tree back to flat binary.
 
 import Foundation
@@ -14,6 +13,7 @@ import Foundation
 public final class DeviceTreePatcher: Patcher {
     public let component = "devicetree"
     public let verbose: Bool
+    public let firmwareProfile: FirmwareProfile
 
     let buffer: BinaryBuffer
     var patches: [PatchRecord] = []
@@ -38,8 +38,8 @@ public final class DeviceTreePatcher: Patcher {
         case integer(UInt64)
     }
 
-    /// Fixed set of device tree patches, matching scripts/dtree.py PATCHES.
-    static let propertyPatches: [PropertyPatch] = [
+    /// Legacy vphone600 patch set, matching scripts/dtree.py PATCHES.
+    static let legacyPropertyPatches: [PropertyPatch] = [
         PropertyPatch(
             nodePath: ["device-tree"],
             property: "serial-number",
@@ -78,6 +78,40 @@ public final class DeviceTreePatcher: Patcher {
         ),
     ]
 
+    /// iOS 18.5 `vresearch101ap` does not carry the legacy `buttons` node or
+    /// `island-notch-location`. Keep only properties that exist in the 18.5
+    /// tree and leave policy knobs such as `chosen/debug-enabled` untouched
+    /// until boot evidence shows they are required.
+    static let ios18_22F76PropertyPatches: [PropertyPatch] = [
+        PropertyPatch(
+            nodePath: ["device-tree"],
+            property: "serial-number",
+            length: 12,
+            flags: 0,
+            value: .string("vphone-1337"),
+            patchID: "devicetree.serial_number",
+            description: "Set serial number to vphone-1337"
+        ),
+        PropertyPatch(
+            nodePath: ["device-tree", "product"],
+            property: "artwork-device-subtype",
+            length: 4,
+            flags: 0,
+            value: .integer(2556),
+            patchID: "devicetree.artwork_device_subtype",
+            description: "Set artwork device subtype to 2556"
+        ),
+    ]
+
+    static func propertyPatches(for profile: FirmwareProfile) -> [PropertyPatch] {
+        switch profile {
+        case .legacy:
+            legacyPropertyPatches
+        case .ios18_22F76:
+            ios18_22F76PropertyPatches
+        }
+    }
+
     // MARK: - Device Tree Structures
 
     /// A single property in a device tree node.
@@ -106,8 +140,9 @@ public final class DeviceTreePatcher: Patcher {
 
     // MARK: - Init
 
-    public init(data: Data, verbose: Bool = true) {
+    public init(data: Data, firmwareProfile: FirmwareProfile = .defaultProfile, verbose: Bool = true) {
         buffer = BinaryBuffer(data)
+        self.firmwareProfile = firmwareProfile
         self.verbose = verbose
     }
 
@@ -332,7 +367,7 @@ public final class DeviceTreePatcher: Patcher {
 
     /// Apply all property patches and record each change.
     private func applyPatches(root: DTNode) throws {
-        for patch in Self.propertyPatches {
+        for patch in Self.propertyPatches(for: firmwareProfile) {
             let node = try resolveNode(root, path: patch.nodePath)
             let prop = try findProperty(node, name: patch.property)
 

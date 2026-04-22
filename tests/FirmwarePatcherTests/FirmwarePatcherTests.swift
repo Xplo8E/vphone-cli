@@ -264,4 +264,124 @@ struct FirmwarePipelineTests {
 
         #expect(found == target)
     }
+
+    @Test func firmwareProfileControlsRuntimePaths() {
+        let tempDir = URL(fileURLWithPath: NSTemporaryDirectory())
+
+        let legacy = FirmwarePipeline(
+            vmDirectory: tempDir,
+            variant: .regular,
+            firmwareProfile: .legacy,
+            verbose: false
+        ).buildComponentList()
+
+        let ios18 = FirmwarePipeline(
+            vmDirectory: tempDir,
+            variant: .regular,
+            firmwareProfile: .ios18_22F76,
+            verbose: false
+        ).buildComponentList()
+
+        let legacyKernel = legacy.first { $0.name == "kernelcache" }
+        let legacyDeviceTree = legacy.first { $0.name == "DeviceTree" }
+        let ios18Kernel = ios18.first { $0.name == "kernelcache" }
+        let ios18DeviceTree = ios18.first { $0.name == "DeviceTree" }
+
+        #expect(legacyKernel?.searchPatterns == ["kernelcache.research.vphone600"])
+        #expect(legacyDeviceTree?.searchPatterns == ["Firmware/all_flash/DeviceTree.vphone600ap.im4p"])
+        #expect(ios18Kernel?.searchPatterns == ["kernelcache.research.vresearch101"])
+        #expect(ios18DeviceTree?.searchPatterns == ["Firmware/all_flash/DeviceTree.vresearch101ap.im4p"])
+    }
+}
+
+struct DeviceTreePatcherTests {
+    private static func le16(_ value: UInt16) -> Data {
+        withUnsafeBytes(of: value.littleEndian) { Data($0) }
+    }
+
+    private static func le32(_ value: UInt32) -> Data {
+        withUnsafeBytes(of: value.littleEndian) { Data($0) }
+    }
+
+    private static func align4(_ value: Int) -> Int {
+        (value + 3) & ~3
+    }
+
+    private static func property(_ name: String, _ value: Data, flags: UInt16 = 0) -> Data {
+        var out = Data()
+        var encodedName = Data(name.utf8)
+        if encodedName.count >= 32 {
+            encodedName = Data(encodedName.prefix(31))
+        }
+        encodedName.append(Data(repeating: 0, count: 32 - encodedName.count))
+        out.append(encodedName)
+        out.append(le16(UInt16(value.count)))
+        out.append(le16(flags))
+        out.append(value)
+        out.append(Data(repeating: 0, count: align4(value.count) - value.count))
+        return out
+    }
+
+    private static func node(properties: [Data], children: [Data] = []) -> Data {
+        var out = Data()
+        out.append(le32(UInt32(properties.count)))
+        out.append(le32(UInt32(children.count)))
+        for property in properties {
+            out.append(property)
+        }
+        for child in children {
+            out.append(child)
+        }
+        return out
+    }
+
+    private static func fixedString(_ string: String, length: Int) -> Data {
+        var out = Data(string.utf8)
+        out.append(0)
+        out.append(Data(repeating: 0, count: max(0, length - out.count)))
+        return Data(out.prefix(length))
+    }
+
+    private static func minimalVresearchDeviceTree() -> Data {
+        let product = node(properties: [
+            property("name", Data("product\0".utf8)),
+            property("artwork-device-subtype", le32(0)),
+        ])
+
+        return node(
+            properties: [
+                property("serial-number", fixedString("syscfg/SrNm/0x20", length: 20)),
+            ],
+            children: [product]
+        )
+    }
+
+    @Test func ios18ProfileSkipsMissingLegacyDeviceTreeNodes() throws {
+        let patcher = DeviceTreePatcher(
+            data: Self.minimalVresearchDeviceTree(),
+            firmwareProfile: .ios18_22F76,
+            verbose: false
+        )
+
+        let count = try patcher.apply()
+        #expect(count == 2)
+        #expect(patcher.patchedData.range(of: Data("vphone-1337\0".utf8)) != nil)
+        #expect(patcher.patchedData.range(of: Self.le32(2556)) != nil)
+    }
+
+    @Test func legacyProfileStillRequiresLegacyDeviceTreeNodes() {
+        let patcher = DeviceTreePatcher(
+            data: Self.minimalVresearchDeviceTree(),
+            firmwareProfile: .legacy,
+            verbose: false
+        )
+
+        var didThrow = false
+        do {
+            _ = try patcher.apply()
+        } catch {
+            didThrow = true
+        }
+        #expect(didThrow)
+    }
 }

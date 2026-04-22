@@ -4,7 +4,7 @@
 //
 // Patch 8 — patchPostValidationNOP:
 //   Anchor: "TXM [Error]: CodeSignature" string → ADRP+ADD ref → scan forward
-//   for TBNZ → NOP it.
+//   for the post-log conditional validation branch → NOP it.
 //
 // Patch 9 — patchPostValidationCMP:
 //   Anchor: "AMFI: code signature validation failed" → caller function →
@@ -17,11 +17,12 @@ import Foundation
 extension KernelPatcher {
     // MARK: - Patch 8: NOP TBNZ after TXM CodeSignature error log
 
-    /// NOP the TBNZ that follows the TXM CodeSignature error log call.
+    /// NOP the conditional validation branch that follows the TXM CodeSignature
+    /// error log call.
     ///
-    /// The 'TXM [Error]: CodeSignature: selector: ...' string is followed by a BL
-    /// (printf/log), then a TBNZ that branches to an additional validation path.
-    /// NOPping the TBNZ skips that extra check.
+    /// Older kernels used TBNZ here. iOS 18.5 uses CMP + B.EQ into the same
+    /// assertion/error path. NOPping the conditional branch skips that extra
+    /// post-validation path while keeping the function's normal return.
     @discardableResult
     func patchPostValidationNOP() -> Bool {
         log("\n[8] post-validation NOP (txm-related)")
@@ -38,12 +39,14 @@ extension KernelPatcher {
         }
 
         for (_, addOff) in refs {
-            // Scan forward up to 0x40 bytes past the ADD for a TBNZ instruction.
+            // Scan forward up to 0x40 bytes past the ADD for the post-log
+            // conditional branch. The branch shape is version-specific.
             let scanEnd = min(addOff + 0x40, buffer.count - 4)
             for scan in stride(from: addOff, through: scanEnd, by: 4) {
                 let insns = disasm.disassemble(in: buffer.data, at: scan, count: 1)
                 guard let insn = insns.first else { continue }
-                guard insn.mnemonic == "tbnz" else { continue }
+                let branchMnemonics: Set = ["tbnz", "tbz", "cbz", "cbnz", "b.eq", "b.ne"]
+                guard branchMnemonics.contains(insn.mnemonic) else { continue }
 
                 let va = fileOffsetToVA(scan)
                 emit(scan, ARM64.nop,
@@ -54,7 +57,7 @@ extension KernelPatcher {
             }
         }
 
-        log("  [-] TBNZ not found after TXM error string ref")
+        log("  [-] post-validation conditional branch not found after TXM error string ref")
         return false
     }
 

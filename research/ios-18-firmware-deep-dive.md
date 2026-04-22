@@ -398,21 +398,742 @@ This tells us the next engineering order:
 4. Retarget kernel misses with IDA.
 5. Only then run the real dev firmware path.
 
+## Phase 1 Implementation Log - Firmware Profiles
+
+The first implementation slice is done: the project now has an explicit firmware profile layer instead of assuming every runtime component is named like vphone600.
+
+The important design choice is that `legacy` remains the old hybrid:
+
+```text
+boot DeviceClass:    vresearch101ap
+runtime DeviceClass: vphone600ap
+kernel:              kernelcache.research.vphone600
+DeviceTree:          Firmware/all_flash/DeviceTree.vphone600ap.im4p
+```
+
+The new `ios18-22F76` profile is intentionally narrower:
+
+```text
+boot DeviceClass:    vresearch101ap
+runtime DeviceClass: vresearch101ap
+kernel:              kernelcache.research.vresearch101
+DeviceTree:          Firmware/all_flash/DeviceTree.vresearch101ap.im4p
+RecoveryMode:        optional / absent
+```
+
+This is not saying `vresearch101ap` is semantically equivalent to vphone600. It only says the 18.5 firmware set we have does not contain vphone600, so all path and manifest plumbing must be able to target `vresearch101ap` before any deeper patch work can be tested honestly.
+
+Files changed in this phase:
+
+```text
+sources/FirmwarePatcher/Pipeline/FirmwareProfile.swift
+sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift
+sources/FirmwarePatcher/Manifest/FirmwareManifest.swift
+sources/vphone-cli/VPhoneCLI.swift
+scripts/fw_manifest.py
+scripts/fw_prepare.sh
+scripts/ramdisk_build.py
+scripts/pymobiledevice3_bridge.py
+Makefile
+tests/FirmwarePatcherTests/FirmwarePatcherTests.swift
+Package.swift
+sources/FirmwarePatcher/Binary/MachOHelpers.swift
+```
+
+`Package.swift` and `MachOHelpers.swift` changed because `MachOHelpers.swift` imported MachOKit but only used its own manual Mach-O parser. Swift 6.2 hit a MachOKit compile/importer crash during verification, so the unused dependency was removed from the package graph instead of patching vendor code.
+
+The profile value now flows through the command surface:
+
+```bash
+make fw_prepare FIRMWARE_PROFILE=ios18-22F76
+make fw_patch_dev FIRMWARE_PROFILE=ios18-22F76
+make ramdisk_build FIRMWARE_PROFILE=ios18-22F76
+make ramdisk_send FIRMWARE_PROFILE=ios18-22F76
+```
+
+The Swift CLI equivalent is:
+
+```bash
+.build/debug/vphone-cli patch-firmware \
+  --vm-directory ./vm \
+  --variant dev \
+  --firmware-profile ios18-22F76
+```
+
+The manifest verifier was run against plist files extracted from:
+
+```text
+/Users/vinay/ipsw/iPhone17,3_18.5_22F76_Restore.ipsw
+/Users/vinay/ipsw/cloudOS_18.5_22F76.ipsw
+```
+
+Verifier output:
+
+```text
+firmware profile: ios18-22F76
+cloudOS vresearch101ap: release=#2, research=#3 [boot]
+cloudOS vresearch101ap: release=#2, research=#3 [runtime]
+iPhone  erase: #0
+skipping RecoveryMode: not present for vresearch101ap
+wrote BuildManifest.plist
+wrote Restore.plist
+assertions: ok
+DeviceMap: ['d47ap', 'vresearch101ap']
+```
+
+The generated 18.5 manifest now selects:
+
+```text
+DeviceTree:        Firmware/all_flash/DeviceTree.vresearch101ap.im4p
+RestoreDeviceTree: Firmware/all_flash/DeviceTree.vresearch101ap.im4p
+KernelCache:       kernelcache.research.vresearch101
+RestoreKernelCache: kernelcache.release.vresearch101
+RecoveryMode:      absent
+```
+
+Other verification completed:
+
+```text
+python3 -m py_compile scripts/fw_manifest.py scripts/ramdisk_build.py scripts/pymobiledevice3_bridge.py
+swift test --filter FirmwarePipelineTests/firmwareProfileControlsRuntimePaths
+git diff --check
+make -n fw_prepare FIRMWARE_PROFILE=ios18-22F76
+make -n fw_patch FIRMWARE_PROFILE=ios18-22F76 VM=iphone_18_5
+```
+
+The targeted Swift test passed. A full Swift test run is not a useful signal right now because the local `ipsws/patch_refactor_input` test fixture directory is empty.
+
+Phase 2 closes the TXM xref problem. The next blocker is the `vresearch101ap` DeviceTree profile.
+
+## Phase 2 Implementation Log - TXM Mach-O Retargeting
+
+The TXM fix had two parts.
+
+First, `TXMDevPatcher` now resolves string references in the address model the payload actually uses:
+
+```text
+string file offset -> Mach-O VM address
+instruction file offset -> Mach-O VM address
+ADR target or ADRP page math -> VM address
+resolved patch site -> file offset
+```
+
+The old scanner only understood ADRP+ADD in flat file-offset space. The 18.5 TXM image is a Mach-O, and the high-signal cstring references are mostly direct `ADR` instructions because `__TEXT_EXEC` and `__TEXT.__cstring` are close enough:
+
+```asm
+0xfffffff01701f5a8  adr x1, 0xfffffff0170065d3 ; "get-task-allow"
+0xfffffff01701f3f4  adr x1, 0xfffffff0170063fb ; "com.apple.private.cs.debugger"
+0xfffffff01701f9f8  adr x0, 0xfffffff0170066c8 ; developer-mode log
+```
+
+So the final resolver supports both:
+
+```text
+ADR direct refs
+ADRP + ADD refs with VM-address page math
+flat-binary fallback when no Mach-O segments exist
+```
+
+Second, the developer-mode patch shape changed. The old branch was adjacent to the force-enable assignment and could be NOPed. On 18.5, the function already has a force-enable block:
+
+```asm
+0xfffffff01701f9c0  ldrb w9, [x9, #0x3d]
+0xfffffff01701f9c4  cbz  w9, 0xfffffff01701f9f4
+...
+0xfffffff01701f9f4  mov  w19, #1
+0xfffffff01701f9f8  adr  x0, "developer mode enabled due to system policy configuration"
+```
+
+NOPing `cbz` would be wrong because it would fall through into the normal policy path. The new patch replaces the conditional branch with an unconditional branch to the force-enable block:
+
+```text
+0x01B9C4: cbz w9, 0x1b9f4 -> b 0x1b9f4
+```
+
+Direct raw payload verifier:
+
+```bash
+.build/debug/vphone-cli patch-component \
+  --component txm-dev \
+  --input /tmp/vphone-ios18-22F76/raw/txm.cloud.research.raw \
+  --output /tmp/vphone-ios18-22F76/raw/txm.cloud.research.dev-patched.raw
+```
+
+IM4P verifier:
+
+```bash
+.build/debug/vphone-cli patch-component \
+  --component txm-dev \
+  --input /tmp/vphone-ios18-22F76/cloud/Firmware/txm.iphoneos.research.im4p \
+  --output /tmp/vphone-ios18-22F76/raw/txm.cloud.research.dev-patched-from-im4p.raw
+```
+
+Both emitted the same 12 records:
+
+```text
+0x027E54  trustcache bypass
+0x02CCE0  selector24 pass: mov w0, #0xa1
+0x02CCE4  selector24 pass: branch epilogue
+0x01B5B8  get-task-allow BL -> mov x0, #1
+0x022EC8  selector42|29 branch to shellcode
+0x0570A8  shellcode nop pad
+0x0570AC  shellcode mov x0, #1
+0x0570B0  shellcode strb w0, [x20, #0x30]
+0x0570B4  shellcode mov x0, x20
+0x0570B8  shellcode branch back
+0x01B404  debugger entitlement BL -> mov w0, #1
+0x01B9C4  developer-mode guard -> force-enable branch
+```
+
+A profile-aware full pipeline run was also tested without vphone600 shim names:
+
+```bash
+.build/debug/vphone-cli patch-firmware \
+  --vm-directory /tmp/vphone-ios18-vm-profile-fresh \
+  --variant dev \
+  --firmware-profile ios18-22F76
+```
+
+Result:
+
+```text
+AVPBooter: patched
+iBSS: patched
+iBEC: patched
+LLB: patched with known rootfs misses
+TXM: 12 patches applied
+kernelcache: 24 patches applied, known misses [8] and [16]
+DeviceTree: failed on missing child node 'buttons'
+```
+
+That is the expected phase boundary. TXM is no longer blocking the real 18.5 path; DeviceTree is.
+
+## Phase 3 Implementation Log - DeviceTree Profiles
+
+The DeviceTree blocker is now removed from the patch pipeline.
+
+The important call was to avoid inventing legacy nodes in the 18.5 tree. `DeviceTree.vresearch101ap` simply does not have:
+
+```text
+/device-tree/buttons
+/device-tree/buttons/home-button-type
+/device-tree/product/island-notch-location
+```
+
+Those look like legacy/cosmetic shaping fields from the old vphone600 profile. Adding them blindly would make the file look more like the old tree, but it would not prove the properties are consumed by the 18.5 boot stack.
+
+The `ios18-22F76` DeviceTree patch set now only changes properties that exist in the 18.5 tree:
+
+```text
+/device-tree/serial-number = "vphone-1337"
+/device-tree/product/artwork-device-subtype = 2556
+```
+
+It intentionally does not change the policy-looking `chosen` fields yet:
+
+```text
+/device-tree/chosen/amfi-allows-trust-cache-load = 0
+/device-tree/chosen/debug-enabled = 0
+```
+
+Those may matter later, but they need boot/runtime evidence. For Phase 3, the objective was not "make the tree permissive"; it was "make profile-aware patching precise enough to complete without fake legacy nodes."
+
+Direct verifier:
+
+```bash
+.build/debug/vphone-cli patch-component \
+  --component device-tree \
+  --firmware-profile ios18-22F76 \
+  --input /tmp/vphone-ios18-22F76/cloud/Firmware/all_flash/DeviceTree.vresearch101ap.im4p \
+  --output /tmp/vphone-ios18-22F76/raw/DeviceTree.vresearch101ap.ios18-patched.raw
+```
+
+Output:
+
+```text
+0x000128: serial-number -> vphone-1337
+0x00A964: artwork-device-subtype -> 2556
+[2 DeviceTree patch(es) applied]
+```
+
+Full profile-aware dev pipeline verifier:
+
+```bash
+.build/debug/vphone-cli patch-firmware \
+  --vm-directory /tmp/vphone-ios18-vm-profile \
+  --variant dev \
+  --firmware-profile ios18-22F76
+```
+
+Result:
+
+```text
+All 9 components patched successfully
+59 total patches
+```
+
+The kernel still reports known misses:
+
+```text
+[8] post-validation NOP: TBNZ not found after TXM error string ref
+[16] handle_get_dev_by_role: entitlement gate pattern not found
+```
+
+Those are now the next slice, not a blocker to the patch pipeline itself.
+
+## Phase 4 Implementation Log - Kernel Miss Retargeting
+
+The kernel slice started with the two misses from the 18.5 `kernelcache.research.vresearch101` dry-run:
+
+```text
+[8] post-validation NOP
+    old locator expected a nearby TBNZ after "TXM [Error]: CodeSignature"
+
+[16] handle_get_dev_by_role entitlement gate
+    old locator expected the legacy APFS entitlement-deny block shape
+```
+
+IDA MCP was attempted first, per the normal kernel workflow:
+
+```text
+open_idb /tmp/vphone-ios18-22F76/raw/kernelcache.research.vresearch101.raw
+analysis_status
+```
+
+Both calls timed out on this kernel in the current environment. I did not treat that as IDA evidence. The retargeting below is based on deterministic extraction, Mach-O address mapping, and Capstone instruction decode.
+
+The raw kernel used for analysis was decompressed from the cloudOS IM4P:
+
+```bash
+source .venv/bin/activate
+python3 - <<'PY'
+from pyimg4 import IM4P
+from pathlib import Path
+
+im = IM4P(Path('/tmp/vphone-ios18-22F76/cloud/kernelcache.research.vresearch101').read_bytes())
+im.payload.decompress()
+Path('/tmp/vphone-ios18-22F76/raw/kernelcache.research.vresearch101.raw').write_bytes(im.payload.data)
+PY
+```
+
+Triage:
+
+```text
+/tmp/vphone-ios18-22F76/raw/kernelcache.research.vresearch101.raw
+Mach-O 64-bit kernel arm64e
+size: ~36 MB
+```
+
+### Patch `[8]`: Post-Validation NOP
+
+The anchor string still exists:
+
+```text
+"TXM [Error]: CodeSignature" @ file offset 0x7F329
+string ref sequence @ 0x0EACA98 / 0x0EACA9C
+```
+
+The old locator only accepted `tbnz` after that string reference. iOS 18.5 changed the branch shape:
+
+```asm
+0x0EACA98  adrp x0, #0x7f000
+0x0EACA9C  add  x0, x0, #0x329
+0x0EACAA0  bl   <log>
+0x0EACAA4  mov  w0, #5
+0x0EACAA8  ldrb w8, [x19, #6]
+0x0EACAAC  cmp  w8, #1
+0x0EACAB0  b.eq 0x0EACB98
+```
+
+The target block at `0x0EACB98` is the extra assertion/error path. The patch intent is still the same: after the TXM CodeSignature error log, avoid the extra validation branch and keep normal return behavior.
+
+Implementation change:
+
+```text
+KernelPatchPostValidation.patchPostValidationNOP()
+old accepted branch: tbnz only
+new accepted branches: tbnz, tbz, cbz, cbnz, b.eq, b.ne
+```
+
+The locator is still semantic:
+
+```text
+find "TXM [Error]: CodeSignature"
+find ADRP/ADD refs
+scan a small forward window after the ref
+NOP the first post-log conditional validation branch
+```
+
+It does not hardcode `0x0EACAB0`.
+
+Verified patch:
+
+```text
+0x0EACAB0: b.eq 0xeacb98 -> nop
+```
+
+### Patch `[16]`: APFS `get-dev-by-role` Entitlement Gate
+
+The APFS role lookup entitlement anchor also still exists:
+
+```text
+"com.apple.apfs.get-dev-by-role" @ file offset 0x581DAC
+string ref sequence @ 0x1F9E540 / 0x1F9E544
+```
+
+The 18.5 handler shape is tighter than the legacy scan expected:
+
+```asm
+0x1F9E540  adrp x1, #0x581000
+0x1F9E544  add  x1, x1, #0xdac ; "com.apple.apfs.get-dev-by-role"
+0x1F9E548  bl   <entitlement_check>
+0x1F9E54C  cbz  w0, 0x1F9E5B0
+```
+
+The branch target contains the entitlement-deny logging block. The observed 18.5 line ID in that block is:
+
+```text
+0x3EC2
+```
+
+Legacy kernels used different APFS line IDs:
+
+```text
+0x332D
+0x333B
+```
+
+Implementation change:
+
+```text
+KernelPatchApfsMount.patchHandleGetDevByRole()
+first preference: scan immediately after the entitlement string check for cbz/cbnz w0 into an entitlement-error block
+fallback: preserve the legacy whole-function scan for older kernels
+error-block line IDs: 0x332D, 0x333B, 0x3EC2
+```
+
+Again, the patch does not depend on the final 18.5 file offset. It depends on:
+
+```text
+string anchor -> nearby entitlement check -> branch on W0 -> recognized entitlement-deny block
+```
+
+Verified patch:
+
+```text
+0x1F9E54C: cbz w0, 0x1f9e5b0 -> nop
+```
+
+### Phase 4 Verification
+
+Direct kernel verifier:
+
+```bash
+.build/debug/vphone-cli patch-component \
+  --component kernel-base \
+  --input /tmp/vphone-ios18-22F76/cloud/kernelcache.research.vresearch101 \
+  --output /tmp/vphone-ios18-22F76/raw/kernelcache.research.vresearch101.basepatched.phase4.raw
+```
+
+Result:
+
+```text
+26 kernel patches emitted
+[8]  0x0EACAB0: b.eq 0xeacb98 -> nop
+[16] 0x1F9E54C: cbz w0, 0x1f9e5b0 -> nop
+```
+
+Full profile-aware dev pipeline verifier:
+
+```bash
+.build/debug/vphone-cli patch-firmware \
+  --vm-directory /tmp/vphone-ios18-vm-profile \
+  --variant dev \
+  --firmware-profile ios18-22F76
+```
+
+Result:
+
+```text
+All 9 components patched successfully
+61 total patch records
+```
+
+This is the first point where the Swift pipeline can produce a complete iOS 18.5 dev patch set without shim paths and without the known TXM/DeviceTree/kernel misses from the first dry-run.
+
+## Phase 5 Progress Log - Real Workspace Build
+
+Phase 5 moved from temp trees into the real repo `vm/` workspace.
+
+The workspace was created with:
+
+```bash
+make vm_new VM_DIR=vm
+```
+
+Resulting workspace contents:
+
+```text
+vm/AVPBooter.vresearch1.bin
+vm/AVPSEPBooter.vresearch1.bin
+vm/Disk.img
+vm/SEPStorage
+vm/config.plist
+```
+
+Then firmware preparation was run against the local 18.5 IPSWs, not downloaded URLs:
+
+```bash
+make fw_prepare \
+  VM_DIR=vm \
+  FIRMWARE_PROFILE=ios18-22F76 \
+  IPHONE_SOURCE=/Users/vinay/ipsw/iPhone17,3_18.5_22F76_Restore.ipsw \
+  CLOUDOS_SOURCE=/Users/vinay/ipsw/cloudOS_18.5_22F76.ipsw
+```
+
+The prepare flow copied and extracted both IPSWs, imported cloudOS firmware components into the iPhone restore tree, and generated hybrid plists:
+
+```text
+firmware profile: ios18-22F76
+cloudOS vresearch101ap: release=#2, research=#3 [boot]
+cloudOS vresearch101ap: release=#2, research=#3 [runtime]
+iPhone erase: #0
+RecoveryMode: absent / skipped for vresearch101ap
+Restore directory: vm/iPhone17,3_18.5_22F76_Restore
+```
+
+Generated real-workspace component paths:
+
+```text
+DeviceTree:         Firmware/all_flash/DeviceTree.vresearch101ap.im4p
+RestoreDeviceTree:  Firmware/all_flash/DeviceTree.vresearch101ap.im4p
+KernelCache:        kernelcache.research.vresearch101
+RestoreKernelCache: kernelcache.release.vresearch101
+iBSS:               Firmware/dfu/iBSS.vresearch101.RELEASE.im4p
+iBEC:               Firmware/dfu/iBEC.vresearch101.RELEASE.im4p
+LLB:                Firmware/all_flash/LLB.vresearch101.RELEASE.im4p
+iBoot:              Firmware/all_flash/iBoot.vresearch101.RESEARCH_RELEASE.im4p
+SEP:                Firmware/all_flash/sep-firmware.vresearch101.RELEASE.im4p
+StaticTrustCache:   Firmware/044-89310-099.dmg.aea.trustcache
+RestoreTrustCache:  Firmware/044-89333-100.dmg.trustcache
+```
+
+`BuildManifest.plist` does not carry a top-level `DeviceMap`; the generated `Restore.plist` does:
+
+```text
+d47ap
+vresearch101ap
+```
+
+The real dev patch run was then applied directly to `vm/`:
+
+```bash
+make fw_patch_dev VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76
+```
+
+Result:
+
+```text
+All 9 components patched successfully
+61 total patch records
+```
+
+Component counts:
+
+```text
+AVPBooter:   1
+iBSS:        4
+iBEC:        7
+LLB:         9
+TXM:         12
+kernelcache: 26
+DeviceTree:  2
+```
+
+The LLB patcher still reports that several old rootfs line-ID anchors are absent:
+
+```text
+mov w8, #0x3b7: absent
+mov w8, #0x3c2: absent
+mov w8, #0x110: absent
+```
+
+But it does emit the rootfs size-check and panic-bypass patches:
+
+```text
+0x027548: b.hs 0x276a4 -> nop
+0x017DA4: cbnz w0, 0x17db8 -> nop
+```
+
+That keeps LLB as a boot-triage risk, not a pipeline blocker.
+
+High-signal real-workspace offsets matched the clean temp verifier:
+
+```text
+TXM developer mode:       0x01B9C4  cbz w9, 0x1b9f4 -> b 0x1b9f4
+kernel post-validation:   0x0EACAB0 b.eq 0xeacb98 -> nop
+kernel APFS role gate:    0x1F9E54C cbz w0, 0x1f9e5b0 -> nop
+DeviceTree serial:        0x000128
+DeviceTree artwork:       0x00A964
+```
+
+The first ramdisk build attempt exposed a script bug before it reached firmware work:
+
+```text
+NameError: name 'shsh_dir' is not defined
+```
+
+That was in the missing-SHSH error path. The code now searches both supported SHSH locations:
+
+```text
+vm/*.shsh
+vm/*.shsh2
+vm/shsh/*.shsh
+vm/shsh/*.shsh2
+```
+
+After the fix, `ramdisk_build` fails cleanly with the actual prerequisite:
+
+```text
+No SHSH blob found in /Users/vinay/vphone-cli/vm/ or /Users/vinay/vphone-cli/vm/shsh/
+Run 'make restore_get_shsh' first, or place your .shsh/.shsh2 file in the VM directory.
+```
+
+Host preflight is not the blocker now. `make boot_host_preflight VM_DIR=vm` reports:
+
+```text
+model: MacBook Air
+kern.hv_vmm_present: 0
+SIP: disabled
+allow-research-guests: enabled
+current kern.bootargs: amfi_get_out_of_my_way=1 -v
+signed release help: exit 0
+```
+
+So the next Phase 5 move is to boot DFU, read `vm/udid-prediction.txt`, fetch SHSH, then rerun ramdisk build.
+
+DFU boot succeeded far enough to generate the deterministic identity file:
+
+```text
+vm/udid-prediction.txt
+UDID=0000FE01-FD01E5DAE1ED866F
+CPID=0x0000FE01
+ECID=0xFD01E5DAE1ED866F
+MACHINE_IDENTIFIER=config.plist
+```
+
+Recovery probing against that ECID succeeded, and SHSH fetch produced:
+
+```text
+vm/FD01E5DAE1ED866F.shsh
+```
+
+With SHSH present, ramdisk build reaches real artifact generation. Completed stages:
+
+```text
+iBSS.vresearch101.RELEASE.img4
+iBEC.vresearch101.RELEASE.img4
+sptm.vresearch1.release.img4
+DeviceTree.vresearch101ap.img4
+sep-firmware.vresearch101.RELEASE.img4
+txm.img4
+krnl.ramdisk.img4
+krnl.img4
+```
+
+The builder derives `krnl.ramdisk.img4` from the pristine cached profile kernel:
+
+```text
+ipsws/045c5b04d14892c444162a975b69ba46438656e31ee6219173d4ceb3eb99acf6/kernelcache.research.vresearch101
+```
+
+Then it also builds `krnl.img4` from the patched restore kernel:
+
+```text
+vm/iPhone17,3_18.5_22F76_Restore/kernelcache.research.vresearch101
+```
+
+The remaining ramdisk blocker is not firmware pathing or signing. It is local privilege for mounting the restore ramdisk:
+
+```text
+sudo -n hdiutil attach \
+  -mountpoint /Users/vinay/vphone-cli/vm/SSHRD \
+  /Users/vinay/vphone-cli/vm/ramdisk_builder_temp/ramdisk.raw.dmg \
+  -nobrowse \
+  -owners off
+```
+
+Without cached sudo credentials, `sudo -n` returns:
+
+```text
+sudo: a password is required
+```
+
+`ramdisk_build.py` now preflights this condition before doing expensive signing work. The next run should be one of:
+
+```bash
+sudo make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
+
+# or, for non-interactive automation:
+VPHONE_SUDO_PASSWORD='<password>' make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
+```
+
+The DFU VM was stopped after SHSH acquisition. No `vphone-cli --dfu` process remained after cleanup.
+
+After SHSH acquisition, DFU was restarted and the real restore was executed:
+
+```bash
+make restore \
+  VM_DIR=vm \
+  RESTORE_UDID=0000FE01-FD01E5DAE1ED866F \
+  RESTORE_ECID=0xFD01E5DAE1ED866F
+```
+
+The restore command exited 0. It transferred the large filesystem list:
+
+```text
+54272/54272
+verify-restore: 100/100
+```
+
+The post-restore boot log is more useful than the restore command output. It shows the kernel getting much farther than the earlier patch-pipeline gates:
+
+```text
+Got boot device = ... AppleVirtIOStorageDevice ...
+BSD root: disk0s1
+apfs_vfsop_mountroot: apfs: mountroot called!
+disk1s1 Rooting from snapshot with xid 61.
+authenticate_root_hash: disk1s1:61 successfully validated on-disk root hash
+mount-complete volume System
+libignition boot spec name: local
+```
+
+That is a strong signal that the 18.5 profile, kernel patch set, DeviceTree selection, and restore manifest are coherent enough for disk boot and APFS root authentication.
+
+The failure happens after that, at userspace start:
+
+```text
+libignition: cryptex1 sniff: ignition failed: 8
+libignition: ignition boot failed: 8
+Library not loaded: /usr/lib/libSystem.B.dylib
+Reason: tried: '/usr/lib/libSystem.B.dylib' (no such file, no dyld cache)
+panic: initproc failed to start
+Panicked task: pid 1 launchd
+```
+
+Current interpretation: this is not evidence that the Phase 1-4 firmware patching failed. It is a post-restore userspace completeness issue, most likely because the normal workflow has not yet completed the ramdisk/CFW stage that deploys Cryptex/SystemOS/AppOS and launchd modifications.
+
+The next verifier is therefore still ramdisk build with sudo, then `ramdisk_send` and CFW install. If the same launchd/dyld-cache panic happens after CFW install, then it becomes a confirmed iOS 18.5 userspace packaging blocker.
+
 ## Working Notes For Next Session
 
-Do not start by changing offsets. Start with profiles.
+Do not start by changing offsets. Phase 1 profile plumbing, Phase 2 TXM retargeting, Phase 3 DeviceTree profile patching, and Phase 4 kernel miss retargeting are done. Phase 5 has created, prepared, dev-patched, DFU-booted, fetched SHSH, and restored the real `vm/` workspace. Disk boot reaches APFS root authentication but panics at userspace because dyld/libSystem is missing before CFW install. Ramdisk build is blocked on sudo access for `hdiutil attach`.
 
 Concrete next commands/targets:
 
 ```bash
-# manifest/profile failure reproduction
-python3 scripts/fw_manifest.py /tmp/vphone-ios18-manifest-test/iphone /tmp/vphone-ios18-manifest-test/cloud
-
-# TXM IDA target already decoded
-/tmp/vphone-ios18-22F76/raw/txm.cloud.research.raw
-
-# kernel IDA target for next slice
-/tmp/vphone-ios18-22F76/cloud/kernelcache.research.vresearch101
+# real profile-aware firmware build
+sudo make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
 ```
 
-When patch logic changes, update [0_binary_patch_comparison.md](0_binary_patch_comparison.md). For this pass, only research docs changed.
+When patch logic changes, update [0_binary_patch_comparison.md](0_binary_patch_comparison.md).

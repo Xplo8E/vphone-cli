@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build_ramdisk.py — Build a signed SSH ramdisk for vphone600.
+build_ramdisk.py — Build a signed SSH ramdisk for vphone firmware profiles.
 
 Expects the VM restore tree to have already been patched by the Swift firmware pipeline.
 Extracts patched components, signs with SHSH, and builds SSH ramdisk.
@@ -9,7 +9,7 @@ Usage:
     python3 build_ramdisk.py [vm_directory]
 
 Directory structure:
-    ./shsh/              — SHSH blobs (auto-discovered)
+    ./*.shsh[2] or ./shsh/*.shsh[2] — SHSH blobs (auto-discovered)
     ./ramdisk_input/     — Tools and SSH resources (auto-setup from CFW)
     ./ramdisk_builder_temp/ — Intermediate .raw files (cleaned up)
     ./Ramdisk/           — Final signed IMG4 output
@@ -79,6 +79,29 @@ SIGN_DIRS = [
 INPUT_ARCHIVE = "ramdisk_input.tar.zst"
 PATCHER_BINARY_ENV = "VPHONE_PATCHER_BINARY"
 
+PROFILES = {
+    "legacy": {
+        "kernel_research_path": "kernelcache.research.vphone600",
+        "device_tree_path": "Firmware/all_flash/DeviceTree.vphone600ap.im4p",
+        "device_tree_img4": "DeviceTree.vphone600ap.img4",
+    },
+    "ios18-22F76": {
+        "kernel_research_path": "kernelcache.research.vresearch101",
+        "device_tree_path": "Firmware/all_flash/DeviceTree.vresearch101ap.im4p",
+        "device_tree_img4": "DeviceTree.vresearch101ap.img4",
+    },
+}
+
+
+def selected_profile():
+    name = os.environ.get("FIRMWARE_PROFILE", "legacy").strip() or "legacy"
+    if name not in PROFILES:
+        print(f"[-] Unknown FIRMWARE_PROFILE={name!r}. Expected one of: {', '.join(sorted(PROFILES))}")
+        sys.exit(1)
+    profile = dict(PROFILES[name])
+    profile["name"] = name
+    return profile
+
 
 # ══════════════════════════════════════════════════════════════════
 # Setup — extract ramdisk_input/ from zstd archive if needed
@@ -113,12 +136,19 @@ def setup_input(vm_dir):
 # ══════════════════════════════════════════════════════════════════
 
 
-def find_shsh(shsh_dir):
-    """Find first SHSH blob in directory."""
-    for ext in ("*.shsh", "*.shsh2"):
-        matches = sorted(glob.glob(os.path.join(shsh_dir, ext)))
-        if matches:
-            return matches[0]
+def find_shsh(vm_dir):
+    """Find first SHSH blob in the VM directory or its optional shsh/ subdir."""
+    search_dirs = [
+        vm_dir,
+        os.path.join(vm_dir, "shsh"),
+    ]
+    for shsh_dir in search_dirs:
+        if not os.path.isdir(shsh_dir):
+            continue
+        for ext in ("*.shsh", "*.shsh2"):
+            matches = sorted(glob.glob(os.path.join(shsh_dir, ext)))
+            if matches:
+                return matches[0]
     return None
 
 
@@ -156,16 +186,45 @@ def run(cmd, **kwargs):
     return subprocess.run(cmd, check=True, **kwargs)
 
 
+def sudo_command(cmd):
+    """Build a sudo command matching the current interactive/non-interactive mode."""
+    if SUDO_PASSWORD:
+        return ["sudo", "-S", *cmd]
+    if not sys.stdin.isatty():
+        return ["sudo", "-n", *cmd]
+    return ["sudo", *cmd]
+
+
 def run_sudo(cmd, **kwargs):
     """Run sudo command non-interactively using VPHONE_SUDO_PASSWORD."""
     if SUDO_PASSWORD:
         return run(
-            ["sudo", "-S", *cmd],
+            sudo_command(cmd),
             input=f"{SUDO_PASSWORD}\n",
             text=True,
             **kwargs,
         )
-    return run(["sudo", *cmd], **kwargs)
+    return run(sudo_command(cmd), **kwargs)
+
+
+def check_sudo_access():
+    """Fail early if this non-interactive run cannot execute required hdiutil sudo steps."""
+    if SUDO_PASSWORD:
+        result = subprocess.run(
+            ["sudo", "-S", "-v"],
+            input=f"{SUDO_PASSWORD}\n",
+            text=True,
+            capture_output=True,
+        )
+    elif sys.stdin.isatty():
+        return
+    else:
+        result = subprocess.run(["sudo", "-n", "true"], capture_output=True)
+
+    if result.returncode != 0:
+        print("[-] ramdisk_build requires sudo for hdiutil attach/detach.")
+        print("    Run with cached sudo credentials, run via sudo, or set VPHONE_SUDO_PASSWORD.")
+        sys.exit(1)
 
 
 def ensure_path_within_vm(path, vm_dir, label):
@@ -342,7 +401,7 @@ def build_kernel_img4(kernel_src, output_dir, temp_dir, im4m_path, output_name, 
 
 
 def _find_pristine_cloudos_kernel():
-    """Find a pristine CloudOS vphone600 research kernel from project ipsws/."""
+    """Find a pristine CloudOS research kernel from project ipsws/."""
     env_path = os.environ.get("RAMDISK_BASE_KERNEL", "").strip()
     if env_path:
         p = os.path.abspath(env_path)
@@ -351,9 +410,12 @@ def _find_pristine_cloudos_kernel():
         print(f"  [!] RAMDISK_BASE_KERNEL set but not found: {p}")
 
     project_root = os.path.abspath(os.path.join(_SCRIPT_DIR, ".."))
+    kernel_rel = selected_profile()["kernel_research_path"]
+    kernel_name = os.path.basename(kernel_rel)
     patterns = [
-        os.path.join(project_root, "ipsws", "PCC-CloudOS*", "kernelcache.research.vphone600"),
-        os.path.join(project_root, "ipsws", "*CloudOS*", "kernelcache.research.vphone600"),
+        os.path.join(project_root, "ipsws", "PCC-CloudOS*", kernel_name),
+        os.path.join(project_root, "ipsws", "*CloudOS*", kernel_name),
+        os.path.join(project_root, "ipsws", "*", kernel_name),
     ]
     for pattern in patterns:
         matches = sorted(glob.glob(pattern))
@@ -380,7 +442,10 @@ def derive_ramdisk_kernel_source(kc_src, temp_dir):
         return None
 
     print(f"  deriving ramdisk kernel from pristine source: {pristine}")
-    out_path = os.path.join(temp_dir, f"kernelcache.research.vphone600{RAMDISK_KERNEL_SUFFIX}")
+    out_path = os.path.join(
+        temp_dir,
+        f"{os.path.basename(pristine)}{RAMDISK_KERNEL_SUFFIX}",
+    )
     run_swift_patch_component("kernel-base", pristine, out_path)
     print("  [+] base kernel patches applied for ramdisk variant")
     return out_path
@@ -490,6 +555,7 @@ def build_ramdisk(restore_dir, im4m_path, vm_dir, input_dir, output_dir, temp_di
     ensure_path_within_vm(mountpoint, vm_dir, "Ramdisk mountpoint")
     os.makedirs(mountpoint, exist_ok=True)
 
+    mounted = False
     try:
         # Mount, create expanded copy
         print("  Mounting base ramdisk...")
@@ -505,6 +571,7 @@ def build_ramdisk(restore_dir, im4m_path, vm_dir, input_dir, output_dir, temp_di
                 "off",
             ]
         )
+        mounted = True
 
         print("  Creating expanded ramdisk (254 MB)...")
         run_sudo(
@@ -529,6 +596,7 @@ def build_ramdisk(restore_dir, im4m_path, vm_dir, input_dir, output_dir, temp_di
             ]
         )
         run_sudo(["hdiutil", "detach", "-force", mountpoint])
+        mounted = False
 
         # Mount expanded, inject SSH
         print("  Mounting expanded ramdisk...")
@@ -544,6 +612,7 @@ def build_ramdisk(restore_dir, im4m_path, vm_dir, input_dir, output_dir, temp_di
                 "off",
             ]
         )
+        mounted = True
 
         print("  Injecting SSH tools...")
         ssh_tar = os.path.join(input_dir, "ssh.tar.gz")
@@ -602,7 +671,12 @@ def build_ramdisk(restore_dir, im4m_path, vm_dir, input_dir, output_dir, temp_di
         print(f"  [+] trustcache.img4")
 
     finally:
-        run_sudo(["hdiutil", "detach", "-force", mountpoint], capture_output=True)
+        if mounted:
+            subprocess.run(
+                sudo_command(["hdiutil", "detach", "-force", mountpoint]),
+                capture_output=True,
+                check=False,
+            )
 
     # Shrink and sign ramdisk
     run_sudo(["hdiutil", "resize", "-sectors", "min", ramdisk_custom])
@@ -628,6 +702,7 @@ def build_ramdisk(restore_dir, im4m_path, vm_dir, input_dir, output_dir, temp_di
 
 def main():
     vm_dir = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.getcwd())
+    profile = selected_profile()
 
     if not os.path.isdir(vm_dir):
         print(f"[-] Not a directory: {vm_dir}")
@@ -636,8 +711,8 @@ def main():
     # Find SHSH
     shsh_path = find_shsh(vm_dir)
     if not shsh_path:
-        print(f"[-] No SHSH blob found in {shsh_dir}/")
-        print("    Place your .shsh file in the shsh/ directory.")
+        print(f"[-] No SHSH blob found in {vm_dir}/ or {os.path.join(vm_dir, 'shsh')}/")
+        print("    Run 'make restore_get_shsh' first, or place your .shsh/.shsh2 file in the VM directory.")
         sys.exit(1)
 
     # Find restore directory
@@ -648,6 +723,7 @@ def main():
 
     # Check host tools
     check_prerequisites()
+    check_sudo_access()
 
     # Setup input resources (copy from CFW if needed)
     print(f"[*] Setting up {INPUT_DIR}/...")
@@ -666,6 +742,7 @@ def main():
     print(f"[*] VM directory:      {vm_dir}")
     print(f"[*] Restore directory: {restore_dir}")
     print(f"[*] SHSH blob:         {shsh_path}")
+    print(f"[*] Firmware profile:  {profile['name']}")
 
     # Extract IM4M from SHSH
     im4m_path = os.path.join(temp_dir, "vphone.im4m")
@@ -743,17 +820,17 @@ def main():
     dt_src = find_file(
         restore_dir,
         [
-            "Firmware/all_flash/DeviceTree.vphone600ap.im4p",
+            profile["device_tree_path"],
         ],
         "DeviceTree",
     )
     sign_img4(
         dt_src,
-        os.path.join(output_dir, "DeviceTree.vphone600ap.img4"),
+        os.path.join(output_dir, profile["device_tree_img4"]),
         im4m_path,
         tag="rdtr",
     )
-    print(f"  [+] DeviceTree.vphone600ap.img4")
+    print(f"  [+] {profile['device_tree_img4']}")
 
     # ── 5. SEP (sign only) ───────────────────────────────────────
     print(f"\n{'=' * 60}")
@@ -809,7 +886,7 @@ def main():
     kc_src = find_file(
         restore_dir,
         [
-            "kernelcache.research.vphone600",
+            profile["kernel_research_path"],
         ],
         "kernelcache",
     )
