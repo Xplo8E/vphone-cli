@@ -171,6 +171,14 @@
 | `DEV+RAMDISK` | `make fw_patch_dev` | release TXM + base TXM patch (1) | base kernel (28), same derivation rule                                           | restore kernel from `fw_patch_dev` (28)   | `krnl.ramdisk.img4` preferred, fallback `krnl.img4` |
 | `JB+RAMDISK`  | `make fw_patch_jb`  | release TXM + base TXM patch (1) | base kernel (28), same derivation rule                                           | restore kernel from `fw_patch_jb` (28+59) | `krnl.ramdisk.img4` preferred, fallback `krnl.img4` |
 
+### iOS 18.5 `ios18-22F76` Ramdisk Kernel Exception
+
+The legacy matrix above is still valid for the vphone600 path. The 18.5 `vresearch101` profile is intentionally different after runtime validation:
+
+| Profile        | `Ramdisk/krnl.ramdisk.img4` behavior | Effective kernel used by `ramdisk_send.sh` | Evidence |
+| -------------- | ------------------------------------- | ------------------------------------------ | -------- |
+| `ios18-22F76`  | Do not generate/prefer it             | `krnl.img4` from the restore-patched kernel | Generated `krnl.ramdisk.img4` completed iBoot transfer but hung after `bootx` with no kernel serial/usbmux. `krnl.img4` booted the SSH ramdisk to `SSHRD_Script` and SSH `ready` on port 2222. |
+
 ## Cross-Version Dynamic Snapshot
 
 | Case                | TXM_JB_PATCHES | KERNEL_JB_PATCHES |

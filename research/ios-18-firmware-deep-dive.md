@@ -1069,14 +1069,100 @@ Without cached sudo credentials, `sudo -n` returns:
 sudo: a password is required
 ```
 
-`ramdisk_build.py` now preflights this condition before doing expensive signing work. The next run should be one of:
+`ramdisk_build.py` now preflights this condition before doing expensive signing work. The Makefile also refuses `sudo make ramdisk_build` before invoking SwiftPM. This matters because SwiftPM writes into `.build/`; running the target as root can leave root-owned Capstone/SwiftPM intermediates that later break normal builds with `Operation not permitted`.
+
+Correct operator flow:
 
 ```bash
-sudo make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
+make patcher_build
+sudo -v
+make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
 
 # or, for non-interactive automation:
 VPHONE_SUDO_PASSWORD='<password>' make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
 ```
+
+Do not run `sudo make ramdisk_build`. If that mistake already happened, remove or chown the root-owned `.build/` files and rebuild the patcher as the normal user before retrying.
+
+After caching sudo with `sudo -v`, the normal-user ramdisk build completed:
+
+```bash
+make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
+```
+
+Final `vm/Ramdisk/` artifacts:
+
+```text
+DeviceTree.vresearch101ap.img4                    63,385 bytes
+iBEC.vresearch101.RELEASE.img4                   573,891 bytes
+iBSS.vresearch101.RELEASE.img4                   573,891 bytes
+krnl.img4                                     11,627,059 bytes
+krnl.ramdisk.img4                             12,537,805 bytes
+ramdisk.img4                                  266,344,013 bytes
+sep-firmware.vresearch101.RELEASE.img4         3,069,568 bytes
+sptm.vresearch1.release.img4                      98,846 bytes
+trustcache.img4                                   16,177 bytes
+txm.img4                                         154,205 bytes
+```
+
+Cleanup verifier:
+
+```text
+No /Users/vinay/vphone-cli/vm/SSHRD mount remains.
+No ramdisk_builder_temp/ directory remains.
+```
+
+### Ramdisk Send Runtime Split
+
+The first `ramdisk_send` attempt used the generated ramdisk-specific kernel:
+
+```text
+Ramdisk/krnl.ramdisk.img4
+```
+
+That send completed all iBoot transfer stages and issued `bootx`. Serial showed iBSS/iBEC, accepted ramdisk and DeviceTree, then stopped after iBoot handoff:
+
+```text
+loaded ramdisk at ...
+loaded device tree at ...
+======== End of iBoot serial output. ========
+```
+
+No Darwin kernel banner, `irecv`, or usbmux endpoint followed. The VM process stayed alive. Current state for that path: `candidate` early kernel handoff/hang for the derived `krnl.ramdisk.img4`.
+
+The second attempt forced fallback to:
+
+```text
+Ramdisk/krnl.img4
+```
+
+That image is built from the restore-patched `kernelcache.research.vresearch101`, which had already proven it could boot far enough for disk-root/APFS validation. With `krnl.ramdisk.img4` moved aside, `ramdisk_send` selected `krnl.img4` and the SSH ramdisk booted:
+
+```text
+iBoot version: iBoot-11881.122.1
+Darwin Image4 Extension Version 7.0.0
+AMFI booted with research mode
+AMFI: Enabling developer mode since we are restoring....
+BSD root: md0, major 3, minor 0
+container_rootmount:2603: boot from ramdisk /dev/md0
+apfs_vfsop_mount: mount-complete volume ramdisk
+libignition boot spec name: ramdisk
+boot-args = serial=3 rd=md0 debug=0x2014e -v wdt=-1 rd=md0 -progress -restore
+Starting ramdisk tool
+USB init done
+SSHRD_Script by Nathan (verygenericname)
+Running server
+```
+
+Host-side verifier:
+
+```text
+usbmux-list -> 0000FE01-FD01E5DAE1ED866F
+pymobiledevice3 usbmux forward --serial 0000FE01-FD01E5DAE1ED866F 2222 22
+ssh root@127.0.0.1 -p 2222 -> ready
+```
+
+Implementation decision: for `ios18-22F76`, the profile now disables generated `krnl.ramdisk.img4` creation and `ramdisk_send` ignores stale `krnl.ramdisk.img4` if one exists. Legacy keeps the old preference because that behavior is documented for the existing vphone600 path.
 
 The DFU VM was stopped after SHSH acquisition. No `vphone-cli --dfu` process remained after cleanup.
 
@@ -1121,19 +1207,63 @@ panic: initproc failed to start
 Panicked task: pid 1 launchd
 ```
 
-Current interpretation: this is not evidence that the Phase 1-4 firmware patching failed. It is a post-restore userspace completeness issue, most likely because the normal workflow has not yet completed the ramdisk/CFW stage that deploys Cryptex/SystemOS/AppOS and launchd modifications.
+Current interpretation: this was not evidence that the Phase 1-4 firmware patching failed. It was a pre-CFW userspace completeness failure: the restored disk could authenticate and mount the sealed system snapshot, but `launchd` could not find the dyld cache / `libSystem` path because the Cryptex payloads had not been installed yet.
 
-The next verifier is therefore still ramdisk build with sudo, then `ramdisk_send` and CFW install. If the same launchd/dyld-cache panic happens after CFW install, then it becomes a confirmed iOS 18.5 userspace packaging blocker.
+The CFW install was then run from the SSH ramdisk:
+
+```bash
+make cfw_install_dev VM_DIR=vm SSH_PORT=2222
+```
+
+That completed. The high-signal stages were:
+
+```text
+SystemOS Cryptex -> /mnt1/System/Cryptexes/OS
+AppOS Cryptex    -> /mnt1/System/Cryptexes/App
+launchd jetsam guard:        0xD618 tbnz -> b
+debugserver entitlements:    task_for_pid-allow added
+APFS update snapshot:        renamed to orig-fs
+launchd_cache_loader gate:   0xB58 cbz -> nop
+mobileactivationd:           0x17320 mov x0, #1; ret
+LaunchDaemons:               bash/dropbear/trollvnc/vphoned/rpcserver_ios injected
+```
+
+Transient `ssh`/`scp` disconnects happened during the copy/patch stages, but the script's retry loop recovered and the command reached the normal completion path:
+
+```text
+[+] CFW installation complete!
+Reboot the device for changes to take effect.
+After boot, SSH will be available on port 22222 (password: alpine)
+```
+
+The next verifier is now first normal boot after CFW. The specific regression test is the earlier `launchd` panic: if the boot still reports `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, or `libignition ... cryptex1 ... failed`, then the CFW/Cryptex packaging path becomes the active confirmed blocker. If it passes that point, the next gates are activation, LaunchDaemon startup, and host-to-guest control over `vphoned`.
 
 ## Working Notes For Next Session
 
-Do not start by changing offsets. Phase 1 profile plumbing, Phase 2 TXM retargeting, Phase 3 DeviceTree profile patching, and Phase 4 kernel miss retargeting are done. Phase 5 has created, prepared, dev-patched, DFU-booted, fetched SHSH, and restored the real `vm/` workspace. Disk boot reaches APFS root authentication but panics at userspace because dyld/libSystem is missing before CFW install. Ramdisk build is blocked on sudo access for `hdiutil attach`.
+Do not start by changing offsets. Phase 1 profile plumbing, Phase 2 TXM retargeting, Phase 3 DeviceTree profile patching, and Phase 4 kernel miss retargeting are done. Phase 5 has created, prepared, dev-patched, DFU-booted, fetched SHSH, restored the real `vm/` workspace, built the SSH ramdisk, booted it using `krnl.img4`, and completed `cfw_install_dev`. Disk boot reached APFS root authentication before CFW but panicked because Cryptex/dyld content was not yet deployed. That exact panic must now be re-tested after CFW.
 
 Concrete next commands/targets:
 
 ```bash
-# real profile-aware firmware build
-sudo make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F
+# first normal boot after CFW; Vinay runs this locally to watch the console
+make boot VM_DIR=vm
+```
+
+Good signs:
+
+```text
+BSD root: disk0s1
+authenticate_root_hash ... successfully validated
+libignition boot spec name: local
+```
+
+Bad old failure signature:
+
+```text
+libignition: cryptex1 sniff: ignition failed
+Library not loaded: /usr/lib/libSystem.B.dylib
+Reason: ... no dyld cache
+panic: initproc failed to start
 ```
 
 When patch logic changes, update [0_binary_patch_comparison.md](0_binary_patch_comparison.md).

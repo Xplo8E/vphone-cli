@@ -1,6 +1,6 @@
 # iOS 18.5 Support Preparation - 22F76
 
-Last updated: 2026-04-21
+Last updated: 2026-04-22
 
 This is the control document for the iOS 18 support branch. Keep this file focused on state, blockers, decisions, and the execution plan. The deeper narrative notes live in [ios-18-firmware-deep-dive.md](ios-18-firmware-deep-dive.md).
 
@@ -26,7 +26,9 @@ The working assumption before testing was simple: reuse the existing vphone600 f
 | confirmed | Phase 3 DeviceTree profile retargeting works for `vresearch101ap`. | `DeviceTreePatcherTests` prove legacy still requires legacy nodes while `ios18-22F76` skips missing `buttons`/notch nodes. `patch-component --component device-tree --firmware-profile ios18-22F76` patches the real 18.5 DeviceTree with 2 records. Full `patch-firmware --variant dev --firmware-profile ios18-22F76` completes successfully with 59 total records. | DeviceTree is no longer a pipeline blocker. Policy knobs such as `chosen/debug-enabled` and `chosen/amfi-allows-trust-cache-load` remain intentionally unchanged pending boot evidence. |
 | confirmed | Phase 4 kernel misses `[8]` and `[16]` are retargeted for `kernelcache.research.vresearch101`. | IDA MCP was attempted on the decompressed kernel but timed out, so the final evidence is deterministic Mach-O/Capstone analysis. Patch `[8]` now finds the 18.5 `TXM [Error]: CodeSignature` post-log `b.eq` at file offset `0x0EACAB0` and NOPs it. Patch `[16]` now finds the `com.apple.apfs.get-dev-by-role` entitlement-deny `cbz w0` at `0x1F9E54C` and NOPs it. A direct kernel-base component run emits 26 kernel records, and a full profile-aware dev patch run completes all 9 components with 61 total records. | The Swift patch pipeline now has no known Phase 1-4 blocker for producing a profile-aware iOS 18.5 dev firmware tree. Boot/runtime validation is still pending. |
 | confirmed | Phase 5 restore reaches disk boot and APFS root authentication on the real `vm/` workspace. | `make restore` exited 0 for UDID `0000FE01-FD01E5DAE1ED866F` / ECID `0xFD01E5DAE1ED866F`. Post-restore boot logs show `BSD root: disk0s1`, `disk1s1 Rooting from snapshot with xid 61`, and `authenticate_root_hash ... successfully validated on-disk root hash`. | The generated 18.5 manifest, boot chain, DeviceTree profile, and kernel patches are coherent enough for restore and disk-root handoff. |
-| candidate | Post-restore userspace is incomplete before CFW install. | The post-restore local boot panics in `launchd`: `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, `initproc failed to start`. | Do not chase this as a kernel patch failure yet. The normal flow still needs ramdisk + CFW install to deploy Cryptex/SystemOS/AppOS and launchd modifications. |
+| confirmed | Phase 5 SSH ramdisk builds and boots with the restore-patched kernel for the real 18.5 profile. | `make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F` completed after `sudo -v`. The first `ramdisk_send` using derived `krnl.ramdisk.img4` hung after `bootx` with no kernel serial. Retrying with `krnl.img4` booted the SSH ramdisk: serial reached `BSD root: md0`, `SSHRD_Script`, `Running server`; usbmux exposed `0000FE01-FD01E5DAE1ED866F`; SSH answered `ready` on `127.0.0.1:2222`. | The iOS 18.5 profile now disables generated `krnl.ramdisk.img4` preference and uses `krnl.img4` for ramdisk boot. |
+| confirmed | Phase 5 dev CFW install completed over the SSH ramdisk. | `make cfw_install_dev VM_DIR=vm SSH_PORT=2222` completed. It installed SystemOS/AppOS Cryptexes, patched `launchd` jetsam guard, patched debugserver entitlements, renamed the APFS update snapshot to `orig-fs`, patched `seputil`, installed GPU bundle and iosbinpack64, patched `launchd_cache_loader`, patched `mobileactivationd`, installed `vphoned` plus dev LaunchDaemons, patched `launchd.plist`, unmounted device filesystems, and halted the ramdisk. Transient SSH/SCP drops recovered through the existing retry loop. | The next runtime gate is first normal boot after CFW. This is where the previous dyld/libSystem panic must be re-tested. |
+| candidate | Post-restore userspace was incomplete before CFW install. | The pre-CFW post-restore boot panicked in `launchd`: `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, `initproc failed to start`. | This must now be re-tested after CFW install. If it persists, it becomes a confirmed iOS 18.5 userspace packaging blocker. |
 | confirmed | cloudOS 18.5 `22F76` has no `vphone600ap` build identity. | `BuildManifest.plist` contains `j236cap`, `j475dap`, and `vresearch101ap`; no `vphone600ap`. Running current `scripts/fw_manifest.py` against 18.5 manifests throws `KeyError: 'No release identity for DeviceClass=vphone600ap'`. | Current `fw_prepare` hybrid manifest generation cannot work unchanged on these 18.5 files. |
 | confirmed | Existing pipeline hardcodes vphone600 runtime paths. | `sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift` searches `kernelcache.research.vphone600` and `Firmware/all_flash/DeviceTree.vphone600ap.im4p`. `scripts/ramdisk_build.py` has the same vphone600 assumptions. | We need variant-aware paths or an explicit firmware profile before real 18.5 patching. |
 | confirmed | 18.5 cloud TXM is Mach-O arm64e, not the flat-offset model assumed by parts of `TXMDevPatcher`. | `file` reports Mach-O arm64e. `otool -hv` reports `MH_MAGIC_64 ARM64 subtype E caps KER00 EXECUTE PIE`. IDA sees strings/xrefs, but the Swift dev patcher reports string refs missing. | Base TXM patch works, but dev-only TXM patches need Mach-O VA/file-offset aware string reference resolution. |
@@ -509,7 +511,7 @@ Progress log:
   - `krnl.ramdisk.img4`
   - `krnl.img4`
 - 2026-04-21 23:52 - Ramdisk stage 8 is blocked at `sudo -n hdiutil attach ... ramdisk.raw.dmg`; the final missing artifacts are `ramdisk.img4` and `trustcache.img4`.
-- 2026-04-21 23:52 - Hardened `scripts/ramdisk_build.py` so non-interactive runs fail early unless sudo credentials are already cached, the command runs via `sudo`, or `VPHONE_SUDO_PASSWORD` is set.
+- 2026-04-21 23:52 - Hardened `scripts/ramdisk_build.py` so non-interactive runs fail early unless sudo credentials are already cached, the command runs from an interactive terminal, or `VPHONE_SUDO_PASSWORD` is set.
 - 2026-04-21 23:53 - Stopped the DFU VM process after SHSH acquisition. No `vphone-cli --dfu` process remains.
 - 2026-04-22 00:02 - Restarted DFU and ran `make restore VM_DIR=vm RESTORE_UDID=0000FE01-FD01E5DAE1ED866F RESTORE_ECID=0xFD01E5DAE1ED866F`. Restore exited 0 after transferring `54272` filesystem items and completing `verify-restore`.
 - 2026-04-22 00:02 - Post-restore boot reached the restored disk:
@@ -519,6 +521,35 @@ Progress log:
   - `authenticate_root_hash: disk1s1:61 successfully validated on-disk root hash`
   - `libignition` boot spec `local`
 - 2026-04-22 00:02 - Post-restore boot then panicked in `launchd` because userspace was incomplete: `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, `initproc failed to start`. Treat this as a runtime blocker to validate after ramdisk/CFW install, not a firmware patch pipeline failure yet.
+- 2026-04-22 07:35 - Corrected the operator flow after a `sudo make ramdisk_build ...` attempt forced SwiftPM to rebuild `.build/` as root and left root-owned Capstone object files. Removed the stale root-owned build outputs, rebuilt `vphone-cli` as the normal user, and added a Makefile/script guard: run plain `make ramdisk_build`; let `ramdisk_build.py` sudo only the `hdiutil` mount/detach steps.
+- 2026-04-22 07:36 - `make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F` completed successfully after sudo credentials were cached with `sudo -v`. Verified the outputs from that run were present and non-empty:
+  - `iBSS.vresearch101.RELEASE.img4`
+  - `iBEC.vresearch101.RELEASE.img4`
+  - `sptm.vresearch1.release.img4`
+  - `DeviceTree.vresearch101ap.img4`
+  - `sep-firmware.vresearch101.RELEASE.img4`
+  - `txm.img4`
+  - `krnl.ramdisk.img4`
+  - `krnl.img4`
+  - `trustcache.img4`
+  - `ramdisk.img4`
+- 2026-04-22 07:36 - Mount cleanup verified: no `/Users/vinay/vphone-cli/vm/SSHRD` mount remains after ramdisk build.
+- 2026-04-22 07:51 - Runtime ramdisk send split:
+  - Attempt 1 used generated `krnl.ramdisk.img4`; `ramdisk_send` completed all 8 iBoot stages and issued `bootx`, but no kernel serial, `irecv`, or usbmux endpoint appeared. VM stayed alive, so this is a candidate early kernel handoff/hang for the derived ramdisk kernel.
+  - Attempt 2 forced fallback to `krnl.img4` by moving `krnl.ramdisk.img4` aside. This booted successfully: serial showed `BSD root: md0`, `mount-complete volume ramdisk`, `boot spec name: ramdisk`, `Starting ramdisk tool`, `USB init done`, `SSHRD_Script`, and `Running server`.
+  - usbmux listed `0000FE01-FD01E5DAE1ED866F`, `pymobiledevice3 usbmux forward --serial 0000FE01-FD01E5DAE1ED866F 2222 22` worked in foreground, and SSH returned `ready` with password `alpine`.
+- 2026-04-22 07:51 - Updated the iOS 18 profile behavior so future `ramdisk_build` does not generate `krnl.ramdisk.img4` and `ramdisk_send` does not prefer a stale `krnl.ramdisk.img4` when `FIRMWARE_PROFILE=ios18-22F76`.
+- 2026-04-22 07:51 - CFW install is now blocked only by host sudo cache: `sudo -n true` returns `sudo: a password is required`. Do not start `cfw_install_dev` non-interactively until sudo is refreshed.
+- 2026-04-22 08:10 - `make cfw_install_dev VM_DIR=vm SSH_PORT=2222` completed over the SSH ramdisk. High-signal stages:
+  - SystemOS Cryptex copied to `/mnt1/System/Cryptexes/OS`; dyld cache chunks are present under `/System/Library/Caches/com.apple.dyld`.
+  - AppOS Cryptex copied to `/mnt1/System/Cryptexes/App`.
+  - `launchd` jetsam guard patched at file offset `0xD618` (`tbnz` -> `b`).
+  - `debugserver` entitlements patched with `task_for_pid-allow`.
+  - APFS update snapshot renamed to `orig-fs`.
+  - `launchd_cache_loader` patched at file offset `0xB58` (`cbz` -> `nop`).
+  - `mobileactivationd` patched at file offset `0x17320` (`mov x0, #1; ret`).
+  - `vphoned`, `bash`, `dropbear`, `trollvnc`, and `rpcserver_ios` LaunchDaemons injected.
+  - Device filesystems unmounted and ramdisk halted.
 
 ## Documentation Rules For This Branch
 
@@ -534,6 +565,7 @@ Do not let important context live only in terminal scrollback. Every meaningful 
 
 ## Next Immediate Work
 
-1. Run the first real `ios18-22F76` dev firmware build from the actual VM workspace.
-2. Build/sign ramdisk with `FIRMWARE_PROFILE=ios18-22F76`.
-3. Boot once if the host environment can run Virtualization.framework, then collect patch logs and boot/failure logs.
+1. Run first normal boot after CFW: `make boot VM_DIR=vm`.
+2. Capture whether the old pre-CFW dyld failure is gone: `libignition ... cryptex1 ... failed`, `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, or `panic: initproc failed to start`.
+3. If boot reaches userspace, verify post-CFW services: SSH on port `22222`, `dropbear`, `vphoned`, `rpcserver_ios`, and whether activation state is usable.
+4. If boot panics before userspace, paste the last 150-250 serial lines into this doc and triage the failing layer before changing offsets.

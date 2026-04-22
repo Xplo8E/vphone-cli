@@ -84,11 +84,13 @@ PROFILES = {
         "kernel_research_path": "kernelcache.research.vphone600",
         "device_tree_path": "Firmware/all_flash/DeviceTree.vphone600ap.im4p",
         "device_tree_img4": "DeviceTree.vphone600ap.img4",
+        "build_ramdisk_kernel_variant": True,
     },
     "ios18-22F76": {
         "kernel_research_path": "kernelcache.research.vresearch101",
         "device_tree_path": "Firmware/all_flash/DeviceTree.vresearch101ap.im4p",
         "device_tree_img4": "DeviceTree.vresearch101ap.img4",
+        "build_ramdisk_kernel_variant": False,
     },
 }
 
@@ -196,7 +198,7 @@ def sudo_command(cmd):
 
 
 def run_sudo(cmd, **kwargs):
-    """Run sudo command non-interactively using VPHONE_SUDO_PASSWORD."""
+    """Run a command through sudo, prompting only when attached to a TTY."""
     if SUDO_PASSWORD:
         return run(
             sudo_command(cmd),
@@ -205,6 +207,14 @@ def run_sudo(cmd, **kwargs):
             **kwargs,
         )
     return run(sudo_command(cmd), **kwargs)
+
+
+def check_not_root_invocation():
+    """Keep SwiftPM/VM artifacts owned by the developer user, not root."""
+    if hasattr(os, "geteuid") and os.geteuid() == 0:
+        print("[-] Do not run ramdisk_build.py or `make ramdisk_build` as root.")
+        print("    Run plain `make ramdisk_build`; this script will sudo only the hdiutil steps.")
+        sys.exit(1)
 
 
 def check_sudo_access():
@@ -223,7 +233,8 @@ def check_sudo_access():
 
     if result.returncode != 0:
         print("[-] ramdisk_build requires sudo for hdiutil attach/detach.")
-        print("    Run with cached sudo credentials, run via sudo, or set VPHONE_SUDO_PASSWORD.")
+        print("    Run from an interactive terminal, cache credentials with `sudo -v`, or set VPHONE_SUDO_PASSWORD.")
+        print("    Do not run `sudo make ramdisk_build`; that makes SwiftPM build as root.")
         sys.exit(1)
 
 
@@ -431,6 +442,11 @@ def derive_ramdisk_kernel_source(kc_src, temp_dir):
       1) Existing legacy snapshot next to restore kernel (`*.ramdisk`)
       2) Derive from pristine CloudOS kernel by applying base KernelPatcher
     """
+    profile = selected_profile()
+    if not profile["build_ramdisk_kernel_variant"]:
+        print(f"  skipping {RAMDISK_KERNEL_IMG4} for profile {profile['name']}; using restore-patched krnl.img4")
+        return None
+
     legacy_snapshot = f"{kc_src}{RAMDISK_KERNEL_SUFFIX}"
     if os.path.isfile(legacy_snapshot):
         print(f"  found legacy ramdisk kernel snapshot: {legacy_snapshot}")
@@ -701,6 +717,8 @@ def build_ramdisk(restore_dir, im4m_path, vm_dir, input_dir, output_dir, temp_di
 
 
 def main():
+    check_not_root_invocation()
+
     vm_dir = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.getcwd())
     profile = selected_profile()
 

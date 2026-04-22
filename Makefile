@@ -97,7 +97,7 @@ help:
 	@echo "  make restore                 Restore to device (pymobiledevice3 backend)"
 	@echo ""
 	@echo "Ramdisk:"
-	@echo "  make ramdisk_build           Build signed SSH ramdisk"
+	@echo "  make ramdisk_build           Build signed SSH ramdisk (do not run make via sudo)"
 	@echo "  make ramdisk_send            Send ramdisk to device"
 	@echo ""
 	@echo "CFW:"
@@ -329,9 +329,17 @@ restore:
 # Ramdisk
 # ═══════════════════════════════════════════════════════════════════
 
-.PHONY: ramdisk_build ramdisk_send
+.PHONY: ramdisk_build ramdisk_build_impl ramdisk_send
 
-ramdisk_build: patcher_build
+ramdisk_build:
+	@if [ "$$(id -u)" -eq 0 ]; then \
+		echo "ramdisk_build must not run via sudo/root; run plain 'make ramdisk_build' so SwiftPM builds as your user." >&2; \
+		echo "The Python ramdisk builder will request sudo only for hdiutil mount/detach operations." >&2; \
+		exit 2; \
+	fi
+	@$(MAKE) ramdisk_build_impl VM_DIR="$(VM_DIR)" FIRMWARE_PROFILE="$(FIRMWARE_PROFILE)" RAMDISK_UDID="$(RAMDISK_UDID)"
+
+ramdisk_build_impl: patcher_build
 	cd $(VM_DIR) && FIRMWARE_PROFILE="$(FIRMWARE_PROFILE)" RAMDISK_UDID="$(RAMDISK_UDID)" $(PYTHON) "$(CURDIR)/$(SCRIPTS)/ramdisk_build.py" .
 
 ramdisk_send:

@@ -27,9 +27,11 @@ import typer
 PROFILES = {
     "legacy": {
         "device_tree_img4": "DeviceTree.vphone600ap.img4",
+        "prefer_ramdisk_kernel_variant": True,
     },
     "ios18-22F76": {
         "device_tree_img4": "DeviceTree.vresearch101ap.img4",
+        "prefer_ramdisk_kernel_variant": False,
     },
 }
 
@@ -132,11 +134,16 @@ def irecv_send_file(irecv: IRecv, image_path: Path) -> None:
     irecv.send_buffer(data)
 
 
-def resolve_kernel_image(ramdisk_dir: Path) -> Path:
+def resolve_kernel_image(ramdisk_dir: Path, profile: dict) -> Path:
     ramdisk_variant = ramdisk_dir / "krnl.ramdisk.img4"
+    default_kernel = ramdisk_dir / "krnl.img4"
+    if not profile["prefer_ramdisk_kernel_variant"]:
+        if default_kernel.exists():
+            return default_kernel
+        raise FileNotFoundError(f"Kernel image not found in {ramdisk_dir}: krnl.img4")
+
     if ramdisk_variant.exists():
         return ramdisk_variant
-    default_kernel = ramdisk_dir / "krnl.img4"
     if default_kernel.exists():
         return default_kernel
     raise FileNotFoundError(f"Kernel image not found in {ramdisk_dir}")
@@ -147,12 +154,14 @@ def cmd_ramdisk_send(ecid: Optional[int], ramdisk_dir: Path, timeout: int) -> No
         raise FileNotFoundError(f"Ramdisk directory not found: {ramdisk_dir}")
 
     profile = selected_profile()
-    kernel_img = resolve_kernel_image(ramdisk_dir)
+    kernel_img = resolve_kernel_image(ramdisk_dir, profile)
 
     print(f"[*] Sending ramdisk from {ramdisk_dir}")
     print(f"  [*] Firmware profile: {profile['name']}")
     if kernel_img.name == "krnl.ramdisk.img4":
         print("  [*] Using ramdisk kernel variant: krnl.ramdisk.img4")
+    else:
+        print(f"  [*] Using kernel image: {kernel_img.name}")
 
     irecv = wait_for_irecv(ecid, timeout=timeout, is_recovery=False)
 
