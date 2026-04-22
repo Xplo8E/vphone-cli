@@ -325,3 +325,48 @@ The legacy matrix above is still valid for the vphone600 path. The 18.5 `vresear
   - removed ad-hoc `git clone` source fetching from `scripts/setup_tools.sh` and `scripts/setup_libimobiledevice.sh`.
   - added pinned git-submodule sources under `scripts/repos/` for: `trustcache`, `insert_dylib`, `libplist`, `libimobiledevice-glue`, `libusbmuxd`, `libtatsu`, `libimobiledevice`, `libirecovery`, `idevicerestore`.
   - setup scripts now initialize required submodules via `git submodule update --init --recursive <path>` and stage build copies under local tool build directories.
+
+## iOS 18.5 UIKitCore Idiom Resolver Patch
+
+SpringBoard and AccessibilityUIServer continued to crash inside `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` even after the MobileGestalt cache contained `CacheExtra["DeviceClassNumber"] = 1`. IDA/`ipsw` evidence showed the failing UIKitCore function lives at unslid `0x185599978` in the iOS 18.5 SystemOS dyld shared cache. `ipsw dyld a2o` resolves it to subcache `dyld_shared_cache_arm64e.03`, aggregate cache offset `0x5599978`, subcache-local file offset `0x1a5978`.
+
+Patch target:
+
+```text
+/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e.03 + 0x1a5978
+before: 7f2303d5 f44fbea9    pacibsp; stp x20, x19, [sp, #-0x20]!
+after:  000080d2 c0035fd6    mov x0, #0; ret
+```
+
+This forces `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` to return `UIUserInterfaceIdiomPhone` directly and bypasses the MobileGestalt answer path entirely. The mounted SystemOS Cryptex DMG is sealed/read-only, so the patch is applied after Cryptex contents are copied onto the writable restored rootfs under `/mnt1/System/Cryptexes/OS/...`. `scripts/cfw_install_dev.sh` now applies this patch during phase `1/8`, and `scripts/ios18_patch_uikit_idiom_from_ramdisk.sh` provides a one-off ramdisk patch path for existing installs.
+
+Implementation notes for the UIKitCore patch:
+
+- Use subcache-local file offset `0x1a5978`, not aggregate cache offset `0x5599978`, when writing into `dyld_shared_cache_arm64e.03` directly.
+- Use `xxd -r -p` to materialize bytes on the ramdisk. Shell `printf '\x..'` is not reliable there and previously produced literal ASCII bytes (`7830307830307838`) before being repaired.
+- Verification command shape: `dd if=<subcache> bs=1 skip=1726840 count=8 | xxd -p` must return `000080d2c0035fd6`.
+
+## iOS 18.5 CODESIGNING: Invalid Page SIGKILLs — port JB AMFI patches into dev
+
+The UIKitCore byte-patch modifies a page whose CDHash is baked into the shared-cache code directory. Every process that memory-maps UIKit from `dyld_shared_cache_arm64e.03` (SpringBoard, AccessibilityUIServer, ReportCrash, chronod, ndoagent, webbookmarksd, spaceattributiond, nanotimekitcompaniond, ...) is SIGKILLed by AMFI with:
+
+```json
+"exception": {"type":"EXC_CRASH","signal":"SIGKILL - CODESIGNING"}
+"termination": {"namespace":"CODESIGNING","indicator":"Invalid Page"}
+```
+
+Base + dev patches 8 and 9 (`KernelPatchPostValidation`) already cover TXM CodeSignature errors and the AMFI `postValidation` cmp-rewrite, but neither bypasses `AMFIIsCDHashInTrustCache`, which is the function that reports "this cdhash is not trusted" for our modified page. The JB variant's Group-A method `patch_amfi_cdhash_in_trustcache` rewrites exactly that function to always return 1.
+
+Planned patch-set expansion (not yet applied):
+
+| # | Source file (JB) | Target function | Purpose | Status |
+| - | --- | --- | --- | --- |
+| DEV-CS-1 | `Kernel/JBPatches/KernelJBPatchAmfiTrustcache.swift` | `AMFIIsCDHashInTrustCache` | Always return 1 + store hash | Planned for dev variant |
+| DEV-CS-2 | `Kernel/JBPatches/KernelJBPatchAmfiExecve.swift` | AMFI execve kill return site | Convert deny to allow on exec-time AMFI kill | Planned for dev variant, optional belt-and-suspenders |
+
+Wiring plan in `sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift`:
+
+- For `.dev`, additionally run `KernelJBPatcher` but only allow the two `patchAmfi*` methods to execute.
+- Alternative: factor the two method bodies into a file under `sources/FirmwarePatcher/Kernel/Patches/` and add `patchAmfiCdhashInTrustcache()` / `patchAmfiExecve()` calls from `KernelPatcher.findAll()` gated on the variant. Slightly more Swift plumbing but no per-variant construction logic.
+
+Do not expand to the other Group B / Group C JB methods unless later evidence shows surviving SIGKILLs that those methods specifically cover. The goal is the minimum codesign-relaxation surface needed to keep vphone dev variant functional.

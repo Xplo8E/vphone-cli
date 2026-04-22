@@ -51,9 +51,11 @@ Current 18.5 hybrid output confirms the profile selection:
 | confirmed | Phase 5 restore reaches disk boot and APFS root authentication on the real `vm/` workspace. | `make restore` exited 0 for UDID `0000FE01-FD01E5DAE1ED866F` / ECID `0xFD01E5DAE1ED866F`. Post-restore boot logs show `BSD root: disk0s1`, `disk1s1 Rooting from snapshot with xid 61`, and `authenticate_root_hash ... successfully validated on-disk root hash`. | The generated 18.5 manifest, boot chain, DeviceTree profile, and kernel patches are coherent enough for restore and disk-root handoff. |
 | confirmed | Phase 5 SSH ramdisk builds and boots with the restore-patched kernel for the real 18.5 profile. | `make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F` completed after `sudo -v`. The first `ramdisk_send` using derived `krnl.ramdisk.img4` hung after `bootx` with no kernel serial. Retrying with `krnl.img4` booted the SSH ramdisk: serial reached `BSD root: md0`, `SSHRD_Script`, `Running server`; usbmux exposed `0000FE01-FD01E5DAE1ED866F`; SSH answered `ready` on `127.0.0.1:2222`. | The iOS 18.5 profile now disables generated `krnl.ramdisk.img4` preference and uses `krnl.img4` for ramdisk boot. |
 | confirmed | Phase 5 dev CFW install completed over the SSH ramdisk. | `make cfw_install_dev VM_DIR=vm SSH_PORT=2222` completed. It installed SystemOS/AppOS Cryptexes, patched `launchd` jetsam guard, patched debugserver entitlements, renamed the APFS update snapshot to `orig-fs`, patched `seputil`, installed GPU bundle and iosbinpack64, patched `launchd_cache_loader`, patched `mobileactivationd`, installed `vphoned` plus dev LaunchDaemons, patched `launchd.plist`, unmounted device filesystems, and halted the ramdisk. Transient SSH/SCP drops recovered through the existing retry loop. | The next runtime gate is first normal boot after CFW. This is where the previous dyld/libSystem panic must be re-tested. |
-| confirmed | First standalone normal boot after CFW does not reach the kernel yet. | `make boot VM_DIR=vm` loads local `LLB.vresearch101.RELEASE` from disk and repeatedly enters `MODE: Recovery` / `Entering recovery mode, starting command prompt` before any `BSD root`, `authenticate_root_hash`, or `libignition` output. `irecovery -q` sees ECID `0xfd01e5dae1ed866f`, `MODE: Recovery`. `setenv auto-boot true`, `saveenv`, `fsboot`, and `irecovery -n` only loop back to the same LLB recovery prompt. README expects `bash-4.4#` at this stage, so this is before the documented first-boot shell setup. | Active blocker moves from userspace/Cryptex to standalone local boot selection. Next analysis should focus on iBoot/LLB local boot metadata, recovery loop state, and the generated hybrid manifest/local boot component set. |
-| confirmed | Experimental iOS 18.5 LLB auth-blob bypass is implemented, restored, and gets normal boot past LLB. | `IBootPatcher` now receives `FirmwareProfile`; for `ios18-22F76` LLB it semantically finds the adjacent `system-volume-auth-blob` / `boot-path` string pair and NOPs the nearby `BL helper; TBNZ W0,#31,<recovery>` failure branch. Direct verifier emitted `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop`; full `make fw_patch_dev VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76` emitted the same line and increased the dev patch count to 62; `make restore` completed `verify-restore: 100/100`; next normal boot no longer stopped at `7ab90c923dae682:1819` and reached XNU/APFS/Preboot. | LLB recovery fallback is no longer the active blocker. The current blocker is post-restore Cryptex/userspace setup. |
+| superseded | First standalone normal boot after the original CFW attempt did not reach the kernel. | `make boot VM_DIR=vm` loaded local `LLB.vresearch101.RELEASE` from disk and repeatedly entered `MODE: Recovery` / `Entering recovery mode, starting command prompt` before any `BSD root`, `authenticate_root_hash`, or `libignition` output. `irecovery -q` saw ECID `0xfd01e5dae1ed866f`, `MODE: Recovery`. `setenv auto-boot true`, `saveenv`, `fsboot`, and `irecovery -n` only looped back to the same LLB recovery prompt. | Superseded by the iOS 18.5 LLB auth-blob bypass below. This row is kept as historical context for the recovery-loop symptom. |
+| confirmed | Experimental iOS 18.5 LLB auth-blob bypass is implemented, restored, and gets normal boot past LLB. | `IBootPatcher` now receives `FirmwareProfile`; for `ios18-22F76` LLB it semantically finds the adjacent `system-volume-auth-blob` / `boot-path` string pair and NOPs the nearby `BL helper; TBNZ W0,#31,<recovery>` failure branch. Direct verifier emitted `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop`; full `make fw_patch_dev VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76` emitted the same line and increased the dev patch count to 62; `make restore` completed `verify-restore: 100/100`; next normal boot no longer stopped at `7ab90c923dae682:1819` and reached XNU/APFS/Preboot. | This was the missing piece for the normal-boot recovery loop. LLB recovery fallback is no longer the active blocker. |
 | confirmed | Post-restore userspace is incomplete until CFW installs Cryptexes. | Normal boot after the patched restore reached `disk1s5 mount-complete volume Preboot`, then `libignition: cryptex1 sniff: ignition failed: 8`, `ignite() returned 8`, `ignition disabled`, and panicked in `launchd`: `Library not loaded: /usr/lib/libSystem.B.dylib`, `no such file, no dyld cache`, `initproc failed to start`. | This is expected before CFW on this workflow. Next phase is to boot the SSH ramdisk and rerun `cfw_install_dev`, which copies SystemOS/AppOS Cryptexes and patches `launchd_cache_loader`. |
+| confirmed | Normal boot after CFW reaches root shell on iOS 18.5. | After rerunning ramdisk + `cfw_install_dev`, normal boot reached `bash-4.4#`; `id` returned `uid=0(root) gid=0(wheel)`, `/var` is readable, and the host window shows `VPHONE [connected]`, indicating `vphoned` connected. Serial still prints expected noisy first-boot messages such as vnode jetsam and `AppleSEPKeyStore` selector failures. | Core iOS 18.5 dev bring-up is alive. Remaining active blocker is the visual UI staying on the black progress screen after root shell/vphoned are already up. |
+| confirmed | SpringBoard load-gate plist experiment is a dead end and must not be repeated casually. | Offline probe showed SpringBoard exists in both `/System/Library/LaunchDaemons/com.apple.SpringBoard.plist` and embedded `/System/Library/xpc/launchd.plist`, with `_LimitLoadFromClarityMode=true` and `LimitLoadFromHardware = { osenvironment = [diagnostics] }`. Removing those gates by Python `plistlib` reserialization caused `launchd` panic: `initproc exited -- exit reason namespace 7 subcode 0x1 description: No service cache`. Byte rollback restored gates but did not fix the panic; rebuilding the active CFW launchd cache removed the panic and returned to the previous stuck-progress state. | Do not round-trip `/System/Library/xpc/launchd.plist` with generic plist tooling. Future UI work should target lower-level environment/Clarity state or inject diagnostics through the existing CFW cache path. |
 | confirmed | cloudOS 18.5 `22F76` has no `vphone600ap` build identity. | `BuildManifest.plist` contains `j236cap`, `j475dap`, and `vresearch101ap`; no `vphone600ap`. Running current `scripts/fw_manifest.py` against 18.5 manifests throws `KeyError: 'No release identity for DeviceClass=vphone600ap'`. | Current `fw_prepare` hybrid manifest generation cannot work unchanged on these 18.5 files. |
 | confirmed | Existing pipeline hardcodes vphone600 runtime paths. | `sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift` searches `kernelcache.research.vphone600` and `Firmware/all_flash/DeviceTree.vphone600ap.im4p`. `scripts/ramdisk_build.py` has the same vphone600 assumptions. | We need variant-aware paths or an explicit firmware profile before real 18.5 patching. |
 | confirmed | 18.5 cloud TXM is Mach-O arm64e, not the flat-offset model assumed by parts of `TXMDevPatcher`. | `file` reports Mach-O arm64e. `otool -hv` reports `MH_MAGIC_64 ARM64 subtype E caps KER00 EXECUTE PIE`. IDA sees strings/xrefs, but the Swift dev patcher reports string refs missing. | Base TXM patch works, but dev-only TXM patches need Mach-O VA/file-offset aware string reference resolution. |
@@ -619,6 +621,46 @@ Progress log:
   - Kernel/APFS reached Preboot: `disk1s5 mount-complete volume Preboot`.
   - New active blocker is expected pre-CFW Cryptex/userspace failure: `libignition: cryptex1 sniff: ignition failed: 8`, `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, `initproc failed to start`.
   - Next phase: boot SSH ramdisk and rerun `cfw_install_dev` on this freshly restored disk.
+- 2026-04-22 13:15 - First `ramdisk_build` retry failed during the host `patcher_build` dependency with no real compiler diagnostic in the tee log. Isolated `make patcher_build` completed successfully afterward with only the known non-fatal Swift object verification warning for `VPhoneKeychainWindowController.swift.o`. Treat this as a transient parallel SwiftPM build failure; rerun `ramdisk_build` without cleaning.
+- 2026-04-22 14:10 - Normal boot after rerunning CFW reached the expected dev direct console.
+  - `bash-4.4# id` returned `uid=0(root) gid=0(wheel) groups=...`.
+  - `/var` is accessible and populated.
+  - Host window title shows `VPHONE [connected]`, so the guest `vphoned` control path is alive.
+  - Screen remains black with a white progress bar after a long wait; treat this as separate UI/SpringBoard/first-boot state, not a boot-chain failure.
+- 2026-04-22 14:25 - First-boot README commands were already run while the progress bar was around 75%, then the VM rebooted and loaded from 0% to full progress over roughly one hour. It still did not transition to visible UI. Active slice is now late userspace/UI: SpringBoard, backboardd, Setup/Buddy, activation, RunningBoard, or display services.
+- 2026-04-22 14:35 - UI process probe while the progress bar reset/loaded again:
+  - Alive: `/usr/libexec/runningboardd`, `/usr/libexec/backboardd`, `/usr/libexec/mobileactivationd`, `/usr/bin/vphoned`, Dropbear, TrollVNC, `rpcserver_ios`.
+  - Missing from `ps`: `SpringBoard`, Setup/Buddy, FrontBoard-named process.
+  - `launchctl print system/com.apple.SpringBoard`, `system/com.apple.backboardd`, `system/com.apple.runningboardd`, and `system/com.apple.mobileactivationd` all returned `Could not find service ... in domain for system`, even though several of those processes exist. Need enumerate actual launchd labels/domains instead of assuming macOS-style `system/<label>`.
+  - Current hypothesis: UI is stuck because SpringBoard is not being launched or is immediately failing before it appears in `ps`.
+- 2026-04-22 14:45 - SpringBoard files are present: `/System/Library/CoreServices/SpringBoard.app/SpringBoard` exists and is executable, `/System/Library/LaunchDaemons/com.apple.SpringBoard.plist` exists, and `/System/Library/xpc/launchd.plist` still contains the SpringBoard launch entry. This rules out missing SpringBoard payload. Active question is why launchd is not registering/starting the job.
+- 2026-04-22 14:50 - Manual `launchctl bootstrap system /System/Library/LaunchDaemons/com.apple.SpringBoard.plist` returned `Service cannot load in requested session`. That is high-signal: SpringBoard is not loadable in the `system` domain on this iOS build. Next test should target the mobile GUI/user domain (`gui/501` or `user/501`) and inspect `LimitLoadToSessionType` / MachServices from the SpringBoard plist.
+- 2026-04-22 14:58 - `launchctl help` from the guest confirms this iosbinpack64 launchctl explicitly says `user/<uid>` and `gui/<uid>` domains do not exist on iOS; legacy subcommands target the system domain. The serial console is now noisy enough to corrupt pasted commands (`launchctl load ...` appeared to execute as a stale `grep` pipeline), so continue UI launchd triage over SSH instead of the direct serial shell.
+- 2026-04-22 15:05 - SSH triage blocker: host usbmux forward is listening on `127.0.0.1:2222`, but `ssh -p 2222 root@127.0.0.1` returns `Connection closed by 127.0.0.1`. This usually means Dropbear accepted the TCP connection and closed during handshake. Next checks: restart the usbmux forward after the reboot, verify `/var/dropbear/dropbear_*_host_key` exists in the guest, and restart the `Dropbear` launchd job.
+- 2026-04-22 15:12 - Host forward verified correct: local `127.0.0.1:2222` is `pymobiledevice3 usbmux forward --serial 0000FE01-FD01E5DAE1ED866F 2222 22222`. Guest host keys exist and can be regenerated. Manual foreground Dropbear on `22222` fails with `Address already in use` because launchd immediately restarts the `Dropbear` job after `killall`. Next test should avoid launchd by running foreground Dropbear on alternate guest port `22223` and forwarding host `2223 -> 22223`.
+- 2026-04-22 15:18 - Alternate host forward verified correct: local `127.0.0.1:2223` is `pymobiledevice3 usbmux forward --serial 0000FE01-FD01E5DAE1ED866F 2223 22223`. OpenSSH still closes pre-banner on `2223`, so if foreground Dropbear was actually running on guest `22223`, the next required evidence is its stderr/stdout. If there was no foreground Dropbear output, the guest listener may not have stayed up.
+- 2026-04-22 15:25 - Decision: stop fighting noisy live serial/Dropbear for UI triage. Added `scripts/ios18_offline_ui_probe.sh` for DFU/SSH-ramdisk collection. It mounts the installed disk at `/mnt1`, collects SpringBoard/backboard/runningboard/mobileactivation/Buddy launch plists plus `xpc/launchd.plist` and `.bak`, converts them with host `plutil`, and writes diffs/strings into `vm/offline_ui_probe_*`.
+- 2026-04-22 16:10 - Offline UI probe result:
+  - SpringBoard is present in both `/System/Library/LaunchDaemons/com.apple.SpringBoard.plist` and embedded `/System/Library/xpc/launchd.plist`.
+  - The SpringBoard dictionary in patched `launchd.plist` matches `launchd.plist.bak`; CFW daemon injection only added bash/dropbear/rpcserver/trollvnc/vphoned entries and did not alter SpringBoard.
+  - SpringBoard load gates are `_LimitLoadFromClarityMode=true` and `LimitLoadFromHardware = { osenvironment = [diagnostics] }`.
+  - Hypothesis: on the `vresearch101ap` iOS 18.5 path, launchd sees a Clarity/diagnostics-like hardware/session state and suppresses SpringBoard. Added `scripts/ios18_patch_springboard_load.sh` to remove those two gates from both the standalone SpringBoard plist and the embedded launchd database as a targeted experiment.
+- 2026-04-22 16:17 - SpringBoard load-gate experiment failed and must be rolled back.
+  - `scripts/ios18_patch_springboard_load.sh` successfully removed `_LimitLoadFromClarityMode` and `LimitLoadFromHardware` from the standalone SpringBoard plist and embedded launchd service cache copy.
+  - Normal boot then panicked in `launchd`:
+    - `launchd_cache_loader` printed `Using unsecure cache: /System/Library/xpc/launchd.plist` and `Cache sent to launchd successfully`.
+    - Kernel panic was `initproc exited -- exit reason namespace 7 subcode 0x1 description: No service cache`.
+  - Interpretation: directly round-tripping `/System/Library/xpc/launchd.plist` with Python `plistlib` is unsafe even when the result is still a valid binary plist. Apple launchd's service cache has constraints beyond generic plist parseability.
+  - Action taken: added `scripts/ios18_restore_springboard_load_backup.sh` to copy the `.ios18-ui-bak` files back byte-for-byte from the SSH ramdisk, and guarded `scripts/ios18_patch_springboard_load.sh` behind `IOS18_ALLOW_UNSAFE_LAUNCHD_PLIST_PATCH=1`.
+  - Next rule: do not edit `launchd.plist` via generic plist reserialization. Future UI experiments should either use the existing CFW patcher path that already preserves launchd semantics, patch lower-level hardware/environment state, or collect more launchd cache evidence first.
+- 2026-04-22 16:25 - Byte rollback restored the SpringBoard load gates but normal boot still panicked with `No service cache`.
+  - The rollback log verified `_LimitLoadFromClarityMode` and `LimitLoadFromHardware` are present again in both restored files.
+  - The boot log still reaches `launchd_cache_loader` and panics after `Cache sent to launchd successfully`.
+  - New recovery action: added `scripts/ios18_rebuild_cfw_launchd_cache.sh`, which performs only the final CFW LaunchDaemon phase: install our daemon plists, rebuild active `/System/Library/xpc/launchd.plist` from `/System/Library/xpc/launchd.plist.bak` using the existing CFW injector, and verify bash/dropbear/trollvnc/vphoned/rpcserver entries. If this still panics, rerun full `cfw_install_dev`.
+- 2026-04-22 16:35 - Fast CFW launchd-cache rebuild recovered from the `No service cache` panic.
+  - After `scripts/ios18_rebuild_cfw_launchd_cache.sh`, normal boot no longer panics.
+  - The VM returns to the same state as before the SpringBoard gate experiment: root/userspace alive, but visual UI still stuck on the black progress screen.
+  - Conclusion: the gate-removal experiment did not solve UI bring-up. The only useful outcome was learning that direct generic reserialization of `launchd.plist` can poison launchd's service cache. Current blocker remains SpringBoard/UI state, not boot-chain or CFW recovery.
 
 ## Documentation Rules For This Branch
 
@@ -632,78 +674,344 @@ Use these docs instead of a repo TODO file:
 
 Do not let important context live only in terminal scrollback. Every meaningful dry-run, IDA finding, patch miss, and boot result should land in one of the research docs before moving to the next slice.
 
-## Next Immediate Work
+## Current Active Blocker
 
-Root cause of the previous LLB recovery fallback is identified (see [llb-recovery-fallback-analysis.md](llb-recovery-fallback-analysis.md)). `LLB.vresearch101.RELEASE` `sub_1928` at offset `0x1ce4` calls `sub_16E9C("system-volume-auth-blob", "boot-path", ...)`; it returns negative because the image4 property store for LocalPolicy boot-object metadata is empty. The `TBNZ W0,#0x1F` at `0x1ce8` then jumps to the 1819 recovery-fallback logger.
+The normal-boot recovery loop is fixed. The missing piece was the iOS 18.5 LLB `system-volume-auth-blob` failure branch:
 
-The clean refresh has now been done:
-
-1. `make fw_prepare VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 ...` regenerated the hybrid 18.5 restore tree.
-2. `make fw_patch_dev VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76` applied 62 patches, including `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop` in LLB.
-3. `make restore_get_shsh ...` saved `FD01E5DAE1ED866F.shsh`.
-4. `make restore ...` completed and reached `verify-restore: 100/100`.
-
-Next gate: boot the restored disk normally and watch whether the old LLB recovery marker disappears.
-
-```bash
-make boot VM_DIR=vm 2>&1 | tee vm/logs/experiment_authblob_first_normal_boot.log
+```text
+LLB.vresearch101.RELEASE
+sub_1928:
+  BL   sub_16E9C("system-volume-auth-blob", "boot-path", ...)
+  TBNZ W0,#31,loc_1D90   ; negative lookup result -> 1819 recovery fallback
 ```
 
-Pass criterion: the log should not print `7ab90c923dae682:1819` followed by `Entering recovery mode`.
+The profile-scoped patch NOPs that branch on `ios18-22F76` LLB only:
 
-Interpretation rules:
-
-1. If `7ab90c923dae682:1819` still appears, normal boot is not consuming the patched LLB or there is another equivalent LLB path to patch.
-2. If `7ab90c923dae682:1819` disappears and kernel serial begins, the LLB auth-blob bypass is confirmed and the next failure becomes the new slice.
-3. If the next failure is the earlier `launchd` / `libSystem.B.dylib` / dyld-cache panic, redo the ramdisk + CFW phase on top of this restored image.
-4. Do not change kernel/Cryptex patches until a post-LLB failure proves we need them.
-
-If the LLB gate passes, the restore has erased the earlier CFW install. Reinstall dev CFW on the newly restored disk:
-
-```bash
-sudo -v
-
-make ramdisk_build \
-  VM_DIR=vm \
-  FIRMWARE_PROFILE=ios18-22F76 \
-  RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F \
-  2>&1 | tee vm/logs/experiment_authblob_ramdisk_build.log
+```text
+0x001CE8: tbnz w0, #0x1f, 0x1d90 -> nop
 ```
 
-Terminal 1:
+Evidence chain:
 
-```bash
-make boot_dfu VM_DIR=vm 2>&1 | tee vm/logs/experiment_authblob_boot_dfu_ramdisk.log
+1. Before the patch, normal boot stopped at `7ab90c923dae682:1819` and entered iBoot recovery before XNU.
+2. After `fw_patch_dev` emitted the `0x001CE8` NOP and restore completed, normal boot passed LLB and reached XNU/APFS/Preboot.
+3. After CFW reinstall, normal boot reaches root shell and `vphoned`.
+
+Current blocker is late userspace/UI only:
+
+```text
+working:
+  LLB -> XNU -> APFS -> Cryptex via CFW -> launchd -> root shell -> vphoned
+
+not working:
+  visible SpringBoard/home UI
 ```
 
-Terminal 2:
+The VM currently returns to the black progress screen state without the `No service cache` panic after rebuilding the CFW launchd cache.
 
-```bash
-make ramdisk_send \
-  VM_DIR=vm \
-  FIRMWARE_PROFILE=ios18-22F76 \
-  IRECOVERY_ECID=0xFD01E5DAE1ED866F \
-  RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F \
-  2>&1 | tee vm/logs/experiment_authblob_ramdisk_send.log
+Do not repeat the SpringBoard load-gate removal as-is. It caused a launchd service-cache panic and did not solve the UI:
+
+```text
+panic: initproc exited -- exit reason namespace 7 subcode 0x1 description: No service cache
 ```
 
-Terminal 3, once serial shows `Running server`:
+Next useful UI work:
 
-```bash
-.venv/bin/python3 -m pymobiledevice3 usbmux forward \
-  --serial 0000FE01-FD01E5DAE1ED866F \
-  2222 22
+1. Collect live launchd evidence from the recovered stuck-progress state without editing `launchd.plist`: `launchctl print-cache`, `launchctl dumpstate`, process list, and SpringBoard/backboard logs if available.
+2. Reverse where `LimitLoadFromHardware` gets its `osenvironment=diagnostics` decision, likely DeviceTree/chosen or launchd hardware-state plumbing.
+3. If adding boot diagnostics, inject them through the CFW launchd-cache path, not by standalone `plistlib` edits to `/System/Library/xpc/launchd.plist`.
+
+### 2026-04-22 serial-shell investigation on stuck 100% boot
+
+The progress bar reaches 100% but SpringBoard never shows. Serial shell reached (`bash-4.4#` over PL011). Two *independent* failures were identified.
+
+#### Failure A: SpringBoard crash loop (UIKit idiom assertion)
+
+- `/var/mobile/Library/Logs/CrashReporter/SpringBoard-2026-04-22-023653.ips`
+- `consecutiveCrashCount: 20`, `throttleTimeout: 1200` - SpringBoard has been crashing since boot.
+- `exception: EXC_CRASH / SIGABRT`, `abort() called`, reason: `NSAssertionHandler` fired inside UIKit.
+- Crashing thread stack (trimmed):
+  ```
+  -[NSAssertionHandler handleFailureInFunction:file:lineNumber:description:]
+  _UIDeviceNativeUserInterfaceIdiomIgnoringClassic
+  __24+[UIKeyboard inputUIOOP]_block_invoke
+  +[SBInputUISceneController _shouldControlInputUIScene]
+  +[SBSystemUIScenesCoordinator _sceneControllersConfigurations]
+  -[UISApplicationSupportService initializeClientWithParameters:completion:]
+  ```
+- `modelCode: "ComputeModule14,2"` in the crash report. `ioreg -rc IOPlatformExpertDevice` confirms `model = "ComputeModule14,2"` from IOPlatformDevice.
+- UIKitCore's `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` resolves the device UI idiom from MobileGestalt (`ProductType` / `DeviceClassNumber`) and asserts the answer is in a known enum set (Phone/Pad/TV/CarPlay/Watch/Vision/Mac/Realitykit/etc.). `ComputeModule14,2` is PCC vresearch virtualization - not in the whitelist for iOS 18.5. The idiom resolver returns an out-of-set value, NSAssertion fires, SpringBoard aborts. AccessibilityUIServer crashes for the same reason (separate `.ips` files for it).
+- MobileGestalt cache exists on disk and is readable:
+  - `/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist` (8866 bytes, `mobile:mobile` owner, parent dir is `d---------+` so only UID `mobile`/`nobody` can traverse via plist-lookup APIs; direct read from root works).
+
+#### Failure B: com.apple.datamigrator hung for 10+ minutes
+
+- `/var/mobile/Library/Logs/CrashReporter/stacks+com.apple.datamigrator-2026-04-22-040605.ips` (bug type 288 = PRECAUTIONARY stackshot, not crash).
+- `reason: "PRECAUTIONARY stackshot - migration might be hung or deadlocked. Plugin: com.apple.locationd.migrator (CoreLocationMigrator.migrator) (10 minutes) (overall migration start 155134195) (erase)"`
+- Thread 877 (main migration dispatch) blocked on thread 6361; 10 plugin threads blocked on thread 877.
+- Both `com.apple.datamigrator` (pid 130, started 03:54) and `com.apple.migrationpluginwrapper` (pid 649, started 03:56) still running idle at time of capture.
+- This is the "stuck at 100%" wall. Even once SpringBoard can start, the boot progress sequence will not hand off until datamigrator completes or is given up.
+- Migration sentinel paths checked: `/var/db/`, `/var/mobile/Library/`, `/var/root/Library/Caches/` — no obvious `com.apple.datamigrator.done` or `migration-complete` file. Needs deeper search.
+
+#### Other boot-state signals captured
+
+- Mounts are healthy:
+  ```
+  /dev/disk1s1 on / (apfs, sealed, local, read-only, journaled, noatime)
+  /dev/disk1s2 on /private/var (apfs, local, nodev, nosuid, journaled, noatime, protect)
+  /dev/disk1s5 on /private/preboot ... /dev/disk1s3 on /private/xarts ... /dev/disk1s6 on /private/var/MobileSoftwareUpdate ... /dev/disk1s4 on /private/var/hardware
+  df shows 12Gi used on rootfs, 964Mi on var, plenty free.
+  ```
+- NVRAM looks healthy: `auto-boot=true`, `boot-breadcrumbs` trail shows full boot chain (rkrn -> ibec -> sptm -> trxm -> rtsc -> rdsk -> rdtr), no `recovery-boot-mode` set.
+- Launchd daemons mostly running (100+ processes from `ps`). Notably running: `backboardd`, `locationd`, `cfprefsd`, `lsd`, `cfprefsd`, `containermanagerd`, `analyticsd`, `apsd`, `lockdownd`, `runningboardd`. SpringBoard/AccessibilityUIServer only visible as corpse-release / respawn spam in `dmesg`.
+- dmesg shows a respawn storm: `fairplayd.H2`, `spaceattributiond`, `webbookmarksd`, `chronod`, `kbd`, `healthd` repeatedly forked and reaped; vnode jetsam already hitting 1024 desired / 1947 numvnodes, killing idle services to reclaim. That is a downstream symptom of SpringBoard never coming up, not a separate problem.
+- One repeated kernel log line: `"AppleSEPKeyStore":12667:559: operation failed (sel: 35 ret: e00002f0)` correlates with `AKS` sel 35 (likely key bag / passcode derivation). On a fresh PCC VM with no passcode set this is expected and harmless; noted so we do not chase it.
+
+#### Current UI unblock state
+
+The UIKit idiom hypothesis has moved from hypothesis to installed fix. IDA proved the crashing path reads only `DeviceClassNumber`, and normal boot now confirms the boot-time patcher wrote `CacheExtra["DeviceClassNumber"] = 1` into the MobileGestalt cache:
+
+```text
+/private/var/root/.vphone_mobilegestalt_patched
+[vphone_mgpatch] patched /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist
 ```
 
-Terminal 2, with the usbmux forward still running:
+Next diagnostic split: if new SpringBoard crash reports no longer mention `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic`, the MobileGestalt fix worked and the remaining stuck progress bar is a different UI/userspace blocker. If the same assertion still appears, the cache override is not the authoritative answer source and the next durable lever is DeviceTree identity spoofing before MobileGestalt cache generation.
 
-```bash
-make cfw_install_dev VM_DIR=vm SSH_PORT=2222 \
-  2>&1 | tee vm/logs/experiment_authblob_cfw_install_dev.log
+Secondary lever: bypass or unblock `com.apple.datamigrator`. Options in order of reversibility:
+- Forcibly `kill -9` pids 130 and 649 and see if backboardd/SpringBoard progresses (SpringBoard is crash-looping for UIKit reasons, but backboardd migration-queue may unblock).
+- `launchctl bootout system/com.apple.datamigrator` then `launchctl disable system/com.apple.datamigrator`.
+- Discover the migration-done sentinel and touch it (needs more hunting inside `DataMigration.framework`).
+
+#### Next actions
+
+1. Collect newest SpringBoard / AccessibilityUIServer crash reports and verify whether `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` disappeared.
+2. Dump `CacheExtra["DeviceClassNumber"]` from the live MobileGestalt cache to prove the on-disk state matches the patcher stamp.
+3. If the UIKit idiom assertion is gone but UI is still stuck, focus on `com.apple.datamigrator` and migration sentinels.
+4. If the same assertion remains, test DeviceTree identity spoofing (`ProductType`/compatible/target-type source path) before MobileGestalt cache generation.
+5. Capture whatever new dmesg / crash reports appear after each step. Do NOT reboot until diagnostics are saved somewhere durable on `/private/var` (not under `/` which is sealed RO).
+
+#### IDA confirmation of UIKit idiom resolver
+
+Follow-up IDA analysis of `/tmp/uikit_extract/UIKitCore` confirms the cheap verification item above. See [uikit-idiom-assertion.md](uikit-idiom-assertion.md).
+
+Key correction: `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` does **not** directly read `ProductType`, `HWModelStr`, `HWMachine`, or `DeviceClass` on this path. It reads only `DeviceClassNumber`, converts the returned object with `intValue`, and asserts if the number is not in UIKit's accepted raw device-class set.
+
+Smallest SpringBoard-crash fix to test:
+
+```text
+MobileGestalt DeviceClassNumber = 1
 ```
 
-After `cfw_install_dev` completes, boot normally again:
+That maps to return value `0` (`UIUserInterfaceIdiomPhone`) and should avoid the `UIDevice.m:852` assertion. `ProductType = iPhone17,3` can still be tested as a broader compatibility override, but it is not required for this specific `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` assertion.
+
+Implementation:
+
+- `scripts/patchers/cfw_patch_mobilegestalt.py` still contains the deterministic plist patch logic: `CacheExtra["DeviceClassNumber"] = 1`.
+- Direct ramdisk editing of the Data-volume cache is kept only as a diagnostic helper because Data currently hangs under `mount_apfs` from the ramdisk.
+- `scripts/cfw_install_dev.sh` now installs the boot-time patcher as phase `7/8`: `/usr/bin/vphone_mgpatch` plus `/System/Library/LaunchDaemons/vphone_mgpatch.plist`.
+- `scripts/patchers/cfw_daemons.py` injects `vphone_mgpatch.plist` into `/System/Library/xpc/launchd.plist` together with the existing CFW daemons.
+
+Fast test path after installing the boot-time patcher:
 
 ```bash
-make boot VM_DIR=vm 2>&1 | tee vm/logs/experiment_authblob_first_boot_after_cfw.log
+make boot VM_DIR=vm 2>&1 | tee vm/logs/ui_after_mobilegestalt_boot_patcher.log
 ```
+
+Verifier after normal boot reaches shell:
+
+```sh
+cat /private/var/root/.vphone_mobilegestalt_patched
+cat /private/var/log/vphone_mgpatch.log
+```
+
+### 2026-04-22 MobileGestalt ramdisk patch helper SSH stall
+
+While testing the targeted UIKit idiom fix, `scripts/ios18_patch_mobilegestalt_cache.sh` could stall during the ramdisk SSH/mount phase. The observed output was repeated SSH connection-loss retries around `echo ready`, `/mnt2` creation, or mounting `/dev/disk1s2` as the installed Data volume. This is not a MobileGestalt plist parsing failure; it happens before the cache is copied back to the host. The likely states are either the ramdisk SSH service is still unstable after boot, the host port-forward is connected to a half-ready ramdisk, or the APFS mount command is wedging/resetting the remote shell.
+
+The helper was hardened with short SSH connect timeouts, server-alive probes, a command-level timeout wrapper, and `IOS18_MOBILEGESTALT_PROBE_ONLY=1` mode. The probe prints current ramdisk mounts and `/dev/disk1*` devices before attempting to mount `/mnt2`. This lets us verify whether `/dev/disk1s2` exists and whether `/mnt2` is already mounted before doing the cache patch.
+
+Follow-up: the helper no longer assumes `disk1s2`. It now scans candidate APFS volumes (`disk1s2`, `disk1s6`, `disk1s5`, `disk1s4`, `disk1s3`, `disk1s1`) and stops on the first mounted volume that contains `containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist`. This is safer for the 18.5 APFS layout because the visible BSD slice number is not strong evidence of APFS role.
+
+### 2026-04-22 MobileGestalt fix pivot: boot-time patcher
+
+Direct ramdisk patching of the Data-volume MobileGestalt cache was abandoned. Evidence: APFS role probing showed `/dev/disk1s2` is `Data` and `/dev/disk1s1` is `System`, but every `mount_apfs` attempt against Data hung until the command timeout fired (`rc=142`). System mounted cleanly. This points to a Data-volume mount/protection problem from the SSH ramdisk, not a wrong-slice issue.
+
+The replacement is a boot-time patcher installed onto the mountable System volume. `scripts/ios18_mgpatch/vphone_mgpatch.m` is a tiny arm64 iOS Foundation binary. On normal boot it waits up to 180 seconds for `/private/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist`, backs it up once as `.vphone_bak`, writes `CacheExtra["DeviceClassNumber"] = 1` as a binary plist, restores `501:501` ownership and `0644` mode, and writes `/private/var/root/.vphone_mobilegestalt_patched`.
+
+Installed verification from the ramdisk:
+
+```text
+/mnt1/usr/bin/vphone_mgpatch
+/mnt1/System/Library/LaunchDaemons/vphone_mgpatch.plist
+/mnt1/System/Library/xpc/launchd.plist contains /System/Library/LaunchDaemons/vphone_mgpatch.plist
+```
+
+The launchd cache was also checked to still contain the existing CFW entries: `bash`, `dropbear`, `rpcserver_ios`, `trollvnc`, and `vphoned`. Future `cfw_install_dev` runs now install this boot-time patcher instead of trying to mount Data from the ramdisk.
+
+### 2026-04-22 UIKitCore direct idiom patch
+
+Latest SpringBoard and AccessibilityUIServer crash reports still hit `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` after the MobileGestalt boot-time patcher wrote `CacheExtra["DeviceClassNumber"] = 1`. That proves the cache edit is not authoritative for this UIKit path.
+
+IDA/`ipsw` resolved the function to the iOS 18.5 SystemOS dyld shared cache:
+
+```text
+vaddr:    0x185599978
+subcache: dyld_shared_cache_arm64e.03
+offset:   0x1a5978
+before:   pacibsp; stp x20, x19, [sp, #-0x20]!
+after:    mov x0, #0; ret
+```
+
+The mounted Cryptex DMG is sealed/read-only, so the patch must be applied to the copied SystemOS Cryptex on the restored rootfs from the SSH ramdisk: `/mnt1/System/Cryptexes/OS/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e.03`. This is wired into `cfw_install_dev` and exposed as `scripts/ios18_patch_uikit_idiom_from_ramdisk.sh` for one-off testing.
+
+Follow-up correction for the UIKitCore direct patch:
+
+- `ipsw dyld a2o` printed aggregate cache offset `0x5599978`, but the writable target is the subcache file itself. Searching the expected prologue in `dyld_shared_cache_arm64e.03` resolved the actual file-local offset to `0x1a5978`.
+- The first helper version tried to stage bytes through `/tmp` and `scp`, but Dropbear/SFTP could not see the temporary file. The helper now reads remote bytes over SSH stdout with `dd | xxd -p`.
+- The next helper version used shell `printf '\x..'`; on the ramdisk shell that wrote literal ASCII bytes (`7830307830307838`, `x00x00x8`) instead of binary. This was repaired in place with `printf 000080d2c0035fd6 | xxd -r -p | dd ...`.
+- Final verifier: `scripts/ios18_patch_uikit_idiom_from_ramdisk.sh` reports the copied SystemOS subcache is already patched at `/mnt1/System/Cryptexes/OS/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e.03+1726840`.
+
+### 2026-04-22 Next active blocker: fairplayd.H2 crash-respawn loop
+
+With the UIKitCore idiom patch landed, SpringBoard and AccessibilityUIServer no longer crash. Loading bar is visible full. No SpringBoard/AccessibilityUIServer crash reports are being emitted anymore. The new boot blocker is datamigrator → locationd → fairplayd.
+
+Evidence chain from the newest datamigrator stackshot (`stacks+com.apple.datamigrator-2026-04-22-074133.ips`, 42 min hung, plugin `com.apple.locationd.migrator`):
+
+```text
+thread 1547: turnstile blocked on task pid 1, hops: 1, priority: 37
+             (com.apple.fairplayd.versioned (service throttled by launchd))
+thread  532: blocked on 1547
+thread 1462: blocked on 1547
+thread 1566: blocked on 1462 (com.apple.locationd.synchronous)
+thread 2189: blocked on 1462 (com.apple.locationd.synchronous)
+thread 2803: blocked on 1462 (com.apple.locationd.synchronous)
+thread 2122: blocked on 1462
+  → 36709 / 37809 / 37821: blocked on 2122
+```
+
+Translation: fairplayd.versioned is launchd-throttled (never stays alive long enough to answer Mach port lookups). Thread 1547 is inside `CLHarvestControllerSilo`'s fairplayd call site; locationd (1462) serializes on 1547; the CoreLocationMigrator plugin blocks on locationd; datamigrator blocks on the plugin; whole chain deadlocks at 100% progress.
+
+dmesg confirms fairplayd respawn storm: `/usr/sbin/fairplayd.H2[782] ... ReportCrash[783] Corpse failure, too many 6` repeating every ~10s. Kernel corpse subsystem is at its 6-corpse cap, so fairplayd's own crash reports are being dropped — that's why `ls /var/mobile/Library/Logs/CrashReporter/ | grep -i fairplay` returns nothing.
+
+Neither `launchctl print system/com.apple.fairplayd.H2` nor `.versioned` resolved — service label is in a different domain (possibly `user/…` or an XPC-registered subservice). fairplayd.H2 binary is at `/usr/sbin/fairplayd.H2` (21 MB, May 6 2025, stock — not touched by CFW).
+
+Related kernel log that's probably upstream: `"AppleSEPKeyStore":12667:559: operation failed (sel: 35 ret: e00002f0)`. AKS selector 35 ~ key derivation; vresearch SEP likely has no usable key material for fairplayd's DRM identity.
+
+Two remediation candidates:
+
+1. **Disable the fairplayd LaunchDaemons at CFW install.** Rename `/System/Library/LaunchDaemons/com.apple.fairplayd*.plist` so launchd never tries to start them. Clients that call fairplayd get immediate `XPC_ERROR_CONNECTION_INVALID` or Mach port lookup failure instead of blocking. Minimum risk, matches existing CFW philosophy of disabling VM-incompatible services.
+2. **No-op fairplayd.H2 binary.** Same pattern as `patch-mobileactivationd`: patch the Mach-O so it starts, registers its Mach services, and returns success on every XPC message without calling SEP. More invasive but yields better client compatibility.
+
+Prefer (1) first — reversible by restoring the plist, and it isolates SEP-dependent code paths entirely from the VM. If (1) causes secondary failures (e.g., locationd crashes rather than hangs when the port lookup fails), fall back to (2).
+
+Next actions:
+
+1. Find the LaunchDaemon plist filenames and Labels: `find /System/Library/LaunchDaemons -name "*fairplay*"`.
+2. Dump the plists, identify the exact Label strings used by launchd.
+3. Confirm no other LaunchDaemon in `/System/Library/LaunchDaemons` lists a `MachService` matching `com.apple.fairplayd.versioned`.
+4. Prototype by renaming the plist(s) on the live VM (`/System/Library/...` is RO sealed; do this from ramdisk), or at ramdisk time via `cfw_install_dev`.
+5. After reboot, verify: datamigrator progresses past `com.apple.locationd.migrator`, locationd threads are no longer turnstile-blocked on fairplayd, home screen appears.
+
+#### Implementation of fairplayd disable
+
+Plists located: `/System/Library/LaunchDaemons/com.apple.fairplayd.H2.plist` (binary, Label `com.apple.fairplayd.H2`, UserName `mobile`, Program `/usr/sbin/fairplayd.H2`, MachServices registered via binary-plist dict) and `/System/Library/LaunchDaemons/com.apple.fairplaydeviceidentityd.plist` (XML, Label `com.apple.fairplaydeviceidentityd`, MachService `com.apple.fairplaydeviceidentityd`).
+
+The turnstile error string `com.apple.fairplayd.versioned` is a MachService alias registered by `fairplayd.H2` (not a separate plist). Disabling `com.apple.fairplayd.H2.plist` removes that registration so clients fail port lookup fast instead of turnstile-blocking.
+
+Implementation:
+
+- `scripts/ios18_disable_fairplayd_from_ramdisk.sh` — standalone, idempotent ramdisk helper. Renames both plists to `*.plist.disabled` and keeps a one-time `*.plist.vphone_bak` so re-runs are safe and revert is just renaming back.
+- `scripts/cfw_install_dev.sh` now runs `disable_remote_fairplayd` right after `patch_remote_uikit_idiom` during Cryptex install (both need `/mnt1` mounted rw; both disable VM-incompatible userspace services).
+
+Test path: `make cfw_install_dev` picks up the new step. After it completes and normal boot reaches userspace, verify `ls /System/Library/LaunchDaemons/com.apple.fairplayd*` shows both as `.disabled`, no fairplayd respawn lines appear in `dmesg`, `ps auxww | grep -i springboard` shows SpringBoard running, and datamigrator either finishes or is skippable.
+
+Revert path: rename `.plist.disabled` back to `.plist` (or use the `.vphone_bak` copy).
+
+### 2026-04-22 CRITICAL: UIKitCore byte-patch violates codesign and kills all UIKit consumers
+
+After fairplayd was disabled via `/var/db/com.apple.xpc.launchd/disabled.plist` (adding keys `com.apple.fairplayd.H2` / `.versioned` / `.chronod` / `.ndoagent` / `.WebBookmarks.webbookmarksd`), SSH over port 2222 became reachable and we captured real `ReportCrash` `.ips` files. They show:
+
+```json
+"exception": {"type":"EXC_CRASH","signal":"SIGKILL - CODESIGNING"}
+"termination": {"namespace":"CODESIGNING","indicator":"Invalid Page"}
+```
+
+Every process that loads UIKit (SpringBoard, AccessibilityUIServer, ReportCrash, chronod, ndoagent, spaceattributiond, nanotimekitcompaniond, webbookmarksd) dies with this SIGKILL. This is not a UIKit idiom assertion, not fairplayd, not AKS - it is the kernel's AMFI walking the dyld shared cache code-directory hash tree, finding our patched page at `dyld_shared_cache_arm64e.03 + 0x1a5978` (`mov x0,#0 ; ret` replacing `pacibsp; stp x20, x19, [sp, #-0x20]!`) and killing the process with "Invalid Page".
+
+The "Text page corruption detected in dying process" dmesg lines we chased earlier are a kernel post-mortem artifact of this same SIGKILL, not a separate cause.
+
+The UIKit idiom byte-patch *does* bypass the NSAssertion on a single process load, but because the subcache page's CDHash no longer matches the signed value, every subsequent process that memory-maps that same page gets SIGKILLed by AMFI. The UI never comes up because SpringBoard dies to codesign before reaching its main, ReportCrash dies to codesign while trying to write crash reports, and the whole userspace cascades.
+
+Options to unblock (ordered by risk):
+
+1. **Add `amfi_get_out_of_my_way=1` to guest NVRAM boot-args.** The current guest boot-args are `serial=3 debug=0x104c04`. If the guest kernel honors `amfi_get_out_of_my_way` the same way the host does, AMFI will stop hash-verifying shared-cache pages and the patch can stand. Must be added in `sources/vphone-cli/VPhoneVirtualMachine.swift` where NVRAM `boot-args` are written.
+2. **Revert the UIKitCore byte patch and find another way to make `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` return `UIUserInterfaceIdiomPhone`.** Options include a dyld-interposer dylib loaded via `DYLD_INSERT_LIBRARIES` in SpringBoard's launchd environment, or patching a different (non-shared-cache) binary that influences the answer.
+3. **Rebuild the subcache code directory + shared-cache codesign blob** after the byte patch. This is the "correct" fix but requires understanding how `ipsw` signs / packages subcaches and how AMFI trust-cache entries need to be updated. Deeper work.
+
+Option 1 is the cheapest test and matches what host macOS already uses (`amfi_get_out_of_my_way=1`). If it works the UIKit patch is durable; if it doesn't, we move to option 2 or 3.
+
+### 2026-04-22 NVRAM boot-args investigation — Swift NVRAM not effective
+
+Confirmed: `VZMacAuxiliaryStorage._setDataValue:forNVRAMVariableNamed:` writes to a different NVRAM namespace than what iBoot reads for kernel-boot-args substitution.
+
+Evidence:
+- Guest `kern.bootargs` shows `serial=3 -v debug=0x2014e ` (trailing space + empty after).
+- iBoot's baked boot-args format is `serial=3 -v debug=0x2014e %s` (in patched iBEC).
+- `%s` substitution yields empty even though host-side Swift sets a non-empty value on the aux-storage NVRAM and logs "NVRAM boot-args: ..." success.
+- Guest runtime `nvram boot-args=...` sets the value but it does not survive a host-side reboot because Swift recreates aux storage with `.allowOverwrite` each launch, and iBoot reads from a source that the aux-storage writes do not populate.
+
+Fix: bake the required boot-args directly into `IBootPatcher.bootArgs` so they live in the patched iBEC binary on disk. This edit is done. Applying it requires rebuilding iBEC via `make fw_patch_dev`, full restore via ramdisk, then `cfw_install_dev`. Documented here so next session does not re-investigate the Swift NVRAM path.
+
+Current `IBootPatcher.bootArgs`:
+```
+serial=3 -v debug=0x2014e amfi_get_out_of_my_way=1 cs_enforcement_disable=1 %s
+```
+
+Swift `boot-args` in `VPhoneVirtualMachine.swift` is reverted to the original `serial=3 debug=0x104c04` since Swift's NVRAM layer does not feed iBoot anyway.
+
+Dependency chain summary of today's work:
+1. LLB `system-volume-auth-blob` gate → patched at 0x1ce8 (done, doc'd).
+2. UIKitCore idiom assertion → byte-patched at dyld_shared_cache_arm64e.03+0x1a5978 (done, doc'd).
+3. Patch (2) violates shared-cache code-directory hash → AMFI SIGKILLs every UIKit consumer (new finding).
+4. Fix for (3): bake `amfi_get_out_of_my_way=1 cs_enforcement_disable=1` into iBoot's kernel boot-args (edit made, requires full restore cycle to apply).
+5. fairplayd/chronod/ndoagent/webbookmarksd disabled via `/var/db/com.apple.xpc.launchd/disabled.plist` at runtime + the LaunchDaemon plist rename at CFW install time (both done, one documented and wired).
+
+### 2026-04-22 Progress snapshot + strategy pivot: TXM/kernel codesign bypass in dev variant
+
+Today's net progress:
+- Before today: LLB went to recovery; boot never reached XNU.
+- End of today: LLB passes, XNU boots, APFS Cryptex loads, launchd starts, first-boot shell runs, root shell over SSH on port 2222 works, backboardd runs, datamigrator tries to run.
+- First remaining blocker: SpringBoard and many other UIKit consumers are SIGKILLed by AMFI with `CODESIGNING: Invalid Page` because the UIKitCore byte-patch at `dyld_shared_cache_arm64e.03 + 0x1a5978` invalidates the signed page hash.
+
+`amfi_get_out_of_my_way=1 cs_enforcement_disable=1` via iBoot-baked boot-args is one possible fix, but these boot-args are blunt and will still leave AMFI partially enforcing on iOS 18.5 (Apple has hardened the kernel flags here over time). A cleaner and more surgical path is to use the kernel-side codesign bypass patches that already exist in this repo. The JB variant already ships the exact patch we need.
+
+Existing kernel patches that matter for this problem:
+
+| Patch | Layer | Applies to | Effect |
+|---|---|---|---|
+| `KernelPatchPostValidation` patch 8 | base | regular+dev+jb | NOP TBNZ after `TXM [Error]: CodeSignature` log — keeps process alive past TXM CodeSignature error. |
+| `KernelPatchPostValidation` patch 9 | base | regular+dev+jb | Rewrites `cmp w0,#imm` → `cmp w0,w0` after `AMFI: code signature validation failed` string — forces AMFI postValidation path to look successful. |
+| `KernelJBPatchAmfiTrustcache.patchAmfiCdhashInTrustcache` | JB | jb only | Rewrites `AMFIIsCDHashInTrustCache` to always return 1. |
+| `KernelJBPatchAmfiExecve.patchKillPathExecve` (or similar) | JB | jb only | NOPs the AMFI-kills-on-execve path. |
+
+The combination that should actually fix our shared-cache hash-mismatch SIGKILL:
+- Base patches 8 + 9 are already applied in regular/dev, but they handle different code paths (TXM post-validation + generic AMFI CS validation failure). They do NOT override `AMFIIsCDHashInTrustCache`, which is what the kernel calls when memory-mapping a shared-cache page into a process. That function is the one returning "not trusted" for our patched page and driving the "Invalid Page" SIGKILL.
+- `patchAmfiCdhashInTrustcache` is the precise override. It lives only in the JB patcher right now.
+
+**Planned change for next session**: port `patchAmfiCdhashInTrustcache` (and optionally `patchAmfiExecve`) into the dev variant without pulling in the full JB patch set. These are the two Group-A JB patches that address AMFI runtime gates; the remaining JB patches handle user-r00t/tfp0-style escalation which we do not need.
+
+Candidate wiring:
+
+1. Extract the two methods' bodies from `sources/FirmwarePatcher/Kernel/JBPatches/KernelJBPatchAmfiTrustcache.swift` and `KernelJBPatchAmfiExecve.swift` into a shared module (or keep them in JB and have the dev variant construct a JB patcher with only those methods active).
+2. Simpler, higher-parity alternative: in `sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift` around the `case .regular, .dev:` kernel branch, add a `KernelJBPatcher` that runs with a `devOnly` flag restricting it to `patchAmfiCdhashInTrustcache` + `patchAmfiExecve`. Do not expand to the Group B / Group C JB patches. Wire the buffer-merge logic similarly to how JB variant already layers base then JB patches sequentially.
+3. Revert `IBootPatcher.bootArgs` back to `serial=3 -v debug=0x2014e %s`. The AMFI flags are no longer needed once `AMFIIsCDHashInTrustCache` always returns 1.
+4. Keep the UIKitCore idiom byte-patch at its current offset. The kernel patches make the hash mismatch harmless.
+5. Keep all other fixes (LLB, fairplayd disable, launchd plist rename, MobileGestalt cache override even if redundant).
+
+Stability caveat: the two AMFI patches are the minimum surface. If later we find additional `CODESIGNING: Invalid Page` SIGKILLs survive these two patches, we can port more JB kernel patches incrementally.
+
+State at end of session:
+- Swift `VPhoneVirtualMachine.swift` `bootArgs` reverted to `serial=3 debug=0x104c04` — Swift NVRAM does not feed iBoot, so the kernel flags there are ineffective.
+- `IBootPatcher.swift` `bootArgs` currently has the AMFI flags baked in. **Decision for next session**: revert this to the original `serial=3 -v debug=0x2014e %s` if we port the JB AMFI kernel patches; keep the AMFI flags if we want belt-and-suspenders.
+- Disk state on VM: UIKitCore byte-patched, fairplayd plists renamed, `/var/db/com.apple.xpc.launchd/disabled.plist` has fairplayd/chronod/ndoagent/webbookmarksd disabled. VM boots to 100% progress bar, SpringBoard in crash loop.

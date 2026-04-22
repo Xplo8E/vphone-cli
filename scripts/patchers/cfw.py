@@ -23,6 +23,10 @@ Commands:
     patch-launchd-jetsam <binary>
         Patch launchd jetsam panic guard to avoid initproc crash loop.
 
+    patch-mobilegestalt <cache.plist> [--full-identity]
+        Override MobileGestalt CacheExtra so UIKit reads iPhone idiom
+        (works around ComputeModule14,2 UI-idiom assertion on iOS 18.5).
+
     inject-daemons <launchd.plist> <daemon_dir>
         Inject bash/dropbear/trollvnc into launchd.plist.
 
@@ -46,12 +50,14 @@ if __name__ == "__main__":
     from patchers.cfw_patch_cache_loader import patch_launchd_cache_loader
     from patchers.cfw_patch_mobileactivationd import patch_mobileactivationd
     from patchers.cfw_patch_jetsam import patch_launchd_jetsam
+    from patchers.cfw_patch_mobilegestalt import IPHONE_IDENTITY_OVERRIDES, patch_mobilegestalt
     from patchers.cfw_daemons import parse_cryptex_paths, inject_daemons
 else:
     from .cfw_patch_seputil import patch_seputil
     from .cfw_patch_cache_loader import patch_launchd_cache_loader
     from .cfw_patch_mobileactivationd import patch_mobileactivationd
     from .cfw_patch_jetsam import patch_launchd_jetsam
+    from .cfw_patch_mobilegestalt import IPHONE_IDENTITY_OVERRIDES, patch_mobilegestalt
     from .cfw_daemons import parse_cryptex_paths, inject_daemons
 
 
@@ -98,6 +104,15 @@ def main():
         if not patch_launchd_jetsam(sys.argv[2]):
             sys.exit(1)
 
+    elif cmd == "patch-mobilegestalt":
+        if len(sys.argv) < 3:
+            print("Usage: patch_cfw.py patch-mobilegestalt <cache.plist> [--full-identity]")
+            sys.exit(1)
+        full_identity = "--full-identity" in sys.argv[3:]
+        overrides = IPHONE_IDENTITY_OVERRIDES if full_identity else None
+        if not patch_mobilegestalt(sys.argv[2], overrides=overrides):
+            sys.exit(1)
+
     elif cmd == "inject-daemons":
         if len(sys.argv) < 4:
             print("Usage: patch_cfw.py inject-daemons <launchd.plist> <daemon_dir>")
@@ -129,6 +144,7 @@ def main():
         print(f"Unknown command: {cmd}")
         print("Commands: cryptex-paths, patch-seputil, patch-launchd-cache-loader,")
         print("          patch-mobileactivationd, patch-launchd-jetsam,")
+        print("          patch-mobilegestalt,")
         print("          inject-daemons, inject-dylib")
         sys.exit(1)
 

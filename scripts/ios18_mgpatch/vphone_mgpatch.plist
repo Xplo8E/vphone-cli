@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.vphone.mobilegestalt-patch</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/vphone_mgpatch</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/private/var/log/vphone_mgpatch.log</string>
+    <key>StandardErrorPath</key>
+    <string>/private/var/log/vphone_mgpatch.log</string>
+</dict>
+</plist>

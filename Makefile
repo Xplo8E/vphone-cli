@@ -16,6 +16,10 @@ RESTORE_ECID ?=           # ECID for restore operations
 IRECOVERY_ECID ?=         # ECID for ramdisk send operations
 # Firmware layout profile: legacy or ios18-22F76.
 FIRMWARE_PROFILE ?= legacy
+# SwiftPM/Clang intermittently fails while compiling Capstone C sources under
+# high parallelism on this host, and Make's old tail filter hid the real error.
+# Keep debug patcher builds deterministic; override with SWIFT_BUILD_JOBS=N.
+SWIFT_BUILD_JOBS ?= 1
 
 # ─── Build info ──────────────────────────────────────────────────
 GIT_HASH    := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
@@ -156,13 +160,13 @@ $(PATCHER_BINARY): $(SWIFT_SOURCES) Package.swift
 	@echo "=== Building vphone-cli patcher ($(GIT_HASH)) ==="
 	@echo '// Auto-generated — do not edit' > $(BUILD_INFO)
 	@echo 'enum VPhoneBuildInfo { static let commitHash = "$(GIT_HASH)" }' >> $(BUILD_INFO)
-	@set -o pipefail; swift build 2>&1 | tail -5
+	swift build --jobs $(SWIFT_BUILD_JOBS)
 
 $(BINARY): $(SWIFT_SOURCES) Package.swift $(ENTITLEMENTS)
 	@echo "=== Building vphone-cli ($(GIT_HASH)) ==="
 	@echo '// Auto-generated — do not edit' > $(BUILD_INFO)
 	@echo 'enum VPhoneBuildInfo { static let commitHash = "$(GIT_HASH)" }' >> $(BUILD_INFO)
-	@set -o pipefail; swift build -c release 2>&1 | tail -5
+	swift build -c release --jobs $(SWIFT_BUILD_JOBS)
 	@echo ""
 	@echo "=== Signing with entitlements ==="
 	codesign --force --sign - --entitlements $(ENTITLEMENTS) $@

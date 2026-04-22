@@ -130,7 +130,13 @@ class VPhoneVirtualMachine: NSObject, VZVirtualMachineDelegate {
         platform.auxiliaryStorage = auxStorage
         platform.hardwareModel = hwModel
 
-        // Set NVRAM boot-args to enable serial output
+        // Set NVRAM boot-args to enable serial output.
+        // NOTE: iBoot substitutes NVRAM boot-args into its baked format string
+        // ("serial=3 -v debug=0x2014e %s"). The string lives in the patched iBEC
+        // binary on disk. Required iOS-18.5 kernel flags (amfi_get_out_of_my_way=1,
+        // cs_enforcement_disable=1) are baked into that format string directly via
+        // `IBootPatcher.bootArgs` because VZMacAuxiliaryStorage writes to a different
+        // NVRAM namespace than the one iBoot reads.
         let bootArgs = "serial=3 debug=0x104c04"
         if let bootArgsData = bootArgs.data(using: .utf8) {
             let ok =

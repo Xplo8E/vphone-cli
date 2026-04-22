@@ -1414,3 +1414,112 @@ panic: initproc failed to start
 ```
 
 That moves the active slice from LLB to Cryptex/CFW installation. A fresh restore does not preserve the earlier CFW install, so the next step is to boot the SSH ramdisk and rerun `cfw_install_dev`.
+
+### CFW reinstall and first successful dev shell
+
+After rerunning the SSH ramdisk and `cfw_install_dev` on top of the patched restore, normal boot reached the direct development console:
+
+```text
+bash-4.4# id
+uid=0(root) gid=0(wheel) groups=0(wheel),1(daemon),2(kmem),3(sys),4(tty),5(operator),8(procview),9(procmod),20(staff),29(certusers),80(admin)
+```
+
+The root filesystem is live enough to inspect `/var`, and the host window title reports `VPHONE [connected]`, which means `vphoned` is up and the host control channel has connected. That confirms the full bring-up chain through CFW:
+
+```text
+fw_prepare -> fw_patch_dev -> restore -> LLB auth-blob bypass -> XNU/APFS -> ramdisk -> cfw_install_dev -> normal boot -> root shell
+```
+
+The visual UI is still not complete: the VM window stays on a black screen with a white progress bar for a long time. That is no longer a boot-chain issue. It is a userspace/UI state to investigate after the README first-boot commands generate Dropbear host keys and shut the VM down cleanly.
+
+Vinay already ran the README first-boot commands while the progress bar was around 75%, then rebooted. On the next boot the progress bar started from 0%, eventually filled after roughly one hour, but the UI still did not transition. Treat this as a late userspace/UI investigation:
+
+- `SpringBoard` may not be running, may be crash-looping, or may be waiting on Setup/Buddy/activation state.
+- `backboardd` / `runningboardd` may be running but unable to hand off scene/display state.
+- `mobileactivationd` is patched, but activation/Buddy state may still leave the boot progress overlay up.
+- This does not invalidate the iOS 18.5 firmware bring-up: root shell and `vphoned` are alive.
+
+### SpringBoard load gate experiment and rollback
+
+The offline UI probe showed that SpringBoard exists both as a standalone launch daemon plist and inside the launchd service cache:
+
+```text
+/System/Library/LaunchDaemons/com.apple.SpringBoard.plist
+/System/Library/xpc/launchd.plist
+```
+
+The SpringBoard entry carried two notable gates:
+
+```text
+_LimitLoadFromClarityMode = true
+LimitLoadFromHardware = { osenvironment = [diagnostics] }
+```
+
+That made a plausible hypothesis: `vresearch101ap` on iOS 18.5 may look diagnostics-like to launchd, causing SpringBoard to be suppressed while backboard/runningboard/mobileactivation continue to run.
+
+The first experiment removed those keys from both plist locations. It was not a valid path. The next normal boot reached `launchd_cache_loader`, which accepted and sent the modified cache, but `launchd` immediately panicked:
+
+```text
+Using unsecure cache: /System/Library/xpc/launchd.plist
+Sending validated cache to launchd
+Cache sent to launchd successfully
+panic: initproc exited -- exit reason namespace 7 subcode 0x1 description: No service cache
+```
+
+The important lesson is that `/System/Library/xpc/launchd.plist` is not safe to treat as a normal editable plist. Python `plistlib` can produce a syntactically valid binary plist that still violates launchd's cache expectations.
+
+Recovery path:
+
+```bash
+VM_DIR=vm SSH_PORT=2222 scripts/ios18_restore_springboard_load_backup.sh \
+  2>&1 | tee vm/logs/ui_restore_springboard_load_backups.log
+```
+
+That script restores the `.ios18-ui-bak` copies byte-for-byte from the installed filesystem while booted into the SSH ramdisk. After rollback, the expected state is the previous known-good userspace state: normal boot reaches root shell/vphoned and stays on the black progress UI.
+
+In practice, the byte rollback restored the two SpringBoard load gates but the next boot still panicked with `No service cache`. That means the active launchd cache needs to be rebuilt through the known CFW injector path, not just copied from the experiment backup.
+
+Fast launchd-only repair:
+
+```bash
+VM_DIR=vm SSH_PORT=2222 scripts/ios18_rebuild_cfw_launchd_cache.sh \
+  2>&1 | tee vm/logs/ui_rebuild_cfw_launchd_cache.log
+```
+
+If that still panics, rerun full `cfw_install_dev` from the SSH ramdisk. The full CFW path is heavier, but it replays the complete known-good userspace installation sequence.
+
+That fast repair was enough to get out of the panic. After rebuilding the CFW launchd cache, normal boot no longer dies in `launchd`; it returns to the exact earlier problem: black screen with the white progress bar and no visible SpringBoard. That is useful because it splits the failures cleanly:
+
+```text
+solved:
+  normal-boot iBoot recovery loop -> fixed by LLB system-volume-auth-blob branch NOP
+
+recovered:
+  launchd "No service cache" panic -> recovered by rebuilding CFW launchd cache
+
+still open:
+  late UI bring-up -> root shell/vphoned alive, SpringBoard UI not visible
+```
+
+So the active UI problem is not caused by the LLB auth-blob fix and not caused by missing Cryptexes anymore. It is downstream of working launchd/userspace, somewhere in SpringBoard launch gating, activation/Buddy state, display handoff, or environment classification.
+
+The SpringBoard crash-loop root cause has a concrete UIKit-side fix candidate now. IDA analysis of `/tmp/uikit_extract/UIKitCore` showed `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` reads the MobileGestalt `DeviceClassNumber` key, converts it with `intValue`, validates it against a small raw-device-class set, and maps raw value `1` to `UIUserInterfaceIdiomPhone` (`0`). It does not directly read `ProductType` for this assertion path.
+
+That makes the smallest safe cache override:
+
+```text
+CacheExtra["DeviceClassNumber"] = 1
+```
+
+This is implemented in the CFW patcher as the default MobileGestalt patch and is also exposed as a one-off ramdisk helper:
+
+```bash
+VM_DIR=vm SSH_PORT=2222 scripts/ios18_patch_mobilegestalt_cache.sh \
+  2>&1 | tee vm/logs/ui_patch_mobilegestalt_deviceclass.log
+```
+
+Next UI work should not round-trip `launchd.plist` with generic plist tooling. Safer options:
+
+1. Inject a diagnostic LaunchDaemon through the existing CFW patcher path that already modifies the service cache successfully.
+2. Reverse the launchd hardware/environment gate source and patch the reported `osenvironment` / Clarity state instead of editing service entries.
+3. Use live `launchctl print-cache` / `dumpstate` evidence from a working root-shell boot before changing launchd data again.

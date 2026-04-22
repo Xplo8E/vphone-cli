@@ -141,7 +141,64 @@ assert_mount_under_vm() {
 # Mount device filesystem, tolerate already-mounted
 remote_mount() {
     local dev="$1" mnt="$2" opts="${3:-rw}"
+    ssh_cmd "/bin/mkdir -p $mnt"
     ssh_cmd "/sbin/mount_apfs -o $opts $dev $mnt 2>/dev/null || true"
+}
+
+patch_remote_uikit_idiom() {
+    local cache="/mnt1/System/Cryptexes/OS/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e.03"
+    local offset=1726840 # 0x1a5978, _UIDeviceNativeUserInterfaceIdiomIgnoringClassic
+    local expected="7f2303d5f44fbea9"
+    local patched="000080d2c0035fd6" # mov x0,#0; ret
+    local literal_bad="7830307830307838" # old broken printf writer: ASCII x00x00x8
+    local current
+
+    current=$(ssh_cmd "/bin/dd if='$cache' bs=1 skip=$offset count=8 2>/dev/null | /usr/bin/xxd -p" | tr -d '\r\n')
+    if [[ "$current" == "$patched" ]]; then
+        echo "  [=] UIKit idiom resolver already patched"
+        return
+    fi
+    if [[ "$current" == "$literal_bad" ]]; then
+        echo "  [!] Found old broken literal printf bytes; repairing in place"
+    elif [[ "$current" != "$expected" ]]; then
+        die "Unexpected UIKit idiom bytes at $cache+$offset: '$current' (expected $expected)"
+    fi
+
+    ssh_cmd "/usr/bin/printf '$patched' | /usr/bin/xxd -r -p | /bin/dd of='$cache' bs=1 seek=$offset conv=notrunc 2>/dev/null"
+    current=$(ssh_cmd "/bin/dd if='$cache' bs=1 skip=$offset count=8 2>/dev/null | /usr/bin/xxd -p" | tr -d '\r\n')
+    [[ "$current" == "$patched" ]] || die "UIKit idiom patch verification failed: got '$current'"
+    echo "  [+] UIKit idiom resolver patched in copied SystemOS dyld cache"
+}
+
+# Disable fairplayd LaunchDaemons by renaming their plists.
+# fairplayd.H2 crashes near-instantly on vresearch SEP (AKS sel 35 e00002f0);
+# launchd throttles it, and consumers (locationd -> CoreLocationMigrator ->
+# datamigrator) deadlock turnstile-waiting on com.apple.fairplayd.versioned.
+# Disabling makes mach port lookups fail fast instead of blocking.
+# Idempotent: keeps a one-time .vphone_bak copy so re-runs are safe.
+disable_remote_fairplayd() {
+    local plist disabled bak
+    # The SSH ramdisk does not ship /bin/test; use ls as an existence probe.
+    for plist in \
+        /mnt1/System/Library/LaunchDaemons/com.apple.fairplayd.H2.plist \
+        /mnt1/System/Library/LaunchDaemons/com.apple.fairplaydeviceidentityd.plist
+    do
+        disabled="${plist}.disabled"
+        bak="${plist}.vphone_bak"
+        if ssh_cmd "ls '$disabled' >/dev/null 2>&1"; then
+            echo "  [=] Already disabled: $(basename "$plist")"
+            continue
+        fi
+        if ! ssh_cmd "ls '$plist' >/dev/null 2>&1"; then
+            echo "  [!] Not present, skipping: $(basename "$plist")"
+            continue
+        fi
+        if ! ssh_cmd "ls '$bak' >/dev/null 2>&1"; then
+            ssh_cmd "cp '$plist' '$bak'"
+        fi
+        ssh_cmd "mv '$plist' '$disabled'"
+        echo "  [+] Disabled: $(basename "$plist")"
+    done
 }
 
 # ── Find restore directory ─────────────────────────────────────
@@ -235,7 +292,7 @@ echo "  AppOS:    $CRYPTEX_APPOS"
 
 # ═══════════ 1/7 INSTALL CRYPTEX ══════════════════════════════
 echo ""
-echo "[1/7] Installing Cryptex (SystemOS + AppOS)..."
+echo "[1/8] Installing Cryptex (SystemOS + AppOS)..."
 
 SYSOS_DMG="$TEMP_DIR/CryptexSystemOS.dmg"
 APPOS_DMG="$TEMP_DIR/CryptexAppOS.dmg"
@@ -340,6 +397,15 @@ echo "  Copying Cryptexes to device (this takes ~3 minutes)..."
 scp_to "$MNT_SYSOS/." "/mnt1/System/Cryptexes/OS"
 scp_to "$MNT_APPOS/." "/mnt1/System/Cryptexes/App"
 
+# Patch copied SystemOS dyld cache after transfer; the mounted Cryptex DMG is sealed/read-only.
+echo "  Patching UIKitCore idiom resolver in copied SystemOS dyld cache..."
+patch_remote_uikit_idiom
+
+# Disable fairplayd LaunchDaemons; they crash-loop on vresearch SEP and
+# deadlock locationd + datamigrator turnstile-waiting on the fairplayd mach port.
+echo "  Disabling fairplayd LaunchDaemons..."
+disable_remote_fairplayd
+
 # Create dyld symlinks (ln -sf is idempotent)
 echo "  Creating dyld symlinks..."
 ssh_cmd "/bin/ln -sf ../../../System/Cryptexes/OS/System/Library/Caches/com.apple.dyld \
@@ -356,7 +422,7 @@ echo "  [+] Cryptex installed"
 
 # ═══════════ 2/7 PATCH SEPUTIL ════════════════════════════════
 echo ""
-echo "[2/7] Patching seputil..."
+echo "[2/8] Patching seputil..."
 
 # Always patch from .bak (original unpatched binary)
 if ! remote_file_exists "/mnt1/usr/libexec/seputil.bak"; then
@@ -379,7 +445,7 @@ echo "  [+] seputil patched"
 
 # ═══════════ 3/7 INSTALL GPU DRIVER ══════════════════════════
 echo ""
-echo "[3/7] Installing AppleParavirtGPUMetalIOGPUFamily..."
+echo "[3/8] Installing AppleParavirtGPUMetalIOGPUFamily..."
 
 scp_to "$INPUT_DIR/custom/AppleParavirtGPUMetalIOGPUFamily.tar" "/mnt1"
 ssh_cmd "/usr/bin/tar --preserve-permissions --no-overwrite-dir \
@@ -401,7 +467,7 @@ echo "  [+] GPU driver installed"
 
 # ═══════════ 4/7 INSTALL IOSBINPACK64 ════════════════════════
 echo ""
-echo "[4/7] Installing iosbinpack64..."
+echo "[4/8] Installing iosbinpack64..."
 
 scp_to "$INPUT_DIR/jb/iosbinpack64.tar" "/mnt1"
 ssh_cmd "/usr/bin/tar --preserve-permissions --no-overwrite-dir \
@@ -412,7 +478,7 @@ echo "  [+] iosbinpack64 installed"
 
 # ═══════════ 5/7 PATCH LAUNCHD_CACHE_LOADER ══════════════════
 echo ""
-echo "[5/7] Patching launchd_cache_loader..."
+echo "[5/8] Patching launchd_cache_loader..."
 
 # Always patch from .bak (original unpatched binary)
 if ! remote_file_exists "/mnt1/usr/libexec/launchd_cache_loader.bak"; then
@@ -428,9 +494,9 @@ ssh_cmd "/bin/chmod 0755 /mnt1/usr/libexec/launchd_cache_loader"
 
 echo "  [+] launchd_cache_loader patched"
 
-# ═══════════ 6/7 PATCH MOBILEACTIVATIOND ═════════════════════
+# ═══════════ 6/8 PATCH MOBILEACTIVATIOND ═════════════════════
 echo ""
-echo "[6/7] Patching mobileactivationd..."
+echo "[6/8] Patching mobileactivationd..."
 
 # Always patch from .bak (original unpatched binary)
 if ! remote_file_exists "/mnt1/usr/libexec/mobileactivationd.bak"; then
@@ -446,9 +512,38 @@ ssh_cmd "/bin/chmod 0755 /mnt1/usr/libexec/mobileactivationd"
 
 echo "  [+] mobileactivationd patched"
 
-# ═══════════ 7/7 LAUNCHDAEMONS + LAUNCHD.PLIST ══════════════
+# ═══════════ 7/8 MOBILEGESTALT BOOT-TIME PATCHER ════════════
 echo ""
-echo "[7/7] Installing LaunchDaemons..."
+echo "[7/8] Installing MobileGestalt boot-time patcher..."
+
+MG_PATCHER_SRC="$SCRIPT_DIR/ios18_mgpatch"
+MG_PATCHER_BIN="$MG_PATCHER_SRC/vphone_mgpatch"
+MG_PATCHER_PLIST="$MG_PATCHER_SRC/vphone_mgpatch.plist"
+
+needs_mgpatch_build=0
+if [[ ! -f "$MG_PATCHER_BIN" ]]; then
+    needs_mgpatch_build=1
+elif [[ "$MG_PATCHER_SRC/vphone_mgpatch.m" -nt "$MG_PATCHER_BIN" ]]; then
+    needs_mgpatch_build=1
+fi
+if [[ "$needs_mgpatch_build" == "1" ]]; then
+    echo "  Building vphone_mgpatch for arm64..."
+    xcrun -sdk iphoneos clang -arch arm64 -Os -fobjc-arc \
+        -o "$MG_PATCHER_BIN" "$MG_PATCHER_SRC/vphone_mgpatch.m" \
+        -framework Foundation
+fi
+cp "$MG_PATCHER_BIN" "$TEMP_DIR/vphone_mgpatch"
+ldid_sign_ent "$TEMP_DIR/vphone_mgpatch" "$SCRIPT_DIR/vphoned/entitlements.plist"
+scp_to "$TEMP_DIR/vphone_mgpatch" "/mnt1/usr/bin/vphone_mgpatch"
+ssh_cmd "/bin/chmod 0755 /mnt1/usr/bin/vphone_mgpatch"
+scp_to "$MG_PATCHER_PLIST" "/mnt1/System/Library/LaunchDaemons/vphone_mgpatch.plist"
+ssh_cmd "/bin/chmod 0644 /mnt1/System/Library/LaunchDaemons/vphone_mgpatch.plist"
+cp "$MG_PATCHER_PLIST" "$INPUT_DIR/jb/LaunchDaemons/vphone_mgpatch.plist"
+echo "  [+] MobileGestalt boot-time patcher installed"
+
+# ═══════════ 8/8 LAUNCHDAEMONS + LAUNCHD.PLIST ══════════════
+echo ""
+echo "[8/8] Installing LaunchDaemons..."
 
 # Install vphoned (vsock HID injector daemon)
 VPHONED_SRC="$SCRIPT_DIR/vphoned"
@@ -486,7 +581,7 @@ cp "$TEMP_DIR/vphoned" "$VM_DIR/.vphoned.signed"
 echo "  [+] vphoned installed (signed copy at .vphoned.signed)"
 
 # Send daemon plists (overwrite on re-run)
-for plist in bash.plist dropbear.plist trollvnc.plist rpcserver_ios.plist; do
+for plist in bash.plist dropbear.plist trollvnc.plist rpcserver_ios.plist vphone_mgpatch.plist; do
     scp_to "$INPUT_DIR/jb/LaunchDaemons/$plist" "/mnt1/System/Library/LaunchDaemons/"
     ssh_cmd "/bin/chmod 0644 /mnt1/System/Library/LaunchDaemons/$plist"
 done
@@ -513,6 +608,7 @@ echo ""
 echo "[*] Unmounting device filesystems..."
 ssh_cmd "/sbin/umount /mnt1 2>/dev/null || true"
 ssh_cmd "/sbin/umount /mnt3 2>/dev/null || true"
+ssh_cmd "/sbin/umount /mnt2 2>/dev/null || true"
 
 # Keep .cfw_temp/Cryptex*.dmg cached (slow to re-create)
 # Only remove temp binaries
@@ -520,6 +616,7 @@ echo "[*] Cleaning up temp binaries..."
 rm -f "$TEMP_DIR/seputil" \
     "$TEMP_DIR/launchd_cache_loader" \
     "$TEMP_DIR/mobileactivationd" \
+    "$TEMP_DIR/vphone_mgpatch" \
     "$TEMP_DIR/vphoned" \
     "$TEMP_DIR/launchd.plist"
 
