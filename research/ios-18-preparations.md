@@ -17,6 +17,29 @@ Firmware inputs are local:
 
 The working assumption before testing was simple: reuse the existing vphone600 flow, swap in 18.5 firmware, and retarget patches only where patterns moved. That assumption is already partially wrong. The 18.5 cloudOS IPSW does not contain `vphone600ap` identities or `kernelcache.research.vphone600`, so the manifest/runtime merge has to move to `vresearch101ap`/`vresearch101` unless we find a separate vphone600 firmware source.
 
+## Board Identity Model
+
+There are two different identities in this project, and mixing them up causes wrong conclusions:
+
+| Layer | Existing iOS 26 / legacy flow | iOS 18.5 `22F76` flow | Meaning |
+| --- | --- | --- | --- |
+| VM / PV hardware identity | `vresearch101` / `vresearch101ap` | `vresearch101` / `vresearch101ap` | What Virtualization.framework exposes. Hardware descriptor uses PV=3, `boardID=0x90`, `CPID=0xFE01`; iBoot logs this as `Local boot, Board 0x90 (vresearch101ap)`. |
+| Boot-chain identity | `vresearch101ap` | `vresearch101ap` | LLB, iBSS, iBEC, and research iBoot are selected from cloudOS `vresearch101ap` because the VM identifies this way in DFU/TSS. |
+| Runtime firmware identity | `vphone600ap` | `vresearch101ap` | KernelCache, DeviceTree, SEP, RestoreDeviceTree, RestoreKernelCache, and RecoveryMode source. This is the part that changed for iOS 18.5. |
+
+So the old officially working path is not "pure vphone600". It is a hybrid: `vresearch101ap` boot chain with `vphone600ap` runtime components. The new iOS 18.5 path is `vresearch101ap` for both boot chain and runtime components because local cloudOS 18.5 only has `j236cap`, `j475dap`, and `vresearch101ap` build identities. Local cloudOS 26.3 still has both `vphone600ap` and `vresearch101ap`, which is why the legacy runtime selection was possible there.
+
+Current 18.5 hybrid output confirms the profile selection:
+
+| Component | 18.5 path |
+| --- | --- |
+| LLB | `Firmware/all_flash/LLB.vresearch101.RELEASE.im4p` |
+| iBoot | `Firmware/all_flash/iBoot.vresearch101.RESEARCH_RELEASE.im4p` |
+| KernelCache | `kernelcache.research.vresearch101` |
+| DeviceTree | `Firmware/all_flash/DeviceTree.vresearch101ap.im4p` |
+| SEP | `Firmware/all_flash/sep-firmware.vresearch101.RELEASE.im4p` |
+| RecoveryMode | absent for `vresearch101ap` |
+
 ## Current Finding States
 
 | State | Finding | Evidence | Impact |
@@ -28,6 +51,7 @@ The working assumption before testing was simple: reuse the existing vphone600 f
 | confirmed | Phase 5 restore reaches disk boot and APFS root authentication on the real `vm/` workspace. | `make restore` exited 0 for UDID `0000FE01-FD01E5DAE1ED866F` / ECID `0xFD01E5DAE1ED866F`. Post-restore boot logs show `BSD root: disk0s1`, `disk1s1 Rooting from snapshot with xid 61`, and `authenticate_root_hash ... successfully validated on-disk root hash`. | The generated 18.5 manifest, boot chain, DeviceTree profile, and kernel patches are coherent enough for restore and disk-root handoff. |
 | confirmed | Phase 5 SSH ramdisk builds and boots with the restore-patched kernel for the real 18.5 profile. | `make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F` completed after `sudo -v`. The first `ramdisk_send` using derived `krnl.ramdisk.img4` hung after `bootx` with no kernel serial. Retrying with `krnl.img4` booted the SSH ramdisk: serial reached `BSD root: md0`, `SSHRD_Script`, `Running server`; usbmux exposed `0000FE01-FD01E5DAE1ED866F`; SSH answered `ready` on `127.0.0.1:2222`. | The iOS 18.5 profile now disables generated `krnl.ramdisk.img4` preference and uses `krnl.img4` for ramdisk boot. |
 | confirmed | Phase 5 dev CFW install completed over the SSH ramdisk. | `make cfw_install_dev VM_DIR=vm SSH_PORT=2222` completed. It installed SystemOS/AppOS Cryptexes, patched `launchd` jetsam guard, patched debugserver entitlements, renamed the APFS update snapshot to `orig-fs`, patched `seputil`, installed GPU bundle and iosbinpack64, patched `launchd_cache_loader`, patched `mobileactivationd`, installed `vphoned` plus dev LaunchDaemons, patched `launchd.plist`, unmounted device filesystems, and halted the ramdisk. Transient SSH/SCP drops recovered through the existing retry loop. | The next runtime gate is first normal boot after CFW. This is where the previous dyld/libSystem panic must be re-tested. |
+| confirmed | First standalone normal boot after CFW does not reach the kernel yet. | `make boot VM_DIR=vm` loads local `LLB.vresearch101.RELEASE` from disk and repeatedly enters `MODE: Recovery` / `Entering recovery mode, starting command prompt` before any `BSD root`, `authenticate_root_hash`, or `libignition` output. `irecovery -q` sees ECID `0xfd01e5dae1ed866f`, `MODE: Recovery`. `setenv auto-boot true`, `saveenv`, `fsboot`, and `irecovery -n` only loop back to the same LLB recovery prompt. README expects `bash-4.4#` at this stage, so this is before the documented first-boot shell setup. | Active blocker moves from userspace/Cryptex to standalone local boot selection. Next analysis should focus on iBoot/LLB local boot metadata, recovery loop state, and the generated hybrid manifest/local boot component set. |
 | candidate | Post-restore userspace was incomplete before CFW install. | The pre-CFW post-restore boot panicked in `launchd`: `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, `initproc failed to start`. | This must now be re-tested after CFW install. If it persists, it becomes a confirmed iOS 18.5 userspace packaging blocker. |
 | confirmed | cloudOS 18.5 `22F76` has no `vphone600ap` build identity. | `BuildManifest.plist` contains `j236cap`, `j475dap`, and `vresearch101ap`; no `vphone600ap`. Running current `scripts/fw_manifest.py` against 18.5 manifests throws `KeyError: 'No release identity for DeviceClass=vphone600ap'`. | Current `fw_prepare` hybrid manifest generation cannot work unchanged on these 18.5 files. |
 | confirmed | Existing pipeline hardcodes vphone600 runtime paths. | `sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift` searches `kernelcache.research.vphone600` and `Firmware/all_flash/DeviceTree.vphone600ap.im4p`. `scripts/ramdisk_build.py` has the same vphone600 assumptions. | We need variant-aware paths or an explicit firmware profile before real 18.5 patching. |
@@ -550,6 +574,30 @@ Progress log:
   - `mobileactivationd` patched at file offset `0x17320` (`mov x0, #1; ret`).
   - `vphoned`, `bash`, `dropbear`, `trollvnc`, and `rpcserver_ios` LaunchDaemons injected.
   - Device filesystems unmounted and ramdisk halted.
+- 2026-04-22 08:58 - Retried the manual README flow from the patching boundary. `ramdisk_build` now emits only `krnl.img4` for `ios18-22F76`, ramdisk boots to `SSHRD_Script` / `Running server`, and CFW can be re-run when the usbmux forward is kept open. First standalone `make boot` after CFW still loops at LLB recovery:
+  - `Local boot, Board 0x90 (vresearch101ap)`
+  - `Entering recovery mode, starting command prompt`
+  - `irecovery -q` reports `MODE: Recovery`
+  - `setenv auto-boot true`, `saveenv`, `fsboot`, and `irecovery -n` do not continue into kernel boot.
+  - README first-boot shell commands require `bash-4.4#`; we are not reaching that layer.
+- 2026-04-22 09:35 - Ruled out host-side NVRAM-preservation hypothesis.
+  - `sources/vphone-cli/VPhoneVirtualMachine.swift` was changed to open existing NVRAM via `VZMacAuxiliaryStorage(contentsOf:)` instead of `creatingStorageAt:.allowOverwrite`.
+  - With a freshly-created NVRAM the VM stuck in SecureROM/DFU and never reached LLB (`MODE: DFU`, `SRTG: mBoot-18000.101.7`). Strict regression vs `.allowOverwrite`.
+  - With the pre-existing `nvram.bin` preserved, LLB still emitted the same hash sequence (`7ab90c923dae682:1819`) then `Entering recovery mode`.
+  - Code reverted. NVRAM is not the root cause; the recovery fallback is decided by state on disk or LLB's own internal validation before NVRAM boot-selection matters.
+- 2026-04-22 09:45 - Captured full iBoot hash sequence from serial:
+  ```
+  3974bfd3d441da3:1557
+  3974bfd3d441da3:1628
+  f6ce2cad806de9b:184
+  9905b4edc794469:939
+  f6ce2cad806de9b:204
+  7ab90c923dae682:1819   <- immediate pre-recovery emitter
+  Entering recovery mode, starting command prompt
+  337a834f05a86eb:373
+  ea0f64a4253252:981     <- heartbeat, repeats
+  ```
+  Extracted raw LLB to `/tmp/llb.vresearch101.raw` (from `LLB.vresearch101.RELEASE.im4p`, 568168 bytes, uncompressed, unencrypted, AArch64). Next session: decode `7ab90c923dae682:1819` in Binary Ninja to name the failing condition.
 
 ## Documentation Rules For This Branch
 
@@ -565,7 +613,11 @@ Do not let important context live only in terminal scrollback. Every meaningful 
 
 ## Next Immediate Work
 
-1. Run first normal boot after CFW: `make boot VM_DIR=vm`.
-2. Capture whether the old pre-CFW dyld failure is gone: `libignition ... cryptex1 ... failed`, `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, or `panic: initproc failed to start`.
-3. If boot reaches userspace, verify post-CFW services: SSH on port `22222`, `dropbear`, `vphoned`, `rpcserver_ios`, and whether activation state is usable.
-4. If boot panics before userspace, paste the last 150-250 serial lines into this doc and triage the failing layer before changing offsets.
+Root cause of LLB recovery fallback is identified (see [llb-recovery-fallback-analysis.md](llb-recovery-fallback-analysis.md)). `LLB.vresearch101.RELEASE` `sub_1928` at offset `0x1ce4` calls `sub_16E9C("system-volume-auth-blob", "boot-path", ...)`; it returns negative because the image4 property store for LocalPolicy boot-object metadata is empty. The `TBNZ W0,#0x1F` at `0x1ce8` then jumps to the 1819 recovery-fallback logger.
+
+1. Decide the fix direction:
+   - **Pipeline fix (preferred if feasible):** figure out whether `system-volume-auth-blob` is supposed to be produced by restore / CFW / hybrid BuildManifest generation and is simply missing for `vresearch101ap`. Compare vphone600 vs vresearch101 behaviour in `scripts/fw_manifest.py` and `scripts/cfw_install_dev.sh`. If a step is missing, add it so LLB can find the blob legitimately.
+   - **LLB patch (bring-up):** if the blob cannot be produced in the vphone flow, add an LLB patcher phase that NOPs the `TBNZ` at `0x1ce8` (or stubs `sub_16E9C` to return 0). Document the offset semantically (look for the boot-object loader that calls `sub_16E9C` with `"system-volume-auth-blob"`), not by raw file offset. Update `research/0_binary_patch_comparison.md` when that patcher lands.
+2. After the fix, `make boot VM_DIR=vm` and record the next failure (likely kernelcache load via `sub_D124('krnl',...)`). Do not keep changing LLB until a real next failure appears.
+3. Do not touch NVRAM host-side code for this symptom. The failure occurs before kernel load and is not driven by `VZMacAuxiliaryStorage`.
+4. Do not change kernel/Cryptex patches for this symptom.

@@ -1236,16 +1236,47 @@ Reboot the device for changes to take effect.
 After boot, SSH will be available on port 22222 (password: alpine)
 ```
 
-The next verifier is now first normal boot after CFW. The specific regression test is the earlier `launchd` panic: if the boot still reports `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, or `libignition ... cryptex1 ... failed`, then the CFW/Cryptex packaging path becomes the active confirmed blocker. If it passes that point, the next gates are activation, LaunchDaemon startup, and host-to-guest control over `vphoned`.
+The next verifier was first normal boot after CFW. README says the regular/dev path should reach a direct `bash-4.4#` console at this point, where first-boot shell environment setup and Dropbear host key generation happen.
+
+The iOS 18.5 retry does not get that far. Standalone `make boot` loads the local LLB from the disk image and drops into iBoot recovery prompt before kernel handoff:
+
+```text
+=Loaded LLB============================
+Supervisor iBoot for vresearch101
+Local boot, Board 0x90 (vresearch101ap)/Rev 0x0
+BUILD_TAG: iBoot-11881.122.1
+BUILD_STYLE: RELEASE
+...
+Entering recovery mode, starting command prompt
+```
+
+The irecv state agrees:
+
+```text
+irecovery -i 0xFD01E5DAE1ED866F -q
+MODE: Recovery
+```
+
+Manual attempts to clear the obvious recovery-loop state did not move it into kernel boot:
+
+```bash
+irecovery -i 0xFD01E5DAE1ED866F -c "setenv auto-boot true"
+irecovery -i 0xFD01E5DAE1ED866F -c "saveenv"
+irecovery -i 0xFD01E5DAE1ED866F -c "fsboot"
+irecovery -i 0xFD01E5DAE1ED866F -n
+```
+
+After those commands, the VM returned to the same local LLB banner and recovery prompt. That reclassifies the active blocker: the previous pre-CFW `launchd`/dyld panic remains useful evidence, but it is no longer the first failure in the post-CFW standalone boot path. Current failure is before kernel load, in local iBoot/LLB boot selection or boot metadata.
 
 ## Working Notes For Next Session
 
-Do not start by changing offsets. Phase 1 profile plumbing, Phase 2 TXM retargeting, Phase 3 DeviceTree profile patching, and Phase 4 kernel miss retargeting are done. Phase 5 has created, prepared, dev-patched, DFU-booted, fetched SHSH, restored the real `vm/` workspace, built the SSH ramdisk, booted it using `krnl.img4`, and completed `cfw_install_dev`. Disk boot reached APFS root authentication before CFW but panicked because Cryptex/dyld content was not yet deployed. That exact panic must now be re-tested after CFW.
+Do not start by changing kernel offsets. Phase 1 profile plumbing, Phase 2 TXM retargeting, Phase 3 DeviceTree profile patching, and Phase 4 kernel miss retargeting are done. Phase 5 has created, prepared, dev-patched, DFU-booted, fetched SHSH, restored the real `vm/` workspace, built the SSH ramdisk, booted it using `krnl.img4`, and completed `cfw_install_dev`. The current standalone boot failure happens earlier than the old dyld panic: local LLB enters iBoot recovery prompt and does not load the kernel.
 
 Concrete next commands/targets:
 
 ```bash
-# first normal boot after CFW; Vinay runs this locally to watch the console
+# stop current stuck VM first, then rule out persisted recovery-loop NVRAM
+mv vm/nvram.bin "vm/nvram.bin.recovery-loop-$(date +%Y%m%d-%H%M%S)"
 make boot VM_DIR=vm
 ```
 
@@ -1265,5 +1296,73 @@ Library not loaded: /usr/lib/libSystem.B.dylib
 Reason: ... no dyld cache
 panic: initproc failed to start
 ```
+
+If the clean-NVRAM boot still returns to `Entering recovery mode, starting command prompt`, inspect the local boot metadata next: hybrid `BuildManifest.plist`, `Restore.plist`, iBoot/LLB component paths, `RecoveryMode` absence for `vresearch101ap`, and whether iBoot expects a different local boot command or boot object for standalone PV=3 boot.
+
+## 2026-04-22 Session - LLB Recovery-Mode Fallback Debug
+
+Reproducible with full serial dump now. Every post-CFW `make boot` shows this LLB sequence before recovery:
+
+```text
+image <<PTR>>: bdev <<PTR>> type illb offset 0x20000 len 0x8c1e8
+
+=Loaded LLB============================
+:: Supervisor iBoot for vresearch101 ...
+::	Local boot, Board 0x90 (vresearch101ap)/Rev 0x0
+::	BUILD_TAG: iBoot-11881.122.1
+::	BUILD_STYLE: RELEASE
+::	USB_SERIAL_NUMBER: SDOM:01 CPID:FE01 CPRV:00 CPFM:03 SCEP:01 BDID:90 ECID:FD01E5DAE1ED866F IBFL:3D SRNM:[ZTC79CLVD1]
+=Loaded LLB============================
+
+3974bfd3d441da3:1557
+3974bfd3d441da3:1628
+f6ce2cad806de9b:184
+9905b4edc794469:939
+f6ce2cad806de9b:204
+7ab90c923dae682:1819
+Entering recovery mode, starting command prompt
+337a834f05a86eb:373
+ea0f64a4253252:981   (heartbeat, repeats while idle in recovery)
+```
+
+The `hex:int` tokens are iBoot source-location hashes - obfuscated file/line markers in RELEASE builds. The sequence immediately before `Entering recovery mode` identifies the failure path. Key one to decode: `7ab90c923dae682:1819`.
+
+LLB source: `vm/iPhone17,3_18.5_22F76_Restore/Firmware/all_flash/LLB.vresearch101.RELEASE.im4p` (im4p fourcc `illb`, description `iBoot-11881.122.1`, 568168-byte AArch64 binary, magic `0000009000000091` = first ADRP/ADD pair, so raw LLB Mach-O-less blob, not compressed, not encrypted). Extracted to `/tmp/llb.vresearch101.raw` for Binary Ninja analysis.
+
+### NVRAM-preservation hypothesis tested and ruled out
+
+`sources/vphone-cli/VPhoneVirtualMachine.swift` used `VZMacAuxiliaryStorage(creatingStorageAt:hardwareModel:options:.allowOverwrite)` every launch. Hypothesis: that wiped any iBoot-persisted state (auto-boot, boot-partition, etc.) between boots, forcing LLB to fall back to recovery.
+
+Tested with preserving code (`VZMacAuxiliaryStorage(contentsOf:)` when the file exists). Results:
+- Fresh run after creating a brand-new NVRAM: VM sat in SecureROM/DFU, never reached LLB (`SRTG: mBoot-18000.101.7`, `MODE: DFU`). Worse than before.
+- Run with the pre-existing `nvram.bin` preserved: reached LLB, same `Entering recovery mode` path, identical hash sequence. No improvement.
+
+Reverted. Code is back to `.allowOverwrite`. Conclusion: iBoot's recovery-fallback decision is not driven by the NVRAM layer visible to `VZMacAuxiliaryStorage` - it's either driven by state on disk (boot object layout / signatures / kernel locator) or by LLB failing a validation that happens before NVRAM boot-selection is consulted.
+
+### Evidence summary for next session
+
+- LLB loads (`=Loaded LLB=` printed, build tag `iBoot-11881.122.1`).
+- LLB enters recovery *before* kernelcache load. No "loading kernelcache" or similar diagnostic.
+- No NVRAM tinkering via host-side API helps - tried fresh, preserved, restored-backup.
+- No iBoot command (`fsboot`, `setenv auto-boot true` + `saveenv`, `-n` reset) exits recovery into kernel boot.
+- Pre-CFW dyld/libSystem panic is no longer the active blocker; LLB recovery fallback is earlier.
+
+### LLB recovery-fallback root cause (decoded 2026-04-22)
+
+Detailed analysis in [llb-recovery-fallback-analysis.md](llb-recovery-fallback-analysis.md). Binary loaded at base `0x0` (position-independent).
+
+Verdict: LLB's boot-object loader `sub_1928` successfully resolves `/boot`, `tc-path`, `dt-path`, `sepfw-path`, `seppatches-path`, `boot-ramdisk`, `roothash-path` from the Image4 manifest, then calls `sub_16E9C("system-volume-auth-blob", "boot-path", ...)` at `0x1ce4`. That returns negative (MSB set), the `TBNZ W0, #0x1F, loc_1D90` at `0x1ce8` takes the bail branch, and the emitter at `7ab90c923dae682:1819` fires. LLB then falls into recovery.
+
+Why `sub_16E9C` returns negative: it reads module globals at `0x8C048..0x8C068` that are never populated in this LLB (no writers in `.text`; `sub_176E4` / `sub_176D0` are nullsubs). The Image4 property store at `MEMORY[0x8F410..0x8F420]` is empty. It has no `system-volume-auth-blob` to hand back, so the lookup fails.
+
+Semantic meaning: LLB cannot find the LocalPolicy boot-object / volume auth blob for the current disk. This is image4 manifest / signature validation (category b), not kernelcache load (category a) and not NVRAM autoboot (category c). `auto-boot` confirmed set because emitter `3974bfd3d441da3:1628` fires, which is inside the autoboot countdown path.
+
+Candidate bring-up patches (ordered least-to-most invasive):
+
+- Minimum: NOP the `TBNZ W0, #0x1F, loc_1D90` at file offset `0x1ce8` in `sub_1928`. Lets LLB proceed to `sub_D124('krnl',...)` kernelcache load and surface the next failure, if any.
+- Clean stub: rewrite `sub_16E9C` @ `0x16E9C` to `MOV W0,#0 ; RET`.
+- Upstream: bypass the `v19 & 0x80000000` negative-return check on `sub_1928`'s return in `sub_9BC` (~`0xBE0..0xBF0`).
+
+Before patching, investigate whether the `system-volume-auth-blob` *should* have been written to disk by restore or CFW. If the manifest or LocalPolicy creation was skipped for `vresearch101ap` during our hybrid `BuildManifest` generation, patching LLB is the wrong fix and the pipeline should write the blob instead. Check `scripts/fw_manifest.py` for `system-volume-auth-blob` handling and compare vphone600 vs vresearch101 generation paths.
 
 When patch logic changes, update [0_binary_patch_comparison.md](0_binary_patch_comparison.md).
