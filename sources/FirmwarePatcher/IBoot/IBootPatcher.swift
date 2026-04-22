@@ -37,14 +37,21 @@ public class IBootPatcher: Patcher {
 
     let buffer: BinaryBuffer
     let mode: Mode
+    let firmwareProfile: FirmwareProfile
     let disasm = ARM64Disassembler()
     var patches: [PatchRecord] = []
 
     // MARK: - Init
 
-    public init(data: Data, mode: Mode, verbose: Bool = true) {
+    public init(
+        data: Data,
+        mode: Mode,
+        firmwareProfile: FirmwareProfile = .defaultProfile,
+        verbose: Bool = true
+    ) {
         buffer = BinaryBuffer(data)
         self.mode = mode
+        self.firmwareProfile = firmwareProfile
         component = mode.rawValue
         self.verbose = verbose
     }
@@ -64,6 +71,9 @@ public class IBootPatcher: Patcher {
         if mode == .llb {
             patchRootfssBypass()
             patchPanicBypass()
+            if firmwareProfile == .ios18_22F76 {
+                patchSystemVolumeAuthBlobGate()
+            }
         }
 
         return patches
@@ -183,6 +193,96 @@ public class IBootPatcher: Patcher {
             off += IBootPatcher.chunkSize - IBootPatcher.chunkOverlap
         }
         return results
+    }
+
+    // MARK: - Raw PC-relative Reference Search
+
+    private func decodeADRPPage(raw: UInt32, instructionAddress: UInt64) -> UInt64 {
+        let immlo = (raw >> 29) & 0x3
+        let immhi = (raw >> 5) & 0x7FFFF
+        let imm21 = (immhi << 2) | immlo
+        let signedImm21 = Int64(Int32(bitPattern: imm21 << 11) >> 11)
+        let delta = signedImm21 << 12
+        let pcPage = instructionAddress & ~UInt64(0xFFF)
+
+        if delta >= 0 {
+            return pcPage &+ UInt64(delta)
+        }
+        return pcPage &- UInt64(-delta)
+    }
+
+    private func decodeADRAddress(raw: UInt32, instructionAddress: UInt64) -> UInt64 {
+        let immlo = (raw >> 29) & 0x3
+        let immhi = (raw >> 5) & 0x7FFFF
+        let imm21 = (immhi << 2) | immlo
+        let signedImm21 = Int64(Int32(bitPattern: imm21 << 11) >> 11)
+
+        if signedImm21 >= 0 {
+            return instructionAddress &+ UInt64(signedImm21)
+        }
+        return instructionAddress &- UInt64(-signedImm21)
+    }
+
+    /// Find ADR or ADRP+ADD references to a flat raw-image offset. iBoot-stage
+    /// payloads are analyzed with VA == file offset.
+    private func findRefsToOffset(_ targetOff: Int) -> [(adrpOff: Int, addOff: Int)] {
+        let targetAddress = UInt64(targetOff)
+        let targetPage = targetAddress & ~UInt64(0xFFF)
+        let pageOff = UInt32(targetAddress & 0xFFF)
+        let size = buffer.count
+        var refs: [(Int, Int)] = []
+
+        var off = 0
+        while off + 4 <= size {
+            let rawA = buffer.readU32(at: off)
+            let instructionAddress = UInt64(off)
+
+            // ADR: direct +/-1 MiB PC-relative address.
+            if rawA & 0x9F00_0000 == 0x1000_0000 {
+                if decodeADRAddress(raw: rawA, instructionAddress: instructionAddress) == targetAddress {
+                    refs.append((off, off))
+                }
+                off += 4
+                continue
+            }
+
+            // ADRP: bits[31]=1, bits[28:24]=10000.
+            guard rawA & 0x9F00_0000 == 0x9000_0000 else {
+                off += 4
+                continue
+            }
+
+            let adrpPage = decodeADRPPage(raw: rawA, instructionAddress: instructionAddress)
+            guard adrpPage == targetPage else {
+                off += 4
+                continue
+            }
+
+            let adrpRd = rawA & 0x1F
+            for delta in stride(from: 4, through: 32, by: 4) {
+                let addOff = off + delta
+                guard addOff + 4 <= size else { break }
+                let rawB = buffer.readU32(at: addOff)
+
+                // ADD immediate (64-bit, no shift): bits[31:23] = 100100010.
+                guard rawB & 0xFF80_0000 == 0x9100_0000 else { continue }
+                guard ((rawB >> 22) & 0x1) == 0 else { continue }
+
+                let addRn = (rawB >> 5) & 0x1F
+                let addImm12 = (rawB >> 10) & 0xFFF
+                guard adrpRd == addRn, addImm12 == pageOff else { continue }
+
+                refs.append((off, addOff))
+                break
+            }
+            off += 4
+        }
+        return refs
+    }
+
+    private func findStringRefs(_ string: String) -> [(adrpOff: Int, addOff: Int)] {
+        guard let stringOff = buffer.findString(string) else { return [] }
+        return findRefsToOffset(stringOff)
     }
 
     // MARK: - 1. Serial Labels
@@ -587,5 +687,66 @@ public class IBootPatcher: Patcher {
         }
 
         if verbose { print("  [-] panic bypass: pattern not found") }
+    }
+
+    // MARK: - 6. iOS 18.5 LLB LocalPolicy Boot-Object Gate
+
+    /// iOS 18.5 `vresearch101` local boot bails before kernel load when the LLB
+    /// boot-object loader cannot resolve `system-volume-auth-blob` from the
+    /// Image4 property store. This is profile-scoped bring-up bypass: locate the
+    /// nearby `BL <auth-blob helper>; TBNZ W0,#31,<recovery-bail>` pair and NOP
+    /// the failure branch so LLB can continue to kernelcache load.
+    func patchSystemVolumeAuthBlobGate() {
+        guard let blobOff = buffer.findString("system-volume-auth-blob") else {
+            if verbose { print("  [-] auth blob gate: system-volume-auth-blob string not found") }
+            return
+        }
+        guard let bootPathOff = buffer.findString("boot-path"),
+              bootPathOff > blobOff,
+              bootPathOff - blobOff <= 0x40
+        else {
+            if verbose { print("  [-] auth blob gate: adjacent boot-path string not found") }
+            return
+        }
+
+        let blobRefs = findRefsToOffset(blobOff)
+        guard !blobRefs.isEmpty else {
+            if verbose { print("  [-] auth blob gate: string refs not found") }
+            return
+        }
+
+        var candidates: [Int] = []
+        for blobRef in blobRefs {
+            let refOff = max(blobRef.adrpOff, blobRef.addOff)
+            let windowStart = max(0, refOff - 0x60)
+            let windowEnd = min(buffer.count - 8, refOff + 0x100)
+
+            for off in stride(from: windowStart, through: windowEnd, by: 4) {
+                let raw = buffer.readU32(at: off)
+                guard raw >> 26 == 0b100101 else { continue } // BL
+                guard let next = disasm.disassembleOne(in: buffer.original, at: off + 4) else { continue }
+                guard next.mnemonic == "tbnz" else { continue }
+
+                let operands = next.operandString.replacingOccurrences(of: " ", with: "")
+                guard operands.hasPrefix("w0,#0x1f,") || operands.hasPrefix("w0,#31,") else { continue }
+                candidates.append(off + 4)
+            }
+        }
+
+        let unique = Array(Set(candidates)).sorted()
+        guard unique.count == 1, let patchOff = unique.first else {
+            if verbose {
+                let sites = unique.map { String(format: "0x%X", $0) }.joined(separator: ", ")
+                print("  [-] auth blob gate: expected 1 BL/TBNZ candidate, found \(unique.count) [\(sites)]")
+            }
+            return
+        }
+
+        emit(
+            patchOff,
+            ARM64.nop,
+            id: "\(component).ios18_auth_blob_tbnz",
+            description: "iOS 18.5 LLB: NOP system-volume-auth-blob failure branch"
+        )
     }
 }

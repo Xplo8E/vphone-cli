@@ -33,6 +33,9 @@
 | 3   | Boot-args redirect                  | ADRP+ADD -> `serial=3 -v debug=0x2014e %s` |    Y    |  Y  |  Y  |
 | 4   | Rootfs bypass (5 patches)           | Allow edited rootfs loading                |    Y    |  Y  |  Y  |
 | 5   | Panic bypass                        | NOP `cbnz` after `mov w8,#0x328` check     |    Y    |  Y  |  Y  |
+| 6   | iOS 18.5 auth-blob gate             | NOP `TBNZ W0,#31` after `system-volume-auth-blob` lookup |  18.5  | 18.5 | 18.5 |
+
+`LLB` patch 6 is profile-scoped to `FIRMWARE_PROFILE=ios18-22F76`. It is not part of legacy/iOS 26 parity. The semantic matcher requires the adjacent `system-volume-auth-blob` / `boot-path` string pair, finds the nearby `BL <auth blob helper>; TBNZ W0,#31,<recovery bail>` pair, and NOPs only that failure branch. On `LLB.vresearch101.RELEASE` from 18.5 `22F76`, this is file offset `0x001CE8`.
 
 ### TXM
 
@@ -229,6 +232,8 @@ The legacy matrix above is still valid for the vphone600 path. The 18.5 `vresear
   - `vphone-cli patch-component` now accepts `--component device-tree --firmware-profile <profile>` for direct DeviceTree verification outside a full restore tree.
   - Kernel patch `[8]` now accepts the iOS 18.5 post-validation branch shape after `TXM [Error]: CodeSignature`: `cmp w8,#1; b.eq error_path` is NOPed, while legacy `tbnz`/`tbz`/`cbz`/`cbnz` shapes remain supported by the same semantic scan.
   - Kernel patch `[16]` now prefers the branch immediately after the `com.apple.apfs.get-dev-by-role` entitlement check and recognizes the iOS 18.5 entitlement-deny line ID `0x3EC2`, while keeping legacy APFS line IDs `0x332D` and `0x333B`.
+  - `IBootPatcher` now accepts a firmware profile. For `ios18-22F76` LLB only, it adds the experimental LocalPolicy boot-object bypass: `system-volume-auth-blob` lookup failure branch `TBNZ W0,#31` -> `NOP`. Direct verifier on the real 18.5 LLB emitted `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop`.
+  - `vphone-cli patch-component` now accepts `--component llb --firmware-profile <profile>` for direct LLB verification outside a full restore tree.
   - `scripts/fw_prepare.sh` now deletes stale sibling `*Restore*` directories in the working VM directory before patching continues, so a fresh `make fw_prepare && make fw_patch` cannot accidentally select an older prepared firmware tree (for example `26.1`) when a newer one (for example `26.3`) was just generated.
 - IM4P/output parity fixes completed after synthetic full-pipeline comparison:
   - `IM4PHandler.save()` no longer forces a generic LZFSE re-encode.

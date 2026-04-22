@@ -52,7 +52,8 @@ Current 18.5 hybrid output confirms the profile selection:
 | confirmed | Phase 5 SSH ramdisk builds and boots with the restore-patched kernel for the real 18.5 profile. | `make ramdisk_build VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F` completed after `sudo -v`. The first `ramdisk_send` using derived `krnl.ramdisk.img4` hung after `bootx` with no kernel serial. Retrying with `krnl.img4` booted the SSH ramdisk: serial reached `BSD root: md0`, `SSHRD_Script`, `Running server`; usbmux exposed `0000FE01-FD01E5DAE1ED866F`; SSH answered `ready` on `127.0.0.1:2222`. | The iOS 18.5 profile now disables generated `krnl.ramdisk.img4` preference and uses `krnl.img4` for ramdisk boot. |
 | confirmed | Phase 5 dev CFW install completed over the SSH ramdisk. | `make cfw_install_dev VM_DIR=vm SSH_PORT=2222` completed. It installed SystemOS/AppOS Cryptexes, patched `launchd` jetsam guard, patched debugserver entitlements, renamed the APFS update snapshot to `orig-fs`, patched `seputil`, installed GPU bundle and iosbinpack64, patched `launchd_cache_loader`, patched `mobileactivationd`, installed `vphoned` plus dev LaunchDaemons, patched `launchd.plist`, unmounted device filesystems, and halted the ramdisk. Transient SSH/SCP drops recovered through the existing retry loop. | The next runtime gate is first normal boot after CFW. This is where the previous dyld/libSystem panic must be re-tested. |
 | confirmed | First standalone normal boot after CFW does not reach the kernel yet. | `make boot VM_DIR=vm` loads local `LLB.vresearch101.RELEASE` from disk and repeatedly enters `MODE: Recovery` / `Entering recovery mode, starting command prompt` before any `BSD root`, `authenticate_root_hash`, or `libignition` output. `irecovery -q` sees ECID `0xfd01e5dae1ed866f`, `MODE: Recovery`. `setenv auto-boot true`, `saveenv`, `fsboot`, and `irecovery -n` only loop back to the same LLB recovery prompt. README expects `bash-4.4#` at this stage, so this is before the documented first-boot shell setup. | Active blocker moves from userspace/Cryptex to standalone local boot selection. Next analysis should focus on iBoot/LLB local boot metadata, recovery loop state, and the generated hybrid manifest/local boot component set. |
-| candidate | Post-restore userspace was incomplete before CFW install. | The pre-CFW post-restore boot panicked in `launchd`: `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, `initproc failed to start`. | This must now be re-tested after CFW install. If it persists, it becomes a confirmed iOS 18.5 userspace packaging blocker. |
+| confirmed | Experimental iOS 18.5 LLB auth-blob bypass is implemented, restored, and gets normal boot past LLB. | `IBootPatcher` now receives `FirmwareProfile`; for `ios18-22F76` LLB it semantically finds the adjacent `system-volume-auth-blob` / `boot-path` string pair and NOPs the nearby `BL helper; TBNZ W0,#31,<recovery>` failure branch. Direct verifier emitted `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop`; full `make fw_patch_dev VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76` emitted the same line and increased the dev patch count to 62; `make restore` completed `verify-restore: 100/100`; next normal boot no longer stopped at `7ab90c923dae682:1819` and reached XNU/APFS/Preboot. | LLB recovery fallback is no longer the active blocker. The current blocker is post-restore Cryptex/userspace setup. |
+| confirmed | Post-restore userspace is incomplete until CFW installs Cryptexes. | Normal boot after the patched restore reached `disk1s5 mount-complete volume Preboot`, then `libignition: cryptex1 sniff: ignition failed: 8`, `ignite() returned 8`, `ignition disabled`, and panicked in `launchd`: `Library not loaded: /usr/lib/libSystem.B.dylib`, `no such file, no dyld cache`, `initproc failed to start`. | This is expected before CFW on this workflow. Next phase is to boot the SSH ramdisk and rerun `cfw_install_dev`, which copies SystemOS/AppOS Cryptexes and patches `launchd_cache_loader`. |
 | confirmed | cloudOS 18.5 `22F76` has no `vphone600ap` build identity. | `BuildManifest.plist` contains `j236cap`, `j475dap`, and `vresearch101ap`; no `vphone600ap`. Running current `scripts/fw_manifest.py` against 18.5 manifests throws `KeyError: 'No release identity for DeviceClass=vphone600ap'`. | Current `fw_prepare` hybrid manifest generation cannot work unchanged on these 18.5 files. |
 | confirmed | Existing pipeline hardcodes vphone600 runtime paths. | `sources/FirmwarePatcher/Pipeline/FirmwarePipeline.swift` searches `kernelcache.research.vphone600` and `Firmware/all_flash/DeviceTree.vphone600ap.im4p`. `scripts/ramdisk_build.py` has the same vphone600 assumptions. | We need variant-aware paths or an explicit firmware profile before real 18.5 patching. |
 | confirmed | 18.5 cloud TXM is Mach-O arm64e, not the flat-offset model assumed by parts of `TXMDevPatcher`. | `file` reports Mach-O arm64e. `otool -hv` reports `MH_MAGIC_64 ARM64 subtype E caps KER00 EXECUTE PIE`. IDA sees strings/xrefs, but the Swift dev patcher reports string refs missing. | Base TXM patch works, but dev-only TXM patches need Mach-O VA/file-offset aware string reference resolution. |
@@ -598,6 +599,26 @@ Progress log:
   ea0f64a4253252:981     <- heartbeat, repeats
   ```
   Extracted raw LLB to `/tmp/llb.vresearch101.raw` (from `LLB.vresearch101.RELEASE.im4p`, 568168 bytes, uncompressed, unencrypted, AArch64). Next session: decode `7ab90c923dae682:1819` in Binary Ninja to name the failing condition.
+- 2026-04-22 12:40 - Added the experimental iOS 18.5 LLB LocalPolicy boot-object bypass.
+  - Code: `IBootPatcher(data:mode:firmwareProfile:)` keeps legacy behavior by default.
+  - Profile scope: only `mode == .llb && firmwareProfile == .ios18_22F76`.
+  - Semantic target: adjacent `system-volume-auth-blob` / `boot-path` string pair, then nearby `BL <auth blob helper>; TBNZ W0,#31,<recovery bail>`.
+  - Direct verifier on the current 18.5 LLB emitted:
+    ```text
+    0x001CE8: tbnz w0, #0x1f, 0x1d90 -> nop
+    ```
+  - `make patcher_build` passed. `swift test --filter LLBComparisonTests` built but could not execute the comparison because `ipsws/patch_refactor_input/raw_payloads/llb.bin` is absent in this checkout.
+- 2026-04-22 12:53 - Refreshed the real `vm/` disk with the experimental LLB patch installed.
+  - `make fw_prepare VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 ...` completed and regenerated the hybrid tree from local iPhone/cloudOS 18.5 IPSWs.
+  - `make fw_patch_dev VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76` completed with 62 total dev patches. The LLB section emitted `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop` and reported `10 llb patches applied`.
+  - `make restore_get_shsh ...` saved `FD01E5DAE1ED866F.shsh`.
+  - `make restore ...` completed filesystem transfer and `verify-restore: 100/100`.
+  - Next evidence gate is normal boot from the restored disk: confirm whether the old `7ab90c923dae682:1819` recovery fallback is gone.
+- 2026-04-22 13:05 - Normal boot from the patched restore confirmed the LLB fix.
+  - Boot no longer stops at `7ab90c923dae682:1819` / `Entering recovery mode`.
+  - Kernel/APFS reached Preboot: `disk1s5 mount-complete volume Preboot`.
+  - New active blocker is expected pre-CFW Cryptex/userspace failure: `libignition: cryptex1 sniff: ignition failed: 8`, `Library not loaded: /usr/lib/libSystem.B.dylib`, `no dyld cache`, `initproc failed to start`.
+  - Next phase: boot SSH ramdisk and rerun `cfw_install_dev` on this freshly restored disk.
 
 ## Documentation Rules For This Branch
 
@@ -613,11 +634,76 @@ Do not let important context live only in terminal scrollback. Every meaningful 
 
 ## Next Immediate Work
 
-Root cause of LLB recovery fallback is identified (see [llb-recovery-fallback-analysis.md](llb-recovery-fallback-analysis.md)). `LLB.vresearch101.RELEASE` `sub_1928` at offset `0x1ce4` calls `sub_16E9C("system-volume-auth-blob", "boot-path", ...)`; it returns negative because the image4 property store for LocalPolicy boot-object metadata is empty. The `TBNZ W0,#0x1F` at `0x1ce8` then jumps to the 1819 recovery-fallback logger.
+Root cause of the previous LLB recovery fallback is identified (see [llb-recovery-fallback-analysis.md](llb-recovery-fallback-analysis.md)). `LLB.vresearch101.RELEASE` `sub_1928` at offset `0x1ce4` calls `sub_16E9C("system-volume-auth-blob", "boot-path", ...)`; it returns negative because the image4 property store for LocalPolicy boot-object metadata is empty. The `TBNZ W0,#0x1F` at `0x1ce8` then jumps to the 1819 recovery-fallback logger.
 
-1. Decide the fix direction:
-   - **Pipeline fix (preferred if feasible):** figure out whether `system-volume-auth-blob` is supposed to be produced by restore / CFW / hybrid BuildManifest generation and is simply missing for `vresearch101ap`. Compare vphone600 vs vresearch101 behaviour in `scripts/fw_manifest.py` and `scripts/cfw_install_dev.sh`. If a step is missing, add it so LLB can find the blob legitimately.
-   - **LLB patch (bring-up):** if the blob cannot be produced in the vphone flow, add an LLB patcher phase that NOPs the `TBNZ` at `0x1ce8` (or stubs `sub_16E9C` to return 0). Document the offset semantically (look for the boot-object loader that calls `sub_16E9C` with `"system-volume-auth-blob"`), not by raw file offset. Update `research/0_binary_patch_comparison.md` when that patcher lands.
-2. After the fix, `make boot VM_DIR=vm` and record the next failure (likely kernelcache load via `sub_D124('krnl',...)`). Do not keep changing LLB until a real next failure appears.
-3. Do not touch NVRAM host-side code for this symptom. The failure occurs before kernel load and is not driven by `VZMacAuxiliaryStorage`.
-4. Do not change kernel/Cryptex patches for this symptom.
+The clean refresh has now been done:
+
+1. `make fw_prepare VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76 ...` regenerated the hybrid 18.5 restore tree.
+2. `make fw_patch_dev VM_DIR=vm FIRMWARE_PROFILE=ios18-22F76` applied 62 patches, including `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop` in LLB.
+3. `make restore_get_shsh ...` saved `FD01E5DAE1ED866F.shsh`.
+4. `make restore ...` completed and reached `verify-restore: 100/100`.
+
+Next gate: boot the restored disk normally and watch whether the old LLB recovery marker disappears.
+
+```bash
+make boot VM_DIR=vm 2>&1 | tee vm/logs/experiment_authblob_first_normal_boot.log
+```
+
+Pass criterion: the log should not print `7ab90c923dae682:1819` followed by `Entering recovery mode`.
+
+Interpretation rules:
+
+1. If `7ab90c923dae682:1819` still appears, normal boot is not consuming the patched LLB or there is another equivalent LLB path to patch.
+2. If `7ab90c923dae682:1819` disappears and kernel serial begins, the LLB auth-blob bypass is confirmed and the next failure becomes the new slice.
+3. If the next failure is the earlier `launchd` / `libSystem.B.dylib` / dyld-cache panic, redo the ramdisk + CFW phase on top of this restored image.
+4. Do not change kernel/Cryptex patches until a post-LLB failure proves we need them.
+
+If the LLB gate passes, the restore has erased the earlier CFW install. Reinstall dev CFW on the newly restored disk:
+
+```bash
+sudo -v
+
+make ramdisk_build \
+  VM_DIR=vm \
+  FIRMWARE_PROFILE=ios18-22F76 \
+  RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F \
+  2>&1 | tee vm/logs/experiment_authblob_ramdisk_build.log
+```
+
+Terminal 1:
+
+```bash
+make boot_dfu VM_DIR=vm 2>&1 | tee vm/logs/experiment_authblob_boot_dfu_ramdisk.log
+```
+
+Terminal 2:
+
+```bash
+make ramdisk_send \
+  VM_DIR=vm \
+  FIRMWARE_PROFILE=ios18-22F76 \
+  IRECOVERY_ECID=0xFD01E5DAE1ED866F \
+  RAMDISK_UDID=0000FE01-FD01E5DAE1ED866F \
+  2>&1 | tee vm/logs/experiment_authblob_ramdisk_send.log
+```
+
+Terminal 3, once serial shows `Running server`:
+
+```bash
+.venv/bin/python3 -m pymobiledevice3 usbmux forward \
+  --serial 0000FE01-FD01E5DAE1ED866F \
+  2222 22
+```
+
+Terminal 2, with the usbmux forward still running:
+
+```bash
+make cfw_install_dev VM_DIR=vm SSH_PORT=2222 \
+  2>&1 | tee vm/logs/experiment_authblob_cfw_install_dev.log
+```
+
+After `cfw_install_dev` completes, boot normally again:
+
+```bash
+make boot VM_DIR=vm 2>&1 | tee vm/logs/experiment_authblob_first_boot_after_cfw.log
+```

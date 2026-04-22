@@ -107,3 +107,15 @@ The real delta is the property-store backing: iOS 26 has two big staging paths t
 
 ### 5. Bottom line
 Fix is **(a)**: patch the 18.5 gate. iOS 26 appears to pass only because its upstream staging is invoked earlier on a device with real LocalPolicy/SEP; in the vresearch local-boot variant the property store stays empty on both firmware versions, but the published iOS 26 LLB successfully boots only because the project's existing patch set already neuters an equivalent authentication step (or because iOS 26's `sub_189E4` on vresearch101ap is independently satisfied by a stub that 18.5 lacks — the nullsub pair `sub_176E4/sub_176D0` at the head of 18.5's `sub_16E9C` is suspicious). The minimum-invasive, diff-parity fix is to NOP `TBNZ W0, #0x1F, loc_1D90` at `0x1ce8` in the 18.5 LLB (or replace `sub_16E9C` body with `MOV W0, #0 ; RET`), matching the spirit of the existing CFW panic/rootfs-bypass patches. Option (b) — porting a staging call — is higher risk because the staging writer itself likely depends on SEP-provided LocalPolicy bytes that are not present on the vphone. Recommend patching the gate and retesting.
+
+## Implementation note
+
+Implemented as an experimental `ios18-22F76`-scoped LLB patch in `IBootPatcher`:
+
+- Legacy profile behavior is unchanged.
+- Matcher is semantic, not raw-offset-only: find adjacent `system-volume-auth-blob` / `boot-path`, then find the nearby `BL <auth helper>; TBNZ W0,#31,<recovery bail>` pair.
+- Direct verifier on the real 18.5 LLB emitted `0x001CE8: tbnz w0,#0x1f,0x1d90 -> nop`.
+
+Restore refresh has now been run after this patch. `fw_patch_dev` emitted the `0x001CE8` NOP in LLB, `restore_get_shsh` saved the blob, and `restore` reached `verify-restore: 100/100`.
+
+Boot validation confirms this gate was the blocker. The next normal boot no longer falls through `7ab90c923dae682:1819` into recovery; it reaches kernel/APFS/Preboot and fails later because Cryptex/userspace is not installed after the fresh restore. Active work moves to rerunning ramdisk + `cfw_install_dev`.

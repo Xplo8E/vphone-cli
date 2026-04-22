@@ -1366,3 +1366,51 @@ Candidate bring-up patches (ordered least-to-most invasive):
 Before patching, investigate whether the `system-volume-auth-blob` *should* have been written to disk by restore or CFW. If the manifest or LocalPolicy creation was skipped for `vresearch101ap` during our hybrid `BuildManifest` generation, patching LLB is the wrong fix and the pipeline should write the blob instead. Check `scripts/fw_manifest.py` for `system-volume-auth-blob` handling and compare vphone600 vs vresearch101 generation paths.
 
 When patch logic changes, update [0_binary_patch_comparison.md](0_binary_patch_comparison.md).
+
+### Experimental LLB bring-up patch implemented
+
+The first experiment is now in code, but still needs boot validation. `IBootPatcher` now takes a `FirmwareProfile`; for `ios18-22F76` LLB only it adds a LocalPolicy boot-object bypass:
+
+```text
+semantic anchor:
+  "system-volume-auth-blob" followed by adjacent "boot-path"
+
+target shape:
+  BL <auth blob helper>
+  TBNZ W0,#31,<recovery bail>
+
+patch:
+  TBNZ -> NOP
+```
+
+Direct verifier against the real 18.5 LLB:
+
+```text
+.build/debug/vphone-cli patch-component \
+  --component llb \
+  --firmware-profile ios18-22F76 \
+  --input vm/iPhone17,3_18.5_22F76_Restore/Firmware/all_flash/LLB.vresearch101.RELEASE.im4p \
+  --output vm/experiments/LLB.vresearch101.ios18-authblob.raw
+```
+
+Result:
+
+```text
+0x001CE8: tbnz w0, #0x1f, 0x1d90 -> nop
+```
+
+The clean restore refresh has now been done with this patch in the firmware tree. `fw_patch_dev` applied 62 total dev patches and emitted the LLB auth-blob NOP at `0x001CE8`; `restore_get_shsh` saved `FD01E5DAE1ED866F.shsh`; `restore` completed with `verify-restore: 100/100`.
+
+The first normal boot after that restore confirms the LLB hypothesis. The old `7ab90c923dae682:1819` recovery fallback is gone. Boot reaches XNU/APFS, mounts Preboot, and then fails later in userspace:
+
+```text
+disk1s5 mount-complete volume Preboot
+libignition: 1: cryptex1 sniff: ignition failed: 8
+ignite() returned 8
+ignition disabled
+Library not loaded: /usr/lib/libSystem.B.dylib
+Reason: tried: '/usr/lib/libSystem.B.dylib' (no such file, no dyld cache)
+panic: initproc failed to start
+```
+
+That moves the active slice from LLB to Cryptex/CFW installation. A fresh restore does not preserve the earlier CFW install, so the next step is to boot the SSH ramdisk and rerun `cfw_install_dev`.

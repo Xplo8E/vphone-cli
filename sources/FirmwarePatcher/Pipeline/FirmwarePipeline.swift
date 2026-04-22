@@ -230,8 +230,8 @@ public final class FirmwarePipeline {
             name: "LLB",
             inRestoreDir: true,
             searchPatterns: [firmwareProfile.llbReleasePath],
-            patcherFactories: [{ data, verbose in
-                IBootPatcher(data: data, mode: .llb, verbose: verbose)
+            patcherFactories: [{ [firmwareProfile] data, verbose in
+                IBootPatcher(data: data, mode: .llb, firmwareProfile: firmwareProfile, verbose: verbose)
             }]
         ))
 

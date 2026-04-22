@@ -198,6 +198,7 @@ struct PatchFirmwareCLI: ParsableCommand {
 
 struct PatchComponentCLI: ParsableCommand {
     enum ComponentOption: String, CaseIterable, ExpressibleByArgument {
+        case llb
         case txm
         case txmDev = "txm-dev"
         case deviceTree = "device-tree"
@@ -238,6 +239,16 @@ struct PatchComponentCLI: ParsableCommand {
         let patchedData: Data
 
         switch component {
+        case .llb:
+            let patcher = IBootPatcher(
+                data: payload,
+                mode: .llb,
+                firmwareProfile: firmwareProfile.pipelineProfile,
+                verbose: !quiet
+            )
+            count = try patcher.apply()
+            patchedData = patcher.patchedData
+
         case .txm:
             let patcher = TXMPatcher(data: payload, verbose: !quiet)
             count = try patcher.apply()
