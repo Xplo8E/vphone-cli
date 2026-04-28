@@ -1015,3 +1015,248 @@ State at end of session:
 - Swift `VPhoneVirtualMachine.swift` `bootArgs` reverted to `serial=3 debug=0x104c04` — Swift NVRAM does not feed iBoot, so the kernel flags there are ineffective.
 - `IBootPatcher.swift` `bootArgs` currently has the AMFI flags baked in. **Decision for next session**: revert this to the original `serial=3 -v debug=0x2014e %s` if we port the JB AMFI kernel patches; keep the AMFI flags if we want belt-and-suspenders.
 - Disk state on VM: UIKitCore byte-patched, fairplayd plists renamed, `/var/db/com.apple.xpc.launchd/disabled.plist` has fairplayd/chronod/ndoagent/webbookmarksd disabled. VM boots to 100% progress bar, SpringBoard in crash loop.
+
+### 2026-04-23 Path 2 implemented: MobileGestalt interposer dylib replaces UIKitCore byte-patch
+
+The kernel-side JB AMFI-trustcache port from the previous session applied cleanly but **did not stop the SIGKILLs**. Same `EXC_CRASH / SIGKILL - CODESIGNING / namespace=CODESIGNING / indicator="Invalid Page"` pattern on ReportCrash, SpringBoard, and every other UIKit consumer after the restore cycle. Conclusion: "Invalid Page" is emitted by the VM-fault / page-level code-signing validator (`vm_page_validate_cs` path), not by the AMFI cdhash trustcache lookup we bypassed. Bypassing AMFIIsCDHashInTrustCache doesn't neutralise per-page hash validation.
+
+Pivoted away from byte-patching the shared cache entirely. New approach: leave the signed `dyld_shared_cache_arm64e.03` untouched, and fix the idiom at runtime via a DYLD_INSERT_LIBRARIES interposer that overrides MobileGestalt's `DeviceClassNumber` answer for UIKit consumers.
+
+Implementation landed (unshipped — needs next CFW install cycle to deploy):
+
+- `sources/FirmwarePatcher/Kernel/Patches/KernelPatchAmfiTrustcache.swift` removed.
+- `sources/FirmwarePatcher/Kernel/JBPatches/KernelJBPatchAmfiTrustcache.swift` restored to its pre-dev-port form. JB variant retains the trustcache bypass; regular + dev no longer call it.
+- `sources/FirmwarePatcher/IBoot/IBootPatcher.swift` `bootArgs` reverted to `"serial=3 -v debug=0x2014e %s"` (no AMFI flags).
+- `sources/FirmwarePatcher/Kernel/KernelPatcher.swift` `findAll()` reverted — patch list back to 18 entries (10-11 check_dyld_policy, 12 apfs_graft, 13-15 apfs_mount, 16 get-dev-by-role, 17-26 sandbox hooks). No new entries.
+- `scripts/cfw_install_dev.sh` — the call to `patch_remote_uikit_idiom` is now gated behind `VPHONE_UIKIT_DSC_BYTE_PATCH=1`. Default install no longer touches the shared cache. Re-copying Cryptex during install naturally reverts the prior in-place byte-patch since the `scp_to "$MNT_SYSOS/."` overwrites from the sealed source.
+- `scripts/vphone_mg_idiom/vphone_mg_idiom.m` — Objective-C interposer source.
+- `scripts/vphone_mg_idiom/entitlements.plist` — `platform-application` + `no-container` + `no-sandbox` for AMFI acceptance under CFW launch-constraints patch.
+- `scripts/vphone_mg_idiom/Makefile` — builds arm64 iOS15.0+ dylib via `xcrun --sdk iphoneos clang`, links `-lMobileGestalt`, passes `-Wl,-not_for_dyld_shared_cache` (required because interposers can't live in the shared cache), signs with `ldid -S`.
+- `scripts/patchers/cfw_mg_idiom_inject.py` — Python patcher that adds `DYLD_INSERT_LIBRARIES=/usr/lib/vphone_mg_idiom.dylib` to the `EnvironmentVariables` dict of these labels inside `launchd.plist`:
+  - `com.apple.SpringBoard`
+  - `com.apple.AccessibilityUIServer`
+  - `com.apple.chronod`
+  - `com.apple.ndoagent`
+  - `com.apple.spaceattributiond`
+  - `com.apple.nanotimekitcompaniond`
+  - `com.apple.backboardd`
+- `scripts/patchers/cfw.py` — new `inject-mg-idiom` dispatch command plus the import.
+- `scripts/cfw_install_dev.sh` — ships the dylib to `/mnt1/usr/lib/vphone_mg_idiom.dylib` immediately before the launchd.plist patching block, then calls `inject-mg-idiom` alongside the existing `inject-daemons` so the env var injection writes through into the repacked launchd cache.
+- `Makefile` — new `mg_idiom` target (`$(MAKE) -C scripts/vphone_mg_idiom`). `cfw_install_dev` now depends on `mg_idiom`, so the dylib is rebuilt automatically before each install.
+
+The interposer resolves four MobileGestalt symbols via standard Mach-O `__DATA,__interpose`: `MGCopyAnswer`, `MGCopyAnswerWithError`, `MGGetSInt32Answer`. For exact-key match `"DeviceClassNumber"` it returns `@1` / `1` (maps through UIKit's table to `UIUserInterfaceIdiomPhone`). Every other key falls through to the real libMobileGestalt implementation — the interpose rewrite only applies to OTHER images' relocations, so the `MGCopyAnswer(key)` call inside our replacement binds to the real symbol.
+
+Smoke-tested the Python injector against the cached `launchd.plist.bak.xml`: 7 target labels matched, `DYLD_INSERT_LIBRARIES` correctly merged into each `EnvironmentVariables` dict. Swift build + iOS dylib build both green.
+
+Next cycle (when you're ready):
+
+1. Enter DFU on VM.
+2. `make ramdisk_build FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm`
+3. `make ramdisk_send FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm`
+4. `make restore VM_DIR=vm`
+5. Re-enter ramdisk (`make ramdisk_send` again after restore).
+6. `make cfw_install_dev VM_DIR=vm SSH_PORT=2222` — picks up the new dylib + injection.
+7. `make boot VM_DIR=vm`
+
+Verification after boot:
+- `ls /usr/lib/vphone_mg_idiom.dylib` should list it.
+- `ps auxww | grep SpringBoard | grep -v grep` should show SpringBoard running (no crash loop).
+- `dmesg | grep -iE "CODESIGNING|Invalid Page"` should be empty since we didn't modify any signed page.
+- If our debug `VPHONE_MG_IDIOM_DEBUG=1` env var is also set, stderr will show `[vphone_mg_idiom] MGCopyAnswer("DeviceClassNumber") → 1` lines from each injected process.
+
+Failure modes and fallbacks:
+- **AMFI strips DYLD_INSERT_LIBRARIES.** The existing `patchLaunchConstraints` + `patchDyldPolicy` base kernel patches should permit it, but if SpringBoard crash-loops with `NSAssertion` again (not CODESIGNING), the dylib never loaded. Fix: add our dylib's cdhash to the system trustcache via `scripts/repos/trustcache`. Infrastructure already exists; just a wiring step.
+- **Interpose misses the exact UIKit call path.** If UIKit on 18.5 calls a private variant we haven't covered (`MGGetBoolAnswer`, etc.), SpringBoard still asserts. Fix: expand `MG_IDIOM_INJECT_LABELS` or add more interposed symbols.
+- **SpringBoard uses a framework-internal cached answer.** UIKit caches MobileGestalt answers in shared-cache `__DATA_CONST`. If the cache is populated before our interposer gets control (e.g. via a dyld closure), our interpose is bypassed. Fix: interpose the UIKit idiom resolver symbol directly instead of MobileGestalt — but that's only in UIKitCore which is in the shared cache and we're trying to avoid touching it. If this is actually the failure mode, we'd need either a trustcache-backed UIKitCore rebuild or a different interpose target (e.g. the objc message to `+[UIDevice currentDevice]`'s idiom accessor).
+
+### 2026-04-23 First deploy: AMFI constraint violation (dylib had entitlements)
+
+First attempt to boot with the interposer installed reproduced the idiom `NSAssertion` crashes in SpringBoard/AccessibilityUIServer/chronod (same `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` → `-[NSAssertionHandler handleFailureInFunction:...]` stack). Good news: the `SIGKILL - CODESIGNING / Invalid Page` failures are GONE — the fresh Cryptex copy from `cfw_install_dev` successfully reverted the UIKitCore byte-patch on disk, so the shared cache is untouched. Bad news: the interposer did not load.
+
+Root cause from dmesg:
+
+```
+AMFI: constraint violation /usr/lib/vphone_mg_idiom.dylib has entitlements but is not a main binary
+```
+
+Our `scripts/vphone_mg_idiom/entitlements.plist` carried `platform-application`, `com.apple.private.security.no-container`, `com.apple.private.security.no-sandbox`. These are executable-only entitlements. iOS AMFI rejects any dylib that carries entitlements as a "constraint violation". For restricted main binaries like SpringBoard, AMFI then drops the `DYLD_INSERT_LIBRARIES` entry entirely, so UIKit's unpatched idiom assertion fires.
+
+Fix applied:
+- Deleted `scripts/vphone_mg_idiom/entitlements.plist` — dylibs must not carry entitlements.
+- Changed `scripts/vphone_mg_idiom/Makefile` signing step from `ldid -S<entitlements.plist> <dylib>` to `ldid -S <dylib>` (plain ad-hoc sign, no entitlements dict).
+- Rebuilt. `ldid -e vphone_mg_idiom.dylib` now returns empty. AMFI should stop complaining.
+
+Deploy path from here is just `make cfw_install_dev` + `make boot` — no restore needed since only the dylib on disk changed.
+
+### 2026-04-27 Root-cause refinement: LC_LOAD_DYLIB experiment corrupts SpringBoard
+
+Resolved the UIKitCore call path from the mounted iOS 18.5 SystemOS dyld shared cache:
+
+- `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic` branches to shared-cache stub `0x18c216740`.
+- That stub resolves to `/usr/lib/libMobileGestalt.dylib:_MGCopyAnswer` at `0x19e508644`.
+- Therefore the interposer hooks the correct MobileGestalt surface. The remaining failure mode is deployment: SpringBoard behaves as if the inserted dylib never loads.
+
+An attempted pivot patched SpringBoard with `LC_LOAD_WEAK_DYLIB /usr/lib/v.dylib`. `insert_dylib` warned:
+
+```
+It doesn't seem like there is enough empty space. Continue anyway?
+```
+
+Continuing was wrong. New SpringBoard crash reports (`SpringBoard-2026-04-27-102758/102759/102801.ips`) show `EXC_BAD_INSTRUCTION / SIGILL` at image offset `1384`, and the instruction byte stream at the PC decodes into the injected string bytes for `/usr/lib/v.dylib`. That means the load-command insertion overflowed into executable/load-command-adjacent bytes and SpringBoard began executing path data as code. This is a confirmed bad patch shape for this binary.
+
+Fix applied:
+
+- Removed the SpringBoard `LC_LOAD_WEAK_DYLIB` install path from `scripts/cfw_install_dev.sh`.
+- `cfw_install_dev.sh` now restores `/System/Library/CoreServices/SpringBoard.app/SpringBoard` from `SpringBoard.bak` when present, removing the failed experiment on the next CFW run.
+- The interposer remains installed as `/usr/lib/vphone_mg_idiom.dylib`, signed with the project cert and no entitlements.
+
+The newest `com.apple.migrationpluginwrapper` crashes are separate from the corrupted SpringBoard main binary. They still hit `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic`, but the crashing process is:
+
+```
+/System/Library/PrivateFrameworks/DataMigration.framework/XPCServices/com.apple.migrationpluginwrapper.xpc/com.apple.migrationpluginwrapper
+```
+
+and the failing code is the `SpringBoard.migrator` bundle loaded inside that wrapper, not the standalone SpringBoard app. The crash report's `usedImages` does not include `vphone_mg_idiom.dylib`, so the interposer was not loaded into the wrapper. Fix: add `com.apple.migrationpluginwrapper` and `com.apple.datamigrator` to the launchd `DYLD_INSERT_LIBRARIES` target list. That is implemented in `scripts/patchers/cfw_mg_idiom_inject.py`.
+
+Follow-up normal boot after removing the SpringBoard load-command mutation changed the signature:
+
+- No new standalone `SpringBoard-2026-04-27-1054xx.ips` crash was emitted while the boot progress crossed the point where SpringBoard had previously crashed.
+- New `chronod-2026-04-27-105425.ips` crashed with the same `SIGABRT` stack:
+
+```text
+_UIDeviceNativeUserInterfaceIdiomIgnoringClassic
+-[_UIApplicationInfoParser _computeSupportedInterfaceOrientationsWithInfo:]
+-[_UIApplicationInfoParser _initWithBundle:]
+UIApplicationMain
+```
+
+- New `com.apple.migrationpluginwrapper-2026-04-27-105514*.ips` crashes all came from queue `com.apple.migrationpluginwrapper.plugin.SpringBoard.migrator` and the same UIKit idiom stack:
+
+```text
+_UIDeviceNativeUserInterfaceIdiomIgnoringClassic
+-[_UIApplicationInfoParser _computeSupportedInterfaceOrientationsWithInfo:]
+-[FBSApplicationInfo initWithApplicationProxy:]
+-[XBDefaultApplicationProvider _allApplicationsFilteredBySystem:bySplashBoard:]
+```
+
+Interpretation: the SpringBoard binary corruption is fixed/restored, but the MobileGestalt idiom fix is still not applied at runtime to restricted/platform processes. `chronod` was already in `MG_IDIOM_INJECT_LABELS` before this boot, yet its `usedImages` still did not include `/usr/lib/vphone_mg_idiom.dylib`. Therefore the root cause is not only missing launchd labels. `DYLD_INSERT_LIBRARIES` is being stripped or rejected unless the inserted dylib is trusted by the normal-boot trust path.
+
+Current fix state:
+
+- `scripts/patchers/mg_idiom_trustcache.py` appends the signed interposer cdhash to the restore `StaticTrustCache` IM4P (`BuildManifest.plist -> StaticTrustCache -> Info.Path`) and updates matching SHA-384 digests in both `BuildManifest.plist` and `iPhone-BuildManifest.plist`.
+- Verified appended cdhash: `c96fc1ccd4e64126b38a8cd2daef3a3617414c58`.
+- `make fw_patch_dev` now depends on `mg_idiom_trustcache`, so the trustcache mutation happens before `restore_get_shsh` / `restore`.
+- `MG_IDIOM_INJECT_LABELS` includes `com.apple.chronod`, `com.apple.datamigrator`, and `com.apple.migrationpluginwrapper`.
+- `scripts/cfw_install_dev.sh` must install the already-built dylib byte-for-byte. Do **not** re-sign the temporary copy during install; re-signing changed the installed CDHash to `1d2cde79de73482721b7b3cebef7e0389d567248`, while the restore trustcache trusted `c96fc1ccd4e64126b38a8cd2daef3a3617414c58`.
+- After commenting out the second `ldid_sign`, the installed `/usr/lib/vphone_mg_idiom.dylib` CDHash matches the trustcache entry: `c96fc1ccd4e64126b38a8cd2daef3a3617414c58`.
+- The live `/System/Library/xpc/launchd.plist` also contains `DYLD_INSERT_LIBRARIES=/usr/lib/vphone_mg_idiom.dylib` for `com.apple.SpringBoard`, and `grep -n vphone_mg_idiom` finds 7 launchd entries.
+
+Latest normal-boot result after fixing the CDHash mismatch:
+
+- Fresh `SpringBoard-2026-04-27-201509.ips` still crashes with `SIGABRT` at `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic`, now through the keyboard/InputUI path:
+
+```text
+_UIDeviceNativeUserInterfaceIdiomIgnoringClassic
+__24+[UIKeyboard inputUIOOP]_block_invoke
++[UIKeyboard inputUIOOP]
++[SBInputUISceneController _shouldControlInputUIScene]
++[SBSystemUIScenesCoordinator _sceneControllersConfigurations]
+-[UISApplicationSupportService initializeClientWithParameters:completion:]
+```
+
+- The crash report's `usedImages` still does **not** include `/usr/lib/vphone_mg_idiom.dylib`.
+- Runtime checks on the booted system confirmed both prerequisites are present:
+
+```text
+/usr/lib/vphone_mg_idiom.dylib CDHash = c96fc1ccd4e64126b38a8cd2daef3a3617414c58
+launchd.plist com.apple.SpringBoard EnvironmentVariables:
+  DYLD_INSERT_LIBRARIES = /usr/lib/vphone_mg_idiom.dylib
+```
+
+Interpretation update: `DYLD_INSERT_LIBRARIES` is not sufficient for SpringBoard/platform jobs on this iOS 18.5 normal boot path even when the inserted dylib is trusted and the launchd job contains the environment variable.
+
+Follow-up LC load-command attempts:
+
+- Rebuilt `vphone_mg_idiom.dylib` as `arm64e` (`TARGET=arm64e-apple-ios15.0`, `-arch arm64e`). This changed the trusted CDHash to `0715e76c07a2d472239aa83e425ceeced0b5c8d6`.
+- Strong `LC_LOAD_DYLIB /v` into SpringBoard proved dyld would honor the dependency and load the dylib. The first attempt with an `arm64` dylib failed cleanly at dyld with:
+
+```text
+Library not loaded: /v
+Reason: mach-o file, but is an incompatible architecture (have 'arm64', need 'arm64e')
+```
+
+- After rebuilding as `arm64e` and trusting the new CDHash, `SpringBoard-2026-04-27-212136.000.ips` showed `/usr/lib/vphone_mg_idiom.dylib` in `usedImages`, so trustcache + arm64e + loadability are confirmed.
+- But SpringBoard still crashed with `EXC_BAD_INSTRUCTION / SIGILL` at image offset `1384` (`0x568`). IDA on the local `.cfw_temp/SpringBoard` confirmed why:
+
+```text
+Mach-O base: 0x100000000
+sizeofcmds: 0x558
+entrypoint: 0x100000568
+```
+
+Adding any new load command grows the header directly into the executable entry stub. Even the short `/v` path corrupts SpringBoard because `insert_dylib` increases `ncmds/sizeofcmds` and writes the new command at file offset `0x568`, which is code.
+
+Rejected no-growth pivot:
+
+- Do **not** add a new load command to SpringBoard.
+- A no-growth replacement was considered: restore SpringBoard from `.bak`, create `/v -> /usr/lib/vphone_mg_idiom.dylib`, and repoint the existing Foundation load command path:
+
+```text
+/System/Library/Frameworks/Foundation.framework/Foundation
+```
+
+to:
+
+```text
+/v
+```
+
+This was rejected as unsafe in the current form. `vphone_mg_idiom.dylib` is not a Foundation re-export shim, so replacing a real platform dependency with it can break two-level namespace binding even if SpringBoard's visible import table only shows `_SBSystemAppMain`. If this path is revisited, build a dedicated proxy dylib that re-exports Foundation while also loading the MobileGestalt interposer, then verify bindings locally before deploying.
+
+### 2026-04-28 SpringBoard `/v` shim loaded; shared-cache interpose miss
+
+The no-growth SpringBoard load path is now confirmed. `cfw_install_dev.sh` restores SpringBoard from `.bak`, installs `/usr/lib/vphone_sb_shim.dylib`, creates `/v -> /usr/lib/vphone_sb_shim.dylib`, and replaces the existing SpringBoard.framework load-command path with `/v` in-place. The shim has install name `/v` and an `LC_REEXPORT_DYLIB` for:
+
+```text
+/System/Library/PrivateFrameworks/SpringBoard.framework/SpringBoard
+```
+
+Latest SpringBoard crash confirms the shim loads:
+
+```text
+usedImages:
+  /System/Library/CoreServices/SpringBoard.app/SpringBoard
+  /usr/lib/vphone_sb_shim.dylib
+  /System/Library/PrivateFrameworks/SpringBoard.framework/SpringBoard
+```
+
+The crash still reaches `_UIDeviceNativeUserInterfaceIdiomIgnoringClassic`, so the remaining problem is not trustcache or load-path deployment. `__DATA,__interpose` in the external shim did not rebind UIKitCore's shared-cache call to MobileGestalt.
+
+Current pivot:
+
+- `vphone_sb_shim.dylib` now also runs a fishhook-style in-process rebinder from its constructor.
+- It scans all loaded Mach-O images and future images via `_dyld_register_func_for_add_image`.
+- It rewrites `S_LAZY_SYMBOL_POINTERS` and `S_NON_LAZY_SYMBOL_POINTERS` entries for:
+  - `MGCopyAnswer`
+  - `MGCopyAnswerWithError`
+  - `MGGetSInt32Answer`
+- It uses `vm_protect(..., VM_PROT_READ | VM_PROT_WRITE | VM_PROT_COPY)` so `__DATA_CONST` symbol-pointer slots can be rewritten without modifying the shared-cache file on disk.
+- Logging now falls back across:
+  - `/private/var/log/vphone_sb_shim.log`
+  - `/private/var/mobile/Library/Logs/vphone_sb_shim.log`
+  - `/tmp/vphone_sb_shim.log`
+
+After adding the rebinder, the trusted CDHashes are:
+
+```text
+vphone_mg_idiom.dylib = 6124a458a4a771c5f19205b3f19b99094b54b890
+vphone_sb_shim.dylib  = b3e125754201025decf01965ee1a14e26f16bdc2
+```
+
+Both are present in the restore `StaticTrustCache`. Because the shim hash changed, the next validation requires rerunning the restore flow, not only `cfw_install_dev`.
+
+Follow-up boot showed the rebinder executing but failing every `vm_protect` with `kr=2` (`KERN_PROTECTION_FAILURE`) while trying to make the indirect symbol pointer section writable. Earlier interpretation as `KERN_INVALID_ADDRESS` was wrong; the SDK defines `KERN_INVALID_ADDRESS=1`, `KERN_PROTECTION_FAILURE=2`. The failure was only observed while attempting to rebind `vphone_sb_shim.dylib`'s own MobileGestalt imports, so the shim now skips its own Mach-O image and logs the target section/page range for any future protection failures. It also keeps the page-aligned `vm_protect` range, tries a `set_maximum=true` protection update, then attempts a same-address private `vm_remap` fallback before giving up. New trusted shim CDHash:
+
+```text
+vphone_sb_shim.dylib = 4c86a4664808fefcd278b7e039d8bbb525f3da9a
+```

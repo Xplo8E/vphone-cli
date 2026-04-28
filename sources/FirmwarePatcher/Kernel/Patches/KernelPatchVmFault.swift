@@ -1,11 +1,12 @@
-// KernelJBPatchVmFault.swift — JB kernel patch: VM fault enter prepare bypass
+// KernelPatchVmFault.swift — shared kernel patch: VM fault enter prepare bypass
 //
-// Historical note: derived from the legacy Python firmware patcher during the Swift migration.
+// Historical note: derived from the JB patcher, then lifted so dev builds can
+// bypass runtime shared-cache page validation without enabling the full JB set.
 
 import Capstone
 import Foundation
 
-extension KernelJBPatcher {
+extension KernelJBPatcherBase {
     /// Force the upstream cs_bypass fast-path in `_vm_fault_enter_prepare`.
     ///
     /// Expected semantic shape:
@@ -17,7 +18,7 @@ extension KernelJBPatcher {
     /// NOPing the TBZ forces the fast-path unconditionally.
     @discardableResult
     func patchVmFaultEnterPrepare() -> Bool {
-        log("\n[JB] _vm_fault_enter_prepare: NOP")
+        if verbose { print("\n[CS] _vm_fault_enter_prepare: force cs_bypass fast-path") }
 
         var candidateFuncs: [Int] = []
 
@@ -36,6 +37,13 @@ extension KernelJBPatcher {
             }
         }
 
+        // Stripped restore kernels often have neither symbols nor this string.
+        // Fall back to scanning PACIBSP-bounded functions for the exact
+        // fault_info.flags cs_bypass gate shape.
+        if candidateFuncs.isEmpty {
+            candidateFuncs = findFunctionsWithCsBypassGate()
+        }
+
         var candidateSites = Set<Int>()
         for funcStart in Set(candidateFuncs) {
             let funcEnd = findFuncEnd(funcStart, maxSize: 0x4000)
@@ -48,21 +56,42 @@ extension KernelJBPatcher {
             let patchOff = candidateSites.first!
             let va = fileOffsetToVA(patchOff)
             emit(patchOff, ARM64.nop,
-                 patchID: "kernelcache_jb.vm_fault_enter_prepare",
+                 patchID: "kernelcache.vm_fault_enter_prepare.cs_bypass",
                  virtualAddress: va,
                  description: "NOP [_vm_fault_enter_prepare]")
             return true
         } else if candidateSites.count > 1 {
             let list = candidateSites.sorted().map { String(format: "0x%X", $0) }.joined(separator: ", ")
-            log("  [-] ambiguous vm_fault_enter_prepare candidates: \(list)")
+            if verbose { print("  [-] ambiguous vm_fault_enter_prepare candidates: \(list)") }
             return false
         }
 
-        log("  [-] patch site not found")
+        if verbose { print("  [-] patch site not found") }
         return false
     }
 
     // MARK: - Private helpers
+
+    private func findFunctionsWithCsBypassGate() -> [Int] {
+        var funcs: [Int] = []
+
+        for range in codeRanges {
+            var off = range.start
+            while off + 4 <= range.end {
+                if buffer.readU32(at: off) == ARM64.pacibspU32 {
+                    let funcEnd = min(findFuncEnd(off, maxSize: 0x4000), range.end)
+                    if findCsBypassGate(start: off, end: funcEnd) != nil {
+                        funcs.append(off)
+                    }
+                    off = max(off + 4, funcEnd)
+                } else {
+                    off += 4
+                }
+            }
+        }
+
+        return funcs
+    }
 
     /// Find the unique `tbz Wflags, #3 / mov Wt, #0 / b ...` gate inside
     /// a function, where Wflags is the register loaded from [base, #0x28]

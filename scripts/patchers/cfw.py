@@ -30,9 +30,16 @@ Commands:
     inject-daemons <launchd.plist> <daemon_dir>
         Inject bash/dropbear/trollvnc into launchd.plist.
 
+    inject-mg-idiom <launchd.plist>
+        Inject DYLD_INSERT_LIBRARIES=/usr/lib/vphone_mg_idiom.dylib into
+        SpringBoard/AccessibilityUIServer/chronod/ndoagent/... jobs.
+
     inject-dylib <binary> <dylib_path>
         Inject LC_LOAD_DYLIB into Mach-O binary (thin or universal).
         Equivalent to: optool install -c load -p <dylib_path> -t <binary>
+
+    replace-dylib <binary> <old_dylib_path> <new_dylib_path>
+        Replace an existing LC_LOAD_DYLIB path string in-place.
 
 Dependencies:
     pip install capstone keystone-engine
@@ -52,6 +59,7 @@ if __name__ == "__main__":
     from patchers.cfw_patch_jetsam import patch_launchd_jetsam
     from patchers.cfw_patch_mobilegestalt import IPHONE_IDENTITY_OVERRIDES, patch_mobilegestalt
     from patchers.cfw_daemons import parse_cryptex_paths, inject_daemons
+    from patchers.cfw_mg_idiom_inject import inject_mg_idiom
 else:
     from .cfw_patch_seputil import patch_seputil
     from .cfw_patch_cache_loader import patch_launchd_cache_loader
@@ -59,6 +67,7 @@ else:
     from .cfw_patch_jetsam import patch_launchd_jetsam
     from .cfw_patch_mobilegestalt import IPHONE_IDENTITY_OVERRIDES, patch_mobilegestalt
     from .cfw_daemons import parse_cryptex_paths, inject_daemons
+    from .cfw_mg_idiom_inject import inject_mg_idiom
 
 
 def main():
@@ -119,6 +128,12 @@ def main():
             sys.exit(1)
         inject_daemons(sys.argv[2], sys.argv[3])
 
+    elif cmd == "inject-mg-idiom":
+        if len(sys.argv) < 3:
+            print("Usage: patch_cfw.py inject-mg-idiom <launchd.plist>")
+            sys.exit(1)
+        inject_mg_idiom(sys.argv[2])
+
     elif cmd == "inject-dylib":
         if len(sys.argv) < 4:
             print("Usage: patch_cfw.py inject-dylib <binary> <dylib_path>")
@@ -140,12 +155,19 @@ def main():
         if rc != 0:
             sys.exit(rc)
 
+    elif cmd == "replace-dylib":
+        if len(sys.argv) < 5:
+            print("Usage: patch_cfw.py replace-dylib <binary> <old_dylib_path> <new_dylib_path>")
+            sys.exit(1)
+        from patchers.macho_replace_dylib import replace
+        replace(sys.argv[2], sys.argv[3], sys.argv[4])
+
     else:
         print(f"Unknown command: {cmd}")
         print("Commands: cryptex-paths, patch-seputil, patch-launchd-cache-loader,")
         print("          patch-mobileactivationd, patch-launchd-jetsam,")
         print("          patch-mobilegestalt,")
-        print("          inject-daemons, inject-dylib")
+        print("          inject-daemons, inject-dylib, replace-dylib")
         sys.exit(1)
 
 

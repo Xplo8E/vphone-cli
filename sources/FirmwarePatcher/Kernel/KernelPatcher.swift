@@ -31,12 +31,6 @@ public final class KernelPatcher: KernelPatcherBase, Patcher {
         patchDebugger() // 6-7
         patchPostValidationNOP() // 8
         patchPostValidationCMP() // 9
-        // 9a: AMFIIsCDHashInTrustCache → always return 1.
-        // Required because the UIKitCore idiom byte-patch at
-        // dyld_shared_cache_arm64e.03+0x1a5978 invalidates the shared-cache
-        // page hash. Without this the kernel SIGKILLs every UIKit consumer
-        // with "CODESIGNING: Invalid Page".
-        patchAmfiCdhashInTrustcache() // 9a
         patchDyldPolicy() // 10-11
         patchApfsGraft() // 12
         patchApfsMount() // 13-15

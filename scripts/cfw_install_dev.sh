@@ -397,9 +397,17 @@ echo "  Copying Cryptexes to device (this takes ~3 minutes)..."
 scp_to "$MNT_SYSOS/." "/mnt1/System/Cryptexes/OS"
 scp_to "$MNT_APPOS/." "/mnt1/System/Cryptexes/App"
 
-# Patch copied SystemOS dyld cache after transfer; the mounted Cryptex DMG is sealed/read-only.
-echo "  Patching UIKitCore idiom resolver in copied SystemOS dyld cache..."
-patch_remote_uikit_idiom
+# UIKitCore byte-patch was previously applied here, but modifying the signed
+# dyld_shared_cache page triggers "CODESIGNING: Invalid Page" SIGKILL for every
+# process that memory-maps it (SpringBoard, ReportCrash, chronod, ...). The fix
+# now lives in userspace: an injected dylib that interposes MGCopyAnswer for
+# "DeviceClassNumber" so UIKit sees an iPhone idiom without touching the cache.
+# The old byte-patch helper `patch_remote_uikit_idiom` is kept for reference.
+# Opt-in only, gated by VPHONE_UIKIT_DSC_BYTE_PATCH=1.
+if [[ "${VPHONE_UIKIT_DSC_BYTE_PATCH:-0}" == "1" ]]; then
+    echo "  Patching UIKitCore idiom resolver in copied SystemOS dyld cache (opt-in)..."
+    patch_remote_uikit_idiom
+fi
 
 # Disable fairplayd LaunchDaemons; they crash-loop on vresearch SEP and
 # deadlock locationd + datamigrator turnstile-waiting on the fairplayd mach port.
@@ -588,6 +596,50 @@ done
 scp_to "$VPHONED_SRC/vphoned.plist" "/mnt1/System/Library/LaunchDaemons/"
 ssh_cmd "/bin/chmod 0644 /mnt1/System/Library/LaunchDaemons/vphoned.plist"
 
+# Install vphone_mg_idiom.dylib — MobileGestalt interposer that keeps
+# UIKit consumers (SpringBoard, chronod, DataMigration's SpringBoard.migrator,
+# and related daemons) from asserting on the raw "DeviceClassNumber" returned
+# for ComputeModule14,2.
+MG_IDIOM_DYLIB_SRC="$SCRIPT_DIR/vphone_mg_idiom/vphone_mg_idiom.dylib"
+if [[ -f "$MG_IDIOM_DYLIB_SRC" ]]; then
+    echo "  Installing vphone_mg_idiom.dylib..."
+    cp "$MG_IDIOM_DYLIB_SRC" "$TEMP_DIR/vphone_mg_idiom.dylib"
+    # Do not re-sign here: fw_patch_dev trusts the built dylib's exact CDHash
+    # in the restore StaticTrustCache, so normal boot must install matching bytes.
+    # ldid_sign "$TEMP_DIR/vphone_mg_idiom.dylib"
+    ssh_cmd "/bin/mkdir -p /mnt1/usr/lib"
+    scp_to "$TEMP_DIR/vphone_mg_idiom.dylib" "/mnt1/usr/lib/vphone_mg_idiom.dylib"
+    ssh_cmd "/bin/chmod 0644 /mnt1/usr/lib/vphone_mg_idiom.dylib"
+    echo "  [+] vphone_mg_idiom.dylib installed"
+
+    if remote_file_exists "/mnt1/System/Library/CoreServices/SpringBoard.app/SpringBoard.bak"; then
+        echo "  Restoring SpringBoard from backup (removes failed LC_LOAD_WEAK_DYLIB experiment)..."
+        ssh_cmd "/bin/cp /mnt1/System/Library/CoreServices/SpringBoard.app/SpringBoard.bak /mnt1/System/Library/CoreServices/SpringBoard.app/SpringBoard"
+        ssh_cmd "/bin/chmod 0755 /mnt1/System/Library/CoreServices/SpringBoard.app/SpringBoard"
+    fi
+
+    SB_SHIM_DYLIB_SRC="$SCRIPT_DIR/vphone_sb_shim/vphone_sb_shim.dylib"
+    if [[ -f "$SB_SHIM_DYLIB_SRC" ]]; then
+        echo "  Installing SpringBoard re-export shim..."
+        scp_to "$SB_SHIM_DYLIB_SRC" "/mnt1/usr/lib/vphone_sb_shim.dylib"
+        ssh_cmd "/bin/chmod 0644 /mnt1/usr/lib/vphone_sb_shim.dylib"
+        ssh_cmd "/bin/ln -sf /usr/lib/vphone_sb_shim.dylib /mnt1/v"
+        scp_from "/mnt1/System/Library/CoreServices/SpringBoard.app/SpringBoard" "$TEMP_DIR/SpringBoard"
+        "$PYTHON3" "$SCRIPT_DIR/patchers/cfw.py" replace-dylib \
+            "$TEMP_DIR/SpringBoard" \
+            "/System/Library/PrivateFrameworks/SpringBoard.framework/SpringBoard" \
+            "/v"
+        ldid_sign "$TEMP_DIR/SpringBoard" "com.apple.springboard"
+        scp_to "$TEMP_DIR/SpringBoard" "/mnt1/System/Library/CoreServices/SpringBoard.app/SpringBoard"
+        ssh_cmd "/bin/chmod 0755 /mnt1/System/Library/CoreServices/SpringBoard.app/SpringBoard"
+        echo "  [+] SpringBoard framework load command repointed to /v re-export shim"
+    else
+        echo "  [!] $SB_SHIM_DYLIB_SRC not found; run 'make -C scripts/vphone_sb_shim' to build it"
+    fi
+else
+    echo "  [!] $MG_IDIOM_DYLIB_SRC not found; run 'make -C scripts/vphone_mg_idiom' to build it"
+fi
+
 # Always patch launchd.plist from .bak (original)
 echo "  Patching launchd.plist..."
 if ! remote_file_exists "/mnt1/System/Library/xpc/launchd.plist.bak"; then
@@ -598,6 +650,9 @@ fi
 scp_from "/mnt1/System/Library/xpc/launchd.plist.bak" "$TEMP_DIR/launchd.plist"
 cp "$VPHONED_SRC/vphoned.plist" "$INPUT_DIR/jb/LaunchDaemons/"
 "$PYTHON3" "$SCRIPT_DIR/patchers/cfw.py" inject-daemons "$TEMP_DIR/launchd.plist" "$INPUT_DIR/jb/LaunchDaemons"
+# Inject DYLD_INSERT_LIBRARIES=vphone_mg_idiom.dylib into UIKit-dependent
+# launchd jobs so MobileGestalt's DeviceClassNumber answer gets interposed.
+"$PYTHON3" "$SCRIPT_DIR/patchers/cfw.py" inject-mg-idiom "$TEMP_DIR/launchd.plist"
 scp_to "$TEMP_DIR/launchd.plist" "/mnt1/System/Library/xpc/launchd.plist"
 ssh_cmd "/bin/chmod 0644 /mnt1/System/Library/xpc/launchd.plist"
 

@@ -197,6 +197,37 @@ vphoned:
 		$(VM_DIR)/.vphoned.signed
 	@echo "  signed → $(VM_DIR)/.vphoned.signed"
 
+# Cross-compile + sign vphone_mg_idiom.dylib — MobileGestalt idiom interposer
+# injected into SpringBoard/AccessibilityUIServer/etc. during cfw_install_dev.
+.PHONY: mg_idiom sb_shim mg_idiom_trustcache
+mg_idiom:
+	@command -v ldid >/dev/null 2>&1 \
+		|| (echo "Error: ldid not found. Run: brew install ldid-procursus" && exit 1)
+	$(MAKE) -C $(SCRIPTS)/vphone_mg_idiom
+	@echo "  built → $(SCRIPTS)/vphone_mg_idiom/vphone_mg_idiom.dylib"
+
+sb_shim:
+	@command -v ldid >/dev/null 2>&1 \
+		|| (echo "Error: ldid not found. Run: brew install ldid-procursus" && exit 1)
+	$(MAKE) -C $(SCRIPTS)/vphone_sb_shim
+	@echo "  built → $(SCRIPTS)/vphone_sb_shim/vphone_sb_shim.dylib"
+
+mg_idiom_trustcache: mg_idiom sb_shim
+	@if [ ! -x "$(TOOLS_PREFIX)/bin/trustcache" ]; then \
+		echo "Error: $(TOOLS_PREFIX)/bin/trustcache not found. Run: make setup_tools" >&2; \
+		exit 1; \
+	fi
+	"$(PYTHON)" "$(SCRIPTS)/patchers/mg_idiom_trustcache.py" \
+		--vm-dir "$(VM_DIR)" \
+		--dylib "$(SCRIPTS)/vphone_mg_idiom/vphone_mg_idiom.dylib" \
+		--pyimg4 "$(VENV)/bin/pyimg4" \
+		--trustcache "$(TOOLS_PREFIX)/bin/trustcache"
+	"$(PYTHON)" "$(SCRIPTS)/patchers/mg_idiom_trustcache.py" \
+		--vm-dir "$(VM_DIR)" \
+		--dylib "$(SCRIPTS)/vphone_sb_shim/vphone_sb_shim.dylib" \
+		--pyimg4 "$(VENV)/bin/pyimg4" \
+		--trustcache "$(TOOLS_PREFIX)/bin/trustcache"
+
 # ═══════════════════════════════════════════════════════════════════
 # VM management
 # ═══════════════════════════════════════════════════════════════════
@@ -305,7 +336,7 @@ fw_patch_less: patcher_build
 	fi; \
 	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant less --firmware-profile "$(FIRMWARE_PROFILE)"'
 
-fw_patch_dev: patcher_build
+fw_patch_dev: patcher_build mg_idiom_trustcache
 	"$(CURDIR)/$(PATCHER_BINARY)" patch-firmware --vm-directory "$(CURDIR)/$(VM_DIR)" --variant dev --firmware-profile "$(FIRMWARE_PROFILE)"
 
 fw_patch_jb: patcher_build
@@ -359,7 +390,7 @@ ramdisk_send:
 cfw_install:
 	cd $(VM_DIR) && $(if $(SSH_PORT),SSH_PORT="$(SSH_PORT)") _VPHONE_PATH="$$PATH" zsh "$(CURDIR)/$(SCRIPTS)/cfw_install.sh" .
 
-cfw_install_dev:
+cfw_install_dev: mg_idiom
 	cd $(VM_DIR) && $(if $(SSH_PORT),SSH_PORT="$(SSH_PORT)") _VPHONE_PATH="$$PATH" zsh "$(CURDIR)/$(SCRIPTS)/cfw_install_dev.sh" .
 
 cfw_install_jb:

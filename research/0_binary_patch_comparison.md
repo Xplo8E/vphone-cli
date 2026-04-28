@@ -128,9 +128,11 @@
 | 4   | `iosbinpack64` dev overlay | Replace `rpcserver_ios` with dev build                                                                             |    -    |  Y  |  -  |
 | 5   | `vphoned`                  | vsock HID/control daemon (built + signed)                                                                          |    Y    |  Y  |  Y  |
 | 6   | LaunchDaemons              | bash/dropbear/trollvnc/rpcserver_ios/vphoned plists                                                                |    Y    |  Y  |  Y  |
-| 7   | Procursus bootstrap        | Bootstrap filesystem + optional Sileo deb                                                                          |    -    |  -  |  Y  |
-| 8   | BaseBin hooks              | `systemhook.dylib` / `launchdhook.dylib` / `libellekit.dylib` -> `/cores/` plus `/b` alias for `launchdhook.dylib` |    -    |  -  |  Y  |
-| 9   | `TweakLoader.dylib`        | Lean user-tweak loader built from source and installed to `/var/jb/usr/lib/TweakLoader.dylib`                      |    -    |  -  |  Y  |
+| 7   | MobileGestalt cache patcher | First-boot `CacheExtra["DeviceClassNumber"] = 1` writer                                                            |    -    |  Y  |  -  |
+| 8   | MobileGestalt idiom interposer | `arm64e` `/usr/lib/vphone_mg_idiom.dylib`; SpringBoard `/v` re-export shim with in-process MG rebinder; cdhashes appended to StaticTrustCache; no new SpringBoard load-command growth | - | Y | - |
+| 9   | Procursus bootstrap        | Bootstrap filesystem + optional Sileo deb                                                                          |    -    |  -  |  Y  |
+| 10  | BaseBin hooks              | `systemhook.dylib` / `launchdhook.dylib` / `libellekit.dylib` -> `/cores/` plus `/b` alias for `launchdhook.dylib` |    -    |  -  |  Y  |
+| 11  | `TweakLoader.dylib`        | Lean user-tweak loader built from source and installed to `/var/jb/usr/lib/TweakLoader.dylib`                      |    -    |  -  |  Y  |
 
 ### CFW Installer Flow Matrix (Script-Level)
 
@@ -162,9 +164,9 @@
 | Kernel (JB methods)      |       - |   - |  59 |
 | Boot chain total         |      41 |  52 | 112 |
 | CFW binary patches       |       4 |   5 |   6 |
-| CFW installed components |       6 |   7 |   9 |
-| CFW total                |      10 |  12 |  15 |
-| Grand total              |      51 |  64 | 127 |
+| CFW installed components |       6 |   8 |   9 |
+| CFW total                |      10 |  13 |  15 |
+| Grand total              |      51 |  65 | 127 |
 
 ## Ramdisk Variant Matrix
 
@@ -403,3 +405,230 @@ Ran `make fw_patch_dev FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm`. Summary of kerne
 Noted pre-existing misses (do NOT touch for this session): patches 12, 13, 14, 15 all log `[-] ... not found` on the 18.5 kernelcache. These are APFS-graft / mount validation patches that were written for older kernelcache shapes. They're unrelated to the current SIGKILL work but should be re-researched when we harden the pipeline. `[9] postValidation: cmp w0,w0` also reports `0 sites found` — its anchor string is now different on 18.5 and our new `patchAmfiCdhashInTrustcache` partly covers the same semantic ground (the postValidation CMP-rewrite was about making AMFI's `postValidation` return equal; bypassing `AMFIIsCDHashInTrustCache` short-circuits earlier).
 
 Phase 2 output is written to `vm/iPhone17,3_18.5_22F76_Restore/kernelcache.research.vresearch101` etc. Next phase is the DFU restore cycle.
+
+### 2026-04-22 Phase 3 fix: stale kernelcache corruption after repeated patching
+
+The first ramdisk boot after the AMFI trustcache port made it through iBSS/iBEC and started the kernel, then panicked immediately inside `AppleMobileFileIntegrity`:
+
+```text
+panic(cpu 0 caller ...): Undefined kernel instruction: pc=0xfffffe00310f985c instr=7980 @sleh.c:1594
+Kernel Extensions in backtrace:
+  com.apple.driver.AppleMobileFileIntegrity(1.0.5)
+  com.apple.security.sandbox(300.0)
+```
+
+Runtime mapping:
+
+- AMFI runtime base: `0xfffffe00310eff10`
+- panic PC delta from AMFI base: `0x994c`
+- kernelcache load address: `0xfffffe002fd04000`
+- raw kernel payload offset: `0x13f585c`
+
+Root cause was a stale/corrupted restore kernelcache, not `irecovery`, AVPBooter, or the new trustcache stub. The restore kernel is an IM4P container, so diagnostics must extract the raw payload before checking offsets. In the bad payload:
+
+```text
+0x13f585c: 80 79 00 00 00 80 52 c0 03 5f d6 ...
+```
+
+The first word decodes to the undefined instruction `0x00007980`. Clean/current-source patching keeps the instruction aligned and valid:
+
+```text
+0x13f585c: 80 79 00 90 00 80 3c 91 fd 7b 41 a9 ...
+0x13f5880: 00 00 80 52 c0 03 5f d6 ...
+```
+
+This showed an older/bad launch-constraints patch had written a `mov w0,#0; ret` style stub starting three bytes off instruction alignment near `0x13f585f`, while the current patcher correctly stubs `_proc_check_launch_constraints` at aligned offset `0x13f5880`.
+
+Clean rebuild procedure:
+
+1. Stop the panicked DFU VM.
+2. Copy pristine CloudOS kernel/iBSS/iBEC/LLB/DeviceTree/TXM inputs from `ipsws/cloudOS_18.5_22F76/` back into `vm/iPhone17,3_18.5_22F76_Restore/`.
+3. Rerun `make fw_patch_dev FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm`.
+4. Extract the raw kernel payload and verify:
+
+```text
+0x13f0f78: 20 00 80 d2 42 00 00 b4 40 00 00 f9 c0 03 5f d6
+0x13f585c: 80 79 00 90 00 80 3c 91 fd 7b 41 a9 f4 4f c2 a8
+0x13f5880: 00 00 80 52 c0 03 5f d6 fa 67 01 a9 f8 5f 02 a9
+```
+
+After this clean rebuild, `make ramdisk_build` + `make ramdisk_send` completed, iBEC loaded normally, the kernel no longer panicked at AMFI+`0x994c`, and SSHRD booted successfully.
+
+### 2026-04-23 Phase 4 attempt: vm_fault CS bypass not applied
+
+Normal boot after the clean restore still reached userspace but SpringBoard did not stay alive. Serial CrashReporter evidence showed:
+
+```text
+SpringBoard throttled after OS_REASON_CODESIGNING
+ReportCrash: SIGKILL - CODESIGNING
+termination namespace: CODESIGNING
+termination indicator: Invalid Page
+```
+
+Datamigrator stackshots are secondary: migration plugins wait on services that launchd has already throttled after codesigning exits. The primary failing invariant is still the patched dyld shared-cache page being rejected at runtime while UIKit consumers fault it in.
+
+Implementation state:
+
+- Moved `patchVmFaultEnterPrepare` from `sources/FirmwarePatcher/Kernel/JBPatches/KernelJBPatchVmFault.swift` to `sources/FirmwarePatcher/Kernel/Patches/KernelPatchVmFault.swift`.
+- Retargeted it from `KernelJBPatcher` to `KernelJBPatcherBase`, so future symbol-capable patcher layers can reuse the existing semantic matcher without enabling the full JB patch set.
+- Kept the repaired matcher semantics: resolve `_vm_fault_enter_prepare` when symbols exist, otherwise scan PACIBSP-bounded functions for the prologue flags load from `[fault_info,#0x28]`, locate the unique `tbz Wflags,#3; mov W?,#0; b ...` gate, and NOP only that gate.
+- Tried a `KernelDevCSPatcher` layer after the regular kernel patcher. It was removed from `.dev` wiring because the 18.5 restore kernel has no symbols, no `vm_fault_enter_prepare` string, and the fallback PACIBSP scan still found zero matching CS-bypass gates.
+- `.dev` currently remains wired to `KernelPatcher` only. `fw_patch_dev` must not depend on this incomplete vm_fault matcher.
+
+Rationale: `patchAmfiCdhashInTrustcache` covered the trustcache query, but the observed crash reason is `CODESIGNING_EXIT_REASON_INVALID_PAGE`, which XNU reports from the VM fault code-signing violation path. Forcing the existing `cs_bypass` fast-path in `_vm_fault_enter_prepare` is the narrowest existing repo patch that matches this evidence.
+
+Current result: `patchVmFaultEnterPrepare` is still active for the JB patcher only. The dev variant does **not** get a vm_fault patch yet.
+
+`patchAmfiExecveKillPath` remains unported. It targets AMFI exec-time kill returns, while this boot is failing on runtime page validation. Revisit execve only if a later crash report shows taskgated invalid signature or explicit AMFI execve kill evidence.
+
+### 2026-04-23 Phase 5 runtime state: restore/CFW evidence and TXM dirty-input panic
+
+Commands that completed before the current failure thread:
+
+```sh
+make fw_patch_dev FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm
+make ramdisk_build FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm
+make ramdisk_send
+make restore_get_shsh
+make restore
+make boot_dfu
+make ramdisk_send
+make cfw_install_dev
+make boot
+```
+
+The full restore reached `verify-restore: 100/100`. The post-restore ramdisk and dev CFW path then got far enough to install Cryptex/SystemOS/AppOS and first-boot services. A normal boot reached userspace far enough for these processes to exist:
+
+```text
+runningboardd
+rpcserver_ios
+backboardd
+com.apple.datamigrator
+vphoned
+com.apple.migrationpluginwrapper
+ReportCrash
+```
+
+`SpringBoard` did not remain alive. CrashReporter and stackshot evidence after the normal boot showed the same primary failure as Phase 4:
+
+```text
+SpringBoard throttled after OS_REASON_CODESIGNING
+ReportCrash throttled after OS_REASON_CODESIGNING
+ReportCrash: SIGKILL - CODESIGNING
+termination namespace: CODESIGNING
+termination indicator: Invalid Page
+```
+
+Observed datamigrator stackshots were secondary symptoms. Migration plugins such as `com.apple.MobileSlideShow`, `com.apple.locationd.migrator`, and `com.apple.sbmigrator` reported hangs or missing pids because launchd was throttling dependent services after codesigning exits. Do not treat the datamigrator stackshot itself as the root cause unless later evidence shows migration-specific corruption.
+
+A separate old panic found in CrashReporter is not the current blocker:
+
+```text
+panic-full-2026-04-22-173409.0002.ips
+panicString: initproc failed to start -- Library not loaded: /usr/lib/libSystem.B.dylib
+Reason: tried: '/usr/lib/libSystem.B.dylib' (no such file, no dyld cache)
+```
+
+That panic came from an earlier rootfs/dyld-cache boot attempt. It predates the successful userspace boot with `runningboardd`, `backboardd`, `vphoned`, and datamigrator alive.
+
+After a later `cfw_install_dev` attempt failed at the ramdisk SSH step:
+
+```text
+Mounting device rootfs rw...
+[ssh] connection lost (attempt 1/3), retrying in 3s...
+[ssh] connection lost (attempt 2/3), retrying in 3s...
+[ssh] connection lost (attempt 3/3), retrying in 3s...
+make: *** [cfw_install_dev] Error 255
+```
+
+Host-side checks showed the command was correct, but `127.0.0.1:2222` was not listening. The failure mode is a missing/stopped `pymobiledevice3 usbmux forward 2222 22`, not an incorrect CFW target. Required flow for any repeat CFW install:
+
+```sh
+make boot_dfu
+make ramdisk_send
+source .venv/bin/activate
+python -m pymobiledevice3 usbmux forward 2222 22
+nc -vz 127.0.0.1 2222
+sshpass -p alpine ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 2222 root@localhost 'uname -a'
+make cfw_install_dev
+```
+
+The newest normal-boot panic is different from the userspace codesigning reports. It is a TXM panic during early root-auth/Image4 handling:
+
+```text
+TXM [Error]: Errno: selector: 45 | 78
+AppleImage4: trap failed: set boot uuid
+AppleImage4: failed to set boot uuid in supervisor: 78
+AppleImage4: magazine[cptx]: failed to get nonce: 13
+AppleImage4: magazine[c1bt]: failed to get nonce: 6
+is_root_hash_authentication_required: disk1s1 Root Volume, root hash authentication is required
+panic(cpu 0 caller ...): [TXM] Unhandled synchronous exception taken from GL0 at pc 0xfffffe002f38fe38, lr 0x93dd7e002f390008
+Kernel Extensions in backtrace:
+  com.apple.sptm(24.5)
+  com.apple.txm(24.5)
+```
+
+Runtime mapping from that panic:
+
+```text
+TXM load address: 0xfffffe002f368000
+panic pc:         0xfffffe002f38fe38 -> TXM offset 0x027e38
+panic lr:         0xfffffe002f390008 -> TXM offset 0x028008
+```
+
+This is adjacent to the dev TXM trustcache patch site observed in patch logs:
+
+```text
+TXM trustcache patch site: 0x027e54
+```
+
+The staged restore TXM differed from the pristine CloudOS TXM:
+
+```text
+ipsws/cloudOS_18.5_22F76/Firmware/txm.iphoneos.research.im4p
+  466c2d2684f148533d1342651a98198c0d289fb7e7d3dedb3c94145248433d32
+
+vm/iPhone17,3_18.5_22F76_Restore/Firmware/txm.iphoneos.research.im4p
+  02c4c7733c5962696e6911a2a87e57f3174b206032209058e45014797dec95ef
+```
+
+Inference: this panic is most likely dirty staged TXM input from repeated `fw_patch_dev` runs, not a new CFW installer issue. During the clean kernelcache rebuild we restored `kernelcache.*`, `Firmware/dfu/`, and `Firmware/all_flash/`, but did not restore `Firmware/txm*.im4p`. That left TXM vulnerable to patch-on-patched drift.
+
+Supporting evidence from prior patch logs: selector24 TXM patch offsets drifted between runs (`0x02CCE0`, `0x02CC3C`, `0x02CB54`). Patch site drift inside the same firmware profile is not expected for a clean deterministic input and should be treated as dirty-input evidence until proven otherwise.
+
+Required clean rebuild before the next restore:
+
+```sh
+rsync -a ipsws/cloudOS_18.5_22F76/kernelcache.* vm/iPhone17,3_18.5_22F76_Restore/
+rsync -a ipsws/cloudOS_18.5_22F76/Firmware/dfu/ vm/iPhone17,3_18.5_22F76_Restore/Firmware/dfu/
+rsync -a ipsws/cloudOS_18.5_22F76/Firmware/all_flash/ vm/iPhone17,3_18.5_22F76_Restore/Firmware/all_flash/
+rsync -a ipsws/cloudOS_18.5_22F76/Firmware/txm*.im4p vm/iPhone17,3_18.5_22F76_Restore/Firmware/
+make fw_patch_dev FIRMWARE_PROFILE=ios18-22F76 VM_DIR=vm
+```
+
+Then run a full restore, not only CFW install, because normal boot consumes the restored boot chain/TXM/kernel artifacts:
+
+```sh
+make boot_dfu
+make restore_get_shsh
+make restore
+```
+
+After restore:
+
+```sh
+make boot_dfu
+make ramdisk_send
+source .venv/bin/activate
+python -m pymobiledevice3 usbmux forward 2222 22
+make cfw_install_dev
+make boot
+```
+
+Current blocker state:
+
+- `confirmed`: dev normal boot previously reached userspace after full restore and CFW install.
+- `confirmed`: SpringBoard/ReportCrash userspace failure reason was `SIGKILL - CODESIGNING`, `Invalid Page`.
+- `confirmed`: the newest panic maps into TXM at offset `0x027e38`, adjacent to the TXM trustcache patch region.
+- `candidate`: staged TXM was dirty/repatched and caused the TXM synchronous exception.
+- `hypothesis`: after restoring pristine TXM inputs and doing one clean `fw_patch_dev` + full restore, the boot should return to the previous userspace codesigning state, at which point the next real patch target remains runtime invalid-page handling in the VM fault path.
