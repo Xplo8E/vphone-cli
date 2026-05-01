@@ -30,6 +30,8 @@ Four patch variants are available with increasing levels of security bypass:
 
 See [research/0_binary_patch_comparison.md](./research/0_binary_patch_comparison.md) for the detailed per-component breakdown.
 
+For **SSH vs DFU ramdisk**, **usbmux port forwards**, and **rsync vs scp** conventions (including AI-oriented checklists), see [docs/HOST_GUEST_OPERATIONS.md](./docs/HOST_GUEST_OPERATIONS.md).
+
 ## Prerequisites
 
 **Host OS:** macOS 15+ (Sequoia) is required for PV=3 virtualization.

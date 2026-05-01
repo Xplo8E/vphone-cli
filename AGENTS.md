@@ -106,6 +106,7 @@ scripts/
 ├── setup_venv.sh                 # Create Python venv
 ├── setup_venv_linux.sh           # Create Python venv (Linux)
 ├── setup_libimobiledevice.sh     # Build libimobiledevice stack from scripts/repos submodules
+├── vphone_ssh.sh                 # Non-interactive guest SSH one-liner (sshpass)
 └── tail_jb_patch_logs.sh         # Tail JB patch log output
 
 research/                         # Detailed firmware/patch documentation

@@ -81,6 +81,7 @@ help:
 	@echo "  make boot_less               Boot VM in vphoned patchless compatibility"
 	@echo "    Options: NO_VPHONED=1              Excludes vphoned from being installed"
 	@echo "  make boot_dfu                Boot VM in DFU mode (reads from config.plist)"
+	@echo "  scripts/vphone_ssh.sh <cmd>  Non-interactive guest SSH (sshpass; see docs/HOST_GUEST_OPERATIONS.md)"
 	@echo ""
 	@echo "Firmware pipeline:"
 	@echo "  make fw_prepare              Download IPSWs, extract, merge"
