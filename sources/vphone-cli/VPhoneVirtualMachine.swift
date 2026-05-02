@@ -10,6 +10,10 @@ class VPhoneVirtualMachine: NSObject, VZVirtualMachineDelegate {
     let ecidHex: String?
     /// Read handle for VM serial output.
     private var serialOutputReadHandle: FileHandle?
+    /// Write handle for mirrored VM serial output on the host.
+    private var serialOutputLogHandle: FileHandle?
+    /// Timestamping writer for mirrored VM serial output.
+    private var serialLogWriter: SerialLogWriter?
     /// Synthetic battery source for runtime charge/connectivity updates.
     private var batterySource: AnyObject?
 
@@ -187,6 +191,8 @@ class VPhoneVirtualMachine: NSObject, VZVirtualMachineDelegate {
         net.attachment = VZNATNetworkDeviceAttachment()
         config.networkDevices = [net]
 
+        let serialLogHandle = Self.openSerialLog(configURL: options.configURL)
+
         // Serial port (PL011 UART - pipes for input/output with boot detection)
         if let serialPort = Dynamic._VZPL011SerialPortConfiguration().asObject
             as? VZSerialPortConfiguration
@@ -212,6 +218,10 @@ class VPhoneVirtualMachine: NSObject, VZVirtualMachineDelegate {
             }
 
             serialOutputReadHandle = outputPipe.fileHandleForReading
+            serialOutputLogHandle = serialLogHandle
+            if let serialLogHandle {
+                serialLogWriter = SerialLogWriter(handle: serialLogHandle)
+            }
 
             config.serialPorts = [serialPort]
             print("[vphone] PL011 serial port attached (interactive)")
@@ -292,11 +302,97 @@ class VPhoneVirtualMachine: NSObject, VZVirtualMachineDelegate {
 
         // Forward VM serial output -> host stdout
         if let readHandle = serialOutputReadHandle {
+            let logWriter = serialLogWriter
             readHandle.readabilityHandler = { handle in
                 let data = handle.availableData
                 if data.isEmpty { return }
                 FileHandle.standardOutput.write(data)
+                logWriter?.write(data)
             }
+        }
+    }
+
+    private final class SerialLogWriter: @unchecked Sendable {
+        private let handle: FileHandle
+        private let lock = NSLock()
+        private var pending = Data()
+        private let formatter: DateFormatter
+
+        init(handle: FileHandle) {
+            self.handle = handle
+            formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        }
+
+        func write(_ data: Data) {
+            lock.lock()
+            defer { lock.unlock() }
+
+            pending.append(data)
+            while let newline = pending.firstIndex(of: 0x0a) {
+                let line = pending.prefix(through: newline)
+                writeTimestamped(line)
+                pending.removeSubrange(...newline)
+            }
+        }
+
+        private func writeTimestamped(_ line: Data) {
+            let prefix = "[\(formatter.string(from: Date()))] "
+            if let prefixData = prefix.data(using: .utf8) {
+                handle.write(prefixData)
+            }
+            handle.write(line)
+        }
+    }
+
+    private static func openSerialLog(configURL: URL) -> FileHandle? {
+        let vmDirectory = configURL.deletingLastPathComponent()
+        let logsDirectory = vmDirectory.appendingPathComponent("logs", isDirectory: true)
+        let latestURL = logsDirectory.appendingPathComponent("serial.log")
+
+        do {
+            try FileManager.default.createDirectory(
+                at: logsDirectory,
+                withIntermediateDirectories: true
+            )
+
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyyMMdd-HHmmss"
+
+            let bootURL = logsDirectory.appendingPathComponent(
+                "serial-\(formatter.string(from: Date())).log"
+            )
+            FileManager.default.createFile(atPath: bootURL.path, contents: nil)
+
+            do {
+                if FileManager.default.fileExists(atPath: latestURL.path) {
+                    try FileManager.default.removeItem(at: latestURL)
+                }
+                try FileManager.default.createSymbolicLink(
+                    atPath: latestURL.path,
+                    withDestinationPath: bootURL.path
+                )
+            } catch {
+                print("[vphone] Warning: failed to update serial.log symlink: \(error)")
+            }
+
+            let handle = try FileHandle(forWritingTo: bootURL)
+            try handle.seekToEnd()
+            let header = "\n[vphone] serial capture started \(Date())\n"
+            if let data = header.data(using: .utf8) {
+                handle.write(data)
+            }
+
+            print("[vphone] Serial log: \(bootURL.path)")
+            print("[vphone] Serial log latest: \(latestURL.path)")
+            return handle
+        } catch {
+            print("[vphone] Warning: serial file capture disabled: \(error)")
+            return nil
         }
     }
 
