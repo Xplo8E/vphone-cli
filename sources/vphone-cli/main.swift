@@ -1,6 +1,9 @@
 import AppKit
 import ArgumentParser
+import Darwin
 import Foundation
+
+signal(SIGPIPE, SIG_IGN)
 
 do {
     let command = try VPhoneCLI.parseAsRoot()

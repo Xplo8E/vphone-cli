@@ -13,3 +13,6 @@ BOOL vp_apps_load(void);
 
 /// Handle an app command. Returns a response dict.
 NSDictionary *vp_handle_apps_command(NSDictionary *msg);
+
+/// Terminate a running app by bundle identifier. Returns YES if no process remains.
+BOOL vp_terminate_app(NSString *bundleID);

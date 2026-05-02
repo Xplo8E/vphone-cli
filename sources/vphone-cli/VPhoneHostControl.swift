@@ -18,6 +18,18 @@ import ImageIO
 ///   {"t":"swipe","x1":645,"y1":2600,"x2":645,"y2":1400,"ms":300}  → swipe
 ///   {"t":"key","name":"home"}                   → hardware key (home/power/volup/voldown)
 ///   {"t":"type","text":"Hello"}                 → set guest clipboard
+///   {"t":"app_list","filter":"user"}            → forward to vphoned app_list
+///   {"t":"app_launch","bundle_id":"..."}        → forward to vphoned app_launch
+///   {"t":"app_terminate","bundle_id":"..."}     → forward to vphoned app_terminate
+///   {"t":"open_url","url":"..."}                → forward to vphoned open_url
+///   {"t":"clipboard_get"}                       → forward to vphoned clipboard_get
+///   {"t":"clipboard_set","text":"..."}          → forward to vphoned clipboard_set
+///   {"t":"file_list","path":"/var/mobile"}      → forward to vphoned file_list
+///   {"t":"file_push","local_path":"...","remote_path":"..."} → upload local file
+///   {"t":"file_pull","remote_path":"...","local_path":"..."} → download remote file
+///   {"t":"file_mkdir","path":"..."}             → forward to vphoned file_mkdir
+///   {"t":"file_delete","path":"..."}            → forward to vphoned file_delete
+///   {"t":"ipa_install","local_path":"..."}      → upload and install IPA/TIPA
 ///
 /// All commands except "screenshot" wait briefly then capture a compact screen
 /// image returned as `"image":"<base64>"` in the response.  Pass `"screen":false`
@@ -38,6 +50,7 @@ class VPhoneHostControl {
         var error: String?
         var ok = false
         var imageBase64: String?
+        var payload: [String: Any] = [:]
     }
 
     /// Screen pixel dimensions for coordinate mapping.
@@ -406,6 +419,335 @@ class VPhoneHostControl {
             semaphore.wait()
             writeResponse(fd, ok: result.ok, error: result.error, image: result.imageBase64)
 
+        case "app_list":
+            let filter = json["filter"] as? String ?? "all"
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    let apps = try await ctl.appList(filter: filter)
+                    result.payload["apps"] = apps.map {
+                        [
+                            "bundle_id": $0.bundleId,
+                            "name": $0.name,
+                            "version": $0.version,
+                            "type": $0.type,
+                            "state": $0.state,
+                            "pid": $0.pid,
+                            "path": $0.path,
+                            "data_container": $0.dataContainer,
+                        ]
+                    }
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error, extra: result.payload)
+
+        case "app_launch":
+            guard let bundleId = json["bundle_id"] as? String else {
+                writeResponse(fd, ok: false, error: "app_launch requires bundle_id")
+                return
+            }
+            let url = json["url"] as? String
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    result.payload["pid"] = try await ctl.appLaunch(bundleId: bundleId, url: url)
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error, extra: result.payload)
+
+        case "app_terminate":
+            guard let bundleId = json["bundle_id"] as? String else {
+                writeResponse(fd, ok: false, error: "app_terminate requires bundle_id")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    try await ctl.appTerminate(bundleId: bundleId)
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error)
+
+        case "open_url":
+            guard let url = json["url"] as? String else {
+                writeResponse(fd, ok: false, error: "open_url requires url")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    try await ctl.openURL(url)
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error)
+
+        case "clipboard_get":
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    let content = try await ctl.clipboardGet()
+                    result.payload["text"] = content.text
+                    result.payload["types"] = content.types
+                    result.payload["has_image"] = content.hasImage
+                    result.payload["change_count"] = content.changeCount
+                    if let imageData = content.imageData {
+                        result.payload["image_base64"] = imageData.base64EncodedString()
+                    }
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error, extra: result.payload)
+
+        case "clipboard_set":
+            guard let text = json["text"] as? String else {
+                writeResponse(fd, ok: false, error: "clipboard_set requires text")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    try await ctl.clipboardSet(text: text)
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error)
+
+        case "file_list":
+            guard let path = json["path"] as? String else {
+                writeResponse(fd, ok: false, error: "file_list requires path")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    result.payload["entries"] = try await ctl.listFiles(path: path)
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error, extra: result.payload)
+
+        case "file_push":
+            guard let localPath = json["local_path"] as? String,
+                  let remotePath = json["remote_path"] as? String
+            else {
+                writeResponse(fd, ok: false, error: "file_push requires local_path and remote_path")
+                return
+            }
+            let permissions = json["permissions"] as? String ?? "644"
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    let data = try Data(contentsOf: URL(fileURLWithPath: localPath))
+                    try await ctl.uploadFile(path: remotePath, data: data, permissions: permissions)
+                    result.payload["bytes"] = data.count
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error, extra: result.payload)
+
+        case "file_pull":
+            guard let remotePath = json["remote_path"] as? String,
+                  let localPath = json["local_path"] as? String
+            else {
+                writeResponse(fd, ok: false, error: "file_pull requires remote_path and local_path")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    let data = try await ctl.downloadFile(path: remotePath)
+                    let url = URL(fileURLWithPath: localPath)
+                    try FileManager.default.createDirectory(
+                        at: url.deletingLastPathComponent(),
+                        withIntermediateDirectories: true
+                    )
+                    try data.write(to: url)
+                    result.payload["bytes"] = data.count
+                    result.payload["path"] = localPath
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error, extra: result.payload)
+
+        case "file_mkdir":
+            guard let path = json["path"] as? String else {
+                writeResponse(fd, ok: false, error: "file_mkdir requires path")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    try await ctl.createDirectory(path: path)
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error)
+
+        case "file_delete":
+            guard let path = json["path"] as? String else {
+                writeResponse(fd, ok: false, error: "file_delete requires path")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    try await ctl.deleteFile(path: path)
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error)
+
+        case "ipa_install":
+            guard let localPath = json["local_path"] as? String else {
+                writeResponse(fd, ok: false, error: "ipa_install requires local_path")
+                return
+            }
+            let semaphore = DispatchSemaphore(value: 0)
+            let result = ResultBox()
+
+            Task { @MainActor in
+                defer { semaphore.signal() }
+                guard let controller, let ctl = controller.control, ctl.isConnected else {
+                    result.error = "guest not connected"
+                    return
+                }
+                do {
+                    let detail = try await ctl.installIPA(localURL: URL(fileURLWithPath: localPath))
+                    result.payload["msg"] = detail
+                    result.ok = true
+                } catch {
+                    result.error = "\(error)"
+                }
+            }
+
+            semaphore.wait()
+            writeResponse(fd, ok: result.ok, error: result.error, extra: result.payload)
+
         default:
             writeResponse(fd, ok: false, error: "unknown command: \(type)")
         }
@@ -431,9 +773,17 @@ class VPhoneHostControl {
     }
 
     private nonisolated static func writeResponse(
-        _ fd: Int32, ok: Bool, path: String? = nil, error: String? = nil, image: String? = nil
+        _ fd: Int32,
+        ok: Bool,
+        path: String? = nil,
+        error: String? = nil,
+        image: String? = nil,
+        extra: [String: Any] = [:]
     ) {
         var dict: [String: Any] = ["ok": ok]
+        for (key, value) in extra {
+            dict[key] = value
+        }
         if let path { dict["path"] = path }
         if let error { dict["error"] = error }
         if let image { dict["image"] = image }

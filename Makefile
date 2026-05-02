@@ -78,9 +78,12 @@ help:
 	@echo "  make amfidont_allow_vphone   Start amfidont for the signed vphone-cli binary"
 	@echo "  make boot_host_preflight     Diagnose whether host can launch signed PV=3 binary"
 	@echo "  make boot                    Boot VM (reads from config.plist)"
+	@echo "    Options: EXTRA_ARGS='...'  Pass additional vphone-cli args"
 	@echo "  make boot_less               Boot VM in vphoned patchless compatibility"
 	@echo "    Options: NO_VPHONED=1              Excludes vphoned from being installed"
+	@echo "             EXTRA_ARGS='...'          Pass additional vphone-cli args"
 	@echo "  make boot_dfu                Boot VM in DFU mode (reads from config.plist)"
+	@echo "    Options: EXTRA_ARGS='...'  Pass additional vphone-cli args"
 	@echo "  scripts/vphone_ssh.sh <cmd>  Non-interactive guest SSH (sshpass; see docs/HOST_GUEST_OPERATIONS.md)"
 	@echo ""
 	@echo "Firmware pipeline:"
@@ -308,18 +311,21 @@ boot_binary_check: $(BINARY)
 
 boot: bundle vphoned boot_binary_check
 	cd $(VM_DIR) && "$(CURDIR)/$(BUNDLE_BIN)" \
-		--config ./config.plist
+		--config ./config.plist \
+		$(EXTRA_ARGS)
 
 boot_less: bundle vphoned boot_binary_check_less
 	cd $(VM_DIR) && "$(CURDIR)/$(BUNDLE_BIN)" \
 		--config ./config.plist \
 		--variant less \
-		$(if $(filter 1 true yes YES TRUE,$(NO_VPHONED)),--no-vphoned,)
+		$(if $(filter 1 true yes YES TRUE,$(NO_VPHONED)),--no-vphoned,) \
+		$(EXTRA_ARGS)
 
 boot_dfu: build boot_binary_check
 	cd $(VM_DIR) && "$(CURDIR)/$(BINARY)" \
 		--config ./config.plist \
-		--dfu
+		--dfu \
+		$(EXTRA_ARGS)
 
 # ═══════════════════════════════════════════════════════════════════
 # Firmware pipeline

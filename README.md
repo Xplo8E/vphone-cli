@@ -236,6 +236,15 @@ shutdown -h now
 make boot
 ```
 
+Pass extra `vphone-cli` arguments through Make when you need a one-off boot option:
+
+```bash
+make boot EXTRA_ARGS="--kernel-debug-port 62000"
+make boot EXTRA_ARGS="--install-ipa ./MyApp.ipa"
+make boot_dfu EXTRA_ARGS="--kernel-debug-port 62000"
+make boot_less NO_VPHONED=1 EXTRA_ARGS="--kernel-debug-port 62000"
+```
+
 In a separate terminal, start usbmux forward tunnels:
 
 ```bash
@@ -339,7 +348,44 @@ python3 -m pymobiledevice3 profile supervise vphone
 
 ## Automation
 
-vphone-cli exposes a host control socket (`vm/vphone.sock`) for programmatic VM interaction — screenshots, touch injection, swipe gestures, hardware keys, and clipboard. Every action returns a compact grayscale screenshot inline, enabling AI-driven E2E testing workflows.
+vphone-cli exposes a host control socket (`vm/vphone.sock`) for programmatic VM interaction. Send one JSON object per connection and read one JSON response back:
+
+```bash
+printf '{"t":"screenshot","path":"/tmp/vphone.png"}\n' | nc -U vm/vphone.sock
+printf '{"t":"tap","x":645,"y":1398}\n' | nc -U vm/vphone.sock
+printf '{"t":"swipe","x1":645,"y1":2600,"x2":645,"y2":1400,"ms":300}\n' | nc -U vm/vphone.sock
+printf '{"t":"key","name":"home"}\n' | nc -U vm/vphone.sock
+printf '{"t":"type","text":"hello from host"}\n' | nc -U vm/vphone.sock
+```
+
+Most commands return a compact base64 screenshot in the `image` field. Add `"screen":false` when you only want the command result:
+
+```bash
+printf '{"t":"app_list","filter":"user","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"app_launch","bundle_id":"com.apple.mobilesafari","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"app_terminate","bundle_id":"com.apple.mobilesafari","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"open_url","url":"https://example.com","screen":false}\n' | nc -U vm/vphone.sock
+```
+
+The same socket can forward guest-agent file and clipboard operations through `vphoned`:
+
+```bash
+printf '{"t":"clipboard_set","text":"host text","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"clipboard_get","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"file_list","path":"/var/mobile","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"file_mkdir","path":"/var/mobile/tmp","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"file_push","local_path":"./payload.bin","remote_path":"/var/mobile/tmp/payload.bin","permissions":"755","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"file_pull","remote_path":"/var/mobile/tmp/payload.bin","local_path":"./out/payload.bin","screen":false}\n' | nc -U vm/vphone.sock
+printf '{"t":"file_delete","path":"/var/mobile/tmp/payload.bin","screen":false}\n' | nc -U vm/vphone.sock
+```
+
+Install an IPA or TIPA from the host through the guest agent:
+
+```bash
+printf '{"t":"ipa_install","local_path":"./MyApp.ipa","screen":false}\n' | nc -U vm/vphone.sock
+```
+
+During reinstall, the guest agent terminates the running app and unregisters the old bundle path before replacing it.
 
 See [vphone-mcp](https://github.com/pluginslab/vphone-mcp) for an MCP server that wraps this socket with high-level tools (open apps by name, navigate back, scroll, type text) usable from Claude Code or Claude Desktop.
 

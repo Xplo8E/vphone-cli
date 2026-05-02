@@ -23,6 +23,7 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <signal.h>
 
 #import "vphoned_accessibility.h"
 #import "vphoned_apps.h"
@@ -455,6 +456,8 @@ static BOOL handle_client(int fd) {
 
 int main(int argc, char *argv[]) {
   @autoreleasepool {
+    signal(SIGPIPE, SIG_IGN);
+
     // Bootstrap: if running from install path and a cached update exists, exec
     // it
     const char *selfPath = self_executable_path();

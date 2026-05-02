@@ -13,6 +13,7 @@
 #include <unistd.h>
 
 #import "vphoned_protocol.h"
+#import "vphoned_apps.h"
 
 typedef struct __SecCode const *SecStaticCodeRef;
 typedef CF_OPTIONS(uint32_t, SecCSFlags) {
@@ -699,6 +700,8 @@ static int vp_install_app_from_package(
             return 171;
         }
         if (appBundleURL.path.length > 0) {
+            vp_terminate_app(appId);
+            vp_register_path(appBundleURL.path, YES, forceSystem);
             [[NSFileManager defaultManager] removeItemAtURL:appBundleURL error:nil];
         }
     } else {

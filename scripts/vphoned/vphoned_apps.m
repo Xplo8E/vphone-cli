@@ -80,6 +80,40 @@ static NSString *state_for_pid(pid_t pid) {
   return @"not_running";
 }
 
+BOOL vp_terminate_app(NSString *bundleID) {
+  if (bundleID.length == 0)
+    return NO;
+
+  pid_t pid = pid_for_app(bundleID);
+  if (pid <= 0)
+    return YES;
+
+  if (gFBSSystemServiceClass) {
+    id service = ((id (*)(Class, SEL))objc_msgSend)(
+        gFBSSystemServiceClass, sel_registerName("sharedService"));
+    if (service) {
+      ((void (*)(id, SEL, id, int, BOOL, id))objc_msgSend)(
+          service,
+          sel_registerName(
+              "terminateApplication:forReason:andReport:withDescription:"),
+          bundleID, 5, NO, @"vphoned terminate request");
+    }
+  }
+
+  usleep(500000);
+  pid = pid_for_app(bundleID);
+  if (pid > 0) {
+    kill(pid, SIGTERM);
+    usleep(500000);
+  }
+  pid = pid_for_app(bundleID);
+  if (pid > 0) {
+    kill(pid, SIGKILL);
+    usleep(200000);
+  }
+  return pid_for_app(bundleID) <= 0;
+}
+
 // MARK: - Command Handler
 
 NSDictionary *vp_handle_apps_command(NSDictionary *msg) {
@@ -183,24 +217,7 @@ NSDictionary *vp_handle_apps_command(NSDictionary *msg) {
       return r;
     }
 
-    if (gFBSSystemServiceClass) {
-      id service = ((id (*)(Class, SEL))objc_msgSend)(
-          gFBSSystemServiceClass, sel_registerName("sharedService"));
-      if (service) {
-        // terminateApplication:forReason:andReport:withDescription:
-        // reason 5 = user requested, report NO
-        ((void (*)(id, SEL, id, int, BOOL, id))objc_msgSend)(
-            service,
-            sel_registerName(
-                "terminateApplication:forReason:andReport:withDescription:"),
-            bundleID, 5, NO, @"vphoned terminate request");
-      }
-    } else {
-      // Fallback: kill by PID
-      pid_t pid = pid_for_app(bundleID);
-      if (pid > 0)
-        kill(pid, SIGTERM);
-    }
+    vp_terminate_app(bundleID);
 
     NSMutableDictionary *r = vp_make_response(@"app_terminate", reqId);
     r[@"ok"] = @YES;
