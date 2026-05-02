@@ -236,7 +236,7 @@ shutdown -h now
 make boot
 ```
 
-Pass extra `vphone-cli` arguments through Make when you need a one-off boot option:
+Pass extra `vphone-cli` arguments through Make when you need a one-off boot option. The `boot`, `boot_less`, and `boot_dfu` targets append `$(EXTRA_ARGS)` after `--config ./config.plist` (see `Makefile`). Quote the value so the shell does not split flags:
 
 ```bash
 make boot EXTRA_ARGS="--kernel-debug-port 62000"
@@ -244,6 +244,8 @@ make boot EXTRA_ARGS="--install-ipa ./MyApp.ipa"
 make boot_dfu EXTRA_ARGS="--kernel-debug-port 62000"
 make boot_less NO_VPHONED=1 EXTRA_ARGS="--kernel-debug-port 62000"
 ```
+
+Run **`./.build/release/vphone-cli boot --help`** (or the same on the signed app bundle binary) for the full `ArgumentParser` surface for your build — `make` does not forward `--help` through `EXTRA_ARGS` usefully.
 
 In a separate terminal, start usbmux forward tunnels:
 
@@ -279,6 +281,10 @@ make vm_switch NAME=26.1-clean    # swap between them
 ## FAQ
 
 > **Before anything else — run `git pull` to make sure you have the latest version.**
+
+**Q: `vphone-cli` exits with status `141` after automation or closing a terminal.**
+
+That is usually **`SIGPIPE`** (write to a closed pipe/socket). This repo ignores `SIGPIPE` on both the host binary and `vphoned` so those writes become normal errors instead of killing the process. See **Automation → SIGPIPE** above.
 
 **Q: I get `zsh: killed ./vphone-cli` when trying to run it.**
 
@@ -348,7 +354,24 @@ python3 -m pymobiledevice3 profile supervise vphone
 
 ## Automation
 
-vphone-cli exposes a host control socket (`vm/vphone.sock`) for programmatic VM interaction. Send one JSON object per connection and read one JSON response back:
+### Host control socket (`vphone.sock`)
+
+The Unix socket lives next to the manifest: **`{directory of config.plist}/vphone.sock`**. The default `make boot` runs with `cd vm` and `--config ./config.plist`, so the path is usually **`vm/vphone.sock`** from the repo root.
+
+Send **one JSON object** per connection (one line is enough), then read **one JSON response** and close. Example driver: **`nc -U`**.
+
+```bash
+
+The host `vphone-cli` process installs `signal(SIGPIPE, SIG_IGN)` at startup (`main.swift`). The guest `vphoned` daemon does the same. Many paths write to **pipes, vsock peers, or sockets** whose remote end can disappear (automation disconnecting, terminal closing, helper processes exiting). Without ignoring `SIGPIPE`, the default action can terminate the process with **exit status 141** when a write hits a closed peer. Ignoring `SIGPIPE` turns that into a normal **`EPIPE`**/`errno` path instead of killing the whole VM UI or daemon.
+
+This is **not** the same thing as “capturing serial without Ctrl+C”: Ctrl+C sends `SIGINT` to the foreground process group. What people often confuse is **closing the terminal window or the stdout pipe** while the VM keeps running — that can generate **`SIGPIPE`** on the next serial write to stdout unless it is ignored.
+
+### Serial console: stdout vs log files
+
+- **Guest serial (PL011)** is always bridged to the host: output is forwarded to **host stdout**, and host **stdin** is forwarded into the guest serial port (interactive console).
+- **This repository** additionally mirrors PL011 output into timestamped files under **`vm/logs/`** (e.g. `serial-YYYYMMDD-HHMMSS.log`) and a **`vm/logs/serial.log`** symlink for “latest boot” — so you can inspect boot logs **without** relying on scrollback in the terminal that launched `make boot`.
+
+Examples:
 
 ```bash
 printf '{"t":"screenshot","path":"/tmp/vphone.png"}\n' | nc -U vm/vphone.sock
