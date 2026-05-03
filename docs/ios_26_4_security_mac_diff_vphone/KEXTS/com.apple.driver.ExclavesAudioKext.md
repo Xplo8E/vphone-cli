@@ -1,0 +1,448 @@
+## com.apple.driver.ExclavesAudioKext
+
+> `com.apple.driver.ExclavesAudioKext`
+
+```diff
+
+-300.59.0.0.0
+-  __TEXT.__const: 0x50
+-  __TEXT.__cstring: 0x319b
+-  __TEXT.__os_log: 0x55a
+-  __TEXT_EXEC.__text: 0xd848
++340.22.0.0.0
++  __TEXT.__const: 0x58
++  __TEXT.__cstring: 0x3d63
++  __TEXT.__os_log: 0x5f5
++  __TEXT_EXEC.__text: 0x113bc
+   __TEXT_EXEC.__auth_stubs: 0x0
+   __DATA.__data: 0xc8
+-  __DATA.__common: 0xd8
++  __DATA.__common: 0x100
+   __DATA_CONST.__auth_got: 0x190
+   __DATA_CONST.__got: 0x30
+-  __DATA_CONST.__mod_init_func: 0x28
+-  __DATA_CONST.__mod_term_func: 0x28
+-  __DATA_CONST.__const: 0x1548
+-  __DATA_CONST.__kalloc_type: 0x140
+-  UUID: 0A1A6D00-824B-3A68-A7A8-C9CE7214C634
+-  Functions: 426
+-  Symbols:   738
+-  CStrings:  111
++  __DATA_CONST.__mod_init_func: 0x30
++  __DATA_CONST.__mod_term_func: 0x30
++  __DATA_CONST.__const: 0x1910
++  __DATA_CONST.__kalloc_type: 0x180
++  UUID: 1D634D4B-4103-3BF1-A75D-A59FEF9FD60B
++  Functions: 546
++  Symbols:   923
++  CStrings:  142
+ 
+Symbols:
++ _GLOBAL__sub_I_ExclavesAudioProxyOutputStreamDriverInterface.cpp
++ _OUTLINED_FUNCTION_0
++ _OUTLINED_FUNCTION_1
++ _OUTLINED_FUNCTION_10
++ _OUTLINED_FUNCTION_11
++ _OUTLINED_FUNCTION_12
++ _OUTLINED_FUNCTION_13
++ _OUTLINED_FUNCTION_14
++ _OUTLINED_FUNCTION_15
++ _OUTLINED_FUNCTION_16
++ _OUTLINED_FUNCTION_17
++ _OUTLINED_FUNCTION_18
++ _OUTLINED_FUNCTION_19
++ _OUTLINED_FUNCTION_2
++ _OUTLINED_FUNCTION_3
++ _OUTLINED_FUNCTION_4
++ _OUTLINED_FUNCTION_5
++ _OUTLINED_FUNCTION_6
++ _OUTLINED_FUNCTION_7
++ _OUTLINED_FUNCTION_8
++ _OUTLINED_FUNCTION_9
++ _ZN45ExclavesAudioProxyOutputStreamDriverInterface16initWithEndpointEP9IOServiceP26ExclavesAudioProxyEndpoint.cold.1
++ _ZN45ExclavesAudioProxyOutputStreamDriverInterface16initWithEndpointEP9IOServiceP26ExclavesAudioProxyEndpoint.cold.2
++ _ZN45ExclavesAudioProxyOutputStreamDriverInterface34findMatchingStreamDescriptionIndexERK30IOAudio2StreamBasicDescriptionjRh.cold.1
++ _ZN45ExclavesAudioProxyOutputStreamDriverInterface34findMatchingStreamDescriptionIndexERK30IOAudio2StreamBasicDescriptionjRh.cold.2
++ _ZN45ExclavesAudioProxyOutputStreamDriverInterface34findMatchingStreamDescriptionIndexERK30IOAudio2StreamBasicDescriptionjRh.cold.3
++ __ZL49ExclavesAudioProxyOutputStreamDriverInterface_ktv
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface10gMetaClassE
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface10superClassE
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface16initWithEndpointEP9IOServiceP26ExclavesAudioProxyEndpoint
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface34findMatchingStreamDescriptionIndexERK30IOAudio2StreamBasicDescriptionjRh
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface4freeEv
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface6createEP9IOServiceP26ExclavesAudioProxyEndpoint
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface7getNameEv
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface9MetaClassC1Ev
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface9MetaClassC2Ev
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface9MetaClassD0Ev
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface9MetaClassD1Ev
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterface9metaClassE
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterfaceC2EPK11OSMetaClass
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterfaceD0Ev
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterfaceD1Ev
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterfaceD2Ev
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterfacedlEPvm
++ __ZN45ExclavesAudioProxyOutputStreamDriverInterfacenwEm
++ __ZNK45ExclavesAudioProxyOutputStreamDriverInterface12getMetaClassEv
++ __ZNK45ExclavesAudioProxyOutputStreamDriverInterface9MetaClass5allocEv
++ __ZTV45ExclavesAudioProxyOutputStreamDriverInterface
++ __ZTVN45ExclavesAudioProxyOutputStreamDriverInterface9MetaClassE
++ __ZZN45ExclavesAudioProxyOutputStreamDriverInterface16initWithEndpointEP9IOServiceP26ExclavesAudioProxyEndpointE11_os_log_fmt
++ __ZZN45ExclavesAudioProxyOutputStreamDriverInterface16initWithEndpointEP9IOServiceP26ExclavesAudioProxyEndpointE11_os_log_fmt_0
++ __ZZN45ExclavesAudioProxyOutputStreamDriverInterface34findMatchingStreamDescriptionIndexERK30IOAudio2StreamBasicDescriptionjRhE11_os_log_fmt
++ __ZZN45ExclavesAudioProxyOutputStreamDriverInterface34findMatchingStreamDescriptionIndexERK30IOAudio2StreamBasicDescriptionjRhE11_os_log_fmt_0
++ __ZZN45ExclavesAudioProxyOutputStreamDriverInterface34findMatchingStreamDescriptionIndexERK30IOAudio2StreamBasicDescriptionjRhE11_os_log_fmt_1
++ ___audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke
++ ___audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke_2
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.101
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.105
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.69
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.69.cold.1
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.76
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.76.cold.1
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.81
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.85
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.89
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.93
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.97
++ __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke_2.cold.1
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.116
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.120
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.124
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.128
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.132
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.136
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.140
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.1
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.10
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.11
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.12
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.13
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.14
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.15
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.16
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.17
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.18
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.19
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.2
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.20
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.21
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.22
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.23
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.24
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.25
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.26
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.3
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.4
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.5
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.6
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.7
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.8
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke.cold.9
++ __audiostreamdriver_audiooutputstreamdriver__server_start_owned_block_invoke_2.cold.1
++ __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.14
++ __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.21
++ __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.28
++ __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.35
++ __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.42
++ __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.49
++ __block_descriptor_tmp.109
++ __block_descriptor_tmp.115
++ __block_descriptor_tmp.119
++ __block_descriptor_tmp.123
++ __block_descriptor_tmp.127
++ __block_descriptor_tmp.131
++ __block_descriptor_tmp.135
++ __block_descriptor_tmp.139
++ __block_descriptor_tmp.143
++ __block_descriptor_tmp.150
++ __block_descriptor_tmp.151
++ __block_descriptor_tmp.155
++ __block_descriptor_tmp.165
++ __block_descriptor_tmp.170
++ __block_descriptor_tmp.175
++ __block_descriptor_tmp.18
++ __block_descriptor_tmp.180
++ __block_descriptor_tmp.185
++ __block_descriptor_tmp.190
++ __block_descriptor_tmp.195
++ __block_descriptor_tmp.200
++ __block_descriptor_tmp.201
++ __block_descriptor_tmp.25
++ __block_descriptor_tmp.32
++ __block_descriptor_tmp.39
++ __block_descriptor_tmp.46
++ __block_descriptor_tmp.53
++ __block_descriptor_tmp.66
++ __block_descriptor_tmp.73
++ __block_descriptor_tmp.80
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.156
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.156.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.161
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.161.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.166
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.166.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.171
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.171.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.176
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.176.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.181
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.181.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.186
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.186.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.191
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.191.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.196
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.196.cold.1
++ __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke_2.cold.1
++ _audiostreamdriver_audioinputstreamdriver_readinput__result_get_failure
++ _audiostreamdriver_audioinputstreamdriver_readinput__result_get_success
++ _audiostreamdriver_audioinputstreamdriver_readinput__result_init_failure
++ _audiostreamdriver_audioinputstreamdriver_readinput__result_init_success
++ _audiostreamdriver_audioinputstreamdriver_setupclientio__result_get_failure
++ _audiostreamdriver_audioinputstreamdriver_setupclientio__result_get_success
++ _audiostreamdriver_audioinputstreamdriver_setupclientio__result_init_failure
++ _audiostreamdriver_audioinputstreamdriver_setupclientio__result_init_success
++ _audiostreamdriver_audioinputstreamdriver_teardownclientio__result_get_failure
++ _audiostreamdriver_audioinputstreamdriver_teardownclientio__result_get_success
++ _audiostreamdriver_audioinputstreamdriver_teardownclientio__result_init_failure
++ _audiostreamdriver_audioinputstreamdriver_teardownclientio__result_init_success
++ _audiostreamdriver_audiooutputstreamdriver__copy
++ _audiostreamdriver_audiooutputstreamdriver__destruct
++ _audiostreamdriver_audiooutputstreamdriver__init
++ _audiostreamdriver_audiooutputstreamdriver__init_static
++ _audiostreamdriver_audiooutputstreamdriver__server_start
++ _audiostreamdriver_audiooutputstreamdriver__server_start_owned
++ _audiostreamdriver_audiooutputstreamdriver__server_stop
++ _audiostreamdriver_audiooutputstreamdriver_getstreamdescription
++ _audiostreamdriver_audiooutputstreamdriver_mapdmabuffer
++ _audiostreamdriver_audiooutputstreamdriver_selectphysicalstreamdescription
++ _audiostreamdriver_audiooutputstreamdriver_setupio
++ _audiostreamdriver_audiooutputstreamdriver_sleep
++ _audiostreamdriver_audiooutputstreamdriver_teardownio
++ _audiostreamdriver_audiooutputstreamdriver_wake
++ _audiostreamdriver_audiooutputstreamdriver_writemixoutput
++ _audiostreamdriver_audiooutputstreamdriver_writemixoutput__result_get_failure
++ _audiostreamdriver_audiooutputstreamdriver_writemixoutput__result_get_success
++ _audiostreamdriver_audiooutputstreamdriver_writemixoutput__result_init_failure
++ _audiostreamdriver_audiooutputstreamdriver_writemixoutput__result_init_success
++ _audiostreamdriver_audiostreamdriver_getstreamdescription__completion_send
++ _audiostreamdriver_audiostreamdriver_getstreamdescription__result_get_failure
++ _audiostreamdriver_audiostreamdriver_getstreamdescription__result_get_success
++ _audiostreamdriver_audiostreamdriver_getstreamdescription__result_init_failure
++ _audiostreamdriver_audiostreamdriver_getstreamdescription__result_init_success
++ _audiostreamdriver_audiostreamdriver_mapdmabuffer__completion_send
++ _audiostreamdriver_audiostreamdriver_mapdmabuffer__result_get_failure
++ _audiostreamdriver_audiostreamdriver_mapdmabuffer__result_get_success
++ _audiostreamdriver_audiostreamdriver_mapdmabuffer__result_init_failure
++ _audiostreamdriver_audiostreamdriver_mapdmabuffer__result_init_success
++ _audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription__completion_send
++ _audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription__result_get_failure
++ _audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription__result_get_success
++ _audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription__result_init_failure
++ _audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription__result_init_success
++ _audiostreamdriver_audiostreamdriver_setupio__completion_send
++ _audiostreamdriver_audiostreamdriver_setupio__result_get_failure
++ _audiostreamdriver_audiostreamdriver_setupio__result_get_success
++ _audiostreamdriver_audiostreamdriver_setupio__result_init_failure
++ _audiostreamdriver_audiostreamdriver_setupio__result_init_success
++ _audiostreamdriver_audiostreamdriver_sleep__completion_send
++ _audiostreamdriver_audiostreamdriver_sleep__result_get_failure
++ _audiostreamdriver_audiostreamdriver_sleep__result_get_success
++ _audiostreamdriver_audiostreamdriver_sleep__result_init_failure
++ _audiostreamdriver_audiostreamdriver_sleep__result_init_success
++ _audiostreamdriver_audiostreamdriver_teardownio__completion_send
++ _audiostreamdriver_audiostreamdriver_teardownio__result_get_failure
++ _audiostreamdriver_audiostreamdriver_teardownio__result_get_success
++ _audiostreamdriver_audiostreamdriver_teardownio__result_init_failure
++ _audiostreamdriver_audiostreamdriver_teardownio__result_init_success
++ _audiostreamdriver_audiostreamdriver_wake__completion_send
++ _audiostreamdriver_audiostreamdriver_wake__result_get_failure
++ _audiostreamdriver_audiostreamdriver_wake__result_get_success
++ _audiostreamdriver_audiostreamdriver_wake__result_init_failure
++ _audiostreamdriver_audiostreamdriver_wake__result_init_success
++ _exclavesaudiodrivers_exadclientidentifier__decode
++ audiodriverdebug_audiodebug_enableinjection.cold.1
++ audiostreamdriver_audioinputstreamdriver_getstreamdescription.cold.1
++ audiostreamdriver_audioinputstreamdriver_mapdmabuffer.cold.1
++ audiostreamdriver_audioinputstreamdriver_readinput.cold.1
++ audiostreamdriver_audioinputstreamdriver_selectphysicalstreamdescription.cold.2
++ audiostreamdriver_audioinputstreamdriver_setupclientio.cold.1
++ audiostreamdriver_audioinputstreamdriver_setupio.cold.1
++ audiostreamdriver_audioinputstreamdriver_sleep.cold.1
++ audiostreamdriver_audioinputstreamdriver_teardownclientio.cold.1
++ audiostreamdriver_audioinputstreamdriver_teardownio.cold.1
++ audiostreamdriver_audioinputstreamdriver_wake.cold.1
++ audiostreamdriver_audiooutputstreamdriver_getstreamdescription.cold.1
++ audiostreamdriver_audiooutputstreamdriver_mapdmabuffer.cold.1
++ audiostreamdriver_audiooutputstreamdriver_selectphysicalstreamdescription.cold.1
++ audiostreamdriver_audiooutputstreamdriver_selectphysicalstreamdescription.cold.2
++ audiostreamdriver_audiooutputstreamdriver_setupio.cold.1
++ audiostreamdriver_audiooutputstreamdriver_sleep.cold.1
++ audiostreamdriver_audiooutputstreamdriver_teardownio.cold.1
++ audiostreamdriver_audiooutputstreamdriver_wake.cold.1
++ audiostreamdriver_audiooutputstreamdriver_writemixoutput.cold.1
++ audiostreamdriver_audiostreamdriver_getstreamdescription.cold.1
++ audiostreamdriver_audiostreamdriver_getstreamdescription__completion_send.cold.1
++ audiostreamdriver_audiostreamdriver_getstreamdescription__completion_send.cold.2
++ audiostreamdriver_audiostreamdriver_mapdmabuffer.cold.1
++ audiostreamdriver_audiostreamdriver_mapdmabuffer__completion_send.cold.1
++ audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription.cold.2
++ audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription__completion_send.cold.1
++ audiostreamdriver_audiostreamdriver_setupio.cold.1
++ audiostreamdriver_audiostreamdriver_setupio__completion_send.cold.1
++ audiostreamdriver_audiostreamdriver_sleep.cold.1
++ audiostreamdriver_audiostreamdriver_sleep__completion_send.cold.1
++ audiostreamdriver_audiostreamdriver_teardownio.cold.1
++ audiostreamdriver_audiostreamdriver_teardownio__completion_send.cold.1
++ audiostreamdriver_audiostreamdriver_wake.cold.1
++ audiostreamdriver_audiostreamdriver_wake__completion_send.cold.1
++ exclavesaudiodrivers_audiodriver_getstreamdescription.cold.1
++ exclavesaudiodrivers_audiodriver_mapdmabuffer.cold.1
++ exclavesaudiodrivers_audiodriver_readinput.cold.1
++ exclavesaudiodrivers_audiodriver_selectphysicalstreamdescription.cold.2
++ exclavesaudiodrivers_audiodriver_setupclientio.cold.1
++ exclavesaudiodrivers_audiodriver_setupio.cold.1
++ exclavesaudiodrivers_audiodriver_sleep.cold.1
++ exclavesaudiodrivers_audiodriver_teardownclientio.cold.1
++ exclavesaudiodrivers_audiodriver_teardownio.cold.1
++ exclavesaudiodrivers_audiodriver_wake.cold.1
++ exclavesaudiodrivers_exadclientidentifier__decode.cold.1
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.125
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.129
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.133
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.137
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.141
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.145
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.149
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.153
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.157
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.cold.33
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.cold.34
+- __audiostreamdriver_audioinputstreamdriver__server_start_owned_block_invoke.cold.35
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.101
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.105
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.109
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.113
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.117
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.85
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.89
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.93
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.97
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.24
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.25
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.26
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.27
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.28
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.29
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.30
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.31
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.32
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.33
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.34
+- __audiostreamdriver_audiostreamdriver__server_start_owned_block_invoke.cold.35
+- __block_descriptor_tmp.112
+- __block_descriptor_tmp.116
+- __block_descriptor_tmp.120
+- __block_descriptor_tmp.121
+- __block_descriptor_tmp.124
+- __block_descriptor_tmp.128
+- __block_descriptor_tmp.132
+- __block_descriptor_tmp.136
+- __block_descriptor_tmp.140
+- __block_descriptor_tmp.148
+- __block_descriptor_tmp.152
+- __block_descriptor_tmp.156
+- __block_descriptor_tmp.161
+- __block_descriptor_tmp.167
+- __block_descriptor_tmp.168
+- __block_descriptor_tmp.27
+- __block_descriptor_tmp.34
+- __block_descriptor_tmp.41
+- __block_descriptor_tmp.57
+- __block_descriptor_tmp.64
+- __block_descriptor_tmp.71
+- __block_descriptor_tmp.78
+- __block_descriptor_tmp.81
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.16
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.23
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.30
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.37
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.46
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.53
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.60
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.67
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.74
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.cold.33
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.cold.34
+- __exclavesaudiodrivers_audiodriver__server_start_owned_block_invoke.cold.35
+- _audiostreamdriver_audiostreamdriver_readinput
+- _audiostreamdriver_audiostreamdriver_setupclientio
+- _audiostreamdriver_audiostreamdriver_teardownclientio
+- _exclavesaudiodrivers_audiodriver_getstreamdescription__completion_send
+- _exclavesaudiodrivers_audiodriver_mapdmabuffer__completion_send
+- _exclavesaudiodrivers_audiodriver_readinput__completion_send
+- _exclavesaudiodrivers_audiodriver_selectphysicalstreamdescription__completion_send
+- _exclavesaudiodrivers_audiodriver_setupclientio__completion_send
+- _exclavesaudiodrivers_audiodriver_setupio__completion_send
+- _exclavesaudiodrivers_audiodriver_sleep__completion_send
+- _exclavesaudiodrivers_audiodriver_teardownclientio__completion_send
+- _exclavesaudiodrivers_audiodriver_teardownio__completion_send
+- _exclavesaudiodrivers_audiodriver_wake__completion_send
+- exclavesaudiodrivers_audiodriver_getstreamdescription__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_getstreamdescription__completion_send.cold.2
+- exclavesaudiodrivers_audiodriver_mapdmabuffer__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_readinput__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_selectphysicalstreamdescription__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_setupclientio__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_setupio__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_sleep__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_teardownclientio__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_teardownio__completion_send.cold.1
+- exclavesaudiodrivers_audiodriver_wake__completion_send.cold.1
+CStrings:
++ "\"%s unimplemented for given build train\" @%s:%d"
++ "\"TB_ASSERT: \" \"(server->writemixoutput != ((void*)0)) && \\\"implementation for writeMixOutput is not present\\\"\" \", \" \"\\b\\b\" \" (%s:%d)\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid error returned from writeMixOutput\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from enableInjection\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from getStreamDescription\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from mapDMABuffer\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from readInput\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from selectPhysicalStreamDescription\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from setupClientIO\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from setupIO\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from sleep\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from teardownClientIO\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from teardownIO\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from wake\" @%s:%d"
++ "\"TB_FATAL: \" \"invalid result returned from writeMixOutput\" @%s:%d"
++ "/AppleInternal/Library/BuildRoots/4~CLdeugAt76iHjE8j2Uqjv7vj2X9VrKdZgyWahtQ/Library/Caches/com.apple.xbs/TemporaryDirectory.UpoAiO/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Debug/ExclavesAudioProxyDebugInterface.cpp"
++ "/AppleInternal/Library/BuildRoots/4~CLdeugAt76iHjE8j2Uqjv7vj2X9VrKdZgyWahtQ/Library/Caches/com.apple.xbs/TemporaryDirectory.UpoAiO/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Debug/ExclavesAudioProxyDebugTightbeam.cpp"
++ "/AppleInternal/Library/BuildRoots/4~CLdeugAt76iHjE8j2Uqjv7vj2X9VrKdZgyWahtQ/Library/Caches/com.apple.xbs/TemporaryDirectory.UpoAiO/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Driver/InputStream/ExclavesAudioProxyInputStreamDriverInterface.cpp"
++ "/AppleInternal/Library/BuildRoots/4~CLdeugAt76iHjE8j2Uqjv7vj2X9VrKdZgyWahtQ/Library/Caches/com.apple.xbs/TemporaryDirectory.UpoAiO/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Driver/InputStream/ExclavesAudioProxyInputStreamDriverTightbeam.cpp"
++ "/AppleInternal/Library/BuildRoots/4~CLdeugAt76iHjE8j2Uqjv7vj2X9VrKdZgyWahtQ/Library/Caches/com.apple.xbs/TemporaryDirectory.UpoAiO/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Driver/OutputStream/ExclavesAudioProxyOutputStreamDriverInterface.cpp"
++ "/AppleInternal/Library/BuildRoots/4~CLdeugAt76iHjE8j2Uqjv7vj2X9VrKdZgyWahtQ/Library/Caches/com.apple.xbs/TemporaryDirectory.UpoAiO/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Endpoint/ExclavesAudioProxyEndpoint.cpp"
++ "ExclavesAudioProxyOutputStreamDriverInterface"
++ "ExclavesAudioProxyOutputStreamDriverInterface.cpp"
++ "I24@?0{audiostreamdriver_audioinputstreamdriver_readinput__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audioinputstreamdriver_setupclientio__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audioinputstreamdriver_teardownclientio__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audiooutputstreamdriver_writemixoutput__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audiostreamdriver_mapdmabuffer__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audiostreamdriver_selectphysicalstreamdescription__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audiostreamdriver_setupio__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audiostreamdriver_sleep__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audiostreamdriver_teardownio__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I24@?0{audiostreamdriver_audiostreamdriver_wake__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q})}8"
++ "I40@?0{audiostreamdriver_audiostreamdriver_getstreamdescription__result_s=C(?={exclavesaudiodrivers_exadresult_s=Q}{exclavesaudiodrivers_exadstreamdescription_s=IIIICC})}8"
++ "^{tb_message_s=ICQQQQ[4Q]Q^{tb_transport_message_buffer_s}}24@?0^{tb_connection_s=(?=[64c]^v)}8^{tb_message_s=ICQQQQ[4Q]Q^{tb_transport_message_buffer_s}}16"
++ "site.ExclavesAudioProxyOutputStreamDriverInterface"
++ "static OSSharedPtr<DriverInterfaceT> ExclavesAudioProxyOutputStreamDriverInterface::create(IOService *, ExclavesAudioProxyEndpoint *)"
+- "/AppleInternal/Library/BuildRoots/4~CHzhugClElf5c2k5gRIT70TIA0kVYvWYuqN4BWU/Library/Caches/com.apple.xbs/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Debug/ExclavesAudioProxyDebugInterface.cpp"
+- "/AppleInternal/Library/BuildRoots/4~CHzhugClElf5c2k5gRIT70TIA0kVYvWYuqN4BWU/Library/Caches/com.apple.xbs/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Debug/ExclavesAudioProxyDebugTightbeam.cpp"
+- "/AppleInternal/Library/BuildRoots/4~CHzhugClElf5c2k5gRIT70TIA0kVYvWYuqN4BWU/Library/Caches/com.apple.xbs/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Driver/InputStream/ExclavesAudioProxyInputStreamDriverInterface.cpp"
+- "/AppleInternal/Library/BuildRoots/4~CHzhugClElf5c2k5gRIT70TIA0kVYvWYuqN4BWU/Library/Caches/com.apple.xbs/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Driver/InputStream/ExclavesAudioProxyInputStreamDriverTightbeam.cpp"
+- "/AppleInternal/Library/BuildRoots/4~CHzhugClElf5c2k5gRIT70TIA0kVYvWYuqN4BWU/Library/Caches/com.apple.xbs/Sources/ExclavesAudioDrivers/ExclavesAudioKext/ExclavesAudioProxy/Endpoint/ExclavesAudioProxyEndpoint.cpp"
+- "^{tb_message_s=ICQQQQ[4Q]Q^{tb_transport_message_buffer_s}}24@?0^{tb_connection_s=(?=[41c]^v)}8^{tb_message_s=ICQQQQ[4Q]Q^{tb_transport_message_buffer_s}}16"
+
+```

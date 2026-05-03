@@ -1,0 +1,6163 @@
+## LocalAuthenticationCore
+
+> `/System/Library/PrivateFrameworks/LocalAuthenticationCore.framework/Versions/A/LocalAuthenticationCore`
+
+```diff
+
+-2005.80.10.0.0
+-  __TEXT.__text: 0xf853c
+-  __TEXT.__auth_stubs: 0x2220
+-  __TEXT.__objc_methlist: 0x7ba0
+-  __TEXT.__const: 0x5291
+-  __TEXT.__gcc_except_tab: 0xcec
+-  __TEXT.__oslogstring: 0x5ce9
+-  __TEXT.__cstring: 0xbfaf
++2005.100.186.0.0
++  __TEXT.__text: 0x12a7d8
++  __TEXT.__auth_stubs: 0x2480
++  __TEXT.__objc_methlist: 0x9280
++  __TEXT.__const: 0x6a29
++  __TEXT.__gcc_except_tab: 0xbfc
++  __TEXT.__oslogstring: 0x682c
++  __TEXT.__cstring: 0xa176
+   __TEXT.__dlopen_cstrs: 0x24f
+-  __TEXT.__swift5_typeref: 0x1cbc
+-  __TEXT.__swift5_capture: 0xaf0
+-  __TEXT.__constg_swiftt: 0x1978
+-  __TEXT.__swift5_reflstr: 0x91c
+-  __TEXT.__swift5_fieldmd: 0xe4c
+-  __TEXT.__swift5_builtin: 0x12c
+-  __TEXT.__swift5_assocty: 0x2d0
+-  __TEXT.__swift5_proto: 0x22c
+-  __TEXT.__swift5_types: 0x148
+-  __TEXT.__swift5_protos: 0x44
+-  __TEXT.__swift_as_entry: 0xac
+-  __TEXT.__swift_as_ret: 0xa0
++  __TEXT.__swift5_typeref: 0x27f2
++  __TEXT.__swift5_capture: 0xeb8
++  __TEXT.__constg_swiftt: 0x2120
++  __TEXT.__swift5_reflstr: 0xac1
++  __TEXT.__swift5_fieldmd: 0x120c
++  __TEXT.__swift5_builtin: 0x1f4
++  __TEXT.__swift5_assocty: 0x438
++  __TEXT.__swift5_proto: 0x304
++  __TEXT.__swift5_types: 0x1b8
++  __TEXT.__swift5_protos: 0x50
++  __TEXT.__swift_as_entry: 0xa4
++  __TEXT.__swift_as_ret: 0x98
+   __TEXT.__swift5_mpenum: 0x1c
+-  __TEXT.__unwind_info: 0x3ce8
+-  __TEXT.__eh_frame: 0x4168
+-  __TEXT.__objc_classname: 0x160a
+-  __TEXT.__objc_methname: 0xc2b7
+-  __TEXT.__objc_methtype: 0x3c83
+-  __TEXT.__objc_stubs: 0x7160
+-  __DATA_CONST.__got: 0x978
+-  __DATA_CONST.__const: 0xf28
+-  __DATA_CONST.__objc_classlist: 0x6c8
+-  __DATA_CONST.__objc_protolist: 0x478
++  __TEXT.__unwind_info: 0x4b40
++  __TEXT.__eh_frame: 0x4230
++  __TEXT.__objc_classname: 0x30e5
++  __TEXT.__objc_methname: 0xfdb5
++  __TEXT.__objc_methtype: 0x4e51
++  __TEXT.__objc_stubs: 0xa8a0
++  __DATA_CONST.__got: 0xb28
++  __DATA_CONST.__const: 0x1350
++  __DATA_CONST.__objc_classlist: 0x828
++  __DATA_CONST.__objc_protolist: 0x610
+   __DATA_CONST.__objc_imageinfo: 0x8
+-  __DATA_CONST.__objc_selrefs: 0x30b8
+-  __DATA_CONST.__objc_protorefs: 0x210
+-  __DATA_CONST.__objc_superrefs: 0x2f8
+-  __AUTH_CONST.__auth_got: 0x1120
+-  __AUTH_CONST.__const: 0x58e0
+-  __AUTH_CONST.__cfstring: 0x56e0
+-  __AUTH_CONST.__objc_const: 0x2a1b8
+-  __AUTH_CONST.__objc_intobj: 0x78
+-  __AUTH.__objc_data: 0xe68
+-  __AUTH.__data: 0x1c8
+-  __DATA.__objc_ivar: 0x510
+-  __DATA.__data: 0x3642
+-  __DATA.__bss: 0x4050
+-  __DATA_DIRTY.__objc_data: 0x4280
+-  __DATA_DIRTY.__data: 0x1918
+-  __DATA_DIRTY.__bss: 0x3b8
++  __DATA_CONST.__objc_selrefs: 0x36a0
++  __DATA_CONST.__objc_protorefs: 0x2e8
++  __DATA_CONST.__objc_superrefs: 0x318
++  __AUTH_CONST.__auth_got: 0x1250
++  __AUTH_CONST.__const: 0x6a60
++  __AUTH_CONST.__cfstring: 0x5c40
++  __AUTH_CONST.__objc_const: 0x35c70
++  __AUTH_CONST.__objc_intobj: 0x90
++  __AUTH.__objc_data: 0x2348
++  __AUTH.__data: 0xba8
++  __DATA.__objc_ivar: 0x52c
++  __DATA.__data: 0x4992
++  __DATA.__bss: 0x5a28
++  __DATA_DIRTY.__objc_data: 0x40a8
++  __DATA_DIRTY.__data: 0x1890
++  __DATA_DIRTY.__bss: 0x3b0
+   __DATA_DIRTY.__common: 0x60
+   - /System/Library/Frameworks/Combine.framework/Versions/A/Combine
+   - /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+
+   - /System/Library/PrivateFrameworks/CoreAnalytics.framework/Versions/A/CoreAnalytics
+   - /System/Library/PrivateFrameworks/CrashReporterSupport.framework/Versions/A/CrashReporterSupport
+   - /System/Library/PrivateFrameworks/DiskManagement.framework/Versions/A/DiskManagement
++  - /System/Library/PrivateFrameworks/LocalAuthenticationCredentialServices.framework/Versions/A/LocalAuthenticationCredentialServices
+   - /System/Library/PrivateFrameworks/MobileKeyBag.framework/Versions/A/MobileKeyBag
+   - /System/Library/PrivateFrameworks/SoftLinking.framework/Versions/A/SoftLinking
+   - /System/Library/PrivateFrameworks/TCC.framework/Versions/A/TCC
+
+   - /usr/lib/swift/libswift_Builtin_float.dylib
+   - /usr/lib/swift/libswift_Concurrency.dylib
+   - /usr/lib/swift/libswiftos.dylib
+-  UUID: BA28B703-516D-324C-80F6-57C9530250E1
+-  Functions: 5766
+-  Symbols:   14557
+-  CStrings:  5643
++  UUID: 88DEC637-4F1A-32D0-8558-F245ADD3AD0C
++  Functions: 7233
++  Symbols:   18336
++  CStrings:  6128
+ 
+Symbols:
++ $s23LocalAuthenticationCore23LACUserControllerClientC10deleteUser4uuidy10Foundation4UUIDV_tKFyyKXEfU_TA.5
++ $s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFAGyKXEfU_TA.4
++ $s23LocalAuthenticationCore23LACUserControllerDaemonC10deleteUser4uuidy10Foundation4UUIDV_tKFyyKXEfU_TA.9
++ $s23LocalAuthenticationCore37LACEvaluationRequestCompoundProcessorC011postProcessE033_67FF00A455547C1BDA52EFCE110F14A3LL_6result03subG5Index10completionySo0dE0_p_So0D6ResultCSiyAKctFyAKcfU_TA.33
++ $s23LocalAuthenticationCore37LACEvaluationRequestCompoundProcessorC07processE033_67FF00A455547C1BDA52EFCE110F14A3LL_03subG5Index10completionySo0dE0_p_SiySo0D6ResultCctFyAJYbcfU_TA.41
++ $s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvM.resume.0
++ $sIeAgH_ytIeAgHr_TRTA.52
++ $sIeAgH_ytIeAgHr_TRTA.52TQ0_
++ $sIeAgH_ytIeAgHr_TRTA.52Tu
++ $sIeAgH_ytIeAgHr_TRTA.67
++ $sIeAgH_ytIeAgHr_TRTA.67TQ0_
++ $sIeAgH_ytIeAgHr_TRTA.67Tu
++ $sIeghH_IeAgH_TRTA.47
++ $sIeghH_IeAgH_TRTA.47TQ0_
++ $sIeghH_IeAgH_TRTA.47Tu
++ $sIeghH_IeAgH_TRTA.62
++ $sIeghH_IeAgH_TRTA.62TQ0_
++ $sIeghH_IeAgH_TRTA.62Tu
++ $sSay10Foundation4UUIDVGSgs5Error_pSgIegng_AeGIeggg_TRTA.100
++ $sSayxGSlsSly7ElementQz5IndexQzcirTW23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC_Tg5.resume.0
++ $sSayxGSlsSly7ElementQz5IndexQzcirTWSo19LACPasscodeObserver_p_Tg5.resume.0
++ $sSayxGSlsSly7ElementQz5IndexQzcirTWSo27LACAuthenticationUIManaging_p_Tg5.resume.0
++ $sSo12NSDictionaryCSgSo7NSErrorCSgIeyByy_SDys11AnyHashableVypGSgs5Error_pSgIeggg_TRTA.25
++ $sSo19LACUserLockoutStateCSgs5Error_pSgIegng_AcEIeggg_TRTA.69
++ $sSo23LACBackgroundTaskResultCIeyBy_ABIegg_TRTA.41
++ $sSo23LACBackgroundTaskResultCIeyBy_ABIegg_TRTA.72
++ $sSo23LACBackgroundTaskResultCIeyBy_IeyBy_ABIegg_Iegg_TRTA.48
++ $sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tFyAHYbcfU_TA.15
++ $sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tFyAHYbcfU_TA.11
++ $sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle33_4B59AD686FF385BF9B0F48EB7A134915LL_4with5index10completionySo18LACEvaluationEventC_SaySo0A10UIManaging_pGSiySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAP_ARtYbcfU_TA.38
++ $sSo8NSNumberCSgs5Error_pSgIegng_AcEIeggg_TRTA.86
++ $sSo8NSNumberCSgs5Error_pSgIegng_AcEIeggg_TRTA.93
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.21
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.21TQ0_
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.21Tu
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.84
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.84TQ0_
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.84Tu
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tgq5TA.34
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tgq5TA.34TQ0_
++ $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tgq5TA.34Tu
++ +[LACBootArgParser sharedInstance]
++ +[LACBootArgParser sharedInstance].cold.1
++ +[LACError _error:hasCode:subcodeValue:]
++ +[LACError errorWithCode:subcode:underlyingError:debugDescription:]
++ +[LACError errorWithCode:withUnderlyingErrors:]
++ +[LACInstanceIDGenerator sharedInstance]
++ +[LACInstanceIDGenerator sharedInstance].cold.1
++ +[LACUserMembershipHelper sharedInstance]
++ +[LACUserMembershipHelper sharedInstance].cold.1
++ -[LACAKSFileVaultHelper _freeFVData:]
++ -[LACAKSFileVaultHelper transferOwnershipFromUser:userCredential:targetUserUUID:targetUserCredential:disk:error:]
++ -[LACAKSIdentityHelper createUserWithKeybag:credential:error:]
++ -[LACAKSIdentityHelper createUserWithKeybag:salt:iterations:credentialHash:error:]
++ -[LACAKSIdentityHelper transferOwnershipFromAuthorizer:authorizerCredential:toExistingUser:existingUserCredential:disk:error:]
++ -[LACAKSIdentityHelper transferOwnershipFromAuthorizer:authorizerCredential:toNewRecoveryKey:recoveryCredential:targetDisk:error:]
++ -[LACAgentProxyWithErrorHandler .cxx_destruct]
++ -[LACAgentProxyWithErrorHandler dumpStatusWithCompletion:]
++ -[LACAgentProxyWithErrorHandler initWithAgentProxy:errorHandler:]
++ -[LACAgentProxyWithErrorHandler queryUuid:completionHandler:]
++ -[LACAgentProxyWithErrorHandler registerAcmExternalizedFormHash:uuid:completionHandler:]
++ -[LACAgentProxyWithErrorHandler registerContextWithUuid:ownership:description:originalUuid:originalAcmHash:completionHandler:]
++ -[LACAgentProxyWithErrorHandler remoteAuthenticationInProgressWithPriority:reply:]
++ -[LACAgentProxyWithErrorHandler setFUSDisabled:completionHandler:]
++ -[LACAuthenticationUINotificationCenter _checkIsRedundantNotification:]
++ -[LACAuthenticationUINotificationCenter _postDarwinNotificationWithIdentifier:]
++ -[LACAuthenticationUINotificationCenter lastNotification]
++ -[LACAuthenticationUINotificationCenter postNotification:]
++ -[LACAuthenticationUINotificationCenter postNotificationUIDidAppear]
++ -[LACAuthenticationUINotificationCenter postNotificationUIDidDisappear]
++ -[LACAuthenticationUINotificationCenter setLastNotification:]
++ -[LACBootArgParser isBootArgEnabled:]
++ -[LACBootArgParser isInternalBootArgEnabled:]
++ -[LACCryptoHelper _deriveKeyWithPassword:salt:iterations:size:prf:error:]
++ -[LACCryptoHelper deriveKeyWithPassword:salt:iterations:size:prf:error:]
++ -[LACDefaultServiceSession .cxx_destruct]
++ -[LACDefaultServiceSession clientID]
++ -[LACDefaultServiceSession dealloc]
++ -[LACDefaultServiceSession dealloc].cold.1
++ -[LACDefaultServiceSession initWithService:serviceType:client:]
++ -[LACDefaultServiceSession initWithService:serviceType:client:].cold.1
++ -[LACDefaultServiceSession serviceType]
++ -[LACDefaultServiceSession service]
++ -[LACDefaultServiceSession sessionID]
++ -[LACEvaluationRequestDefault clientInfo]
++ -[LACEvaluationRequestDefault isEventPaused:]
++ -[LACEvaluationRequestDefault isPurposeInAppPayment]
++ -[LACEvaluationRequestDefault originatorId]
++ -[LACEvaluationRequestDefault pause:event:]
++ -[LACEvaluationRequestDefault resetPausedEvents]
++ -[LACExternalizedContextProvider .cxx_destruct]
++ -[LACExternalizedContextProvider cachedExternalizedContext]
++ -[LACExternalizedContextProvider externalizationObserver]
++ -[LACExternalizedContextProvider externalizedContextWithError:]
++ -[LACExternalizedContextProvider externalizedContextWithReply:]
++ -[LACExternalizedContextProvider externalizedContext]
++ -[LACExternalizedContextProvider externalizedContext].cold.1
++ -[LACExternalizedContextProvider initWithExternalizedContext:]
++ -[LACExternalizedContextProvider initWithExternalizer:]
++ -[LACExternalizedContextProvider invalidateBecauseOfInvalidConnection:]
++ -[LACExternalizedContextProvider setCachedExternalizedContext:]
++ -[LACExternalizedContextProvider setExternalizationObserver:]
++ -[LACFlags featureFlagAllowTouchIDLandscapeEnabled]
++ -[LACFlags featureFlagDimpleKeyAutoEnablementEnabled]
++ -[LACFlags featureFlagDimpleKeyiPadTelemetryEnabled]
++ -[LACFlags featureFlagPresentationContextEnabled]
++ -[LACFlags featureFlagUserAuthDaemonEnabled]
++ -[LACFlags flagDTOBiometricLivenessEnrollmentAgeThresholdKey]
++ -[LACFlags valueForFlagDTOBiometricLivenessEnrollmentAgeThreshold]
++ -[LACInstanceIDGenerator .cxx_destruct]
++ -[LACInstanceIDGenerator init]
++ -[LACInstanceIDGenerator nextInstanceIDInDomain:]
++ -[LACKeyBagMKBAdapter initWithKeyBagStateProvider:notificationCenter:userId:]
++ -[LACKeyBagMKBAdapter userId]
++ -[LACMutableXPCClient bypassEntitlement]
++ -[LACMutableXPCClient init]
++ -[LACMutableXPCClient setAuditSessionId:]
++ -[LACMutableXPCClient setAuditToken:]
++ -[LACMutableXPCClient setBypassEntitlement:]
++ -[LACMutableXPCClient setProcessId:]
++ -[LACMutableXPCClient setUserId:]
++ -[LACPasscodeMKBHelper _keybagHandleForUserId:]
++ -[LACPasscodeMKBHelper _passcodePolicyStatusForUserID:]
++ -[LACPasscodeMKBHelper _verifyFvPassword:acmContext:kek:vek:options:]
++ -[LACPasscodeMKBHelper backoffTimeIntervalForUserID:]
++ -[LACPasscodeMKBHelper createStash:mode:manifest:]
++ -[LACPasscodeMKBHelper failedAttemptsForUserID:]
++ -[LACPasscodeMKBHelper maxUnlockAttemptsForUserID:]
++ -[LACPasscodeMKBHelper verifyFvPassword:acmContext:kek:vek:options:error:]
++ -[LACPasscodeMKBHelper verifyPasscodeUsingMKB:]
++ -[LACPasscodeODHelper .cxx_destruct]
++ -[LACPasscodeODHelper initWithUserHelper:]
++ -[LACPasscodeODHelper verifyPasscodeUsingOD:]
++ -[LACPasscodeODHelper verifyPasscodeUsingOD:].cold.1
++ -[LACPasscodeODHelper verifyPasscodeUsingOD:].cold.2
++ -[LACPasscodePAMHelper verifyPasscodeUsingPAM:]
++ -[LACPasscodePAMHelper verifyPasscodeUsingPAM:].cold.1
++ -[LACPasscodePAMHelper verifyPasscodeUsingPAM:].cold.2
++ -[LACPasscodePAMHelper verifyPasscodeUsingPAM:].cold.3
++ -[LACPasscodePAMHelper verifyPasscodeUsingPAM:].cold.4
++ -[LACPasscodePAMHelper verifyPasscodeUsingPAM:].cold.5
++ -[LACPasscodePAMHelper verifyPasscodeUsingPAM:].cold.6
++ -[LACPasscodeUserHelper .cxx_destruct]
++ -[LACPasscodeUserHelper currentUser]
++ -[LACPasscodeUserHelper deviceOwners]
++ -[LACPasscodeUserHelper findUserWithUID:]
++ -[LACPasscodeUserHelper initWithKeybagProvider:]
++ -[LACPasscodeUserHelper isPasscodeSetForUser:error:]
++ -[LACPasscodeUserHelper nonHiddenDeviceOwners]
++ -[LACPasscodeUserHelper userNameFromUID:]
++ -[LACPasscodeUserHelper userUUIDFromUID:]
++ -[LACPasscodeUserHelper userUUIDFromUID:].cold.1
++ -[LACRemoteUIParams .cxx_destruct]
++ -[LACRemoteUIParams auditTokenData]
++ -[LACRemoteUIParams description]
++ -[LACRemoteUIParams evaluationRequest]
++ -[LACRemoteUIParams forSiri]
++ -[LACRemoteUIParams forSoftwareUpdate]
++ -[LACRemoteUIParams hostedRemoteController]
++ -[LACRemoteUIParams identifier]
++ -[LACRemoteUIParams initWithMechanism:]
++ -[LACRemoteUIParams initWithMechanism:hostedRemoteController:]
++ -[LACRemoteUIParams lsApplicationIdentity]
++ -[LACRemoteUIParams notificationCenter]
++ -[LACRemoteUIParams pid]
++ -[LACRemoteUIParams remoteUI]
++ -[LACRemoteUIParams requestID]
++ -[LACRemoteUIParams setNotificationCenter:]
++ -[LACRemoteUIParams setRemoteUI:]
++ -[LACRemoteUIParams uiMechanism]
++ -[LACRemoteUIParams userId]
++ -[LACSecureStorage _storeObject:request:completionHandler:]
++ -[LACServiceAdapter .cxx_destruct]
++ -[LACServiceAdapter exportedInterface]
++ -[LACServiceAdapter exportedObject]
++ -[LACServiceAdapter initWithExportedInterface:exportedObject:queue:]
++ -[LACServiceAdapter queue]
++ -[LACServiceBase .cxx_destruct]
++ -[LACServiceBase _assertRunningInCorrectQueue]
++ -[LACServiceBase _disconnectClient:]
++ -[LACServiceBase _disconnectClient:].cold.1
++ -[LACServiceBase _disconnectClient:].cold.2
++ -[LACServiceBase _disconnectClient:].cold.3
++ -[LACServiceBase clientsCount]
++ -[LACServiceBase dealloc]
++ -[LACServiceBase dealloc].cold.1
++ -[LACServiceBase endpoint]
++ -[LACServiceBase exportedInterface]
++ -[LACServiceBase exportedInterface].cold.1
++ -[LACServiceBase exportedObject]
++ -[LACServiceBase init]
++ -[LACServiceBase init].cold.1
++ -[LACServiceBase listener:shouldAcceptNewConnection:]
++ -[LACServiceBase listener:shouldAcceptNewConnection:].cold.1
++ -[LACServiceBase manager]
++ -[LACServiceBase queue]
++ -[LACServiceBase serviceID]
++ -[LACServiceBase setManager:]
++ -[LACServiceManagerBase .cxx_destruct]
++ -[LACServiceManagerBase _shutdownSessionsWithServiceType:]
++ -[LACServiceManagerBase allowsMultipleClientsForServiceType:]
++ -[LACServiceManagerBase bootstrapServiceWithType:clientConnection:completionHandler:]
++ -[LACServiceManagerBase bootstrapServiceWithType:clientConnection:completionHandler:].cold.1
++ -[LACServiceManagerBase bootstrapSessionServiceType:clientID:clientConnection:completionHandler:]
++ -[LACServiceManagerBase bootstrapSessionServiceType:clientID:clientConnection:completionHandler:].cold.1
++ -[LACServiceManagerBase bootstrapSessionServiceType:clientID:completionHandler:]
++ -[LACServiceManagerBase exportedInterface]
++ -[LACServiceManagerBase init]
++ -[LACServiceManagerBase sessionsCount]
++ -[LACServiceManagerBase shutdownSessionsWithMatchingID:]
++ -[LACUNMutableNotification isSubtitleLocalized]
++ -[LACUNMutableNotification setIsSubtitleLocalized:]
++ -[LACUNMutableNotification setSubtitle:]
++ -[LACUNMutableNotification subtitle]
++ -[LACUserInterfaceRequest initWithIdentifier:optionalRequest:]
++ -[LACUserMembershipHelper uuidForUserID:error:]
++ -[LACXPCClient auditSessionId]
++ -[LACXPCClient bypassEntitlement]
++ -[LACXPCClient checkEntitlement:].cold.1
++ -[LACXPCClient description]
++ -[LACXPCClient setAuditSessionId:]
++ -[LACXPCClient setBypassEntitlement:]
++ -[LACXPCClient setToken:]
++ -[LACXPCClient token]
++ GCC_except_table22
++ GCC_except_table42
++ GCC_except_table46
++ GCC_except_table55
++ GCC_except_table62
++ LACLogAuthorization.__logObj
++ LACLogAuthorization.cold.1
++ LACLogAuthorization.onceToken
++ LACLogEvaluationMechanism.__logObj
++ LACLogEvaluationMechanism.cold.1
++ LACLogEvaluationMechanism.onceToken
++ LACLogNetwork.__logObj
++ LACLogNetwork.cold.1
++ LACLogNetwork.onceToken
++ LACLogOpticIDUI.__logObj
++ LACLogOpticIDUI.cold.1
++ LACLogOpticIDUI.onceToken
++ LACLogSheet.__logObj
++ LACLogSheet.cold.1
++ LACLogSheet.onceToken
++ LACLogUIManager.__logObj
++ LACLogUIManager.cold.1
++ LACLogUIManager.onceToken
++ OBJC_IVAR_$_LACAgentProxyWithErrorHandler._agentProxy
++ OBJC_IVAR_$_LACAgentProxyWithErrorHandler._errorHandler
++ OBJC_IVAR_$_LACAuthenticationUINotificationCenter._lastNotification
++ OBJC_IVAR_$_LACDefaultServiceSession._clientID
++ OBJC_IVAR_$_LACDefaultServiceSession._service
++ OBJC_IVAR_$_LACDefaultServiceSession._serviceType
++ OBJC_IVAR_$_LACDefaultServiceSession._sessionID
++ OBJC_IVAR_$_LACEvaluationRequestDefault.clientInfo
++ OBJC_IVAR_$_LACEvaluationRequestDefault.isPurposeInAppPayment
++ OBJC_IVAR_$_LACEvaluationRequestDefault.originatorId
++ OBJC_IVAR_$_LACExternalizedContextProvider._cachedExternalizedContext
++ OBJC_IVAR_$_LACExternalizedContextProvider._externalizationObserver
++ OBJC_IVAR_$_LACExternalizedContextProvider._externalizer
++ OBJC_IVAR_$_LACInstanceIDGenerator._currentIDs
++ OBJC_IVAR_$_LACKeyBagMKBAdapter._userId
++ OBJC_IVAR_$_LACPasscodeODHelper._userHelper
++ OBJC_IVAR_$_LACPasscodeUserHelper._keybagProvider
++ OBJC_IVAR_$_LACRemoteUIParams._evaluationRequest
++ OBJC_IVAR_$_LACRemoteUIParams._hostedRemoteController
++ OBJC_IVAR_$_LACRemoteUIParams._identifier
++ OBJC_IVAR_$_LACRemoteUIParams._notificationCenter
++ OBJC_IVAR_$_LACRemoteUIParams._remoteUI
++ OBJC_IVAR_$_LACRemoteUIParams._uiMechanism
++ OBJC_IVAR_$_LACRemoteUIParams._uiRequest
++ OBJC_IVAR_$_LACServiceAdapter._exportedInterface
++ OBJC_IVAR_$_LACServiceAdapter._exportedObject
++ OBJC_IVAR_$_LACServiceAdapter._queue
++ OBJC_IVAR_$_LACServiceBase._clients
++ OBJC_IVAR_$_LACServiceBase._endpoint
++ OBJC_IVAR_$_LACServiceBase._listener
++ OBJC_IVAR_$_LACServiceBase._queue
++ OBJC_IVAR_$_LACServiceBase._serviceID
++ OBJC_IVAR_$_LACServiceBase._terminating
++ OBJC_IVAR_$_LACServiceBase.manager
++ OBJC_IVAR_$_LACServiceManagerBase._sessions
++ OBJC_IVAR_$_LACUNMutableNotification._isSubtitleLocalized
++ OBJC_IVAR_$_LACUNMutableNotification._subtitle
++ OBJC_IVAR_$_LACXPCClient._auditSessionId
++ OBJC_IVAR_$_LACXPCClient._bypassEntitlement
++ OBJC_IVAR_$_LACXPCClient._token
++ _$s10Foundation4DataV34_conditionallyBridgeFromObjectiveC_6resultSbSo6NSDataC_ACSgztFZ
++ _$s10Foundation4DataVSgMR
++ _$s10Foundation4DataVSgMd
++ _$s10Foundation4DateV17timeIntervalSinceySdACF
++ _$s10Foundation4DateV18addingTimeIntervalyACSdF
++ _$s10Foundation4DateV1loiySbAC_ACtFZ
++ _$s10Foundation4DateVACSEAAWL
++ _$s10Foundation4DateVACSLAAWL
++ _$s10Foundation4DateVACSLAAWlTm
++ _$s10Foundation4DateVACSeAAWL
++ _$s10Foundation4DateVACs23CustomStringConvertibleAAWL
++ _$s10Foundation4DateVACycfC
++ _$s10Foundation4DateVMa
++ _$s10Foundation4DateVMn
++ _$s10Foundation4DateVSEAAMc
++ _$s10Foundation4DateVSLAAMc
++ _$s10Foundation4DateVSeAAMc
++ _$s10Foundation4DateVSgMR
++ _$s10Foundation4DateVSgMd
++ _$s10Foundation4DateVSgWOb
++ _$s10Foundation4DateVSgWOhTm
++ _$s10Foundation4DateVs23CustomStringConvertibleAAMc
++ _$s10Foundation4UUIDV4uuidACs5UInt8V_A15Ft_tcfC
++ _$s10Foundation4UUIDVACs21_ObjectiveCBridgeableAAWL
++ _$s10Foundation4UUIDVACs21_ObjectiveCBridgeableAAWl
++ _$s10Foundation4UUIDVSgWOb
++ _$s10Foundation4UUIDVs21_ObjectiveCBridgeableAAMc
++ _$s23LocalAuthenticationCore013LACUserRecordB9AuthorityO6keybagyA2CmFWC
++ _$s23LocalAuthenticationCore10SerialTaskC5start33_DA3D6A38AA7074209CBAAB7738A65E5FLLyyFyyYacfU0_TY4_
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVMF
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVMXX
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVMa
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVMf
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVMn
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVN
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVWV
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVwet
++ _$s23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVwst
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFSQAAWL
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFSQAAWl
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFs0F3KeyAAWL
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFs0F3KeyAAWl
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFs23CustomStringConvertibleAAWL
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFs23CustomStringConvertibleAAWl
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFs28CustomDebugStringConvertibleAAWL
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOAFs28CustomDebugStringConvertibleAAWl
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOMF
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOMXX
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOMa
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOMf
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOMn
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSHAAMc
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSHAAMcMK
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSHAASH13_rawHashValue4seedS2i_tFTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSHAASH4hash4intoys6HasherVz_tFTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSHAASH9hashValueSivgTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSHAASQWb
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSQAAMc
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSQAAMcMK
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSQAASQ2eeoiySbx_xtFZTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOWV
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAMc
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAMcMK
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAs23CustomStringConvertiblePWb
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAs28CustomDebugStringConvertiblePWb
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAsAGP11stringValueSSvgTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAsAGP11stringValuexSgSS_tcfCTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAsAGP8intValueSiSgvgTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAsAGP8intValuexSgSi_tcfCTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs23CustomStringConvertibleAAMc
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs23CustomStringConvertibleAAMcMK
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs23CustomStringConvertibleAAsAGP11descriptionSSvgTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs28CustomDebugStringConvertibleAAMc
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs28CustomDebugStringConvertibleAAMcMK
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs28CustomDebugStringConvertibleAAsAGP16debugDescriptionSSvgTW
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOwet
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOwst
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOwug
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOwui
++ _$s23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOwup
++ _$s23LocalAuthenticationCore12LACDateRangeV3end10Foundation4DateVvg
++ _$s23LocalAuthenticationCore12LACDateRangeV3end10Foundation4DateVvpMV
++ _$s23LocalAuthenticationCore12LACDateRangeV4fromACs7Decoder_p_tKcfC
++ _$s23LocalAuthenticationCore12LACDateRangeV5start10Foundation4DateVvg
++ _$s23LocalAuthenticationCore12LACDateRangeV5start10Foundation4DateVvpMV
++ _$s23LocalAuthenticationCore12LACDateRangeV5start3endACSg10Foundation4DateV_AItcfC
++ _$s23LocalAuthenticationCore12LACDateRangeV6encode2toys7Encoder_p_tKF
++ _$s23LocalAuthenticationCore12LACDateRangeV8durationSdvg
++ _$s23LocalAuthenticationCore12LACDateRangeV8durationSdvpMV
++ _$s23LocalAuthenticationCore12LACDateRangeVMF
++ _$s23LocalAuthenticationCore12LACDateRangeVMa
++ _$s23LocalAuthenticationCore12LACDateRangeVMf
++ _$s23LocalAuthenticationCore12LACDateRangeVMl
++ _$s23LocalAuthenticationCore12LACDateRangeVMn
++ _$s23LocalAuthenticationCore12LACDateRangeVMr
++ _$s23LocalAuthenticationCore12LACDateRangeVN
++ _$s23LocalAuthenticationCore12LACDateRangeVSEAAMc
++ _$s23LocalAuthenticationCore12LACDateRangeVSEAAMcMK
++ _$s23LocalAuthenticationCore12LACDateRangeVSEAASE6encode2toys7Encoder_p_tKFTW
++ _$s23LocalAuthenticationCore12LACDateRangeVSeAAMc
++ _$s23LocalAuthenticationCore12LACDateRangeVSeAAMcMK
++ _$s23LocalAuthenticationCore12LACDateRangeVSeAASe4fromxs7Decoder_p_tKcfCTW
++ _$s23LocalAuthenticationCore12LACDateRangeVWOb
++ _$s23LocalAuthenticationCore12LACDateRangeVWOc
++ _$s23LocalAuthenticationCore12LACDateRangeVWOh
++ _$s23LocalAuthenticationCore12LACDateRangeVWV
++ _$s23LocalAuthenticationCore12LACDateRangeVwet
++ _$s23LocalAuthenticationCore12LACDateRangeVwst
++ _$s23LocalAuthenticationCore13LACUserRecordV22identityCreationPolicyAA0de8IdentitygH0OSgvg
++ _$s23LocalAuthenticationCore13LACUserRecordV22identityCreationPolicyAA0de8IdentitygH0OSgvpMV
++ _$s23LocalAuthenticationCore13LACUserRecordV4uuid25authenticationAuthorities22identityCreationPolicy12passwordHintAC10Foundation4UUIDV_ShyAA0deB9AuthorityOGAA0de8IdentityjK0OSgSSSgtcfC
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC11addObserveryySo0dG0_pF
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC11addObserveryySo0dG0_pFTj
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC11addObserveryySo0dG0_pFTq
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC14keyBagDisabled33_D07A0C387E177C30C01640770297F2B6LLSo8NSNumberCSgvM
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC14keyBagDisabled33_D07A0C387E177C30C01640770297F2B6LLSo8NSNumberCSgvg
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC14keyBagDisabled33_D07A0C387E177C30C01640770297F2B6LLSo8NSNumberCSgvpWvd
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC14keyBagDisabled33_D07A0C387E177C30C01640770297F2B6LLSo8NSNumberCSgvs
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC14removeObserveryySo0dG0_pF
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC14removeObserveryySo0dG0_pFTj
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC14removeObserveryySo0dG0_pFTq
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC20keybagStateDidChangeyySo9LACKeyBag_pF
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC20keybagStateDidChangeyySo9LACKeyBag_pFTj
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC20keybagStateDidChangeyySo9LACKeyBag_pFTo
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC20keybagStateDidChangeyySo9LACKeyBag_pFTq
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC26notifyObserversAboutUpdate33_D07A0C387E177C30C01640770297F2B6LL2toySo9LACKeyBag_p_tF
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC6keyBag33_D07A0C387E177C30C01640770297F2B6LLSo06LACKeyG0_pvpWvd
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC6keyBagACSo06LACKeyG0_p_tcfC
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC6keyBagACSo06LACKeyG0_p_tcfCTj
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC6keyBagACSo06LACKeyG0_p_tcfCTq
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC6keyBagACSo06LACKeyG0_p_tcfc
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorC9observers33_D07A0C387E177C30C01640770297F2B6LLSo11NSHashTableCySo0D8Observer_pGvpWvd
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCACycfC
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCACycfc
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCACycfcTo
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCMF
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCMa
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCMf
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCMn
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCMo
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCMu
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCN
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCfD
++ _$s23LocalAuthenticationCore18LACPasscodeMonitorCfETo
++ _$s23LocalAuthenticationCore18LACPreboardStorageC10instanceId33_F71D1BD8614598B9F6981260B7FA3828LLSivpWvd
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC10successAge33_CD78A63937471CA54C8DE6FACC22949ALLAA0d7SuccessG0CvpWvd
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC14verifyPasscodeySo0D18VerificationResultVSo0dH7Request_pF
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC14verifyPasscodeySo0D18VerificationResultVSo0dH7Request_pFTj
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC14verifyPasscodeySo0D18VerificationResultVSo0dH7Request_pFTo
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC14verifyPasscodeySo0D18VerificationResultVSo0dH7Request_pFTq
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC24injectContextCredentials33_CD78A63937471CA54C8DE6FACC22949ALL_7requestys6UInt32V_So0D19VerificationRequest_ptFTf4nnd_n
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC28handleSuccessfulVerification33_CD78A63937471CA54C8DE6FACC22949ALLySo0dH6ResultVSo0dH7Request_pF
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC8strategy10successAge9mkbHelperAcA0dE8Strategy_p_AA0d7SuccessH0CSo0D9MKBHelperCtcfC
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC8strategy10successAge9mkbHelperAcA0dE8Strategy_p_AA0d7SuccessH0CSo0D9MKBHelperCtcfCTfq4ennn_nTf4gnnn_n
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC8strategy10successAge9mkbHelperAcA0dE8Strategy_p_AA0d7SuccessH0CSo0D9MKBHelperCtcfCTj
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC8strategy10successAge9mkbHelperAcA0dE8Strategy_p_AA0d7SuccessH0CSo0D9MKBHelperCtcfCTq
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC8strategy10successAge9mkbHelperAcA0dE8Strategy_p_AA0d7SuccessH0CSo0D9MKBHelperCtcfc
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC8strategy10successAge9mkbHelperAcA0dE8Strategy_p_AA0d7SuccessH0CSo0D9MKBHelperCtcfcTf4ennn_n
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC8strategy33_CD78A63937471CA54C8DE6FACC22949ALLAA0dE8Strategy_pvpWvd
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierC9mkbHelper33_CD78A63937471CA54C8DE6FACC22949ALLSo0D9MKBHelperCvpWvd
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCACycfC
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCACycfc
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCACycfcTo
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCMF
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCMa
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCMf
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCMn
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCMo
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCMu
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCN
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCfD
++ _$s23LocalAuthenticationCore19LACPasscodeVerifierCfETo
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKF
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFTf4nd_n
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFTj
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFTo
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFTq
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFyAGSg_s5Error_pSgtYbcfU0_
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFyAGSg_s5Error_pSgtYbcfU0_TA
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFys5Error_pcfU_
++ _$s23LocalAuthenticationCore19LACUserDaemonClientC18endpointForService14withIdentifierSo21NSXPCListenerEndpointCSS_tKFys5Error_pcfU_TA
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCACycfC
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCACycfc
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCACycfcTo
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCMF
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCMa
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCMf
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCMn
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCMo
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCMu
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCN
++ _$s23LocalAuthenticationCore19LACUserDaemonClientCfD
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC14verifyPasscode8usingOTISo0D18VerificationResultVSo0dJ15RequestExtended_p_tF
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC14verifyPasscode8usingOTISo0D18VerificationResultVSo0dJ15RequestExtended_p_tFTj
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC14verifyPasscode8usingOTISo0D18VerificationResultVSo0dJ15RequestExtended_p_tFTq
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC17aksIdentityHelper012_866763327B8I19DB99783151D919B4D23LLSo014LACAKSIdentityH0CvpWvd
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC20isOTIVerifierEnabledSbvg
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC20isOTIVerifierEnabledSbvgTj
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC20isOTIVerifierEnabledSbvgTq
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC20isOTIVerifierEnabledSbvpMV
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC20shouldUseOTIVerifierySbSo0D27VerificationRequestExtended_pF
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC20shouldUseOTIVerifierySbSo0D27VerificationRequestExtended_pFTj
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperC20shouldUseOTIVerifierySbSo0D27VerificationRequestExtended_pFTq
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCAA0dE8ProtocolA2aDP14verifyPasscode8usingOTISo0D18VerificationResultVSo0dK15RequestExtended_p_tFTW
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCAA0dE8ProtocolA2aDP20isOTIVerifierEnabledSbvgTW
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCAA0dE8ProtocolA2aDP20shouldUseOTIVerifierySbSo0D27VerificationRequestExtended_pFTW
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCAA0dE8ProtocolAAMc
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCAA0dE8ProtocolAAWP
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCACycfC
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCACycfCTj
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCACycfCTq
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCACycfc
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCMF
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCMa
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCMf
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCMm
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCMn
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCMo
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCMu
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCN
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCfD
++ _$s23LocalAuthenticationCore20LACPasscodeOTIHelperCfd
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC012lastPasscodeE6Uptime33_D7595934E5551924FB61BDEDD07B3B8ELLSdvpWvd
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC08passcodeeF0Sdvg
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC08passcodeeF0SdvgTj
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC08passcodeeF0SdvgTo
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC08passcodeeF0SdvgTq
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC08passcodeeF0SdvpMV
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC29updateWithCurrentSystemUptimeyyF
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC29updateWithCurrentSystemUptimeyyFTj
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC29updateWithCurrentSystemUptimeyyFTo
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC29updateWithCurrentSystemUptimeyyFTq
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC6update10withUptimeySo8NSNumberC_tF
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC6update10withUptimeySo8NSNumberC_tFTj
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC6update10withUptimeySo8NSNumberC_tFTo
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeC6update10withUptimeySo8NSNumberC_tFTq
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCACycfC
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCACycfc
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCACycfcTo
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCMF
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCMa
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCMf
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCMn
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCMo
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCMu
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCN
++ _$s23LocalAuthenticationCore21LACPasscodeSuccessAgeCfD
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKF
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTQ1_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTQ2_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTQ3_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTY0_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTY4_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTY5_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTY6_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTY7_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTo
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFTu
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFyyYacfU_To
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFyyYacfU_ToTA
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFyyYacfU_ToTATQ0_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFyyYacfU_ToTATu
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFyyYacfU_ToTQ0_
++ _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase18withSecurePasscodey10Foundation4DataV_tYaKFyyYacfU_ToTu
++ _$s23LocalAuthenticationCore21LACUserDatabaseClientCfEToTm
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeO6customyACSS_tcACmFWC
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeO8standardyA2CmFWC
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOMF
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOMa
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOMf
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOMn
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeON
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOWV
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOwet
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOwst
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOwug
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOwui
++ _$s23LocalAuthenticationCore22LACPersistentStoreTypeOwup
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueV7defaultSo17OS_dispatch_queueCvgZ
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueV7defaultSo17OS_dispatch_queueCvpZ
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueV7defaultSo17OS_dispatch_queueCvpZMV
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueV7default_WZ
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueV7default_Wz
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVACycfC
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVMF
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVMa
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVMf
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVMn
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVN
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVWV
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVwet
++ _$s23LocalAuthenticationCore22LACUserAuthDaemonQueueVwst
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderC08biometryE0So0dE0avg
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderC08biometryE0So0dE0avpMV
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCAA0dE9ProvidingA2aDP08biometryE0So0dE0avgTW
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCAA0dE9ProvidingAAMc
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCAA0dE9ProvidingAAWP
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCACycfC
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCACycfCTj
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCACycfCTq
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCACycfc
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCMF
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCMa
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCMf
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCMm
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCMn
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCMo
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCMu
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCN
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCfD
++ _$s23LocalAuthenticationCore23LACBiometryTypeProviderCfd
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_10authorizerySo0D10CredentialC_AGtKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_18recoveryCredentialySo0dJ0C_So011LACRecoveryJ0CtKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKF
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFToTm
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10deleteUser4uuidy10Foundation4UUIDV_tKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC10fetchUsers10targetDiskSay10Foundation4UUIDVGSS_tKFAIyKXEfU_ySo0D10ServiceXPC_p_yAISg_s5Error_pSgtctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKey_010authorizerI0ySo011LACRecoveryI0C_So0K10CredentialCtKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKey_10authorizerySo011LACRecoveryI0C_So0D10CredentialCtKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKeyyySo011LACRecoveryI0CKFToTm
++ _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKeyyySo011LACRecoveryI0CKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC15checkExistsUser4uuid10targetDiskSo8NSNumberC10Foundation4UUIDV_SStKFAHyKXEfU_ySo0D10ServiceXPC_p_yAHSg_s5Error_pSgtctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC15fetchUIDForUser4uuidSo8NSNumberC10Foundation4UUIDV_tKFAGyKXEfU_TATm
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16authenticateUser_10targetDiskySo0D10CredentialC_SStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16authenticateUser_6domain10targetDiskySo0D10CredentialC_So0D12PolicyDomainaSStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProvider33_C8C7050F3E6F73D818EF0B35C0843FA2LLSo021LACServiceXPCEndpointH0_pvpWvd
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0_p_tcfC
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0_p_tcfCTj
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0_p_tcfCTq
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0_p_tcfc
++ _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0_p_tcfcTf4gn_n
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17fetchRecoveryKeys10targetDiskSay10Foundation4UUIDVGSS_tKFAIyKXEfU_ySo0D10ServiceXPC_p_yAISg_s5Error_pSgtctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17resetAllPasswords_10targetDiskySo0D10CredentialC_SStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKF
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKF
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerClientC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKF
++ _$s23LocalAuthenticationCore23LACUserControllerClientC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerClientC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerClientC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerClientC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKF
++ _$s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFAGyKXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFAGyKXEfU_ySo0D10ServiceXPC_p_yAGSg_s5Error_pSgtctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFAGyKXEfU_ySo0D10ServiceXPC_p_yAGSg_s5Error_pSgtctXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerClientC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerClientC20resetPasswordForUser_10authorizer10targetDiskySo0D10CredentialC_AHSStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC20resetPasswordForUser_18recoveryCredential10targetDiskySo0dL0C_So011LACRecoveryL0CSStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC20resetPasswordForUser_18recoveryCredentialySo0dL0C_So011LACRecoveryL0CtKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC21changePasswordForUser_2toySo0D10CredentialC_So0dH0CtKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC21checkExistsOTIForUser4uuid10targetDiskSo8NSNumberC10Foundation4UUIDV_SStKFAHyKXEfU_ySo0D10ServiceXPC_p_yAHSg_s5Error_pSgtctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC24updateUserRegistryConfigyySo0diJ0CKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC25deletePasswordHintForUser4uuidy10Foundation4UUIDV_tKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKF
++ _$s23LocalAuthenticationCore23LACUserControllerClientC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerClientC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerClientC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerClientC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerClientC4lock9sessionIDys6UInt32V_tKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC6logout9sessionIDys6UInt32V_tKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerClientC7perform33_C8C7050F3E6F73D818EF0B35C0843FA2LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF48C14addRecoveryKeyyySo011LACRecoveryI0CKFyyKXEfU_ACSo0X3KeyCTf1nncn_nTm
++ _$s23LocalAuthenticationCore23LACUserControllerClientC7perform33_C8C7050F3E6F73D818EF0B35C0843FA2LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF85C10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFyyKXEfU_ACSo0D10CredentialCSo0d8IdentityW6PolicyaTf1nncn_nTm
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFToTm
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFyyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC14addRecoveryKeyyySo011LACRecoveryI0CKFToTm
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC15checkExistsUser4uuid10targetDiskSo8NSNumberC10Foundation4UUIDV_SStKFAHyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC15fetchUIDForUser4uuidSo8NSNumberC10Foundation4UUIDV_tKFToTm
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC17transferOwnership4from16toNewRecoveryKey10targetDiskySo0D10CredentialC_So011LACRecoveryM0CSStKFyyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFyyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFyyKXEfU_Tv_r
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFAGyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFAGyKXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC19lockoutStateForUser4uuidSo0d7LockoutH0C10Foundation4UUIDV_tKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC21checkExistsOTIForUser4uuid10targetDiskSo8NSNumberC10Foundation4UUIDV_SStKFAHyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFTj
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFTo
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFTq
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFyyKXEfU_So0D22IdentityCreationPolicyayXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC4lock9sessionIDys6UInt32V_tKFyyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC6logout9sessionIDys6UInt32V_tKFyyKXEfU_
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFSay10Foundation4UUIDVG_Tg504$s23ab6Core23deF62C10fetchUsers10targetDiskSay10Foundation4UUIDVGSS_tKFAIyKXEfU_ACSSTf1ncn_nTf4ndgg_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFSay10Foundation4UUIDVG_Tg504$s23ab6Core23deF69C17fetchRecoveryKeys10targetDiskSay10Foundation4UUIDVGSS_tKFAIyKXEfU_ACSSTf1ncn_nTf4ndgg_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF48C14addRecoveryKeyyySo011LACRecoveryI0CKFyyKXEfU_ACSo0T3KeyCTf1nncn_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF62C28resetPasswordWithHashForUseryySo0d10CredentialJ0CKFyyKXEfU_ACSo0dwS0CTf1nncn_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF85C10createUser_22identityCreationPolicyySo0D10CredentialC_So0d8IdentityjK0atKFyyKXEfU_So0d8IdentityS6PolicyaACSo0dW0CTf1nncn_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF87C17transferOwnership4from14toExistingUser10targetDiskySo0D10CredentialC_AISStKFyyKXEfU_ACSo0dW0CAHSSTf1nncn_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF95C18createUserWithHash_22identityCreationPolicyySo0d10CredentialJ0C_So0d8IdentitylM0atKFyyKXEfU_ACSo0dxS0CSo0d8IdentityU6PolicyaTf1nncn_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC8mapError33_EEDF2538C2551ABD076707AE90BEA6D3LLys0H0_psAF_pF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC8mapError33_EEDF2538C2551ABD076707AE90BEA6D3LLys0H0_psAF_pFTf4nd_n
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC8register33_EEDF2538C2551ABD076707AE90BEA6D3LL10newOTIUserySo0D10CredentialC_tKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC8register33_EEDF2538C2551ABD076707AE90BEA6D3LL10newOTIUserySo0D10CredentialC_tKFTv_r
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC8register33_EEDF2538C2551ABD076707AE90BEA6D3LL13newNonOTIUser22identityCreationPolicyySo0D10CredentialC_So0d8IdentityrS0atKF
++ _$s23LocalAuthenticationCore23LACUserControllerDaemonC8register33_EEDF2538C2551ABD076707AE90BEA6D3LL13newNonOTIUser22identityCreationPolicyySo0D10CredentialC_So0d8IdentityrS0atKFTv_r
++ _$s23LocalAuthenticationCore23LACUserServiceXPCClientC11performSyncyyySo0dE3XPC_p_ys5Error_pSgctXEKFySoAE_p_yytSg_AGtctXEfU_
++ _$s23LocalAuthenticationCore23LACUserServiceXPCClientC11performSyncyyySo0dE3XPC_p_ys5Error_pSgctXEKFySoAE_p_yytSg_AGtctXEfU_TA
++ _$s23LocalAuthenticationCore23LACUserServiceXPCClientC11performSyncyyySo0dE3XPC_p_ys5Error_pSgctXEKFySoAE_p_yytSg_AGtctXEfU_yAGcfU_TA
++ _$s23LocalAuthenticationCore23LACUserServiceXPCClientC15remoteSyncProxy33_4E768DF7C269E6DB4857A6FD68AC8695LLyxxSo0dE3XPC_pKXEKlFys5Error_pSgcfU_
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_22identityCreationPolicy5replyySo0D10CredentialC_So0d8IdentityjK0ays5Error_pSgctF
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_22identityCreationPolicy5replyySo0D10CredentialC_So0d8IdentityjK0ays5Error_pSgctFTj
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_22identityCreationPolicy5replyySo0D10CredentialC_So0d8IdentityjK0ays5Error_pSgctFTo
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_22identityCreationPolicy5replyySo0D10CredentialC_So0d8IdentityjK0ays5Error_pSgctFTq
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10unlockUser_9sessionID5replyySo0D10CredentialC_s6UInt32Vys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5N11_pSgIegg_TRSo0Q0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC14addRecoveryKey_010authorizerI05replyySo011LACRecoveryI0C_So0L10CredentialCys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5N11_pSgIegg_TRSo0Q0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC14addRecoveryKey_10authorizer5replyySo011LACRecoveryI0C_So0D10CredentialCys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5N11_pSgIegg_TRSo0Q0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC14addRecoveryKey_5replyySo011LACRecoveryI0C_ys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5L11_pSgIegg_TRSo0O0CSgIeyBy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC15checkExistsUser4uuid10targetDisk5replyy10Foundation4UUIDV_SSySo8NSNumberCSg_s5Error_pSgtctF05$sSo8p13CSgSo7NSErrort11IeyByy_ACs5Q12_pSgIeggg_TRAMSo0V0CSgIeyByy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC15checkExistsUser4uuid10targetDisk5replyy10Foundation4UUIDV_SSySo8NSNumberCSg_s5Error_pSgtctFToTm
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC15fetchUIDForUser4uuid5replyy10Foundation4UUIDV_ySo8NSNumberCSg_s5Error_pSgtctF05$sSo8n13CSgSo7NSErrorr11IeyByy_ACs5O12_pSgIeggg_TRALSo0T0CSgIeyByy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC15fetchUIDForUser4uuid5replyy10Foundation4UUIDV_ySo8NSNumberCSg_s5Error_pSgtctFToTm
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16authenticateUser_10targetDisk10contextRef5replyySo0D10CredentialC_SS10Foundation4DataVys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5Q11_pSgIegg_TRSo0T0CSgIeyBy_Tf1nnncn_nTf4nnnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16authenticateUser_10targetDisk5replyySo0D10CredentialC_SSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5M11_pSgIegg_TRSo0P0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16authenticateUser_10targetDisk5replyySo0D10CredentialC_SSys5Error_pSgctFToTm
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16authenticateUser_6domain10targetDisk5replyySo0D10CredentialC_So0D12PolicyDomainaSSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5P11_pSgIegg_TRSo0S0CSgIeyBy_Tf1nnncn_nTf4nnnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16lockStateForUser4uuid9sessionID5replyy10Foundation4UUIDV_s6UInt32VySo0d4LockH0CSg_s5Error_pSgtctF06$sSo16drh13CSgSo7NSErrorv11IeyByy_ACs5S12_pSgIeggg_TRAOSo0X0CSgIeyByy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17removeRecoveryKey_16externalDataUUID5replyy10Foundation0L0V_AISgys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5O11_pSgIegg_TRSo0R0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17resetAllPasswords_10targetDisk5replyySo0D10CredentialC_SSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5N11_pSgIegg_TRSo0Q0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from14toExistingUser10targetDisk5replyySo0D10CredentialC_AJSSys5Error_pSgctF
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from14toExistingUser10targetDisk5replyySo0D10CredentialC_AJSSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5Q11_pSgIegg_TRSo0T0CSgIeyBy_Tf1nnncn_nTf4nnnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from14toExistingUser10targetDisk5replyySo0D10CredentialC_AJSSys5Error_pSgctFTj
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from14toExistingUser10targetDisk5replyySo0D10CredentialC_AJSSys5Error_pSgctFTo
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from14toExistingUser10targetDisk5replyySo0D10CredentialC_AJSSys5Error_pSgctFTq
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from16toNewRecoveryKey10targetDisk5replyySo0D10CredentialC_So011LACRecoveryM0CSSys5Error_pSgctF
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from16toNewRecoveryKey10targetDisk5replyySo0D10CredentialC_So011LACRecoveryM0CSSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5S11_pSgIegg_TRSo0V0CSgIeyBy_Tf1nnncn_nTf4nnnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from16toNewRecoveryKey10targetDisk5replyySo0D10CredentialC_So011LACRecoveryM0CSSys5Error_pSgctFTj
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from16toNewRecoveryKey10targetDisk5replyySo0D10CredentialC_So011LACRecoveryM0CSSys5Error_pSgctFTo
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC17transferOwnership4from16toNewRecoveryKey10targetDisk5replyySo0D10CredentialC_So011LACRecoveryM0CSSys5Error_pSgctFTq
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC18createUserWithHash_22identityCreationPolicy5replyySo0d10CredentialJ0C_So0d8IdentitylM0ays5Error_pSgctF
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC18createUserWithHash_22identityCreationPolicy5replyySo0d10CredentialJ0C_So0d8IdentitylM0ays5Error_pSgctFTj
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC18createUserWithHash_22identityCreationPolicy5replyySo0d10CredentialJ0C_So0d8IdentitylM0ays5Error_pSgctFTo
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC18createUserWithHash_22identityCreationPolicy5replyySo0d10CredentialJ0C_So0d8IdentitylM0ays5Error_pSgctFTq
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC19lockoutStateForUser4uuid5replyy10Foundation4UUIDV_ySo0d7LockoutH0CSg_s5Error_pSgtctF
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC19lockoutStateForUser4uuid5replyy10Foundation4UUIDV_ySo0d7LockoutH0CSg_s5Error_pSgtctF06$sSo19doh13CSgSo7NSErrors11IeyByy_ACs5P12_pSgIeggg_TRALSo0U0CSgIeyByy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC19lockoutStateForUser4uuid5replyy10Foundation4UUIDV_ySo0d7LockoutH0CSg_s5Error_pSgtctFTj
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC19lockoutStateForUser4uuid5replyy10Foundation4UUIDV_ySo0d7LockoutH0CSg_s5Error_pSgtctFTo
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC19lockoutStateForUser4uuid5replyy10Foundation4UUIDV_ySo0d7LockoutH0CSg_s5Error_pSgtctFTq
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC19lockoutStateForUser4uuid6domain5replyy10Foundation4UUIDV_So0D12PolicyDomainaySo0d7LockoutH0CSg_s5Error_pSgtctF06$sSo19drh13CSgSo7NSErrorv11IeyByy_ACs5S12_pSgIeggg_TRAOSo0X0CSgIeyByy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC20resetPasswordForUser_18recoveryCredential10targetDisk5replyySo0dL0C_So011LACRecoveryL0CSSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5Q11_pSgIegg_TRSo0T0CSgIeyBy_Tf1nnncn_nTf4nnnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC20resetPasswordForUser_18recoveryCredential10targetDisk5replyySo0dL0C_So011LACRecoveryL0CSSys5Error_pSgctFToTm
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC20resetPasswordForUser_18recoveryCredential5replyySo0dL0C_So011LACRecoveryL0Cys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5O11_pSgIegg_TRSo0R0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC20resetPasswordForUser_18recoveryCredential5replyySo0dL0C_So011LACRecoveryL0Cys5Error_pSgctFToTm
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC21checkExistsOTIForUser4uuid10targetDisk5replyy10Foundation4UUIDV_SSySo8NSNumberCSg_s5Error_pSgtctF05$sSo8q13CSgSo7NSErroru11IeyByy_ACs5R12_pSgIeggg_TRAMSo0W0CSgIeyByy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC21effectivePolicyDomain33_ECA28678B61E441590EFA97C3EFA30CFLL09requestedI06clientSo0dhI0aAISg_So15NSXPCConnectionCSgtKFTf4nnd_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC24storePasswordHintForUser4uuid08passwordI05replyy10Foundation4UUIDV_SSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5Q11_pSgIegg_TRSo0T0CSgIeyBy_Tf1nncn_nTf4nnng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC24updateUserRegistryConfig_5replyySo0diJ0C_ys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5L11_pSgIegg_TRSo0O0CSgIeyBy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC25deletePasswordHintForUser4uuid5replyy10Foundation4UUIDV_ys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5P11_pSgIegg_TRSo0S0CSgIeyBy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC28resetPasswordWithHashForUser_5replyySo0d10CredentialJ0C_ys5Error_pSgctF
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC28resetPasswordWithHashForUser_5replyySo0d10CredentialJ0C_ys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5O11_pSgIegg_TRSo0R0CSgIeyBy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC28resetPasswordWithHashForUser_5replyySo0d10CredentialJ0C_ys5Error_pSgctFTj
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC28resetPasswordWithHashForUser_5replyySo0d10CredentialJ0C_ys5Error_pSgctFTo
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC28resetPasswordWithHashForUser_5replyySo0d10CredentialJ0C_ys5Error_pSgctFToTm
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC28resetPasswordWithHashForUser_5replyySo0d10CredentialJ0C_ys5Error_pSgctFTq
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC33checkOwnershipStatusForTargetDisk_5replyySS_ySo8NSNumberCSg_s5Error_pSgtctF05$sSo8n13CSgSo7NSErrorr11IeyByy_ACs5O12_pSgIeggg_TRAHSo0T0CSgIeyByy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC4lock9sessionID5replyys6UInt32V_ys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5L11_pSgIegg_TRSo0O0CSgIeyBy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC4lock9sessionID5replyys6UInt32V_ys5Error_pSgctFToTm
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC6logout9sessionID5replyys6UInt32V_ys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5L11_pSgIegg_TRSo0O0CSgIeyBy_Tf1ncn_nTf4nng_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC6verify33_ECA28678B61E441590EFA97C3EFA30CFLL6client14hasEntitlementySo15NSXPCConnectionCSg_So14LACEntitlementatKFTf4nnd_n
++ _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC9loginUser_9sessionID10targetDisk5replyySo0D10CredentialC_s6UInt32VSSys5Error_pSgctF023$sSo7NSErrorCSgIeyBy_s5P11_pSgIegg_TRSo0S0CSgIeyBy_Tf1nnncn_nTf4nnnng_n
++ _$s23LocalAuthenticationCore24LACBiometryTypeProvidingMp
++ _$s23LocalAuthenticationCore24LACBiometryTypeProvidingP08biometryE0So0dE0avgTj
++ _$s23LocalAuthenticationCore24LACBiometryTypeProvidingP08biometryE0So0dE0avgTq
++ _$s23LocalAuthenticationCore24LACBiometryTypeProvidingTL
++ _$s23LocalAuthenticationCore24LACBiometryTypeProviding_pMF
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC016bootstrapSessionG4Type_17completionHandlerySS_ySo21NSXPCListenerEndpointCSg_s5Error_pSgtctF
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC016bootstrapSessionG4Type_17completionHandlerySS_ySo21NSXPCListenerEndpointCSg_s5Error_pSgtctFTj
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC016bootstrapSessionG4Type_17completionHandlerySS_ySo21NSXPCListenerEndpointCSg_s5Error_pSgtctFTo
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC016bootstrapSessionG4Type_17completionHandlerySS_ySo21NSXPCListenerEndpointCSg_s5Error_pSgtctFTq
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC04userG033_50DF4D7F09AD533A16CB585933679294LLSo0dG3XPC_pvpWvd
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC04userG05queueACSo0dG3XPC_p_So012OS_dispatch_I0CtcfC
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC04userG05queueACSo0dG3XPC_p_So012OS_dispatch_I0CtcfCTj
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC04userG05queueACSo0dG3XPC_p_So012OS_dispatch_I0CtcfCTq
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC04userG05queueACSo0dG3XPC_p_So012OS_dispatch_I0Ctcfc
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC09bootstrapG08withType16clientConnection17completionHandlerySS_So15NSXPCConnectionCSgySo10LACService_pSg_s5Error_pSgtctF
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC09bootstrapG08withType16clientConnection17completionHandlerySS_So15NSXPCConnectionCSgySo10LACService_pSg_s5Error_pSgtctF06$sSo10p28_pSgSo7NSErrorCSgIeyByy_ABs5q2_pT8Ieggg_TRALSo0V0CSgIeyByy_Tf1nncn_nTf4ndng_n
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC09bootstrapG08withType16clientConnection17completionHandlerySS_So15NSXPCConnectionCSgySo10LACService_pSg_s5Error_pSgtctFTo
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC11daemonQueue33_50DF4D7F09AD533A16CB585933679294LLSo17OS_dispatch_queueCvpWvd
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC21allowsMultipleClients03forG4TypeSbSS_tF
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC21allowsMultipleClients03forG4TypeSbSS_tFTo
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC5queueSo012OS_dispatch_H0Cvg
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceC5queueSo012OS_dispatch_H0CvgTo
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCACycfC
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCACycfc
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCACycfcTo
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCMF
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCMa
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCMf
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCMn
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCMo
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCMu
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCN
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCfD
++ _$s23LocalAuthenticationCore24LACUserAuthDaemonServiceCfETo
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvM
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvg
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvgTj
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvgTo
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvgTq
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvpACTk
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvpMV
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvpWvd
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvs
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC10clientInfoSo09LACClientH0CSgvsTo
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC12originatorIdSivg
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC12originatorIdSivgTo
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC12originatorIdSivpMV
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC12originatorIdSivpWvd
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID12originatorId7optionsACSo13LACStorageKeya_10Foundation4UUIDVSiSDys11AnyHashableVypGSgtcfC
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID12originatorId7optionsACSo13LACStorageKeya_10Foundation4UUIDVSiSDys11AnyHashableVypGSgtcfCTj
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID12originatorId7optionsACSo13LACStorageKeya_10Foundation4UUIDVSiSDys11AnyHashableVypGSgtcfCTq
++ _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID12originatorId7optionsACSo13LACStorageKeya_10Foundation4UUIDVSiSDys11AnyHashableVypGSgtcfc
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService33_9BD93737E47E879C5FA37C0E29568247LLSo0deF3XPC_pvpWvd
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService5queueACSo0deF3XPC_p_So012OS_dispatch_J0CtcfC
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService5queueACSo0deF3XPC_p_So012OS_dispatch_J0CtcfCTfq4enn_n
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService5queueACSo0deF3XPC_p_So012OS_dispatch_J0CtcfCTj
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService5queueACSo0deF3XPC_p_So012OS_dispatch_J0CtcfCTq
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService5queueACSo0deF3XPC_p_So012OS_dispatch_J0Ctcfc
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService5queueACSo0deF3XPC_p_So012OS_dispatch_J0CtcfcTf4enn_n
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC13daemonService5queueACSo0deF3XPC_p_So012OS_dispatch_J0CtcfcTf4enn_nAA0defI0C_Tg5
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC5queue33_9BD93737E47E879C5FA37C0E29568247LLSo012OS_dispatch_H0CvpWvd
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC5startyyF
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC5startyyFTj
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC5startyyFTq
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener33_9BD93737E47E879C5FA37C0E29568247LLSo13NSXPCListenerCvpWvd
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtF
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtFTf4dnn_n
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtFTj
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtFTo
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtFTq
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtFyycfU0_TA
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtFyycfU_TA
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerC8listener_25shouldAcceptNewConnectionSbSo13NSXPCListenerC_So15NSXPCConnectionCtFyycfU_Tm
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCACycfC
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCACycfc
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCACycfcTo
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCMF
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCMa
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCMf
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCMn
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCMo
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCMu
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCN
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCfD
++ _$s23LocalAuthenticationCore25LACUserAuthDaemonListenerCfETo
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC11userServiceSo0dI0Cvg
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC11userServiceSo0dI0CvpMV
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC11userServiceSo0dI0CvpWvd
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC13daemonServiceAA0defI0Cvg
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC13daemonServiceAA0defI0CvpMV
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC13daemonServiceAA0defI0CvpWvd
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC14daemonListenerAA0defI0Cvg
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC14daemonListenerAA0defI0CvpMV
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC14daemonListenerAA0defI0CvpWvd
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC5queueSo012OS_dispatch_H0Cvg
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC5queueSo012OS_dispatch_H0CvpMV
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC5queueSo012OS_dispatch_H0CvpWvd
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC5startyyF
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC5startyyFTj
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerC5startyyFTq
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCACycfC
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCACycfCTj
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCACycfCTq
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCACycfc
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCMF
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCMa
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCMf
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCMm
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCMn
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCMo
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCMu
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCN
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCfD
++ _$s23LocalAuthenticationCore26LACUserAuthDaemonContainerCfd
++ _$s23LocalAuthenticationCore27LACPasscodeVerifierStrategyMp
++ _$s23LocalAuthenticationCore27LACPasscodeVerifierStrategyP14verifyPasscodeySo0D18VerificationResultVSo0dI7Request_pFTj
++ _$s23LocalAuthenticationCore27LACPasscodeVerifierStrategyP14verifyPasscodeySo0D18VerificationResultVSo0dI7Request_pFTq
++ _$s23LocalAuthenticationCore27LACPasscodeVerifierStrategyTL
++ _$s23LocalAuthenticationCore27LACPasscodeVerifierStrategy_pMF
++ _$s23LocalAuthenticationCore27LACPasscodeVerifierStrategy_pWOc
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolMp
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP14verifyPasscode8usingOTISo0D18VerificationResultVSo0dK15RequestExtended_p_tFTj
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP14verifyPasscode8usingOTISo0D18VerificationResultVSo0dK15RequestExtended_p_tFTq
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP20isOTIVerifierEnabledSbvgTj
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP20isOTIVerifierEnabledSbvgTq
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP20shouldUseOTIVerifierySbSo0D27VerificationRequestExtended_pFTj
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP20shouldUseOTIVerifierySbSo0D27VerificationRequestExtended_pFTq
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolTL
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocol_pMF
++ _$s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocol_pWOb
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC14accountBlocked9forUserIDSbSo8NSNumberCSg_tF
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC14accountBlocked9forUserIDSbSo8NSNumberCSg_tFTj
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC14accountBlocked9forUserIDSbSo8NSNumberCSg_tFTo
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC14accountBlocked9forUserIDSbSo8NSNumberCSg_tFTq
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC14failedAttempts9forUserIDSiSo8NSNumberCSg_tF
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC14failedAttempts9forUserIDSiSo8NSNumberCSg_tFTj
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC14failedAttempts9forUserIDSiSo8NSNumberCSg_tFTq
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC17maxUnlockAttempts9forUserIDSiSo8NSNumberCSg_tF
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC17maxUnlockAttempts9forUserIDSiSo8NSNumberCSg_tFTj
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC17maxUnlockAttempts9forUserIDSiSo8NSNumberCSg_tFTq
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC17secureBootCapable9mkbHelperACSb_So0D9MKBHelperCtcfC
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC17secureBootCapable9mkbHelperACSb_So0D9MKBHelperCtcfCTj
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC17secureBootCapable9mkbHelperACSb_So0D9MKBHelperCtcfCTq
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC17secureBootCapable9mkbHelperACSb_So0D9MKBHelperCtcfc
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC19backoffTimeInterval9forUserIDSdSo8NSNumberCSg_tF
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC19backoffTimeInterval9forUserIDSdSo8NSNumberCSg_tFTj
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC19backoffTimeInterval9forUserIDSdSo8NSNumberCSg_tFTo
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC19backoffTimeInterval9forUserIDSdSo8NSNumberCSg_tFTq
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC19isSecureBootCapable33_CF16E284B88CA14C920F1BC991CC53DELLSbvpWvd
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC23resetFailedAttemptCount9forUserIDySo8NSNumberCSg_tF
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC23resetFailedAttemptCount9forUserIDySo8NSNumberCSg_tFTj
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC23resetFailedAttemptCount9forUserIDySo8NSNumberCSg_tFTo
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC23resetFailedAttemptCount9forUserIDySo8NSNumberCSg_tFTq
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC24backoffEndTimeDictionary33_CF16E284B88CA14C920F1BC991CC53DELLSDys6UInt32V10Foundation4DateVGvpWvd
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC24failedAttemptsDictionary33_CF16E284B88CA14C920F1BC991CC53DELLSDys6UInt32VSiGvpWvd
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC26increaseFailedAttemptCount9forUserIDySo8NSNumberCSg_tF
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC26increaseFailedAttemptCount9forUserIDySo8NSNumberCSg_tFTj
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC26increaseFailedAttemptCount9forUserIDySo8NSNumberCSg_tFTo
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC26increaseFailedAttemptCount9forUserIDySo8NSNumberCSg_tFTq
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC9mkbHelper33_CF16E284B88CA14C920F1BC991CC53DELLSo0D9MKBHelperCvpWvd
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCACycfC
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCACycfc
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCACycfcTo
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCMF
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCMa
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCMf
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCMn
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCMo
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCMu
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCN
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCfD
++ _$s23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSCfETo
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper03mkbJ014keyBagProvider12rateLimiting02odJ003pamJ003otiJ0ACSo0d4UserJ0C_So0D9MKBHelperCSo06LACKeymN0_pSo0d4RateP0_pSo0D8ODHelperCSo0D9PAMHelperCAA0D17OTIHelperProtocol_ptcfC
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper03mkbJ014keyBagProvider12rateLimiting02odJ003pamJ003otiJ0ACSo0d4UserJ0C_So0D9MKBHelperCSo06LACKeymN0_pSo0d4RateP0_pSo0D8ODHelperCSo0D9PAMHelperCAA0D17OTIHelperProtocol_ptcfCTj
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper03mkbJ014keyBagProvider12rateLimiting02odJ003pamJ003otiJ0ACSo0d4UserJ0C_So0D9MKBHelperCSo06LACKeymN0_pSo0d4RateP0_pSo0D8ODHelperCSo0D9PAMHelperCAA0D17OTIHelperProtocol_ptcfCTq
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper03mkbJ014keyBagProvider12rateLimiting02odJ003pamJ003otiJ0ACSo0d4UserJ0C_So0D9MKBHelperCSo06LACKeymN0_pSo0d4RateP0_pSo0D8ODHelperCSo0D9PAMHelperCAA0D17OTIHelperProtocol_ptcfc
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper03mkbJ014keyBagProvider12rateLimitingACSo0d4UserJ0C_So0D9MKBHelperCSo06LACKeymN0_pSo0d4RateP0_ptcfC
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper03mkbJ014keyBagProvider12rateLimitingACSo0d4UserJ0C_So0D9MKBHelperCSo06LACKeymN0_pSo0d4RateP0_ptcfCTf4nneen_n
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper03mkbJ014keyBagProvider12rateLimitingACSo0d4UserJ0C_So0D9MKBHelperCSo06LACKeymN0_pSo0d4RateP0_ptcfCTf4nneen_nSoALC_AA0dtpgH0CTt3g5
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC10userHelper33_4246D8FC1D39934D23BF7D94248421FELLSo0d4UserJ0CvpWvd
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC12rateLimiting33_4246D8FC1D39934D23BF7D94248421FELLSo0d4RateJ0_pvpWvd
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC14keyBagProvider33_4246D8FC1D39934D23BF7D94248421FELLSo06LACKeyjK0_pvpWvd
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC14verifyPasscodeySo0D18VerificationResultVSo0dK7Request_pF
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC14verifyPasscodeySo0D18VerificationResultVSo0dK7Request_pFTj
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC14verifyPasscodeySo0D18VerificationResultVSo0dK7Request_pFTq
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC28processVerifyPasscodeRequest33_4246D8FC1D39934D23BF7D94248421FELLySo0D18VerificationResultVSo0dtL8Extended_pF
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC31preprocessVerifyPasscodeRequest33_4246D8FC1D39934D23BF7D94248421FELLySo0d12VerificationL8Extended_pSgSo0dtL0_pF
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC31preprocessVerifyPasscodeRequest33_4246D8FC1D39934D23BF7D94248421FELLySo0d12VerificationL8Extended_pSgSo0dtL0_pFSo10LACADMUserCSgyXEfU_
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC32postProcessVerifyPasscodeRequest33_4246D8FC1D39934D23BF7D94248421FELL_6resultSo0D18VerificationResultVSo0dvM0_p_AHtF
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC37processVerifyPasscodeUsingPreOTIRules33_4246D8FC1D39934D23BF7D94248421FELLySo0D18VerificationResultVSo0dV15RequestExtended_pF
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC38processVerifyPasscodeUsingPostOTIRules33_4246D8FC1D39934D23BF7D94248421FELLySo0D18VerificationResultVSo0dV15RequestExtended_pF
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC38processVerifyPasscodeUsingPostOTIRules33_4246D8FC1D39934D23BF7D94248421FELLySo0D18VerificationResultVSo0dV15RequestExtended_pFyySo017LACBackgroundTaskW0CccfU_
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC38processVerifyPasscodeUsingPostOTIRules33_4246D8FC1D39934D23BF7D94248421FELLySo0D18VerificationResultVSo0dV15RequestExtended_pFyySo017LACBackgroundTaskW0CccfU_TA
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC8odHelper33_4246D8FC1D39934D23BF7D94248421FELLSo0D8ODHelperCvpWvd
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC9mkbHelper33_4246D8FC1D39934D23BF7D94248421FELLSo0D9MKBHelperCvpWvd
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC9otiHelper33_4246D8FC1D39934D23BF7D94248421FELLAA0D17OTIHelperProtocol_pvpWvd
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC9pamHelper33_4246D8FC1D39934D23BF7D94248421FELLSo0D9PAMHelperCvpWvd
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCAA0deF0A2aDP14verifyPasscodeySo0D18VerificationResultVSo0dK7Request_pFTW
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCAA0deF0AAMc
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCAA0deF0AAWP
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCMF
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCMa
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCMf
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCMm
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCMn
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCMo
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCMu
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCN
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCfD
++ _$s23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSCfd
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO6manualyA2CmFWC
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO8rawValueACSgSi_tcfC
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO8rawValueSivg
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO8rawValueSivpMV
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO9automaticyA2CmFWC
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO9forbiddenyA2CmFWC
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSEAAWL
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSEAAWl
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSQAAWL
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSQAAWl
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSYAAWL
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSYAAWl
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSeAAWL
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOACSeAAWl
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOMF
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOMa
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOMf
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOMn
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyON
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSEAAMc
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSEAAMcMK
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSEAASE6encode2toys7Encoder_p_tKFTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSHAAMc
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSHAAMcMK
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSHAASH13_rawHashValue4seedS2i_tFTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSHAASH4hash4intoys6HasherVz_tFTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSHAASH9hashValueSivgTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSHAASQWb
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSQAAMc
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSQAAMcMK
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSQAASQ2eeoiySbx_xtFZTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSYAAMA
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSYAAMc
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSYAAMcMK
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSYAASY8rawValue03RawJ0QzvgTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSYAASY8rawValuexSg03RawJ0Qz_tcfCTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSeAAMc
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSeAAMcMK
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSeAASe4fromxs7Decoder_p_tKcfCTW
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSgML
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSgMa
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOWV
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOwet
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOwst
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOwug
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOwui
++ _$s23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOwup
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC11descriptionSSvg
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC13acceptsIdleUISbvpWvd
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC17sessionIdentifierSSvpWvd
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC6idleUISo0D16IdleUIPresenting_pSgvpWvd
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC7requestSo013LACEvaluationG0_pvpWvd
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCMF
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCMXX
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCMa
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCMf
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCMm
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCMn
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCN
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCSQAAMc
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCSQAAMcMK
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCSQAASQ2eeoiySbx_xtFZTW
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCfD
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCs23CustomStringConvertibleAAMc
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCs23CustomStringConvertibleAAMcMK
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCs23CustomStringConvertibleAAsAEP11descriptionSSvgTW
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVMF
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVMXX
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVMa
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVMf
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVMn
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVN
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVWV
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVwet
++ _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVwst
++ _$s23LocalAuthenticationCore6LACLogO4task2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO4task2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO5sheet2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO5sheet2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO6keybag2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO6keybag2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO6server2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO6server2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO7network2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO7network2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO8keyboard2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO8keyboard2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO8passcode2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO8passcode2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO9analytics2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO9analytics2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore6LACLogO9uiManager2os6LoggerVvgZ
++ _$s23LocalAuthenticationCore6LACLogO9uiManager2os6LoggerVvpZMV
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValueACyxGx_tcfC
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValueACyxGx_tcfCTj
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValueACyxGx_tcfCTq
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValueACyxGx_tcfc
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvM
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvMTj
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvMTq
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvg
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvgTj
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvgTm
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvgTq
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvpMV
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvplACyxGTk
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvs
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvsTf4gn_nTm
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvsTj
++ _$s23LocalAuthenticationCore9LACAtomicC12wrappedValuexvsTq
++ _$s23LocalAuthenticationCore9LACAtomicC5value33_501F58C7013C3BF6F7255F526FDAE799LLxvg
++ _$s23LocalAuthenticationCore9LACAtomicC5value33_501F58C7013C3BF6F7255F526FDAE799LLxvs
++ _$s23LocalAuthenticationCore9LACAtomicC7performyyyxzXEF
++ _$s23LocalAuthenticationCore9LACAtomicC7performyyyxzXEFTj
++ _$s23LocalAuthenticationCore9LACAtomicC7performyyyxzXEFTq
++ _$s23LocalAuthenticationCore9LACAtomicC7performyyyxzXEFyyYbXEfU_TA
++ _$s23LocalAuthenticationCore9LACAtomicC8getValuexyF
++ _$s23LocalAuthenticationCore9LACAtomicC8getValuexyFTj
++ _$s23LocalAuthenticationCore9LACAtomicC8getValuexyFTq
++ _$s23LocalAuthenticationCore9LACAtomicC8setValue03newF0yx_tF
++ _$s23LocalAuthenticationCore9LACAtomicC8setValue03newF0yx_tFTj
++ _$s23LocalAuthenticationCore9LACAtomicC8setValue03newF0yx_tFTq
++ _$s23LocalAuthenticationCore9LACAtomicC8setValue03newF0yx_tFyyYbXEfU_
++ _$s23LocalAuthenticationCore9LACAtomicCMF
++ _$s23LocalAuthenticationCore9LACAtomicCMI
++ _$s23LocalAuthenticationCore9LACAtomicCMP
++ _$s23LocalAuthenticationCore9LACAtomicCMa
++ _$s23LocalAuthenticationCore9LACAtomicCMi
++ _$s23LocalAuthenticationCore9LACAtomicCMn
++ _$s23LocalAuthenticationCore9LACAtomicCMo
++ _$s23LocalAuthenticationCore9LACAtomicCMr
++ _$s23LocalAuthenticationCore9LACAtomicCMu
++ _$s23LocalAuthenticationCore9LACAtomicCfD
++ _$s23LocalAuthenticationCore9LACAtomicCfd
++ _$s23LocalAuthenticationCore9LACLoggerV5debugyySSFTm
++ _$s2os14OSLogArgumentsV6appendyySdycFySpys5UInt8VGz_SpySo8NSObjectCSgGSgzSpyypGSgztcfU_
++ _$s2os18OSLogInterpolationV06appendC0_6format5align7privacyySdyXA_AA0B15FloatFormattingVAA0B15StringAlignmentVAA0B7PrivacyVtFSdycfu_
++ _$s2os21OSAllocatedUnfairLockVMn
++ _$s8Dispatch0A13TimeoutResultO2eeoiySbAC_ACtFZ
++ _$s8Dispatch0A8WorkItemC4wait7timeoutAA0A13TimeoutResultOAA0A4TimeV_tFTj
++ _$s8Dispatch0A8WorkItemC5flags5blockAcA0abC5FlagsV_yyXBtcfc
++ _$s8Dispatch0A8WorkItemC7performyyFTj
++ _$s8Dispatch0A8WorkItemCMa
++ _$s8Dispatch0A8WorkItemCMn
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGTt0g5Tf4g_n
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSS_SaySo8NSNumberCGTt0g5Tf4g_n
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSS_SaySo8NSNumberCGTt0g5Tf4g_nTm
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSS_ySo23LACBackgroundTaskResultCcTt0g5Tf4g_n
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSo13LACEventParama_ypTt0g5Tf4g_n
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSo30LACEvaluationRequestPayloadKeya_ypTt0g5Tf4g_n
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSo8NSNumberC_ypTt0g5Tf4g_n
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCs6UInt32V_10Foundation4DateVTt0g5Tf4g_n
++ _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCs6UInt32V_SiTt0g5Tf4g_n
++ _$sSD8IteratorV8_VariantOySSySo23LACBackgroundTaskResultCc__GWOe
++ _$sSD8IteratorV8_VariantOys11AnyHashableVyp__GWOe
++ _$sSD8_VariantV11removeValue6forKeyq_Sgx_tFSo027LACEvaluationRequestPayloadE0a_ypTg5
++ _$sSD8_VariantV11removeValue6forKeyq_Sgx_tFSo13LACEventParama_ypTg5
++ _$sSD8_VariantV11removeValue6forKeyq_Sgx_tFs11AnyHashableV_ypTg5
++ _$sSD8_VariantV11removeValue6forKeyq_Sgx_tFs6UInt32V_10Foundation4DateVTg5
++ _$sSDySSSaySo8NSNumberCGGMR
++ _$sSDySSSaySo8NSNumberCGGMd
++ _$sSDySSSo8NSObjectCGSgIego_So12NSDictionaryCSgIeyBa_TR
++ _$sSDySiypGSgMR
++ _$sSDySiypGSgMd
++ _$sSDySo8NSNumberCypGMR
++ _$sSDySo8NSNumberCypGMd
++ _$sSDyq_SgxcisSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGTg5
++ _$sSDyq_SgxcisSS_ySo23LACBackgroundTaskResultCcTg5
++ _$sSDyq_Sgxciss6UInt32V_10Foundation4DateVTg5
++ _$sSDys11AnyHashableVypGIeghg_So12NSDictionaryCIeyBhy_TR
++ _$sSDys11AnyHashableVypGSgs5Error_pSgIeggg_SgWOe
++ _$sSDys11AnyHashableVypGSgs5Error_pSgIeggg_SgWOy
++ _$sSDys11AnyHashableVypGSgs5Error_pSgIeghgg_SgWOe
++ _$sSDys11AnyHashableVypGSgs5Error_pSgIeghgg_SgWOy
++ _$sSL2geoiySbx_xtFZTj
++ _$sSMsE20_halfStablePartition15isSuffixElement5IndexQzSb0F0QzKXE_tKFSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCG_Tg506$sSo30kl10ManagerC23hij22E14unstashRequest33_53opqrstuv11FLLyyAC0ab7M17H0AELLCFSbAGXEfU_AJTf1cn_nTf4ng_nTm
++ _$sSS3key_yp5valuetMR
++ _$sSS3key_yp5valuetMd
++ _$sSS3key_yp5valuetWOh
++ _$sSSSgMR
++ _$sSSSgMd
++ _$sSS_SaySo8NSNumberCGtMR
++ _$sSS_SaySo8NSNumberCGtMd
++ _$sSTsE21_copySequenceContents12initializing8IteratorQz_SitSry7ElementQzG_tFSD6ValuesVySSySo23LACBackgroundTaskResultCc_G_Tg5
++ _$sSTsE7flatMapySay7ElementQyd__Gqd__ABQzKXEKSTRd__lFSD6ValuesVySSSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCG_G_ALTg506$sSo30hi10ManagerC23efg25E17canUnstashRequest33_53lmnopqrs16FLLSbvgSayAC0ab7J15I0AELLCGAHXEfU_Tf1cn_nTm
++ _$sSTsSQ7ElementRpzrlE8containsySbABFSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCG_Tg5
++ _$sSTsSQ7ElementRpzrlE8containsySbABFSaySo20LACEligibilityDomainaG_Tg5
++ _$sSYsSERzSi8RawValueSYRtzrlE6encode2toys7Encoder_p_tKF
++ _$sSYsSeRzSi8RawValueSYRtzrlE4fromxs7Decoder_p_tKcfC
++ _$sSa13_copyContents12initializings16IndexingIteratorVySayxGG_SitSryxG_tFSo19LACPasscodeObserver_p_Tg5
++ _$sSa13_copyContents12initializings16IndexingIteratorVySayxGG_SitSryxG_tFSo27LACAuthenticationUIManaging_p_Tg5
++ _$sSa15replaceSubrange_4withySnySiG_qd__nt7ElementQyd__RszSlRd__lF23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLV_s15EmptyCollectionVyAIGTg5Tf4ndn_n
++ _$sSa15replaceSubrange_4withySnySiG_qd__nt7ElementQyd__RszSlRd__lF23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC_s15EmptyCollectionVyAIGTg5Tf4ndn_n
++ _$sSa20_reserveCapacityImpl07minimumB013growForAppendySi_SbtF23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC_Tg5
++ _$sSa20_reserveCapacityImpl07minimumB013growForAppendySi_SbtFSo27LACAuthenticationUIManaging_p_Tg5Tm
++ _$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lFSo27LACAuthenticationUIManaging_p_SaySoAE_pGTg5
++ _$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lFSo27LACAuthenticationUIManaging_p_SaySoAE_pGTg5Tm
++ _$sSa6remove2atxSi_tF23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLV_Tg5
++ _$sSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGMR
++ _$sSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGMd
++ _$sSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGSayxGSlsWL
++ _$sSaySo19LACPasscodeObserver_pGMR
++ _$sSaySo19LACPasscodeObserver_pGMd
++ _$sSaySo19LACPasscodeObserver_pGSayxGSlsWL
++ _$sSaySo27LACAuthenticationUIManaging_pGMR
++ _$sSaySo27LACAuthenticationUIManaging_pGMd
++ _$sSaySo27LACAuthenticationUIManaging_pGSayxGSlsWL
++ _$sSaySo29LACEvaluationRequestProcessor_pGSayxGSlsWlTm
++ _$sSayxGSlsSly7ElementQz5IndexQzcirTW23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC_Tg5
++ _$sSayxGSlsSly7ElementQz5IndexQzcirTWSo19LACPasscodeObserver_p_Tg5
++ _$sSayxGSlsSly7ElementQz5IndexQzcirTWSo27LACAuthenticationUIManaging_p_Tg5
++ _$sSbs5Error_pSgIeghyg_SbSo7NSErrorCSgIeyBhyy_TR
++ _$sScS12ContinuationVyyyYac_GSgWOcTm
++ _$sSds7CVarArgsWP
++ _$sSh10FoundationE19_bridgeToObjectiveCSo5NSSetCyF
++ _$sSh10FoundationE36_unconditionallyBridgeFromObjectiveCyShyxGSo5NSSetCSgFZ
++ _$sSh8_VariantV6insertySb8inserted_x17memberAfterInserttxnFSo8LACEventa_Tg5
++ _$sSh8_VariantV6removeyxSgxFSo8LACEventa_Tg5
++ _$sSlsE10firstIndex5where0B0QzSgSb7ElementQzKXE_tKFSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCG_Tg506$sSo30hi10ManagerC23efg22E14unstashRequest33_53lmnopqrs11FLLyyAC0ab7J17H0AELLCFSbAGXEfU_AKTf1cn_nTf4ng_nTm
++ _$sSo10LACADMUserCML
++ _$sSo10LACADMUserCMaTm
++ _$sSo11LACRemoteUI_pMR
++ _$sSo11LACRemoteUI_pMd
++ _$sSo11LACRemoteUI_pSgMR
++ _$sSo11LACRemoteUI_pSgMd
++ _$sSo12NSDictionaryCIeyBhy_SDys11AnyHashableVypGIeghg_TR
++ _$sSo12NSDictionaryCIeyBhy_SDys11AnyHashableVypGIeghg_TRTA
++ _$sSo12NSDictionaryCSgSo7NSErrorCSgIeyBhyy_SDys11AnyHashableVypGSgs5Error_pSgIeghgg_TR
++ _$sSo12NSDictionaryCSgSo7NSErrorCSgIeyBhyy_SDys11AnyHashableVypGSgs5Error_pSgIeghgg_TRTA
++ _$sSo13LACEventParama3key_yp5valuetMR
++ _$sSo13LACEventParama3key_yp5valuetMd
++ _$sSo13LACEventParama3key_yp5valuetWOc
++ _$sSo13LACEventParamaABSHSCWL
++ _$sSo13LACEventParamaABSQSCWL
++ _$sSo13LACEventParamaABSYSCWL
++ _$sSo13LACEventParamaABs20_SwiftNewtypeWrapperSCWL
++ _$sSo13LACEventParamaABs35_HasCustomAnyHashableRepresentationSCWL
++ _$sSo13LACEventParamaMB
++ _$sSo13LACEventParamaMF
++ _$sSo13LACEventParamaML
++ _$sSo13LACEventParamaMa
++ _$sSo13LACEventParamaMf
++ _$sSo13LACEventParamaMn
++ _$sSo13LACEventParamaSHSCMc
++ _$sSo13LACEventParamaSHSCMcMK
++ _$sSo13LACEventParamaSHSCSH13_rawHashValue4seedS2i_tFTW
++ _$sSo13LACEventParamaSHSCSH4hash4intoys6HasherVz_tFTW
++ _$sSo13LACEventParamaSHSCSH9hashValueSivgTW
++ _$sSo13LACEventParamaSHSCSQWb
++ _$sSo13LACEventParamaSQSCMc
++ _$sSo13LACEventParamaSQSCMcMK
++ _$sSo13LACEventParamaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo13LACEventParamaSYSCMA
++ _$sSo13LACEventParamaSYSCMc
++ _$sSo13LACEventParamaSYSCMcMK
++ _$sSo13LACEventParamaSYSCSY8rawValue03RawD0QzvgTW
++ _$sSo13LACEventParamaSYSCSY8rawValuexSg03RawD0Qz_tcfCTW
++ _$sSo13LACEventParama_yptMR
++ _$sSo13LACEventParama_yptMd
++ _$sSo13LACEventParamas20_SwiftNewtypeWrapperSCMc
++ _$sSo13LACEventParamas20_SwiftNewtypeWrapperSCMcMK
++ _$sSo13LACEventParamas20_SwiftNewtypeWrapperSCSYWb
++ _$sSo13LACEventParamas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentationPWb
++ _$sSo13LACEventParamas21_ObjectiveCBridgeableSCMA
++ _$sSo13LACEventParamas21_ObjectiveCBridgeableSCMc
++ _$sSo13LACEventParamas21_ObjectiveCBridgeableSCMcMK
++ _$sSo13LACEventParamas21_ObjectiveCBridgeableSCsACP016_forceBridgeFromC1C_6resulty01_C5CTypeQz_xSgztFZTW
++ _$sSo13LACEventParamas21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromC1C_6resultSb01_C5CTypeQz_xSgztFZTW
++ _$sSo13LACEventParamas21_ObjectiveCBridgeableSCsACP026_unconditionallyBridgeFromC1Cyx01_C5CTypeQzSgFZTW
++ _$sSo13LACEventParamas21_ObjectiveCBridgeableSCsACP09_bridgeToC1C01_C5CTypeQzyFTW
++ _$sSo13LACEventParamas35_HasCustomAnyHashableRepresentationSCMc
++ _$sSo13LACEventParamas35_HasCustomAnyHashableRepresentationSCMcMK
++ _$sSo13LACEventParamas35_HasCustomAnyHashableRepresentationSCsACP03_todeF0s0eF0VSgyFTW
++ _$sSo14LACKeyBagStateVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo14LACKeyBagStateVSYSCSY8rawValue03RawE0QzvgTW
++ _$sSo14NSSecureCoding_pSgMR
++ _$sSo14NSSecureCoding_pSgMd
++ _$sSo15LACBiometryTypeaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE12preboardModeSo8NSNumberCSgvsTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE13runningInBATSSo8NSNumberCSgvsZTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE17sharedModeLatencySo8NSNumberCSgvsZTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE18isSharedModeActiveSo8NSNumberCSgvsZTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE22isDTOStrictModeEnabledSo8NSNumberCSgvsTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE27isMacCompanionSessionActiveSo8NSNumberCSgvsZTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE30isVisionCompanionSessionActiveSo8NSNumberCSgvsZTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE42dtoBiometricLivenessEnrollmentAgeThresholdSo8NSNumberCSgvg
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE42dtoBiometricLivenessEnrollmentAgeThresholdSo8NSNumberCSgvgTo
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE42dtoBiometricLivenessEnrollmentAgeThresholdSo8NSNumberCSgvpMV
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE42dtoBiometricLivenessEnrollmentAgeThresholdSo8NSNumberCSgvs
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE42dtoBiometricLivenessEnrollmentAgeThresholdSo8NSNumberCSgvsTf4nd_n
++ _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE42dtoBiometricLivenessEnrollmentAgeThresholdSo8NSNumberCSgvsTo
++ _$sSo16LACAuthenticatoraABSHSCWL
++ _$sSo16LACAuthenticatoraABSQSCWL
++ _$sSo16LACAuthenticatoraABSYSCWL
++ _$sSo16LACAuthenticatoraABs20_SwiftNewtypeWrapperSCWL
++ _$sSo16LACAuthenticatoraABs35_HasCustomAnyHashableRepresentationSCWL
++ _$sSo16LACAuthenticatoraMB
++ _$sSo16LACAuthenticatoraMF
++ _$sSo16LACAuthenticatoraML
++ _$sSo16LACAuthenticatoraMa
++ _$sSo16LACAuthenticatoraMf
++ _$sSo16LACAuthenticatoraMn
++ _$sSo16LACAuthenticatoraSHSCMc
++ _$sSo16LACAuthenticatoraSHSCMcMK
++ _$sSo16LACAuthenticatoraSHSCSH13_rawHashValue4seedS2i_tFTW
++ _$sSo16LACAuthenticatoraSHSCSH4hash4intoys6HasherVz_tFTW
++ _$sSo16LACAuthenticatoraSHSCSH9hashValueSivgTW
++ _$sSo16LACAuthenticatoraSHSCSQWb
++ _$sSo16LACAuthenticatoraSQSCMc
++ _$sSo16LACAuthenticatoraSQSCMcMK
++ _$sSo16LACAuthenticatoraSYSCMA
++ _$sSo16LACAuthenticatoraSYSCMc
++ _$sSo16LACAuthenticatoraSYSCMcMK
++ _$sSo16LACAuthenticatoraSYSCSY8rawValue03RawC0QzvgTW
++ _$sSo16LACAuthenticatoraSYSCSY8rawValuexSg03RawC0Qz_tcfCTW
++ _$sSo16LACAuthenticatoras20_SwiftNewtypeWrapperSCMc
++ _$sSo16LACAuthenticatoras20_SwiftNewtypeWrapperSCMcMK
++ _$sSo16LACAuthenticatoras20_SwiftNewtypeWrapperSCSYWb
++ _$sSo16LACAuthenticatoras20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentationPWb
++ _$sSo16LACAuthenticatoras21_ObjectiveCBridgeableSCMA
++ _$sSo16LACAuthenticatoras21_ObjectiveCBridgeableSCMc
++ _$sSo16LACAuthenticatoras21_ObjectiveCBridgeableSCMcMK
++ _$sSo16LACAuthenticatoras21_ObjectiveCBridgeableSCsACP016_forceBridgeFromB1C_6resulty01_B5CTypeQz_xSgztFZTW
++ _$sSo16LACAuthenticatoras21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromB1C_6resultSb01_B5CTypeQz_xSgztFZTW
++ _$sSo16LACAuthenticatoras21_ObjectiveCBridgeableSCsACP026_unconditionallyBridgeFromB1Cyx01_B5CTypeQzSgFZTW
++ _$sSo16LACAuthenticatoras21_ObjectiveCBridgeableSCsACP09_bridgeToB1C01_B5CTypeQzyFTW
++ _$sSo16LACAuthenticatoras35_HasCustomAnyHashableRepresentationSCMc
++ _$sSo16LACAuthenticatoras35_HasCustomAnyHashableRepresentationSCMcMK
++ _$sSo16LACAuthenticatoras35_HasCustomAnyHashableRepresentationSCsACP03_tocdE0s0dE0VSgyFTW
++ _$sSo16LACRemoteUIEventVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo16LACRemoteUIEventVSYSCSY8rawValue03RawD0QzvgTW
++ _$sSo16os_unfair_lock_sVMB
++ _$sSo16os_unfair_lock_sVMF
++ _$sSo16os_unfair_lock_sVML
++ _$sSo16os_unfair_lock_sVMa
++ _$sSo16os_unfair_lock_sVMf
++ _$sSo16os_unfair_lock_sVMn
++ _$sSo16os_unfair_lock_sVWV
++ _$sSo16os_unfair_lock_sVwet
++ _$sSo16os_unfair_lock_sVwst
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE014queuedCompleteB033_70631AC639A26B64108710D7F0F76DF2LL4with14workerFinishedySo0aB6ResultC_SbtF
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVMF
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVMXX
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVMa
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVMf
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVMn
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVN
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVWOh
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVWV
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVwet
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLVwst
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE10identifier33_70631AC639A26B64108710D7F0F76DF2LLSSvpWvd
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE10identifier6workerABSS_yySo0aB6ResultCcctcfC
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE10identifier6workerABSS_yySo0aB6ResultCcctcfc
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE10identifier6workerABSS_yySo0aB6ResultCcctcfcTo
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11startWorker33_70631AC639A26B64108710D7F0F76DF2LL5stateyAbCE0B5StateAELLVz_tF
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11startWorker33_70631AC639A26B64108710D7F0F76DF2LL5stateyAbCE0B5StateAELLVz_tFyyYbcfU_
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11startWorker33_70631AC639A26B64108710D7F0F76DF2LL5stateyAbCE0B5StateAELLVz_tFyyYbcfU_TA
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11startWorker33_70631AC639A26B64108710D7F0F76DF2LL5stateyAbCE0B5StateAELLVz_tFyyYbcfU_ySo0aB6ResultCcfU_
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11startWorker33_70631AC639A26B64108710D7F0F76DF2LL5stateyAbCE0B5StateAELLVz_tFyyYbcfU_ySo0aB6ResultCcfU_TA
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE11startWorker33_70631AC639A26B64108710D7F0F76DF2LL5stateyAbCE0B5StateAELLVz_tFyyYbcfU_ySo0aB6ResultCcfU_yyYbcfU0_TA
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE16runSynchronously11withTimeoutSo0aB6ResultCSd_tF
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE16runSynchronously11withTimeoutSo0aB6ResultCSd_tFTo
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE16runSynchronously11withTimeoutSo0aB6ResultCSd_tFyAGYbcfU0_
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE16runSynchronously11withTimeoutSo0aB6ResultCSd_tFyAGYbcfU0_TA
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE16runSynchronously11withTimeoutSo0aB6ResultCSd_tFyycfU_
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE19startWorkerWatchdog33_70631AC639A26B64108710D7F0F76DF2LL_7timeout10replyQueueySo8LACTimerC_SdSo17OS_dispatch_queueCtFyycfU_
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE19startWorkerWatchdog33_70631AC639A26B64108710D7F0F76DF2LL_7timeout10replyQueueySo8LACTimerC_SdSo17OS_dispatch_queueCtFyycfU_TA
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE3run7timeout10completionySd_ySo0aB6ResultCctF
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE3run7timeout10completionySd_ySo0aB6ResultCctFTo
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE3run7timeout5queue10completionySd_So012OS_dispatch_H0CySo0aB6ResultCctF
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE3run7timeout5queue10completionySd_So012OS_dispatch_H0CySo0aB6ResultCctFTo
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE3run7timeout5queue10completionySd_So012OS_dispatch_H0CySo0aB6ResultCctFyyYbcfU0_TA
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE5state33_70631AC639A26B64108710D7F0F76DF2LL15Synchronization5MutexVyAbCE0B5StateAELLVGvpWvd
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE6worker33_70631AC639A26B64108710D7F0F76DF2LLyyySo0aB6ResultCccvpWvd
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE6workerAByySo0aB6ResultCcc_tcfC
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE6workerAByySo0aB6ResultCcc_tcfc
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreE6workerAByySo0aB6ResultCcc_tcfcTo
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreEABycfC
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreEABycfc
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreEABycfcTo
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreEMXE
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreEfD
++ _$sSo17LACBackgroundTaskC23LocalAuthenticationCoreEfDTo
++ _$sSo17LACBackgroundTaskCML
++ _$sSo17LACBackgroundTaskCMa
++ _$sSo17LACBackgroundTaskCfETo
++ _$sSo17LACEvaluationModeVMB
++ _$sSo17LACEvaluationModeVML
++ _$sSo17LACEvaluationModeVMa
++ _$sSo17LACEvaluationModeVMf
++ _$sSo17LACEvaluationModeVMn
++ _$sSo17LACEvaluationModeVSQSCMc
++ _$sSo17LACEvaluationModeVSQSCMcMK
++ _$sSo17LACEvaluationModeVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo17LACEvaluationModeVSYSCMA
++ _$sSo17LACEvaluationModeVSYSCMc
++ _$sSo17LACEvaluationModeVSYSCMcMK
++ _$sSo17LACEvaluationModeVSYSCSY8rawValue03RawD0QzvgTW
++ _$sSo17LACEvaluationModeVSYSCSY8rawValuexSg03RawD0Qz_tcfCTW
++ _$sSo17LACMechanismEventV5event_ypSg5valuetSgMR
++ _$sSo17LACMechanismEventV5event_ypSg5valuetSgMd
++ _$sSo17LACMechanismEventV5event_ypSg5valuetSgWOcTm
++ _$sSo17LACMechanismEventV5event_ypSg5valuetSgWOhTm
++ _$sSo17LACMechanismEventVMB
++ _$sSo17LACMechanismEventVML
++ _$sSo17LACMechanismEventVMa
++ _$sSo17LACMechanismEventVMf
++ _$sSo17LACMechanismEventVMn
++ _$sSo17LACMechanismEventVSQSCMc
++ _$sSo17LACMechanismEventVSQSCMcMK
++ _$sSo17LACMechanismEventVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo17LACMechanismEventVSYSCMA
++ _$sSo17LACMechanismEventVSYSCMc
++ _$sSo17LACMechanismEventVSYSCMcMK
++ _$sSo17LACMechanismEventVSYSCSY8rawValue03RawD0QzvgTW
++ _$sSo17LACMechanismEventVSYSCSY8rawValuexSg03RawD0Qz_tcfCTW
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE012makePasscodeB08verifier18passcodeSuccessAge12rateLimiting03mkbB004userB014keyBagProviderAbC0A8VerifierC_AC0ajK0CSo0a4RateM0_pSo0A9MKBHelperCSo0a4UserB0CSo06LACKeyqR0_ptFZ
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE03mkbB033_2F8C7EE99F001EC51EE4541245D387DDLLSo0A9MKBHelperCvgTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE03mkbB033_2F8C7EE99F001EC51EE4541245D387DDLLSo0A9MKBHelperCvpWvd
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE04userB033_2F8C7EE99F001EC51EE4541245D387DDLLSo0a4UserB0CvgTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE04userB033_2F8C7EE99F001EC51EE4541245D387DDLLSo0a4UserB0CvpWvd
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE11addObserveryySo0aG0_pF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE11addObserveryySo0aG0_pFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE12deviceOwnersSaySo10LACADMUserCGyF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE12deviceOwnersSaySo10LACADMUserCGyFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE12rateLimiting33_2F8C7EE99F001EC51EE4541245D387DDLLSo0a4RateG0_pvgTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE12rateLimiting33_2F8C7EE99F001EC51EE4541245D387DDLLSo0a4RateG0_pvpWvd
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE13isPasscodeSet7forUserys6UInt32V_tKF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE13isPasscodeSet7forUserys6UInt32V_tKFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14accountBlocked9forUserIDSbSo8NSNumberCSg_tF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14accountBlocked9forUserIDSbSo8NSNumberCSg_tFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14removeObserveryySo0aG0_pF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14removeObserveryySo0aG0_pFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14sharedInstanceAByFZ
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14sharedInstanceAByFZTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14verifyPasscodeySo0A18VerificationResultVSo0aH7Request_pF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE14verifyPasscodeySo0A18VerificationResultVSo0aH7Request_pFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE16verifyFvPassword_10acmContext3kek3vek7optionsySo13LACSecureDataC_10Foundation0O0VA2JSitKF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE16verifyFvPassword_10acmContext3kek3vek7optionsySo13LACSecureDataC_10Foundation0O0VA2JSitKFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE18passcodeSuccessAgeSdvg
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE18passcodeSuccessAgeSdvgTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE18passcodeSuccessAgeSdvpMV
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE19backoffTimeInterval9forUserIDSdSo8NSNumberCSg_tF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE19backoffTimeInterval9forUserIDSdSo8NSNumberCSg_tFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE21nonHiddenDeviceOwnersSaySo10LACADMUserCGyF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE21nonHiddenDeviceOwnersSaySo10LACADMUserCGyFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE24updatePasscodeSuccessAge10withUptimeySo8NSNumberC_tF
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE24updatePasscodeSuccessAge10withUptimeySo8NSNumberC_tFTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE28passcodeSuccessAgeController33_2F8C7EE99F001EC51EE4541245D387DDLLAC0agH0CvgTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE28passcodeSuccessAgeController33_2F8C7EE99F001EC51EE4541245D387DDLLAC0agH0CvpWvd
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE6shared33_2F8C7EE99F001EC51EE4541245D387DDLLABvpZ
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE6shared33_2F8C7EE99F001EC51EE4541245D387DDLLABvpZfiAByXEfU_
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE6shared33_2F8C7EE99F001EC51EE4541245D387DDLL_WZ
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE6shared33_2F8C7EE99F001EC51EE4541245D387DDLL_Wz
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE7monitor33_2F8C7EE99F001EC51EE4541245D387DDLLAC0A7MonitorCvgTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE7monitor33_2F8C7EE99F001EC51EE4541245D387DDLLAC0A7MonitorCvpWvd
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE8verifier18passcodeSuccessAge12rateLimiting03mkbB004userB014keyBagProviderAbC0A8VerifierC_AC0ahI0CSo0a4RateK0_pSo0A9MKBHelperCSo0a4UserB0CSo06LACKeyoP0_ptc33_2F8C7EE99F001EC51EE4541245D387DDLlfcTf4nnnnngn_n
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE8verifier18passcodeSuccessAge12rateLimiting03mkbB004userB014keyBagProviderAbC0A8VerifierC_AC0ahI0CSo0a4RateK0_pSo0A9MKBHelperCSo0a4UserB0CSo06LACKeyoP0_ptc33_2F8C7EE99F001EC51EE4541245D387DDLlfcTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE8verifier33_2F8C7EE99F001EC51EE4541245D387DDLLAC0A8VerifierCvgTo
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreE8verifier33_2F8C7EE99F001EC51EE4541245D387DDLLAC0A8VerifierCvpWvd
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreEABycfC
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreEABycfc
++ _$sSo17LACPasscodeHelperC23LocalAuthenticationCoreEABycfcTo
++ _$sSo17LACPasscodeHelperCML
++ _$sSo17LACPasscodeHelperCMa
++ _$sSo17LACPasscodeHelperCfETo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11eventParams33_C42C3F03D8D9309F7E9D015F1B906F25LL3for0F10ProcessingSDySo13LACEventParamaypGSo0aB13ValueActivity_p_SDys11AnyHashableVypGSgtFTf4ndd_n
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11eventParams33_C42C3F03D8D9309F7E9D015F1B906F25LL3for0F10ProcessingSDySo13LACEventParamaypGSo0aB20ValueBiometricStatus_p_SDys11AnyHashableVypGSgtFTf4ndn_n
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11eventParams33_C42C3F03D8D9309F7E9D015F1B906F25LL3forSDySo13LACEventParamaypGSo0aB19ValuePasscodeStatus_p_tFTf4nd_n
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11eventParams33_C42C3F03D8D9309F7E9D015F1B906F25LL3forSDySo13LACEventParamaypGSo0aB20ValueCompanionStatus_p_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11eventParams33_C42C3F03D8D9309F7E9D015F1B906F25LL3forSDySo13LACEventParamaypGSo0aB21ValueCoachingFeedback_p_tFTf4nd_n
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11eventParams33_C42C3F03D8D9309F7E9D015F1B906F25LL3forSDySo13LACEventParamaypGSo0aB21ValuePushButtonStatus_p_tFTf4nd_n
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11faceIDEvent33_B771CE5EA5668856B9E0C2013B128E59LL3forSo012LACMechanismB0V5event_ypSg5valuetSgSo0aB20ValueBiometricStatus_p_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11updateValueyySo0abG0_pF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE11updateValueyySo0abG0_pFTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE12mutableValue33_51B155E5D0B2F6FE12F53CC2B555A1E3LLSo0abG0_pSgvgTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE12mutableValue33_51B155E5D0B2F6FE12F53CC2B555A1E3LLSo0abG0_pSgvpWvd
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE12mutableValue33_51B155E5D0B2F6FE12F53CC2B555A1E3LLSo0abG0_pSgvsTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE12opticIDEvent33_B771CE5EA5668856B9E0C2013B128E59LL3forSo012LACMechanismB0V5event_ypSg5valuetSgSo0aB20ValueBiometricStatus_p_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE12touchIDEvent33_B771CE5EA5668856B9E0C2013B128E59LL3forSo012LACMechanismB0V5event_ypSg5valuetSgSo0aB20ValueBiometricStatus_p_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE13remoteUIEventSo012LACMechanismB0V5event_ypSg5valuetSgvg
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE13remoteUIEventSo012LACMechanismB0V5event_ypSg5valuetSgvpMV
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE14evaluationModeSo0aG0Vvg
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE14evaluationModeSo0aG0VvgTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE14evaluationModeSo0aG0VvpMV
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE14evaluationModeSo0aG0VvpWvd
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE15eventParameters33_C42C3F03D8D9309F7E9D015F1B906F25LL0F10ProcessingSDySo13LACEventParamaypGSgSDys11AnyHashableVypGSg_tFTf4dn_n
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE30uiDelegateEvaluationParameters15eventProcessingSDys11AnyHashableVypGSgAI_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE30uiDelegateEvaluationParameters15eventProcessingSDys11AnyHashableVypGSgAI_tFTf4dn_n
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE5event33_B771CE5EA5668856B9E0C2013B128E59LL3forSo012LACMechanismB0VAD_ypSg5valuetSgSo0aB14ValueBootstrap_p_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE5event33_B771CE5EA5668856B9E0C2013B128E59LL3forSo012LACMechanismB0VAD_ypSg5valuetSgSo0aB21ValueCoachingFeedback_p_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE5event33_B771CE5EA5668856B9E0C2013B128E59LL3forSo012LACMechanismB0VAD_ypSg5valuetSgSo0aB21ValuePushButtonStatus_p_tF
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE5valueSo0aB5Value_pSgvg
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE5valueSo0aB5Value_pSgvgTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE5valueSo0aB5Value_pSgvpMV
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9eventTypeSo0abG0Vvg
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9eventTypeSo0abG0VvgTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9eventTypeSo0abG0VvpMV
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9eventTypeSo0abG0VvpWvd
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9mechanism14evaluationMode9eventType5valueABSo8LACEventa_So0aH0VSo0abJ0VSo0aB5Value_pSgtcfC
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9mechanism14evaluationMode9eventType5valueABSo8LACEventa_So0aH0VSo0abJ0VSo0aB5Value_pSgtcfc
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9mechanism14evaluationMode9eventType5valueABSo8LACEventa_So0aH0VSo0abJ0VSo0aB5Value_pSgtcfcTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9mechanismSo8LACEventavg
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9mechanismSo8LACEventavgTo
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9mechanismSo8LACEventavpMV
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreE9mechanismSo8LACEventavpWvd
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreEABycfC
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreEABycfc
++ _$sSo18LACEvaluationEventC23LocalAuthenticationCoreEABycfcTo
++ _$sSo18LACEvaluationEventCML
++ _$sSo18LACEvaluationEventCMa
++ _$sSo18LACEvaluationEventCfETo
++ _$sSo19LACPasscodeObserver_pMR
++ _$sSo19LACPasscodeObserver_pMd
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10contextRef10Foundation4DataVvg
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10contextRef10Foundation4DataVvgTo
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10contextRef10Foundation4DataVvpMV
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10contextRef10Foundation4DataVvpWvd
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10contextRef4salt10iterationsAB10Foundation4DataV_AISitcfC
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10contextRef4salt10iterationsAB10Foundation4DataV_AISitcfc
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10contextRef4salt10iterationsAB10Foundation4DataV_AISitcfcTo
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10iterationsSivg
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10iterationsSivgTo
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10iterationsSivpMV
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE10iterationsSivpWvd
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE20supportsSecureCodingSbvgZ
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE20supportsSecureCodingSbvgZTo
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE20supportsSecureCodingSbvpZMV
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE4salt10Foundation4DataVvg
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE4salt10Foundation4DataVvgTo
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE4salt10Foundation4DataVvgToTm
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE4salt10Foundation4DataVvpMV
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE4salt10Foundation4DataVvpWvd
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE5coderABSgSo7NSCoderC_tcfC
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE5coderABSgSo7NSCoderC_tcfc
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE5coderABSgSo7NSCoderC_tcfcTo
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE6encode4withySo7NSCoderC_tF
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreE6encode4withySo7NSCoderC_tFTo
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreEABycfC
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreEABycfc
++ _$sSo19LACUserPasswordHashC23LocalAuthenticationCoreEABycfcTo
++ _$sSo19LACUserPasswordHashCML
++ _$sSo19LACUserPasswordHashCMa
++ _$sSo19LACUserPasswordHashCfETo
++ _$sSo20LACAnalyticsReporterC23LocalAuthenticationCoreE9sendEvent4name7payloadSbSS_SDySSypGtF
++ _$sSo20LACAnalyticsReporterC23LocalAuthenticationCoreE9sendEvent4name7payloadSbSS_SDySSypGtFSDySSSo8NSObjectCGSgycfU_TA
++ _$sSo20LACAnalyticsReporterC23LocalAuthenticationCoreE9sendEvent4name7payloadSbSS_SDySSypGtFTf4nnd_n
++ _$sSo20LACAnalyticsReporterC23LocalAuthenticationCoreE9sendEvent4name7payloadSbSS_SDySSypGtFTo
++ _$sSo20LACAnalyticsReporterC23LocalAuthenticationCoreEABycfC
++ _$sSo20LACAnalyticsReporterC23LocalAuthenticationCoreEABycfc
++ _$sSo20LACAnalyticsReporterC23LocalAuthenticationCoreEABycfcTo
++ _$sSo20LACAnalyticsReporterCML
++ _$sSo20LACAnalyticsReporterCMa
++ _$sSo20LACAnalyticsReporterCMaTm
++ _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor11uiPresenter5replyABSo012LACCompanionD12Coordinating_p_So0nD20EnvironmentProviding_pSo0nD17SessionMonitoring_pSo26LACUserInterfacePresenting_pSo17OS_dispatch_queueCtcfC
++ _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor11uiPresenter5replyABSo012LACCompanionD12Coordinating_p_So0nD20EnvironmentProviding_pSo0nD17SessionMonitoring_pSo26LACUserInterfacePresenting_pSo17OS_dispatch_queueCtcfc
++ _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor11uiPresenter5replyABSo012LACCompanionD12Coordinating_p_So0nD20EnvironmentProviding_pSo0nD17SessionMonitoring_pSo26LACUserInterfacePresenting_pSo17OS_dispatch_queueCtcfcTo
++ _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor5replyABSo012LACCompanionD12Coordinating_p_So0lD20EnvironmentProviding_pSo0lD17SessionMonitoring_pSo17OS_dispatch_queueCtcfC
++ _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor5replyABSo012LACCompanionD12Coordinating_p_So0lD20EnvironmentProviding_pSo0lD17SessionMonitoring_pSo17OS_dispatch_queueCtcfc
++ _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor5replyABSo012LACCompanionD12Coordinating_p_So0lD20EnvironmentProviding_pSo0lD17SessionMonitoring_pSo17OS_dispatch_queueCtcfcTo
++ _$sSo20LACUserAuthDaemonXPC_pMR
++ _$sSo20LACUserAuthDaemonXPC_pMd
++ _$sSo21LACRemoteUIControllerVMB
++ _$sSo21LACRemoteUIControllerVML
++ _$sSo21LACRemoteUIControllerVMa
++ _$sSo21LACRemoteUIControllerVMf
++ _$sSo21LACRemoteUIControllerVMn
++ _$sSo21LACRemoteUIControllerVSQSCMc
++ _$sSo21LACRemoteUIControllerVSQSCMcMK
++ _$sSo21LACRemoteUIControllerVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo21LACRemoteUIControllerVSYSCMA
++ _$sSo21LACRemoteUIControllerVSYSCMc
++ _$sSo21LACRemoteUIControllerVSYSCMcMK
++ _$sSo21LACRemoteUIControllerVSYSCSY8rawValue03RawD0QzvgTW
++ _$sSo21LACRemoteUIControllerVSYSCSY8rawValuexSg03RawD0Qz_tcfCTW
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE08passwordC0So0a8PasswordC0Cvg
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE08passwordC0So0a8PasswordC0CvgTo
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE08passwordC0So0a8PasswordC0CvpMV
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE08passwordC0So0a8PasswordC0CvpWvd
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLC4uuid10Foundation4UUIDVvpWvd
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMF
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMU
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMXX
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMa
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMf
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMl
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMm
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMn
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCMr
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCN
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLCfD
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE10properties33_6053F70B4993339D78D3AEF8B2C99DAFLLAbCE10PropertiesAELLCvpWvd
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE20supportsSecureCodingSbvgZ
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE20supportsSecureCodingSbvgZTo
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE20supportsSecureCodingSbvpZMV
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE4uuid08passwordC0AB10Foundation4UUIDV_So0a8PasswordC0CtcfC
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE4uuid08passwordC0AB10Foundation4UUIDV_So0a8PasswordC0Ctcfc
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE4uuid08passwordC0AB10Foundation4UUIDV_So0a8PasswordC0CtcfcTo
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE4uuid10Foundation4UUIDVvg
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE4uuid10Foundation4UUIDVvgTo
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE4uuid10Foundation4UUIDVvpMV
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE5coderABSgSo7NSCoderC_tcfC
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE5coderABSgSo7NSCoderC_tcfc
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE5coderABSgSo7NSCoderC_tcfcTo
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE6encode4withySo7NSCoderC_tF
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreE6encode4withySo7NSCoderC_tFTo
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreEABycfC
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreEABycfc
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreEABycfcTo
++ _$sSo21LACUserCredentialHashC23LocalAuthenticationCoreEMXE
++ _$sSo21LACUserCredentialHashCML
++ _$sSo21LACUserCredentialHashCMa
++ _$sSo21LACUserCredentialHashCfETo
++ _$sSo21NSXPCListenerEndpointCSgSo7NSErrorCSgIeyByy_ACs5Error_pSgIeggg_TR
++ _$sSo21NSXPCListenerEndpointCSgSo7NSErrorCSgIeyByy_ACs5Error_pSgIeggg_TRTA
++ _$sSo21NSXPCListenerEndpointCSgs5Error_pSgIeghgg_ACSo7NSErrorCSgIeyBhyy_TR
++ _$sSo22LACAuthenticatorHelperC23LocalAuthenticationCoreE15isOwnerRequired9forUserID13authenticatorSbSo8NSNumberCSg_So0A0atF
++ _$sSo22LACAuthenticatorHelperC23LocalAuthenticationCoreE15isOwnerRequired9forUserID13authenticatorSbSo8NSNumberCSg_So0A0atFTo
++ _$sSo22LACEvaluationEventTypeVMB
++ _$sSo22LACEvaluationEventTypeVML
++ _$sSo22LACEvaluationEventTypeVMa
++ _$sSo22LACEvaluationEventTypeVMf
++ _$sSo22LACEvaluationEventTypeVMn
++ _$sSo22LACEvaluationEventTypeVSQSCMc
++ _$sSo22LACEvaluationEventTypeVSQSCMcMK
++ _$sSo22LACEvaluationEventTypeVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo22LACEvaluationEventTypeVSYSCMA
++ _$sSo22LACEvaluationEventTypeVSYSCMc
++ _$sSo22LACEvaluationEventTypeVSYSCMcMK
++ _$sSo22LACEvaluationEventTypeVSYSCSY8rawValue03RawE0QzvgTW
++ _$sSo22LACEvaluationEventTypeVSYSCSY8rawValuexSg03RawE0Qz_tcfCTW
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE07enqueueB033_33D35B07E87CE40E9102E3935A3971C0LL7timeout5queue10completionySd_So012OS_dispatch_Q0CySo0aB6ResultCctF
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE07enqueueB033_33D35B07E87CE40E9102E3935A3971C0LL7timeout5queue10completionySd_So012OS_dispatch_Q0CySo0aB6ResultCctFyALYbcfU0_
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE07enqueueB033_33D35B07E87CE40E9102E3935A3971C0LL7timeout5queue10completionySd_So012OS_dispatch_Q0CySo0aB6ResultCctFyALYbcfU0_TA
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE07enqueueB033_33D35B07E87CE40E9102E3935A3971C0LL7timeout5queue10completionySd_So012OS_dispatch_Q0CySo0aB6ResultCctFyyALccfU_
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE07enqueueB033_33D35B07E87CE40E9102E3935A3971C0LL7timeout5queue10completionySd_So012OS_dispatch_Q0CySo0aB6ResultCctFyyALccfU_TA
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVMF
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVMXX
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVMa
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVMf
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVMn
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVN
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVWOh
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVWV
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVwet
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLVwst
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE10identifier33_33D35B07E87CE40E9102E3935A3971C0LLSSvpWvd
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE10identifier6workerABSS_yySo0aB6ResultCcctcfC
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE10identifier6workerABSS_yySo0aB6ResultCcctcfc
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE10identifier6workerABSS_yySo0aB6ResultCcctcfcTo
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE19startWorkerIfNeeded33_33D35B07E87CE40E9102E3935A3971C0LLyyF
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE19startWorkerIfNeeded33_33D35B07E87CE40E9102E3935A3971C0LLyyFyyYbcfU0_
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE19startWorkerIfNeeded33_33D35B07E87CE40E9102E3935A3971C0LLyyFyyYbcfU0_TA
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE19startWorkerIfNeeded33_33D35B07E87CE40E9102E3935A3971C0LLyyFyyYbcfU0_ySo0aB6ResultCcfU_
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE19startWorkerIfNeeded33_33D35B07E87CE40E9102E3935A3971C0LLyyFyyYbcfU0_ySo0aB6ResultCcfU_TA
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE3run7timeout5queue10completionySd_So012OS_dispatch_I0CySo0aB6ResultCctF
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE3run7timeout5queue10completionySd_So012OS_dispatch_I0CySo0aB6ResultCctFTo
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE5state33_33D35B07E87CE40E9102E3935A3971C0LL15Synchronization5MutexVyAbCE0B5StateAELLVGvpWvd
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE6worker33_33D35B07E87CE40E9102E3935A3971C0LLyyySo0aB6ResultCccvpWvd
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreEABycfC
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreEABycfc
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreEABycfcTo
++ _$sSo23LACBackgroundTaskQueuedC23LocalAuthenticationCoreEMXE
++ _$sSo23LACBackgroundTaskQueuedCML
++ _$sSo23LACBackgroundTaskQueuedCMa
++ _$sSo23LACBackgroundTaskQueuedCfETo
++ _$sSo23LACBackgroundTaskResultCIegg_ABIeyBy_TR
++ _$sSo23LACBackgroundTaskResultCIegg_ABytIegnr_TR
++ _$sSo23LACBackgroundTaskResultCIegg_ABytIegnr_TRTA
++ _$sSo23LACBackgroundTaskResultCIegg_Iegg_ABIeyBy_IeyBy_TR
++ _$sSo23LACBackgroundTaskResultCIeghg_ABIeyBhy_TR
++ _$sSo23LACBackgroundTaskResultCIeyBy_ABIegg_TR
++ _$sSo23LACBackgroundTaskResultCIeyBy_ABIegg_TRTA
++ _$sSo23LACBackgroundTaskResultCIeyBy_IeyBy_ABIegg_Iegg_TR
++ _$sSo23LACBackgroundTaskResultCIeyBy_IeyBy_ABIegg_Iegg_TRTA
++ _$sSo23LACEvaluationEventValue_pSgMR
++ _$sSo23LACEvaluationEventValue_pSgMd
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE011variableSetB011withMessages0B0_pSSSg_tFZ
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE011variableSetB011withMessages0B0_pSSSg_tFZTo
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE012notSupportedB0s0B0_pyFZ
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE012notSupportedB0s0B0_pyFZTf4d_n
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE012notSupportedB0s0B0_pyFZTo
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE014profileInstallB011withMessages0B0_pSSSg_tFZ
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE014profileInstallB011withMessages0B0_pSSSg_tFZTo
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE020passcodeVerificationB011withMessages0B0_pSSSg_tFZ
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE020passcodeVerificationB011withMessages0B0_pSSSg_tFZTo
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE020passcodeVerificationB011withMessages0B0_pSSSg_tFZToTm
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE07genericB0014withUnderlyingB0s0B0_psAF_pSg_tFZ
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE07genericB0014withUnderlyingB0s0B0_psAF_pSg_tFZTo
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE07genericB011withMessages0B0_pSSSg_tFZ
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE07genericB011withMessages0B0_pSSSg_tFZTo
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE5error018_8A82AD89295E086A9K13D159321BEB6BCLL4code010underlyingB0s0B0_pSo0aB4Codea_sAH_pSgtFZTf4nnd_n
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE5error018_8A82AD89295E086A9K13D159321BEB6BCLL4code7messages0B0_pSo0aB4Codea_SSSgtFZTf4nnd_n
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE5error_7hasCodeSbs0B0_pSg_So0abI0atFZ
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE5error_7hasCodeSbs0B0_pSg_So0abI0atFZTf4nnd_n
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreE5error_7hasCodeSbs0B0_pSg_So0abI0atFZTo
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreEABycfC
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreEABycfc
++ _$sSo23LACPreboardErrorBuilderC23LocalAuthenticationCoreEABycfcTo
++ _$sSo23LACPreboardErrorBuilderCML
++ _$sSo23LACPreboardErrorBuilderCMa
++ _$sSo23LACPreboardErrorBuilderCMaTm
++ _$sSo23os_eligibility_answer_taSQSCMc
++ _$sSo23os_eligibility_answer_taSQSCMcMK
++ _$sSo23os_eligibility_answer_taSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreE014makePersistentB019withCustomSuiteNameSo0aB0_pSS_tFZ
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreE014makePersistentB019withCustomSuiteNameSo0aB0_pSS_tFZTo
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreE014makePersistentB04typeSo0aB0_pAC0aB4TypeO_tFZ
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreE022makeStandardPersistentB0So0aB0_pyFZ
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreE022makeStandardPersistentB0So0aB0_pyFZTo
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreEABycfC
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreEABycfc
++ _$sSo25LACPersistentStoreFactoryC23LocalAuthenticationCoreEABycfcTo
++ _$sSo25LACPersistentStoreFactoryCML
++ _$sSo25LACPersistentStoreFactoryCMa
++ _$sSo26LACEventSimpleStatusFaceIDaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE15eventProcessingSDys11AnyHashableVypGSgvg
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE15eventProcessingSDys11AnyHashableVypGSgvgSo0A18UIManagerCompositeC_Tg5
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE15eventProcessingSDys11AnyHashableVypGSgvgSo0A18UIManagerCompositeC_Tg5Tm
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE15eventProcessingSDys11AnyHashableVypGSgvpMV
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE17isCustomUIAllowed3for15eventProcessingSbSo18LACEvaluationEventC_SDys11AnyHashableVypGSgtFZ
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE17isCustomUIAllowed3forSbSo18LACEvaluationEventC_tF
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE26isEventProcessedByCustomUI_15eventProcessingSbSo013LACEvaluationG0C_SDys11AnyHashableVypGSgtFZ
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE26isEventProcessedByCustomUI_15eventProcessingSbSo013LACEvaluationG0C_SDys11AnyHashableVypGSgtFZSo0A18UIManagerCompositeC_Tt1g5
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE26isEventProcessedByCustomUIySbSo013LACEvaluationG0CF
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE26isHostedControllerRequired3forSbSo18LACEvaluationEventC_tF
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE28shouldMirrorEventToDefaultUI_15eventProcessingSbSo013LACEvaluationH0C_SDys11AnyHashableVypGSgtFZ
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE28shouldMirrorEventToDefaultUI_15eventProcessingSbSo013LACEvaluationH0C_SDys11AnyHashableVypGSgtFZSo0A18UIManagerCompositeC_Tt1g5
++ _$sSo27LACAuthenticationUIManagingP23LocalAuthenticationCoreE28shouldMirrorEventToDefaultUIySbSo013LACEvaluationH0CF
++ _$sSo27LACAuthenticationUIManaging_pMR
++ _$sSo27LACAuthenticationUIManaging_pMd
++ _$sSo27LACEventSimpleStatusOpticIDaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo27LACEventSimpleStatusTouchIDaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE03sdkC033_EA85715A3F60EF57FA09725D43DC56D7LLSo12LACSDKHelperCvgTo
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE03sdkC033_EA85715A3F60EF57FA09725D43DC56D7LLSo12LACSDKHelperCvpWvd
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE03sdkC033_EA85715A3F60EF57FA09725D43DC56D7LLSo12LACSDKHelperCvsTo
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE14sharedInstance33_EA85715A3F60EF57FA09725D43DC56D7LLABvpZ
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE14sharedInstance33_EA85715A3F60EF57FA09725D43DC56D7LL_WZ
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE14sharedInstance33_EA85715A3F60EF57FA09725D43DC56D7LL_Wz
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE5flags33_EA85715A3F60EF57FA09725D43DC56D7LLSo8LACFlagsCvgTo
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE5flags33_EA85715A3F60EF57FA09725D43DC56D7LLSo8LACFlagsCvpWvd
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE5flags33_EA85715A3F60EF57FA09725D43DC56D7LLSo8LACFlagsCvsTo
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE6inject03sdkC0ySo12LACSDKHelperC_tF
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE6inject9allowListyAC0ab5AllowI0C_tF
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE6sharedABvgZ
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE6sharedABvgZTo
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE6sharedABvpZMV
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE9allowList33_EA85715A3F60EF57FA09725D43DC56D7LLAC0ab5AllowH0CvgTo
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE9allowList33_EA85715A3F60EF57FA09725D43DC56D7LLAC0ab5AllowH0CvpWvd
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreE9allowList33_EA85715A3F60EF57FA09725D43DC56D7LLAC0ab5AllowH0CvsTo
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreEABycfC
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreEABycfc
++ _$sSo29LACConcurrentEvaluationHelperC23LocalAuthenticationCoreEABycfcTo
++ _$sSo29LACConcurrentEvaluationHelperCML
++ _$sSo29LACConcurrentEvaluationHelperCMa
++ _$sSo29LACConcurrentEvaluationHelperCfETo
++ _$sSo29LACPasscodeVerificationResultVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo29LACPasscodeVerificationResultVSYSCSY8rawValue03RawE0QzvgTW
++ _$sSo29LACPhoneIntegrationControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor5replyABSo012LACCompanionE12Coordinating_p_So0mE20EnvironmentProviding_pSo0mE17SessionMonitoring_pSo17OS_dispatch_queueCtcfC
++ _$sSo29LACPhoneIntegrationControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor5replyABSo012LACCompanionE12Coordinating_p_So0mE20EnvironmentProviding_pSo0mE17SessionMonitoring_pSo17OS_dispatch_queueCtcfc
++ _$sSo29LACPhoneIntegrationControllerC23LocalAuthenticationCoreE13authenticator19environmentProvider14sessionMonitor5replyABSo012LACCompanionE12Coordinating_p_So0mE20EnvironmentProviding_pSo0mE17SessionMonitoring_pSo17OS_dispatch_queueCtcfcTo
++ _$sSo29LACUserIdentityCreationPolicya23LocalAuthenticationCoreE11recordValueAC0a6RecordbcD0Ovg
++ _$sSo29LACUserIdentityCreationPolicya23LocalAuthenticationCoreE11recordValueAC0a6RecordbcD0OvpMV
++ _$sSo29LACUserIdentityCreationPolicya23LocalAuthenticationCoreE4fromAbC0a6RecordbcD0O_tcfC
++ _$sSo29LACUserIdentityCreationPolicyaABSHSCWL
++ _$sSo29LACUserIdentityCreationPolicyaABSQSCWL
++ _$sSo29LACUserIdentityCreationPolicyaABSYSCWL
++ _$sSo29LACUserIdentityCreationPolicyaABs20_SwiftNewtypeWrapperSCWL
++ _$sSo29LACUserIdentityCreationPolicyaABs35_HasCustomAnyHashableRepresentationSCWL
++ _$sSo29LACUserIdentityCreationPolicyaMB
++ _$sSo29LACUserIdentityCreationPolicyaMF
++ _$sSo29LACUserIdentityCreationPolicyaML
++ _$sSo29LACUserIdentityCreationPolicyaMa
++ _$sSo29LACUserIdentityCreationPolicyaMf
++ _$sSo29LACUserIdentityCreationPolicyaMn
++ _$sSo29LACUserIdentityCreationPolicyaSHSCMc
++ _$sSo29LACUserIdentityCreationPolicyaSHSCMcMK
++ _$sSo29LACUserIdentityCreationPolicyaSHSCSH13_rawHashValue4seedS2i_tFTW
++ _$sSo29LACUserIdentityCreationPolicyaSHSCSH4hash4intoys6HasherVz_tFTW
++ _$sSo29LACUserIdentityCreationPolicyaSHSCSH9hashValueSivgTW
++ _$sSo29LACUserIdentityCreationPolicyaSHSCSQWb
++ _$sSo29LACUserIdentityCreationPolicyaSQSCMc
++ _$sSo29LACUserIdentityCreationPolicyaSQSCMcMK
++ _$sSo29LACUserIdentityCreationPolicyaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo29LACUserIdentityCreationPolicyaSYSCMA
++ _$sSo29LACUserIdentityCreationPolicyaSYSCMc
++ _$sSo29LACUserIdentityCreationPolicyaSYSCMcMK
++ _$sSo29LACUserIdentityCreationPolicyaSYSCSY8rawValue03RawF0QzvgTW
++ _$sSo29LACUserIdentityCreationPolicyaSYSCSY8rawValuexSg03RawF0Qz_tcfCTW
++ _$sSo29LACUserIdentityCreationPolicyas20_SwiftNewtypeWrapperSCMc
++ _$sSo29LACUserIdentityCreationPolicyas20_SwiftNewtypeWrapperSCMcMK
++ _$sSo29LACUserIdentityCreationPolicyas20_SwiftNewtypeWrapperSCSYWb
++ _$sSo29LACUserIdentityCreationPolicyas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentationPWb
++ _$sSo29LACUserIdentityCreationPolicyas21_ObjectiveCBridgeableSCMA
++ _$sSo29LACUserIdentityCreationPolicyas21_ObjectiveCBridgeableSCMc
++ _$sSo29LACUserIdentityCreationPolicyas21_ObjectiveCBridgeableSCMcMK
++ _$sSo29LACUserIdentityCreationPolicyas21_ObjectiveCBridgeableSCsACP016_forceBridgeFromE1C_6resulty01_E5CTypeQz_xSgztFZTW
++ _$sSo29LACUserIdentityCreationPolicyas21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromE1C_6resultSb01_E5CTypeQz_xSgztFZTW
++ _$sSo29LACUserIdentityCreationPolicyas21_ObjectiveCBridgeableSCsACP026_unconditionallyBridgeFromE1Cyx01_E5CTypeQzSgFZTW
++ _$sSo29LACUserIdentityCreationPolicyas21_ObjectiveCBridgeableSCsACP09_bridgeToE1C01_E5CTypeQzyFTW
++ _$sSo29LACUserIdentityCreationPolicyas35_HasCustomAnyHashableRepresentationSCMc
++ _$sSo29LACUserIdentityCreationPolicyas35_HasCustomAnyHashableRepresentationSCMcMK
++ _$sSo29LACUserIdentityCreationPolicyas35_HasCustomAnyHashableRepresentationSCsACP03_tofgH0s0gH0VSgyFTW
++ _$sSo30LACAuthenticationUIManagerTypeVSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo30LACAuthenticationUIManagerTypeVSYSCSY8rawValue03RawE0QzvgTW
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE10replyQueue33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo17OS_dispatch_queueCvgTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE10replyQueue33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo17OS_dispatch_queueCvpWvd
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE12stashRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLyyAC0ab7ManagedH0AELLCF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14activeRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLLSDySSSayAC0aB14ManagedRequestAELLCGGvW
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14activeRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLLSDySSSayAC0aB14ManagedRequestAELLCGGvWyyYbcfU_
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14activeRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLLSDySSSayAC0aB14ManagedRequestAELLCGGvWyyYbcfU_TA
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14activeRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLLSDySSSayAC0aB14ManagedRequestAELLCGGvpWvd
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14cancelRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLLyySayAC0aB14ManagedRequestAELLCGF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14idleUIGotFocus_10identifier10completionySo0A16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctFTf4dnnn_n
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14idleUIGotFocus_10identifier10completionySo0A16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctFyyYbcfU_
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14idleUIGotFocus_10identifier10completionySo0A16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctFyyYbcfU_TA
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE14unstashRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLyyAC0ab7ManagedH0AELLCF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE15restartRequests12forContextID13unpauseEventsy10Foundation4UUIDV_SbtF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE15restartRequests12forContextID13unpauseEventsy10Foundation4UUIDV_SbtFTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE15stashedRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLL9contextIDSayAC0aB14ManagedRequestAELLCG10Foundation4UUIDV_tF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE15stashedRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLLSayAC0aB14ManagedRequestAELLCGvpWvd
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE17canUnstashRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLSbvg
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE17sessionIdentifier33_53C4CF2605483CE5CE76F1EC3A4D036FLL3forSSSgSo20LACEvaluationRequest_p_tF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE18hasStashedRequests12forContextIDSb10Foundation4UUIDV_tF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE18hasStashedRequests12forContextIDSb10Foundation4UUIDV_tFTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE19removeActiveRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLL_4withyAC0ab7ManagedI0AELLC_SStF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE20connectedUIInstances33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo10NSMapTableCySo8NSNumberCSo0A16IdleUIPresenting_pGvgTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE20connectedUIInstances33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo10NSMapTableCySo8NSNumberCSo0A16IdleUIPresenting_pGvpWvd
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE20connectedUIInstances33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo10NSMapTableCySo8NSNumberCSo0A16IdleUIPresenting_pGvsTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE20retryStashedRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLL9contextID13unpauseEventsy10Foundation4UUIDV_SbtF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE20specializedObservers33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo10NSMapTableCySo20LACEvaluationRequest_pSo0abC8Observer_pGvgTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE20specializedObservers33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo10NSMapTableCySo20LACEvaluationRequest_pSo0abC8Observer_pGvpWvd
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE20specializedObservers33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo10NSMapTableCySo20LACEvaluationRequest_pSo0abC8Observer_pGvsTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE21cancelStashedRequests33_53C4CF2605483CE5CE76F1EC3A4D036FLL9contextIDy10Foundation4UUIDV_tF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE22activeOrStashedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLL4withAC0ab7ManagedJ0AELLCSgs6UInt32V_tF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE24unstashRequestIfPossible33_53C4CF2605483CE5CE76F1EC3A4D036FLLyyF
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE6helper33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo0aB6HelperCvgTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE6helper33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo0aB6HelperCvpWvd
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE6helper5replyABSo0aB6HelperC_So17OS_dispatch_queueCtcfC
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE6helper5replyABSo0aB6HelperC_So17OS_dispatch_queueCtcfc
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE6helper5replyABSo0aB6HelperC_So17OS_dispatch_queueCtcfcTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE6helper5replyABSo0aB6HelperC_So17OS_dispatch_queueCtcfcfA_
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE7connect_10identifier10completionySo0A16IdleUIPresenting_p_So8NSNumberCySo0aJ10UIHandling_pSg_s5Error_pSgtctFyyYbcfU_
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE7connect_10identifier10completionySo0A16IdleUIPresenting_p_So8NSNumberCySo0aJ10UIHandling_pSg_s5Error_pSgtctFyyYbcfU_TA
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE9observers33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo11NSHashTableCySo0abC8Observer_pGvgTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE9observers33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo11NSHashTableCySo0abC8Observer_pGvpWvd
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE9observers33_53C4CF2605483CE5CE76F1EC3A4D036FLLSo11NSHashTableCySo0abC8Observer_pGvsTo
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreEABycfC
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreEABycfc
++ _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreEABycfcTo
++ _$sSo30LACConcurrentEvaluationManagerCML
++ _$sSo30LACConcurrentEvaluationManagerCMa
++ _$sSo30LACConcurrentEvaluationManagerCfETo
++ _$sSo30LACEvaluationRequestPayloadKeyaABSHSCWL
++ _$sSo30LACEvaluationRequestPayloadKeyaABSHSCWl
++ _$sSo30LACEvaluationRequestPayloadKeyaABSHSCWlTm
++ _$sSo30LACEvaluationRequestPayloadKeyaABSQSCWL
++ _$sSo30LACEvaluationRequestPayloadKeyaABSYSCWL
++ _$sSo30LACEvaluationRequestPayloadKeyaABs20_SwiftNewtypeWrapperSCWL
++ _$sSo30LACEvaluationRequestPayloadKeyaABs35_HasCustomAnyHashableRepresentationSCWL
++ _$sSo30LACEvaluationRequestPayloadKeyaMB
++ _$sSo30LACEvaluationRequestPayloadKeyaMF
++ _$sSo30LACEvaluationRequestPayloadKeyaML
++ _$sSo30LACEvaluationRequestPayloadKeyaMa
++ _$sSo30LACEvaluationRequestPayloadKeyaMf
++ _$sSo30LACEvaluationRequestPayloadKeyaMn
++ _$sSo30LACEvaluationRequestPayloadKeyaSHSCMc
++ _$sSo30LACEvaluationRequestPayloadKeyaSHSCMcMK
++ _$sSo30LACEvaluationRequestPayloadKeyaSHSCSH13_rawHashValue4seedS2i_tFTW
++ _$sSo30LACEvaluationRequestPayloadKeyaSHSCSH4hash4intoys6HasherVz_tFTW
++ _$sSo30LACEvaluationRequestPayloadKeyaSHSCSH9hashValueSivgTW
++ _$sSo30LACEvaluationRequestPayloadKeyaSHSCSQWb
++ _$sSo30LACEvaluationRequestPayloadKeyaSQSCMc
++ _$sSo30LACEvaluationRequestPayloadKeyaSQSCMcMK
++ _$sSo30LACEvaluationRequestPayloadKeyaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo30LACEvaluationRequestPayloadKeyaSYSCMA
++ _$sSo30LACEvaluationRequestPayloadKeyaSYSCMc
++ _$sSo30LACEvaluationRequestPayloadKeyaSYSCMcMK
++ _$sSo30LACEvaluationRequestPayloadKeyaSYSCSY8rawValue03RawF0QzvgTW
++ _$sSo30LACEvaluationRequestPayloadKeyaSYSCSY8rawValuexSg03RawF0Qz_tcfCTW
++ _$sSo30LACEvaluationRequestPayloadKeya_yptMR
++ _$sSo30LACEvaluationRequestPayloadKeya_yptMd
++ _$sSo30LACEvaluationRequestPayloadKeyas20_SwiftNewtypeWrapperSCMc
++ _$sSo30LACEvaluationRequestPayloadKeyas20_SwiftNewtypeWrapperSCMcMK
++ _$sSo30LACEvaluationRequestPayloadKeyas20_SwiftNewtypeWrapperSCSYWb
++ _$sSo30LACEvaluationRequestPayloadKeyas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentationPWb
++ _$sSo30LACEvaluationRequestPayloadKeyas21_ObjectiveCBridgeableSCMA
++ _$sSo30LACEvaluationRequestPayloadKeyas21_ObjectiveCBridgeableSCMc
++ _$sSo30LACEvaluationRequestPayloadKeyas21_ObjectiveCBridgeableSCMcMK
++ _$sSo30LACEvaluationRequestPayloadKeyas21_ObjectiveCBridgeableSCsACP016_forceBridgeFromE1C_6resulty01_E5CTypeQz_xSgztFZTW
++ _$sSo30LACEvaluationRequestPayloadKeyas21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromE1C_6resultSb01_E5CTypeQz_xSgztFZTW
++ _$sSo30LACEvaluationRequestPayloadKeyas21_ObjectiveCBridgeableSCsACP026_unconditionallyBridgeFromE1Cyx01_E5CTypeQzSgFZTW
++ _$sSo30LACEvaluationRequestPayloadKeyas21_ObjectiveCBridgeableSCsACP09_bridgeToE1C01_E5CTypeQzyFTW
++ _$sSo30LACEvaluationRequestPayloadKeyas35_HasCustomAnyHashableRepresentationSCMc
++ _$sSo30LACEvaluationRequestPayloadKeyas35_HasCustomAnyHashableRepresentationSCMcMK
++ _$sSo30LACEvaluationRequestPayloadKeyas35_HasCustomAnyHashableRepresentationSCsACP03_tofgH0s0gH0VSgyFTW
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE12biometryType33_07204A4A528F3FCFCED6D06F0BA4C8C9LLSo011LACBiometryI0avg
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE12biometryType33_07204A4A528F3FCFCED6D06F0BA4C8C9LLSo011LACBiometryI0avgTo
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE12biometryType33_07204A4A528F3FCFCED6D06F0BA4C8C9LLSo011LACBiometryI0avsTo
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE14processRequest_13configuration10completionySo013LACEvaluationI0_p_So26LACProcessingConfigurationCySo0L6ResultCYbctF
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE14processRequest_13configuration10completionySo013LACEvaluationI0_p_So26LACProcessingConfigurationCySo0L6ResultCYbctF06$sSo19lO18CIeyBhy_ABIeghg_TRAKIeyBhy_Tf1nncn_nTf4ndng_n
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE14processRequest_13configuration10completionySo013LACEvaluationI0_p_So26LACProcessingConfigurationCySo0L6ResultCYbctFTo
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE17canProcessRequestySbSo013LACEvaluationJ0_pF
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE17canProcessRequestySbSo013LACEvaluationJ0_pFTo
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreE30$__lazy_storage_$_biometryType33_07204A4A528F3FCFCED6D06F0BA4C8C9LLSo011LACBiometryK0aSgvpWvd
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreEABycfC
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreEABycfc
++ _$sSo30LACMaxBiometryFailureProcessorC23LocalAuthenticationCoreEABycfcTo
++ _$sSo30LACMaxBiometryFailureProcessorCML
++ _$sSo30LACMaxBiometryFailureProcessorCMa
++ _$sSo30LACPasscodeVerificationRequest_pMR
++ _$sSo30LACPasscodeVerificationRequest_pMd
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE10uiDelegate33_754F01E820D3A765772E197EFBEF70D7LLSo20LACContextUIDelegate_pSgvgTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE10uiDelegate33_754F01E820D3A765772E197EFBEF70D7LLSo20LACContextUIDelegate_pSgvpWvd
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE10uiDelegate33_754F01E820D3A765772E197EFBEF70D7LLSo20LACContextUIDelegate_pSgvsTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvg
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvgTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvpMV
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvpWvd
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvs
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvsTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvg
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvgTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpABTK
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpABTk
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpMV
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpWvd
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvs
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvsTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE21shouldWaitForResponse3forSbSo18LACEvaluationEventC_tF
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE4typeSo0aB4TypeVvg
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE4typeSo0aB4TypeVvgTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE4typeSo0aB4TypeVvpMV
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE4typeSo0aB4TypeVvpWvd
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtYbcSgtF
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtYbcSgtFTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtYbcSgtFyAK_AMtYbcfU_
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtYbcSgtFyAK_AMtYbcfU_TA
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE7request10uiDelegateABSo20LACEvaluationRequest_p_So20LACContextUIDelegate_ptcfC
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE7request10uiDelegateABSo20LACEvaluationRequest_p_So20LACContextUIDelegate_ptcfc
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE7request10uiDelegateABSo20LACEvaluationRequest_p_So20LACContextUIDelegate_ptcfcTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvg
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvgTo
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvpMV
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvpWvd
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreEABycfC
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreEABycfc
++ _$sSo32LACAuthenticationUIManagerCustomC23LocalAuthenticationCoreEABycfcTo
++ _$sSo32LACAuthenticationUIManagerCustomCML
++ _$sSo32LACAuthenticationUIManagerCustomCMa
++ _$sSo32LACAuthenticationUIManagerCustomCfETo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE04failE9WithErroryys0I0_pF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE04failE9WithErroryys0I0_pFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE06remoteB033_133DE288B3C7AFAB70661BFD8B7619E3LLSo19LACRemoteUIManaging_pvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE06remoteB033_133DE288B3C7AFAB70661BFD8B7619E3LLSo19LACRemoteUIManaging_pvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10instanceIds6UInt32Vvg
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10instanceIds6UInt32VvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10instanceIds6UInt32VvpMV
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10instanceIds6UInt32VvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10transition33_133DE288B3C7AFAB70661BFD8B7619E3LL2to10completionySo21LACRemoteUIControllerV_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10transition33_133DE288B3C7AFAB70661BFD8B7619E3LL2to10completionySo21LACRemoteUIControllerV_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFySb_AOtYbcfU0_
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10transition33_133DE288B3C7AFAB70661BFD8B7619E3LL2to10completionySo21LACRemoteUIControllerV_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFySb_AOtYbcfU0_TA
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10transition33_133DE288B3C7AFAB70661BFD8B7619E3LL2to10completionySo21LACRemoteUIControllerV_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFySb_AOtcfU_
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE10transition33_133DE288B3C7AFAB70661BFD8B7619E3LL2to10completionySo21LACRemoteUIControllerV_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFySb_AOtcfU_TA
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE11setActivity33_133DE288B3C7AFAB70661BFD8B7619E3LL4fromySo023LACEvaluationEventValueH0_p_tF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE11setActivity33_133DE288B3C7AFAB70661BFD8B7619E3LL4fromySo023LACEvaluationEventValueH0_p_tFyycfU_
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tF032$sSo12NSDictionaryCIeyBhy_SDys11jK12VypGIeghg_TRSo0N0CIeyBhy_Tf1cn_nTf4ng_n
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tFyAHYbcfU_TA
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE13uiDisappeared33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE13uiDisappeared33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE13uiDisappeared33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE14isUIEventValid33_133DE288B3C7AFAB70661BFD8B7619E3LLySbSo09LACRemoteH0VF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvg
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvpMV
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvs
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiTransitioning33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiTransitioning33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE15uiTransitioning33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE16activeMechanisms33_133DE288B3C7AFAB70661BFD8B7619E3LLShySo8LACEventaGvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE16activeMechanisms33_133DE288B3C7AFAB70661BFD8B7619E3LLShySo8LACEventaGvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE16activeMechanisms33_133DE288B3C7AFAB70661BFD8B7619E3LLShySo8LACEventaGvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE16shouldTearDownUI33_133DE288B3C7AFAB70661BFD8B7619E3LL3forSbs5Error_pSg_tF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18anonymousListeners33_133DE288B3C7AFAB70661BFD8B7619E3LLSaySo13NSXPCListenerCGvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18anonymousListeners33_133DE288B3C7AFAB70661BFD8B7619E3LLSaySo13NSXPCListenerCGvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18anonymousListeners33_133DE288B3C7AFAB70661BFD8B7619E3LLSaySo13NSXPCListenerCGvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18disconnectRemoteUIyyF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18disconnectRemoteUIyyFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18notificationCenter33_133DE288B3C7AFAB70661BFD8B7619E3LLSo0A11UINotifying_pvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18notificationCenter33_133DE288B3C7AFAB70661BFD8B7619E3LLSo0A11UINotifying_pvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18notificationCenter33_133DE288B3C7AFAB70661BFD8B7619E3LLSo0A11UINotifying_pvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18uiFailureWithErroryys0J0_pF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE18uiFailureWithErroryys0J0_pFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvg
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpABTK
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpABTk
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpMV
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvs
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19invalidateListeners33_133DE288B3C7AFAB70661BFD8B7619E3LLyyF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19presentedController33_133DE288B3C7AFAB70661BFD8B7619E3LLSo21LACRemoteUIControllerVvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19presentedController33_133DE288B3C7AFAB70661BFD8B7619E3LLSo21LACRemoteUIControllerVvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE19presentedController33_133DE288B3C7AFAB70661BFD8B7619E3LLSo21LACRemoteUIControllerVvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE20handleMechanismEvent33_133DE288B3C7AFAB70661BFD8B7619E3LL_10completionySo013LACEvaluationI0C_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE20handleMechanismEvent33_133DE288B3C7AFAB70661BFD8B7619E3LL_10completionySo013LACEvaluationI0C_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyyYbcfU_TA
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE20isCallerInForeground33_133DE288B3C7AFAB70661BFD8B7619E3LL3forSbSo8LACEventa_tF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE21handleActivationEvent33_133DE288B3C7AFAB70661BFD8B7619E3LL_5value10completionySo013LACEvaluationI0C_So0sI13ValueActivity_pySDys11AnyHashableVypGSg_s5Error_pSgtcSgtF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE21ignoreUIDisappearance33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE21ignoreUIDisappearance33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE21ignoreUIDisappearance33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE22controllerForMechanism33_133DE288B3C7AFAB70661BFD8B7619E3LLySo21LACRemoteUIControllerVSo8LACEventaFTf4nd_n
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE23restartRemoteUIIfNeeded33_133DE288B3C7AFAB70661BFD8B7619E3LL3for10completionySo21LACRemoteUIControllerV_yyctF06$sSo33abc3C23def17E9presentUI33_133klmnopQ92LL3for10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyycfU0_ABSgXwz_XxAISDys11AnyHashableVypGSgs5Error_pSgIeggg_Tf1ncn_nTf4nngng_n
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE25checkHasPendingUIRequests3for10completionySo11LACRemoteUI_p_ySo0m6UIHostI7RequestVYbctF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE25checkHasPendingUIRequests3for10completionySo11LACRemoteUI_p_ySo0m6UIHostI7RequestVYbctFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE25shouldShowUIBeforeFailure33_133DE288B3C7AFAB70661BFD8B7619E3LL3for5event5valueSbSo8LACEventa_So17LACMechanismEventVypSgtF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE4typeSo0aB4TypeVvg
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE4typeSo0aB4TypeVvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE4typeSo0aB4TypeVvpMV
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE4typeSo0aB4TypeVvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAK_AMtcfU_
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAK_AMtcfU_TA
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7connect_9requestID5replyySo11LACRemoteUI_p_So8NSNumberCSgySo14LACUIMechanism_pSg_So17LACBackoffCounter_pSg10Foundation4DataVSgs5Error_pSgtYbctF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7connect_9requestID5replyySo11LACRemoteUI_p_So8NSNumberCSgySo14LACUIMechanism_pSg_So17LACBackoffCounter_pSg10Foundation4DataVSgs5Error_pSgtYbctF06$sSo14n8_pSgSo17op2_pv22So6NSDataCSgSo7NSErrorz26IeyBhyyyy_AbD10Foundation4r5VSgs5s2_pV11Ieghgggg_TRAlNSo0Y0CSgSo7NSErrorCSgIeyBhyyyy_Tf1nncn_nTf4nnng_n
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7connect_9requestID5replyySo11LACRemoteUI_p_So8NSNumberCSgySo14LACUIMechanism_pSg_So17LACBackoffCounter_pSg10Foundation4DataVSgs5Error_pSgtYbctFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7request06remoteB0ABSo20LACEvaluationRequest_p_So19LACRemoteUIManaging_ptcfC
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7request06remoteB0ABSo20LACEvaluationRequest_p_So19LACRemoteUIManaging_ptcfc
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7request06remoteB0ABSo20LACEvaluationRequest_p_So19LACRemoteUIManaging_ptcfcTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvg
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvpMV
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7uiEvent_7optionsySo16LACRemoteUIEventV_SDys11AnyHashableVypGSgtF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE7uiEvent_7optionsySo16LACRemoteUIEventV_SDys11AnyHashableVypGSgtFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE8isActive33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE8isActive33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE8isActive33_133DE288B3C7AFAB70661BFD8B7619E3LLSbvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE8remoteUI33_133DE288B3C7AFAB70661BFD8B7619E3LLSo09LACRemoteH0_pSgvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE8remoteUI33_133DE288B3C7AFAB70661BFD8B7619E3LLSo09LACRemoteH0_pSgvpWvd
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE8remoteUI33_133DE288B3C7AFAB70661BFD8B7619E3LLSo09LACRemoteH0_pSgvsTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9isRunningSbvg
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9isRunningSbvgTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9isRunningSbvpMV
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9presentUI33_133DE288B3C7AFAB70661BFD8B7619E3LL3for10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9presentUI33_133DE288B3C7AFAB70661BFD8B7619E3LL3for10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAM_AOtcfU_
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9presentUI33_133DE288B3C7AFAB70661BFD8B7619E3LL3for10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAM_AOtcfU_TA
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9presentUI33_133DE288B3C7AFAB70661BFD8B7619E3LL3for10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyycfU0_
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9presentUI33_133DE288B3C7AFAB70661BFD8B7619E3LL3for10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyycfU0_TA
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9uiSuccess10withResultySDys11AnyHashableVypG_tF
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreE9uiSuccess10withResultySDys11AnyHashableVypG_tFTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreEABycfC
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreEABycfc
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreEABycfcTo
++ _$sSo33LACAuthenticationUIManagerDefaultC23LocalAuthenticationCoreEfDTo
++ _$sSo33LACAuthenticationUIManagerDefaultCML
++ _$sSo33LACAuthenticationUIManagerDefaultCMa
++ _$sSo33LACAuthenticationUIManagerDefaultCMaTm
++ _$sSo33LACAuthenticationUIManagerDefaultCfETo
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreE010makeCustomB03for10uiDelegateSo0A10UIManaging_pSgSo20LACEvaluationRequest_p_So20LACContextUIDelegate_pSgtFZ
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreE010makeCustomB03for10uiDelegateSo0A10UIManaging_pSgSo20LACEvaluationRequest_p_So20LACContextUIDelegate_pSgtFZTo
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreE11makeManager3for10uiDelegate06remoteB0So0A10UIManaging_pSgSo20LACEvaluationRequest_p_So20LACContextUIDelegate_pSgSo09LACRemoteM0_ptFZ
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreE11makeManager3for10uiDelegate06remoteB0So0A10UIManaging_pSgSo20LACEvaluationRequest_p_So20LACContextUIDelegate_pSgSo09LACRemoteM0_ptFZTf4nnnd_n
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreE11makeManager3for10uiDelegate06remoteB0So0A10UIManaging_pSgSo20LACEvaluationRequest_p_So20LACContextUIDelegate_pSgSo09LACRemoteM0_ptFZTo
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreEABycfC
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreEABycfc
++ _$sSo33LACAuthenticationUIManagerFactoryC23LocalAuthenticationCoreEABycfcTo
++ _$sSo33LACAuthenticationUIManagerFactoryCML
++ _$sSo33LACAuthenticationUIManagerFactoryCMa
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE10replyQueue33_B20759493EBCB91BB3A15EB6EC943959LLSo17OS_dispatch_queueCvgTo
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE10replyQueue33_B20759493EBCB91BB3A15EB6EC943959LLSo17OS_dispatch_queueCvpWvd
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE11shouldStash33_B20759493EBCB91BB3A15EB6EC943959LL7request3forSbSo20LACEvaluationRequest_p_So0Q6ResultCtF
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE11systemReady3for7managerySo20LACEvaluationRequest_p_So0aB8Managing_ptF
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE11systemReady3for7managerySo20LACEvaluationRequest_p_So0aB8Managing_ptFTo
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE11systemReady3for7managerySo20LACEvaluationRequest_p_So0aB8Managing_ptFToTm
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE12stashRequest33_B20759493EBCB91BB3A15EB6EC943959LL_3for10completionySo013LACEvaluationH0_p_s5Error_pySo0Q6ResultCctF
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE14processRequest_13configuration10completionySo013LACEvaluationH0_p_So26LACProcessingConfigurationCySo0K6ResultCctF06$sSo19kN16CIeyBy_ABIegg_TRAKIeyBy_Tf1nncn_nTf4ndng_n
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE15stashedRequests33_B20759493EBCB91BB3A15EB6EC943959LLSayAC0aB14StashedRequestAELLVGvpWvd
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE15systemDidCancel_7managerySo20LACEvaluationRequest_p_So0aB8Managing_ptF
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE15systemDidCancel_7managerySo20LACEvaluationRequest_p_So0aB8Managing_ptFTo
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE22idleUIListenerProvider33_B20759493EBCB91BB3A15EB6EC943959LLSo0a4IdlehI0CvgTo
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE22idleUIListenerProvider33_B20759493EBCB91BB3A15EB6EC943959LLSo0a4IdlehI0CvpWvd
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE6helper33_B20759493EBCB91BB3A15EB6EC943959LLSo0aB6HelperCvgTo
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE6helper33_B20759493EBCB91BB3A15EB6EC943959LLSo0aB6HelperCvpWvd
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE6helper7manager5replyABSo0aB6HelperC_So0aB8Managing_pSo17OS_dispatch_queueCtcfC
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE6helper7manager5replyABSo0aB6HelperC_So0aB8Managing_pSo17OS_dispatch_queueCtcfc
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE6helper7manager5replyABSo0aB6HelperC_So0aB8Managing_pSo17OS_dispatch_queueCtcfcTf4ggnn_n
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE6helper7manager5replyABSo0aB6HelperC_So0aB8Managing_pSo17OS_dispatch_queueCtcfcTo
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE7manager33_B20759493EBCB91BB3A15EB6EC943959LLSo0aB8Managing_pvgTo
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE7manager33_B20759493EBCB91BB3A15EB6EC943959LLSo0aB8Managing_pvpWvd
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreEABycfC
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreEABycfc
++ _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreEABycfcTo
++ _$sSo33LACConcurrentEvaluationControllerCML
++ _$sSo33LACConcurrentEvaluationControllerCMa
++ _$sSo33LACConcurrentEvaluationControllerCMaTm
++ _$sSo33LACConcurrentEvaluationControllerCfETo
++ _$sSo34LACConcurrentEvaluationConfiguring_pMR
++ _$sSo34LACConcurrentEvaluationConfiguring_pMd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE10eventQueue33_4B59AD686FF385BF9B0F48EB7A134915LLSayAC11QueuedEventAELLVGvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tF032$sSo12NSDictionaryCIeyBhy_SDys11jK12VypGIeghg_TRSo0N0CIeyBhy_Tf1cn_nTf4ng_n
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tFTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE12internalInfo5replyyySDys11AnyHashableVypGYbc_tFyAHYbcfU_TA
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE14backoffCounterSo010LACBackoffH0_pSgvg
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE14backoffCounterSo010LACBackoffH0_pSgvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE14backoffCounterSo010LACBackoffH0_pSgvpMV
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE14dumpEventQueue33_4B59AD686FF385BF9B0F48EB7A134915LLyyF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15shouldFinishRun10withResult5errorSbSDys11AnyHashableVypGSg_s5Error_pSgtF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15shouldFinishRun10withResult5errorSbSDys11AnyHashableVypGSg_s5Error_pSgtFTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvg
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvpMV
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvs
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE15uiEventDelegateSo0A7UIProxy_pSgvsTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE16customUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvgAGyXEfU_
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE16customUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvgTm
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE16customUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE16customUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvgToTm
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE16customUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvsTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE16customUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvsToTm
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE17defaultUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvgAGyXEfU_
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE17defaultUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE17defaultUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvsTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvg
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpABTK
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpABTk
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpMV
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvs
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19authenticationHintsSDys11AnyHashableVypGSgvsTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19externalizedContext10Foundation4DataVyKF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19externalizedContext10Foundation4DataVyKFTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE19managersForHandling33_4B59AD686FF385BF9B0F48EB7A134915LL5eventSaySo0A10UIManaging_pGSo18LACEvaluationEventC_tF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE20extendedInternalInfo33_4B59AD686FF385BF9B0F48EB7A134915LLSDys11AnyHashableVypGvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE20extendedInternalInfo33_4B59AD686FF385BF9B0F48EB7A134915LLSDys11AnyHashableVypGvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE20extendedInternalInfo33_4B59AD686FF385BF9B0F48EB7A134915LLSDys11AnyHashableVypGvsTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE21dequeueAndHandleEvent33_4B59AD686FF385BF9B0F48EB7A134915LLyyF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE21dequeueAndHandleEvent33_4B59AD686FF385BF9B0F48EB7A134915LLyyFySDys11AnyHashableVypGSg_s5Error_pSgtcfU_
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE21dequeueAndHandleEvent33_4B59AD686FF385BF9B0F48EB7A134915LLyyFySDys11AnyHashableVypGSg_s5Error_pSgtcfU_TA
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE31extendedInternalInfoForRemoteUISDys11AnyHashableVypGyF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE31extendedInternalInfoForRemoteUISDys11AnyHashableVypGyFTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE34$__lazy_storage_$_customUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGSgvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE35$__lazy_storage_$_defaultUIManagers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGSgvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE4typeSo0aB4TypeVvg
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE4typeSo0aB4TypeVvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE4typeSo0aB4TypeVvpMV
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE4typeSo0aB4TypeVvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE5setup33_4B59AD686FF385BF9B0F48EB7A134915LLyyF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle33_4B59AD686FF385BF9B0F48EB7A134915LL_4with5index10completionySo18LACEvaluationEventC_SaySo0A10UIManaging_pGSiySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAP_ARtYbcfU_
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle33_4B59AD686FF385BF9B0F48EB7A134915LL_4with5index10completionySo18LACEvaluationEventC_SaySo0A10UIManaging_pGSiySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAP_ARtYbcfU_TA
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle33_4B59AD686FF385BF9B0F48EB7A134915LL_4with5index10completionySo18LACEvaluationEventC_SaySo0A10UIManaging_pGSiySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAP_ARtYbcfU_TATm
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle33_4B59AD686FF385BF9B0F48EB7A134915LL_4with5index10completionySo18LACEvaluationEventC_SaySo0A10UIManaging_pGSiySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAP_ARtYbcfU_yAP_ARtcfU_
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle33_4B59AD686FF385BF9B0F48EB7A134915LL_4with5index10completionySo18LACEvaluationEventC_SaySo0A10UIManaging_pGSiySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFyAP_ARtYbcfU_yAP_ARtcfU_TA
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle_10completionySo18LACEvaluationEventC_ySDys11AnyHashableVypGSg_s5Error_pSgtcSgtFTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7request8managersABSo20LACEvaluationRequest_p_SaySo0A10UIManaging_pGtcfC
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7request8managersABSo20LACEvaluationRequest_p_SaySo0A10UIManaging_pGtcfc
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7request8managersABSo20LACEvaluationRequest_p_SaySo0A10UIManaging_pGtcfcTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvg
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvpMV
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7requestSo20LACEvaluationRequest_pvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7uiEvent_7optionsySo16LACRemoteUIEventV_SDys11AnyHashableVypGSgtF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE7uiEvent_7optionsySo16LACRemoteUIEventV_SDys11AnyHashableVypGSgtFTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE8managers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvgTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE8managers33_4B59AD686FF385BF9B0F48EB7A134915LLSaySo0A10UIManaging_pGvpWvd
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE9finishRun10withResult5errorySDys11AnyHashableVypGSg_s5Error_pSgtF
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE9finishRun10withResult5errorySDys11AnyHashableVypGSg_s5Error_pSgtFTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreEABycfC
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreEABycfc
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreEABycfcTo
++ _$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreEfDTo
++ _$sSo35LACAuthenticationUIManagerCompositeCML
++ _$sSo35LACAuthenticationUIManagerCompositeCMa
++ _$sSo35LACAuthenticationUIManagerCompositeCMaTm
++ _$sSo35LACAuthenticationUIManagerCompositeCfETo
++ _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE13authenticator19environmentProvider14sessionMonitor5replyABSo0aB12Coordinating_p_So0aB20EnvironmentProviding_pSo0aB17SessionMonitoring_pSo17OS_dispatch_queueCtcfC
++ _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE13authenticator19environmentProvider14sessionMonitor5replyABSo0aB12Coordinating_p_So0aB20EnvironmentProviding_pSo0aB17SessionMonitoring_pSo17OS_dispatch_queueCtcfc
++ _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE13authenticator19environmentProvider14sessionMonitor5replyABSo0aB12Coordinating_p_So0aB20EnvironmentProviding_pSo0aB17SessionMonitoring_pSo17OS_dispatch_queueCtcfcTo
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE02isB9OffloadedSbvg
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE02isB9OffloadedSbvgTo
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE02isB9OffloadedSbvpMV
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE02isB9OffloadedSbvpWvd
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE02isB9OffloadedSbvs
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE02isB9OffloadedSbvsTo
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE14idleUIListenerSo13NSXPCListenerCSgvg
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE14idleUIListenerSo13NSXPCListenerCSgvgTo
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE14idleUIListenerSo13NSXPCListenerCSgvpMV
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE14idleUIListenerSo13NSXPCListenerCSgvpWvd
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE14idleUIListenerSo13NSXPCListenerCSgvs
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreE14idleUIListenerSo13NSXPCListenerCSgvsTo
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreEABycfC
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreEABycfc
++ _$sSo36LACConcurrentEvaluationConfigurationC23LocalAuthenticationCoreEABycfcTo
++ _$sSo36LACConcurrentEvaluationConfigurationCML
++ _$sSo36LACConcurrentEvaluationConfigurationCMa
++ _$sSo36LACConcurrentEvaluationConfigurationCfETo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvg
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvgTm
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvgTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvgToTm
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvpABTK
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvpABTk
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvpMV
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvpWvd
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvs
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvsTm
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvsTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE10pamServiceSSSgvsToTm
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE13authenticatorSo16LACAuthenticatoravg
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE13authenticatorSo16LACAuthenticatoravgTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE13authenticatorSo16LACAuthenticatoravpMV
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE13authenticatorSo16LACAuthenticatoravpWvd
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE13authenticatorSo16LACAuthenticatoravs
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE13authenticatorSo16LACAuthenticatoravsTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvg
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvgTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvpABTK
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvpABTk
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvpMV
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvpWvd
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvs
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7pamUserSSSgvsTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7requestABSo011LACPasscodecD0_p_tcfC
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7requestABSo011LACPasscodecD0_p_tcfc
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE7requestABSo011LACPasscodecD0_p_tcfcTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvg
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvgTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvpABTK
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvpABTk
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvpMV
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvpWvd
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvs
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8pamToken10Foundation4DataVSgvsTo
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8passcode10acmContext10auditToken10pamService0M4User0mL0ABSo13LACSecureDataCSg_10Foundation0Q0VSo08LACAuditL0CSSSgArOSgtcfC
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8passcode10acmContext10auditToken10pamService0M4User0mL0ABSo13LACSecureDataCSg_10Foundation0Q0VSo08LACAuditL0CSSSgArOSgtcfc
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8passcode10acmContext10auditToken10pamService0M4User0mL0ABSo13LACSecureDataCSg_10Foundation0Q0VSo08LACAuditL0CSSSgArOSgtcfcTf4gggnngn_n
++ _$sSo37LACMutablePasscodeVerificationRequestC23LocalAuthenticationCoreE8passcode10acmContext10auditToken10pamService0M4User0mL0ABSo13LACSecureDataCSg_10Foundation0Q0VSo08LACAuditL0CSSSgArOSgtcfcTo
++ _$sSo38LACEvaluationEventValueBiometricStatusP23LocalAuthenticationCoreE12faceIDStatusSo014LACEventSimpleE6FaceIDaSgvg
++ _$sSo38LACEvaluationEventValueBiometricStatusP23LocalAuthenticationCoreE12faceIDStatusSo014LACEventSimpleE6FaceIDaSgvgTm
++ _$sSo38LACEvaluationEventValueBiometricStatusP23LocalAuthenticationCoreE12faceIDStatusSo014LACEventSimpleE6FaceIDaSgvpMV
++ _$sSo38LACEvaluationEventValueBiometricStatusP23LocalAuthenticationCoreE13opticIDStatusSo014LACEventSimpleE7OpticIDaSgvg
++ _$sSo38LACEvaluationEventValueBiometricStatusP23LocalAuthenticationCoreE13opticIDStatusSo014LACEventSimpleE7OpticIDaSgvpMV
++ _$sSo38LACEvaluationEventValueBiometricStatusP23LocalAuthenticationCoreE13touchIDStatusSo014LACEventSimpleE7TouchIDaSgvg
++ _$sSo38LACEvaluationEventValueBiometricStatusP23LocalAuthenticationCoreE13touchIDStatusSo014LACEventSimpleE7TouchIDaSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE12preRequisiteSo8NSNumberCSgvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE12preRequisiteSo8NSNumberCSgvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE12preRequisiteSo8NSNumberCSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE12preRequisiteSo8NSNumberCSgvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE12preRequisiteSo8NSNumberCSgvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE12preRequisiteSo8NSNumberCSgvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE12preRequisiteSo8NSNumberCSgvsToTm
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE13postRequisiteSo8NSNumberCSgvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE13postRequisiteSo8NSNumberCSgvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE13postRequisiteSo8NSNumberCSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE13postRequisiteSo8NSNumberCSgvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE13postRequisiteSo8NSNumberCSgvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE13postRequisiteSo8NSNumberCSgvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvpABTk
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvsTm
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE15evaluationErrors0J0_pSgvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE24hostedSceneConfigurationSo14NSSecureCoding_pSgvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE24hostedSceneConfigurationSo14NSSecureCoding_pSgvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE24hostedSceneConfigurationSo14NSSecureCoding_pSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE24hostedSceneConfigurationSo14NSSecureCoding_pSgvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE24hostedSceneConfigurationSo14NSSecureCoding_pSgvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE24hostedSceneConfigurationSo14NSSecureCoding_pSgvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE5valueABSo013LACEvaluationcdE0_p_tcfC
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE5valueABSo013LACEvaluationcdE0_p_tcfc
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE5valueABSo013LACEvaluationcdE0_p_tcfcTf4gn_n
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE5valueABSo013LACEvaluationcdE0_p_tcfcTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE6parentSo8NSNumberCSgvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE6parentSo8NSNumberCSgvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE6parentSo8NSNumberCSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE6parentSo8NSNumberCSgvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE6parentSo8NSNumberCSgvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE6parentSo8NSNumberCSgvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentKSo8NSNumberCSgvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentKSo8NSNumberCSgvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentKSo8NSNumberCSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentKSo8NSNumberCSgvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentKSo8NSNumberCSgvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentKSo8NSNumberCSgvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentNSo8NSNumberCSgvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentNSo8NSNumberCSgvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentNSo8NSNumberCSgvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentNSo8NSNumberCSgvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentNSo8NSNumberCSgvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE7parentNSo8NSNumberCSgvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE8isActiveSbvg
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE8isActiveSbvgTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE8isActiveSbvpMV
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE8isActiveSbvpWvd
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE8isActiveSbvs
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreE8isActiveSbvsTo
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreEABycfC
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreEABycfc
++ _$sSo38LACMutableEvaluationEventValueActivityC23LocalAuthenticationCoreEABycfcTo
++ _$sSo38LACMutableEvaluationEventValueActivityCML
++ _$sSo38LACMutableEvaluationEventValueActivityCMa
++ _$sSo38LACMutableEvaluationEventValueActivityCfETo
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvg
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvgTo
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvpABTK
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvpABTk
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvpMV
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvpWvd
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvs
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreE15initialPositionSaySo8NSNumberCGSgvsTo
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreEABycfC
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreEABycfc
++ _$sSo39LACMutableEvaluationEventValueBootstrapC23LocalAuthenticationCoreEABycfcTo
++ _$sSo39LACMutableEvaluationEventValueBootstrapCML
++ _$sSo39LACMutableEvaluationEventValueBootstrapCMa
++ _$sSo39LACMutableEvaluationEventValueBootstrapCfETo
++ _$sSo40LACCompanionAuthenticationSessionMonitorC05LocalB4CoreE3addyySo0abcD8Observer_pFyyYbcfU_
++ _$sSo40LACCompanionAuthenticationSessionMonitorC05LocalB4CoreE6removeyySo0abcD8Observer_pFyyYbcfU_
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE18verificationResultSo8NSNumberCSgvg
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE18verificationResultSo8NSNumberCSgvgTo
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE18verificationResultSo8NSNumberCSgvpMV
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE18verificationResultSo8NSNumberCSgvpWvd
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE18verificationResultSo8NSNumberCSgvs
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreE18verificationResultSo8NSNumberCSgvsTo
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreEABycfC
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreEABycfc
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusC23LocalAuthenticationCoreEABycfcTo
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusCML
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusCMa
++ _$sSo44LACMutableEvaluationEventValuePasscodeStatusCfETo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE08matchingF0So8NSNumberCSgvg
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE08matchingF0So8NSNumberCSgvgTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE08matchingF0So8NSNumberCSgvpMV
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE08matchingF0So8NSNumberCSgvpWvd
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE08matchingF0So8NSNumberCSgvs
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE08matchingF0So8NSNumberCSgvsTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvg
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvgTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvpABTk
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvpMV
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvpWvd
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvs
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvsTm
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE12lockoutErrors0K0_pSgvsTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvg
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvgTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvpABTK
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvpABTk
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvpMV
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvpWvd
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvs
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreE7payloadSDys11AnyHashableVypGSgvsTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreEABycfC
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreEABycfc
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusC23LocalAuthenticationCoreEABycfcTo
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusCML
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusCMa
++ _$sSo45LACMutableEvaluationEventValueBiometricStatusCfETo
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE20authenticationResultSo8NSNumberCSgvg
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE20authenticationResultSo8NSNumberCSgvgTo
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE20authenticationResultSo8NSNumberCSgvpMV
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE20authenticationResultSo8NSNumberCSgvpWvd
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE20authenticationResultSo8NSNumberCSgvs
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreE20authenticationResultSo8NSNumberCSgvsTo
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreEABycfC
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreEABycfc
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusC23LocalAuthenticationCoreEABycfcTo
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusCML
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusCMa
++ _$sSo45LACMutableEvaluationEventValueCompanionStatusCfETo
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE11isAdminUserSbvg
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE11isAdminUserSbvgTo
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE11isAdminUserSbvpMV
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE11isAdminUserSbvpWvd
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE11isAdminUserSbvs
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE11isAdminUserSbvsTo
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE13isCurrentUserSbvg
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE13isCurrentUserSbvgTo
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE13isCurrentUserSbvpMV
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE13isCurrentUserSbvpWvd
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE13isCurrentUserSbvs
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE13isCurrentUserSbvsTo
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE5_uuid33_8470184924DAE324D47B5BB6F2074C8CLLs5UInt8V_A15GtSgvpWvd
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE8userUUID10Foundation0J0VSgvg
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE8userUUID10Foundation0J0VSgvgTo
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE8userUUID10Foundation0J0VSgvpABTK
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE8userUUID10Foundation0J0VSgvpABTk
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE8userUUID10Foundation0J0VSgvpMV
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE8userUUID10Foundation0J0VSgvs
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedC23LocalAuthenticationCoreE8userUUID10Foundation0J0VSgvsTo
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedCML
++ _$sSo45LACMutablePasscodeVerificationRequestExtendedCMa
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvg
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvgTo
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvpABTK
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvpABTk
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvpMV
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvpWvd
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvs
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE08feedbackD0ypSgvsTo
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE12feedbackTypeSo8NSNumberCSgvg
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE12feedbackTypeSo8NSNumberCSgvgTo
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE12feedbackTypeSo8NSNumberCSgvpMV
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE12feedbackTypeSo8NSNumberCSgvpWvd
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE12feedbackTypeSo8NSNumberCSgvs
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreE12feedbackTypeSo8NSNumberCSgvsTo
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreEABycfC
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreEABycfc
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackC23LocalAuthenticationCoreEABycfcTo
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackCML
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackCMa
++ _$sSo46LACMutableEvaluationEventValueCoachingFeedbackCfETo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE11descriptionSSvg
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE11descriptionSSvgTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE19isCredentialPresentSo8NSNumberCSgvg
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE19isCredentialPresentSo8NSNumberCSgvgTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE19isCredentialPresentSo8NSNumberCSgvpMV
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE19isCredentialPresentSo8NSNumberCSgvpWvd
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE19isCredentialPresentSo8NSNumberCSgvs
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE19isCredentialPresentSo8NSNumberCSgvsTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvg
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvgTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvpABTK
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvpABTk
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvpMV
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvpWvd
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvs
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE22authorizingAccessoryId10Foundation4DataVSgvsTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE27accessoryAuthorizationErrors0M0_pSgvg
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE27accessoryAuthorizationErrors0M0_pSgvgTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE27accessoryAuthorizationErrors0M0_pSgvpABTk
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE27accessoryAuthorizationErrors0M0_pSgvpMV
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE27accessoryAuthorizationErrors0M0_pSgvpWvd
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE27accessoryAuthorizationErrors0M0_pSgvs
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE27accessoryAuthorizationErrors0M0_pSgvsTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE28accessoryAuthorizationResultSo8NSNumberCSgvg
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE28accessoryAuthorizationResultSo8NSNumberCSgvgTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE28accessoryAuthorizationResultSo8NSNumberCSgvpMV
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE28accessoryAuthorizationResultSo8NSNumberCSgvpWvd
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE28accessoryAuthorizationResultSo8NSNumberCSgvs
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE28accessoryAuthorizationResultSo8NSNumberCSgvsTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreE28accessoryAuthorizationResultSo8NSNumberCSgvsToTm
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreEABycfC
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreEABycfc
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusC23LocalAuthenticationCoreEABycfcTo
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusCML
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusCMa
++ _$sSo46LACMutableEvaluationEventValuePushButtonStatusCfETo
++ _$sSo8LACEventaABSHSCWL
++ _$sSo8LACEventaABSQSCWL
++ _$sSo8LACEventaABSYSCWL
++ _$sSo8LACEventaABs20_SwiftNewtypeWrapperSCWL
++ _$sSo8LACEventaABs35_HasCustomAnyHashableRepresentationSCWL
++ _$sSo8LACEventaMB
++ _$sSo8LACEventaMF
++ _$sSo8LACEventaML
++ _$sSo8LACEventaMa
++ _$sSo8LACEventaMf
++ _$sSo8LACEventaMn
++ _$sSo8LACEventaSHSCMc
++ _$sSo8LACEventaSHSCMcMK
++ _$sSo8LACEventaSHSCSH13_rawHashValue4seedS2i_tFTW
++ _$sSo8LACEventaSHSCSH4hash4intoys6HasherVz_tFTW
++ _$sSo8LACEventaSHSCSH9hashValueSivgTW
++ _$sSo8LACEventaSHSCSQWb
++ _$sSo8LACEventaSQSCMc
++ _$sSo8LACEventaSQSCMcMK
++ _$sSo8LACEventaSQSCSQ2eeoiySbx_xtFZTW
++ _$sSo8LACEventaSYSCMA
++ _$sSo8LACEventaSYSCMc
++ _$sSo8LACEventaSYSCMcMK
++ _$sSo8LACEventaSYSCSY8rawValue03RawC0QzvgTW
++ _$sSo8LACEventaSYSCSY8rawValuexSg03RawC0Qz_tcfCTW
++ _$sSo8LACEventas20_SwiftNewtypeWrapperSCMc
++ _$sSo8LACEventas20_SwiftNewtypeWrapperSCMcMK
++ _$sSo8LACEventas20_SwiftNewtypeWrapperSCSYWb
++ _$sSo8LACEventas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentationPWb
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCMA
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCMc
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCMcMK
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCsACP016_forceBridgeFromB1C_6resulty01_B5CTypeQz_xSgztFZTW
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCsACP016_forceBridgeFromB1C_6resulty01_B5CTypeQz_xSgztFZTWTm
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromB1C_6resultSb01_B5CTypeQz_xSgztFZTW
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromB1C_6resultSb01_B5CTypeQz_xSgztFZTWTm
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCsACP026_unconditionallyBridgeFromB1Cyx01_B5CTypeQzSgFZTW
++ _$sSo8LACEventas21_ObjectiveCBridgeableSCsACP09_bridgeToB1C01_B5CTypeQzyFTW
++ _$sSo8LACEventas35_HasCustomAnyHashableRepresentationSCMc
++ _$sSo8LACEventas35_HasCustomAnyHashableRepresentationSCMcMK
++ _$sSo8LACEventas35_HasCustomAnyHashableRepresentationSCsACP03_tocdE0s0dE0VSgyFTW
++ _$sSo8NSNumberC_yptMR
++ _$sSo8NSNumberC_yptMd
++ _$sSo8NSObjectC10ObjectiveCE13_rawHashValue4seedS2i_tF
++ _$sSo8NSObjectC10ObjectiveCE2eeoiySbAB_ABtFZ
++ _$sSo8NSObjectCML
++ _$ss10_NativeSetV13copyAndResize8capacityySi_tFSo8LACEventa_Tg5
++ _$ss10_NativeSetV4copyyyFSo8LACEventa_Tg5
++ _$ss10_NativeSetV6resize8capacityySi_tFSo8LACEventa_Tg5
++ _$ss10_NativeSetV7_delete2atys10_HashTableV6BucketV_tFSo8LACEventa_Tg5
++ _$ss10_NativeSetV9insertNew_2at8isUniqueyxn_s10_HashTableV6BucketVSbtFSo8LACEventa_Tg5
++ _$ss11AnyHashableV3key_yp5valuetMR
++ _$ss11AnyHashableV3key_yp5valuetMd
++ _$ss11_SetStorageC4copy8originalAByxGs05__RawaB0C_tFZ
++ _$ss11_SetStorageC6resize8original8capacity4moveAByxGs05__RawaB0C_SiSbtFZ
++ _$ss11_SetStorageCySo8LACEventaGMR
++ _$ss11_SetStorageCySo8LACEventaGMd
++ _$ss12_ArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLV_Tg5
++ _$ss12_ArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLV_Tg5
++ _$ss12_ArrayBufferV20_consumeAndCreateNewAByxGyF23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC_Tg5
++ _$ss12_ArrayBufferV20_consumeAndCreateNewAByxGyF23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLV_Tg5
++ _$ss12_ArrayBufferVys06_SliceB0VyxGSnySiGcigSo29LACEvaluationRequestProcessor_p_Tg5
++ _$ss13ManagedBufferCMn
++ _$ss13ManagedBufferCyytSo16os_unfair_lock_sVGMR
++ _$ss13ManagedBufferCyytSo16os_unfair_lock_sVGMd
++ _$ss15LazyMapSequenceV8IteratorV4nextq_SgyFSDys11AnyHashableVypG_AH_yptTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtF10Foundation4UUIDV_23LocalAuthenticationCore012LACCompanionN14PendingRequest33_7C23A2E67F893FA563A4E1A97AE88CD3LLCTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtF10Foundation4UUIDV_23LocalAuthenticationCore012LACCompanionN24ControllerPendingRequestCTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSS_ySo23LACBackgroundTaskResultCcTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSi_ypTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSo13LACEventParama_ypTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSo18NSFileAttributeKeya_ypTg5Tm
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSo30LACEvaluationRequestPayloadKeya_ypTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFs6UInt32V_10Foundation4DateVTg5
++ _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFs6UInt32V_SiTg5
++ _$ss17_NativeDictionaryV4copyyyFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGTg5
++ _$ss17_NativeDictionaryV4copyyyFSS_ySo23LACBackgroundTaskResultCcTg5
++ _$ss17_NativeDictionaryV4copyyyFSi_ypTg5
++ _$ss17_NativeDictionaryV4copyyyFSo13LACEventParama_ypTg5
++ _$ss17_NativeDictionaryV4copyyyFSo18NSFileAttributeKeya_ypTg5Tm
++ _$ss17_NativeDictionaryV4copyyyFSo30LACEvaluationRequestPayloadKeya_ypTg5
++ _$ss17_NativeDictionaryV4copyyyFs6UInt32V_10Foundation4DateVTg5
++ _$ss17_NativeDictionaryV4copyyyFs6UInt32V_SiTg5
++ _$ss17_NativeDictionaryV5merge_8isUnique16uniquingKeysWithyqd__n_Sbq_q__q_tKXEtKSTRd__x_q_t7ElementRtd__lFs11AnyHashableV_yps15LazyMapSequenceVySDyAIypGAI_yptGTg50192$sSo35LACAuthenticationUIManagerCompositeC23LocalAuthenticationCoreE6handle33_4B59AD686FF385BF9B0F48EB7A134915LL_4with5index10completionySo18LACEvaluationEventC_SaySo0A10UIManaging_pGSiySDys11jK61VypGSg_s5Error_pSgtcSgtFyAP_ARtYbcfU_yAP_ARtcfU_ypyp_yptXEfU_Tf1nncn_nTf4gnn_n
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tF10Foundation4UUIDV_23LocalAuthenticationCore012LACCompanionK14PendingRequest33_7C23A2E67F893FA563A4E1A97AE88CD3LLCTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tF10Foundation4UUIDV_23LocalAuthenticationCore012LACCompanionK24ControllerPendingRequestCTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFSS_ySo23LACBackgroundTaskResultCcTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFSi_ypTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFSo13LACEventParama_ypTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFSo30LACEvaluationRequestPayloadKeya_ypTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFs11AnyHashableV_ypTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFs6UInt32V_10Foundation4DateVTg5
++ _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFs6UInt32V_SiTg5
++ _$ss17_NativeDictionaryV7_insert2at3key5valueys10_HashTableV6BucketV_xnq_ntFSo13LACEventParama_ypTg5
++ _$ss17_NativeDictionaryV7_insert2at3key5valueys10_HashTableV6BucketV_xnq_ntFSo30LACEvaluationRequestPayloadKeya_ypTg5
++ _$ss17_NativeDictionaryV7_insert2at3key5valueys10_HashTableV6BucketV_xnq_ntFs6UInt32V_10Foundation4DateVTg5
++ _$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGTg5
++ _$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtFSS_ySo23LACBackgroundTaskResultCcTg5
++ _$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtFSo027LACEvaluationRequestPayloadF0a_ypTg5
++ _$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtFSo13LACEventParama_ypTg5
++ _$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtFs6UInt32V_10Foundation4DateVTg5
++ _$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtFs6UInt32V_SiTg5
++ _$ss17_dictionaryUpCastySDyq0_q1_GSDyxq_GSHRzSHR0_r2_lFSi_yps11AnyHashableVypTg5
++ _$ss18_DictionaryStorageCySSSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGGMR
++ _$ss18_DictionaryStorageCySSSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCGGMd
++ _$ss18_DictionaryStorageCySSSaySo8NSNumberCGGMR
++ _$ss18_DictionaryStorageCySSSaySo8NSNumberCGGMd
++ _$ss18_DictionaryStorageCySSSo8NSObjectCGMR
++ _$ss18_DictionaryStorageCySSSo8NSObjectCGMd
++ _$ss18_DictionaryStorageCySSySo23LACBackgroundTaskResultCcGMR
++ _$ss18_DictionaryStorageCySSySo23LACBackgroundTaskResultCcGMd
++ _$ss18_DictionaryStorageCySo13LACEventParamaypGMR
++ _$ss18_DictionaryStorageCySo13LACEventParamaypGMd
++ _$ss18_DictionaryStorageCySo30LACEvaluationRequestPayloadKeyaypGMR
++ _$ss18_DictionaryStorageCySo30LACEvaluationRequestPayloadKeyaypGMd
++ _$ss18_DictionaryStorageCySo8NSNumberCypGMR
++ _$ss18_DictionaryStorageCySo8NSNumberCypGMd
++ _$ss18_DictionaryStorageCys6UInt32V10Foundation4DateVGMR
++ _$ss18_DictionaryStorageCys6UInt32V10Foundation4DateVGMd
++ _$ss18_DictionaryStorageCys6UInt32VSiGMR
++ _$ss18_DictionaryStorageCys6UInt32VSiGMd
++ _$ss20_ArrayBufferProtocolPsE15replaceSubrange_4with10elementsOfySnySiG_Siqd__ntSlRd__7ElementQyd__AGRtzlFs01_aB0Vy23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVG_s15EmptyCollectionVyAOGTg5Tf4nndn_n
++ _$ss20_ArrayBufferProtocolPsE15replaceSubrange_4with10elementsOfySnySiG_Siqd__ntSlRd__7ElementQyd__AGRtzlFs01_aB0Vy23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLCG_s15EmptyCollectionVyAOGTg5Tf4nndn_n
++ _$ss21_ObjectiveCBridgeableP024_conditionallyBridgeFromA1C_6resultSb01_A5CTypeQz_xSgztFZTj
++ _$ss22KeyedDecodingContainerV15decodeIfPresent_6forKeyqd__Sgqd__m_xtKSeRd__lF
++ _$ss22KeyedDecodingContainerVy23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOGMR
++ _$ss22KeyedDecodingContainerVy23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOGMd
++ _$ss22KeyedEncodingContainerV15encodeIfPresent_6forKeyyqd__Sg_xtKSERd__lF
++ _$ss22KeyedEncodingContainerVy23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOGMR
++ _$ss22KeyedEncodingContainerVy23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOGMd
++ _$ss22_ContiguousArrayBufferV19_uninitializedCount15minimumCapacityAByxGSi_SitcfC23LocalAuthenticationCore012LACCompanionI24ControllerPendingRequestC_Tt1g5Tm
++ _$ss22_ContiguousArrayBufferV19_uninitializedCount15minimumCapacityAByxGSi_SitcfCySo23LACBackgroundTaskResultCc_Tt1g5
++ _$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSo13LACEventParama_Tg5
++ _$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSo8NSNumberC_Tg5
++ _$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFs6UInt32V_Tg5
++ _$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSo13LACEventParama_Tg5
++ _$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSo30LACEvaluationRequestPayloadKeya_Tg5
++ _$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSo8NSNumberC_Tg5
++ _$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFs6UInt32V_Tg5
++ _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVGMR
++ _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLVGMd
++ _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVGMR
++ _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLVGMd
++ _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore42LACConcurrentEvaluationAllowListBinaryPathOGMR
++ _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore42LACConcurrentEvaluationAllowListBinaryPathOGMd
++ _$ss23_ContiguousArrayStorageCySS_SaySo8NSNumberCGtGMR
++ _$ss23_ContiguousArrayStorageCySS_SaySo8NSNumberCGtGMd
++ _$ss23_ContiguousArrayStorageCySo8NSNumberC_yptGMR
++ _$ss23_ContiguousArrayStorageCySo8NSNumberC_yptGMd
++ _$ss23_ContiguousArrayStorageCys11AnyHashableV_yptGMR
++ _$ss23_ContiguousArrayStorageCys11AnyHashableV_yptGMd
++ _$ss23_ContiguousArrayStorageCyySo23LACBackgroundTaskResultCcGMR
++ _$ss23_ContiguousArrayStorageCyySo23LACBackgroundTaskResultCcGMd
++ _$ss27_bridgeAnythingToObjectiveCyyXlxlF
++ _$ss30_dictionaryDownCastConditionalySDyq0_q1_GSgSDyxq_GSHRzSHR0_r2_lFSS_ypSSSo8NSObjectCTg5
++ _$ss50ELEMENT_TYPE_OF_SET_VIOLATES_HASHABLE_REQUIREMENTSys5NeverOypXpF
++ _$ss5Error_pIegg_So7NSErrorCIeyBy_TR
++ _$ss5Error_pSgMR
++ _$ss5Error_pSgMd
++ _$ss6HasherV5_hash4seed5bytes5countS2i_s6UInt64VSitFZ
++ _$ss6UInt32V_10Foundation4DateVtMR
++ _$ss6UInt32V_10Foundation4DateVtMd
++ _$sxq_xq_Iegnnrr_x3key_q_5valuetx_q_tIegnr_SHRzr0_lTRs11AnyHashableV_ypTg5070$sSD5merge_16uniquingKeysWithySDyxq_Gn_q_q__q_tKXEtKFx_q_tx_q_tcfU_s11cD7V_ypTg5Tf3nnpf_n
++ _$sypSgWOd
++ _$sytSgs5Error_pSgIegng_AaCIegyg_TRTA
++ _ACMContextCredentialGetPropertyEx
++ _AKSIdentityCreateKeybag
++ _AKSIdentityCreateKeybagWithHash
++ _AKSIdentityProperties
++ _AnalyticsSendEventLazy
++ _CFDictionaryGetValue
++ _LACAKSEntitlementConsole
++ _LACAKSEntitlementDomainSelect
++ _LACAKSIdentityErrorCodeReturnPolicyError
++ _LACAuthenticatorAnyOwner
++ _LACCoachingFeedbackBottomFaceOccluded
++ _LACCoachingFeedbackCameraObstructed
++ _LACCoachingFeedbackFaceNotDetected
++ _LACCoachingFeedbackFaceOccluded
++ _LACCoachingFeedbackFacePartiallyOutOfView
++ _LACCoachingFeedbackFaceTooClose
++ _LACCoachingFeedbackFaceTooFar
++ _LACCoachingFeedbackNoAttention
++ _LACCoachingFeedbackNone
++ _LACCoachingFeedbackOpticIDNone
++ _LACCoachingFeedbackOpticIDStimulusPoint
++ _LACCoachingFeedbackPoseMarginal
++ _LACCoachingFeedbackPoseOutOfNegativePitchRange
++ _LACCoachingFeedbackPoseOutOfRange
++ _LACCoachingFeedbackUnsupportedGlasses
++ _LACCryptoPseudoRandomAlgorithmSHA256
++ _LACCryptoPseudoRandomAlgorithmSHA512
++ _LACCustomPasswordTypeAlphanumeric
++ _LACCustomPasswordTypeCustomDigits
++ _LACCustomPasswordTypeFourDigits
++ _LACCustomPasswordTypeSixDigits
++ _LACDarwinNotificationIntentNotWaiting
++ _LACDarwinNotificationIntentWaiting
++ _LACDarwinNotificationUIDismissed
++ _LACDarwinNotificationUIPresented
++ _LACEntitlementAHP
++ _LACEntitlementNonDisposableContextPool
++ _LACEntitlementSecureUIRecording
++ _LACEntitlementSoftwareUpdate
++ _LACEntitlementStorage
++ _LACErrorCodeRetryAfterFailure
++ _LACErrorInfoKeyBiometryDatabaseHash
++ _LACErrorInfoKeyBiometryType
++ _LACErrorInfoTCCServerPromptKey
++ _LACErrorInfoTCCServiceKey
++ _LACErrorSubcodeCanceledByParentMechanismOnFailure
++ _LACErrorSubcodeCanceledByParentMechanismOnSuccess
++ _LACErrorSubcodeClamshellClosed
++ _LACErrorSubcodeCredentialExpired
++ _LACErrorSubcodeFaceDetectTimeout
++ _LACErrorSubcodeFaceIDHighTemperature
++ _LACErrorSubcodeFaceIDLowTemperature
++ _LACEvaluationEventResponseKeyIsShowingUIBeforeFailure
++ _LACEvaluationRequestPayloadKeyConcurrentEvaluationConfig
++ _LACEvaluationRequestPayloadKeySecureIntentRequested
++ _LACEventParamHostingControllerConfiguration
++ _LACEventProcessingMirroringTypeAlways
++ _LACEventProcessingMirroringTypeNone
++ _LACEventProcessingMirroringTypeOnlyWithSpecialUI
++ _LACEventSimpleStatusOpticIDHardwareFailure
++ _LACEventSimpleStatusOpticIDMatch
++ _LACEventSimpleStatusOpticIDMatchExpired
++ _LACEventSimpleStatusOpticIDNoMatch
++ _LACEventSimpleStatusOpticIDSensorActive
++ _LACEventSimpleStatusOpticIDSensorInactive
++ _LACEventTouchIDWatch
++ _LACEventUI
++ _LACLogAuthorization
++ _LACLogEvaluationMechanism
++ _LACLogNetwork
++ _LACLogOpticIDUI
++ _LACLogSheet
++ _LACLogUIManager
++ _LACMechanismUserInfoKeyHardwareIssue
++ _LACMechanismUserInfoKeyMaxFailuresExceeded
++ _LACMechanismUserInfoKeyUnboundMatch
++ _LACMechanismUserInfoKeyUnderlyingError
++ _LACMechanismUserInfoKeyViewOrigin
++ _LACMechanismUserInfoKeyWillTryToRecover
++ _LACPolicyOptionAuthenticationFailureText
++ _LACPolicyOptionIgnoreExistingDoublePress
++ _LACUserErrorCodePolicy
++ _LACUserIdentityCreationPolicyAutomatic
++ _LACUserIdentityCreationPolicyForbidden
++ _LACUserIdentityCreationPolicyManual
++ _LACUserInterfaceBundleIdentifierUIService
++ _LALogTypeForInternalError
++ _LibCall_ACMSecContextCopyCredentialsArrayEx
++ _LibCall_ACMSecCredentialsArrayDelete
++ _LibSer_ContextCredentialGetPropertyEx_Deserialize
++ _LibSer_ContextCredentialGetPropertyEx_GetSize
++ _LibSer_ContextCredentialGetPropertyEx_Serialize
++ _MKBVerifyACMPasswordWithContext
++ _NSMultipleUnderlyingErrorsKey
++ _NSStringFromLACCoachingFeedback
++ _NSStringFromLACCoachingFeedbackOpticID
++ _NSStringFromLACEventSimpleStatusOpticID
++ _OBJC_$_PROP_LIST_LACTimer.61
++ _OBJC_$_PROP_LIST_LACXPCClient.125
++ _OBJC_CLASS_$_LACAKSFileVaultHelper
++ _OBJC_CLASS_$_LACAgentProxyWithErrorHandler
++ _OBJC_CLASS_$_LACAnalyticsReporter
++ _OBJC_CLASS_$_LACAuthenticationUIManagerComposite
++ _OBJC_CLASS_$_LACAuthenticationUIManagerCustom
++ _OBJC_CLASS_$_LACAuthenticationUIManagerDefault
++ _OBJC_CLASS_$_LACAuthenticationUIManagerFactory
++ _OBJC_CLASS_$_LACAuthenticationUINotificationCenter
++ _OBJC_CLASS_$_LACBackgroundTaskQueued
++ _OBJC_CLASS_$_LACBootArgParser
++ _OBJC_CLASS_$_LACConcurrentEvaluationConfiguration
++ _OBJC_CLASS_$_LACDefaultServiceSession
++ _OBJC_CLASS_$_LACEvaluationEvent
++ _OBJC_CLASS_$_LACExternalizedContextProvider
++ _OBJC_CLASS_$_LACInstanceIDGenerator
++ _OBJC_CLASS_$_LACMaxBiometryFailureProcessor
++ _OBJC_CLASS_$_LACMutableEvaluationEventValueActivity
++ _OBJC_CLASS_$_LACMutableEvaluationEventValueBiometricStatus
++ _OBJC_CLASS_$_LACMutableEvaluationEventValueBootstrap
++ _OBJC_CLASS_$_LACMutableEvaluationEventValueCoachingFeedback
++ _OBJC_CLASS_$_LACMutableEvaluationEventValueCompanionStatus
++ _OBJC_CLASS_$_LACMutableEvaluationEventValuePasscodeStatus
++ _OBJC_CLASS_$_LACMutableEvaluationEventValuePushButtonStatus
++ _OBJC_CLASS_$_LACMutablePasscodeVerificationRequestExtended
++ _OBJC_CLASS_$_LACMutableXPCClient
++ _OBJC_CLASS_$_LACPasscodeMKBHelper
++ _OBJC_CLASS_$_LACPasscodeODHelper
++ _OBJC_CLASS_$_LACPasscodePAMHelper
++ _OBJC_CLASS_$_LACPasscodeUserHelper
++ _OBJC_CLASS_$_LACPreboardErrorBuilder
++ _OBJC_CLASS_$_LACRemoteUIParams
++ _OBJC_CLASS_$_LACServiceAdapter
++ _OBJC_CLASS_$_LACServiceBase
++ _OBJC_CLASS_$_LACServiceManagerBase
++ _OBJC_CLASS_$_LACUserCredentialHash
++ _OBJC_CLASS_$_LACUserMembershipHelper
++ _OBJC_CLASS_$_LACUserPasswordHash
++ _OBJC_CLASS_$__TtC23LocalAuthenticationCore18LACPasscodeMonitor
++ _OBJC_CLASS_$__TtC23LocalAuthenticationCore19LACPasscodeVerifier
++ _OBJC_CLASS_$__TtC23LocalAuthenticationCore19LACUserDaemonClient
++ _OBJC_CLASS_$__TtC23LocalAuthenticationCore21LACPasscodeSuccessAge
++ _OBJC_CLASS_$__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ _OBJC_CLASS_$__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener
++ _OBJC_CLASS_$__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS
++ _OBJC_METACLASS_$_LACAKSFileVaultHelper
++ _OBJC_METACLASS_$_LACAgentProxyWithErrorHandler
++ _OBJC_METACLASS_$_LACAnalyticsReporter
++ _OBJC_METACLASS_$_LACAuthenticationUIManagerComposite
++ _OBJC_METACLASS_$_LACAuthenticationUIManagerCustom
++ _OBJC_METACLASS_$_LACAuthenticationUIManagerDefault
++ _OBJC_METACLASS_$_LACAuthenticationUIManagerFactory
++ _OBJC_METACLASS_$_LACAuthenticationUINotificationCenter
++ _OBJC_METACLASS_$_LACBackgroundTaskQueued
++ _OBJC_METACLASS_$_LACBootArgParser
++ _OBJC_METACLASS_$_LACConcurrentEvaluationConfiguration
++ _OBJC_METACLASS_$_LACDefaultServiceSession
++ _OBJC_METACLASS_$_LACEvaluationEvent
++ _OBJC_METACLASS_$_LACExternalizedContextProvider
++ _OBJC_METACLASS_$_LACInstanceIDGenerator
++ _OBJC_METACLASS_$_LACMaxBiometryFailureProcessor
++ _OBJC_METACLASS_$_LACMutableEvaluationEventValueActivity
++ _OBJC_METACLASS_$_LACMutableEvaluationEventValueBiometricStatus
++ _OBJC_METACLASS_$_LACMutableEvaluationEventValueBootstrap
++ _OBJC_METACLASS_$_LACMutableEvaluationEventValueCoachingFeedback
++ _OBJC_METACLASS_$_LACMutableEvaluationEventValueCompanionStatus
++ _OBJC_METACLASS_$_LACMutableEvaluationEventValuePasscodeStatus
++ _OBJC_METACLASS_$_LACMutableEvaluationEventValuePushButtonStatus
++ _OBJC_METACLASS_$_LACMutablePasscodeVerificationRequestExtended
++ _OBJC_METACLASS_$_LACMutableXPCClient
++ _OBJC_METACLASS_$_LACPasscodeMKBHelper
++ _OBJC_METACLASS_$_LACPasscodeODHelper
++ _OBJC_METACLASS_$_LACPasscodePAMHelper
++ _OBJC_METACLASS_$_LACPasscodeUserHelper
++ _OBJC_METACLASS_$_LACPreboardErrorBuilder
++ _OBJC_METACLASS_$_LACRemoteUIParams
++ _OBJC_METACLASS_$_LACServiceAdapter
++ _OBJC_METACLASS_$_LACServiceBase
++ _OBJC_METACLASS_$_LACServiceManagerBase
++ _OBJC_METACLASS_$_LACUserCredentialHash
++ _OBJC_METACLASS_$_LACUserMembershipHelper
++ _OBJC_METACLASS_$_LACUserPasswordHash
++ _OBJC_METACLASS_$__TtC23LocalAuthenticationCore18LACPasscodeMonitor
++ _OBJC_METACLASS_$__TtC23LocalAuthenticationCore19LACPasscodeVerifier
++ _OBJC_METACLASS_$__TtC23LocalAuthenticationCore19LACUserDaemonClient
++ _OBJC_METACLASS_$__TtC23LocalAuthenticationCore21LACPasscodeSuccessAge
++ _OBJC_METACLASS_$__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ _OBJC_METACLASS_$__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener
++ _OBJC_METACLASS_$__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS
++ _OUTLINED_FUNCTION_39
++ _OUTLINED_FUNCTION_40
++ _OUTLINED_FUNCTION_41
++ _OUTLINED_FUNCTION_42
++ _OUTLINED_FUNCTION_43
++ _OUTLINED_FUNCTION_44
++ _OUTLINED_FUNCTION_45
++ _OUTLINED_FUNCTION_46
++ _OUTLINED_FUNCTION_47
++ _OUTLINED_FUNCTION_48
++ _OUTLINED_FUNCTION_49
++ _OUTLINED_FUNCTION_50
++ _OUTLINED_FUNCTION_51
++ _OUTLINED_FUNCTION_52
++ _OUTLINED_FUNCTION_53
++ _OUTLINED_FUNCTION_54
++ _OUTLINED_FUNCTION_55
++ _OUTLINED_FUNCTION_56
++ _OUTLINED_FUNCTION_57
++ _OUTLINED_FUNCTION_58
++ _OUTLINED_FUNCTION_59
++ _OUTLINED_FUNCTION_60
++ _OUTLINED_FUNCTION_61
++ _OUTLINED_FUNCTION_62
++ _OUTLINED_FUNCTION_63
++ _OUTLINED_FUNCTION_64
++ _OUTLINED_FUNCTION_65
++ _OUTLINED_FUNCTION_66
++ _OUTLINED_FUNCTION_67
++ _OUTLINED_FUNCTION_68
++ _PROTOCOLS_LACAnalyticsReporter.2
++ _PROTOCOLS_LACAuthenticationUIManagerComposite.4
++ _PROTOCOLS_LACAuthenticationUIManagerCustom.4
++ _PROTOCOLS_LACAuthenticationUIManagerDefault.8
++ _PROTOCOLS_LACConcurrentEvaluationConfiguration.4
++ _PROTOCOLS_LACConcurrentEvaluationManager.5
++ _PROTOCOLS_LACMaxBiometryFailureProcessor.2
++ _PROTOCOLS_LACMutableEvaluationEventValueActivity.16
++ _PROTOCOLS_LACMutableEvaluationEventValueBiometricStatus.6
++ _PROTOCOLS_LACMutableEvaluationEventValueBootstrap.2
++ _PROTOCOLS_LACMutableEvaluationEventValueCoachingFeedback.4
++ _PROTOCOLS_LACMutableEvaluationEventValueCompanionStatus.2
++ _PROTOCOLS_LACMutableEvaluationEventValuePasscodeStatus.2
++ _PROTOCOLS_LACMutableEvaluationEventValuePushButtonStatus.8
++ _PROTOCOLS_LACMutablePasscodeVerificationRequest.16
++ _PROTOCOLS_LACMutablePasscodeVerificationRequestExtended.5
++ _PROTOCOLS_LACUserCredentialHash.4
++ _PROTOCOLS_LACUserPasswordHash.2
++ _PROTOCOLS__TtC23LocalAuthenticationCore18LACPasscodeMonitor.2
++ _PROTOCOLS__TtC23LocalAuthenticationCore19LACUserDaemonClient.2
++ _PROTOCOLS__TtC23LocalAuthenticationCore21LACPreboardController.13
++ _PROTOCOLS__TtC23LocalAuthenticationCore21LACUserDatabaseClient.2
++ _PROTOCOLS__TtC23LocalAuthenticationCore24LACUserAuthDaemonService.1
++ _PROTOCOLS__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener.2
++ _PROTOCOLS__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS.2
++ __41-[LACACMHelper ageForDataWithType:error:]_block_invoke.41
++ __41-[LACACMHelper ageForDataWithType:error:]_block_invoke.41.cold.1
++ __53-[LACServiceBase listener:shouldAcceptNewConnection:]_block_invoke.cold.1
++ __55-[LACSecureStorage objectForRequest:completionHandler:]_block_invoke.8
++ __59-[LACSecureStorage _storeObject:request:completionHandler:]_block_invoke.44
++ __62-[LACSecureStorage _exchangeObject:request:completionHandler:]_block_invoke.37
++ __62-[LACSecureStorage processError:forRequest:completionHandler:]_block_invoke.22
++ __62-[LACSecureStorage processError:forRequest:completionHandler:]_block_invoke.23
++ __66-[LACACMHelper _verifyRequirement:satisfiedForType:present:flags:]_block_invoke.94
++ __97-[LACServiceManagerBase bootstrapSessionServiceType:clientID:clientConnection:completionHandler:]_block_invoke.cold.1
++ __97-[LACServiceManagerBase bootstrapSessionServiceType:clientID:clientConnection:completionHandler:]_block_invoke.cold.2
++ __97-[LACServiceManagerBase bootstrapSessionServiceType:clientID:clientConnection:completionHandler:]_block_invoke.cold.3
++ __CLASS_METHODS_LACAuthenticationUIManagerFactory
++ __CLASS_METHODS_LACConcurrentEvaluationHelper
++ __CLASS_METHODS_LACPasscodeHelper
++ __CLASS_METHODS_LACPersistentStoreFactory
++ __CLASS_METHODS_LACPreboardErrorBuilder
++ __CLASS_METHODS_LACUserCredentialHash
++ __CLASS_METHODS_LACUserPasswordHash
++ __CLASS_PROPERTIES_LACConcurrentEvaluationHelper
++ __CLASS_PROPERTIES_LACUserCredentialHash
++ __CLASS_PROPERTIES_LACUserPasswordHash
++ __DATA_LACAnalyticsReporter
++ __DATA_LACAuthenticationUIManagerComposite
++ __DATA_LACAuthenticationUIManagerCustom
++ __DATA_LACAuthenticationUIManagerDefault
++ __DATA_LACAuthenticationUIManagerFactory
++ __DATA_LACBackgroundTask
++ __DATA_LACBackgroundTaskQueued
++ __DATA_LACConcurrentEvaluationConfiguration
++ __DATA_LACConcurrentEvaluationController
++ __DATA_LACConcurrentEvaluationHelper
++ __DATA_LACConcurrentEvaluationManager
++ __DATA_LACEvaluationEvent
++ __DATA_LACMaxBiometryFailureProcessor
++ __DATA_LACMutableEvaluationEventValueActivity
++ __DATA_LACMutableEvaluationEventValueBiometricStatus
++ __DATA_LACMutableEvaluationEventValueBootstrap
++ __DATA_LACMutableEvaluationEventValueCoachingFeedback
++ __DATA_LACMutableEvaluationEventValueCompanionStatus
++ __DATA_LACMutableEvaluationEventValuePasscodeStatus
++ __DATA_LACMutableEvaluationEventValuePushButtonStatus
++ __DATA_LACMutablePasscodeVerificationRequestExtended
++ __DATA_LACPasscodeHelper
++ __DATA_LACPersistentStoreFactory
++ __DATA_LACPreboardErrorBuilder
++ __DATA_LACUserCredentialHash
++ __DATA_LACUserPasswordHash
++ __DATA__TtC23LocalAuthenticationCore18LACPasscodeMonitor
++ __DATA__TtC23LocalAuthenticationCore19LACPasscodeVerifier
++ __DATA__TtC23LocalAuthenticationCore19LACUserDaemonClient
++ __DATA__TtC23LocalAuthenticationCore20LACPasscodeOTIHelper
++ __DATA__TtC23LocalAuthenticationCore21LACPasscodeSuccessAge
++ __DATA__TtC23LocalAuthenticationCore23LACBiometryTypeProvider
++ __DATA__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ __DATA__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener
++ __DATA__TtC23LocalAuthenticationCore26LACUserAuthDaemonContainer
++ __DATA__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS
++ __DATA__TtC23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOS
++ __DATA__TtC23LocalAuthenticationCoreP33_53C4CF2605483CE5CE76F1EC3A4D036F37LACConcurrentEvaluationManagedRequest
++ __DATA__TtCE23LocalAuthenticationCoreCSo21LACUserCredentialHashP33_6053F70B4993339D78D3AEF8B2C99DAF10Properties
++ __INSTANCE_METHODS_LACAnalyticsReporter
++ __INSTANCE_METHODS_LACAuthenticationUIManagerComposite
++ __INSTANCE_METHODS_LACAuthenticationUIManagerCustom
++ __INSTANCE_METHODS_LACAuthenticationUIManagerDefault
++ __INSTANCE_METHODS_LACAuthenticationUIManagerFactory
++ __INSTANCE_METHODS_LACBackgroundTask
++ __INSTANCE_METHODS_LACBackgroundTaskQueued
++ __INSTANCE_METHODS_LACConcurrentEvaluationConfiguration
++ __INSTANCE_METHODS_LACConcurrentEvaluationHelper
++ __INSTANCE_METHODS_LACConcurrentEvaluationManager
++ __INSTANCE_METHODS_LACEvaluationEvent
++ __INSTANCE_METHODS_LACMaxBiometryFailureProcessor
++ __INSTANCE_METHODS_LACMutableEvaluationEventValueActivity
++ __INSTANCE_METHODS_LACMutableEvaluationEventValueBiometricStatus
++ __INSTANCE_METHODS_LACMutableEvaluationEventValueBootstrap
++ __INSTANCE_METHODS_LACMutableEvaluationEventValueCoachingFeedback
++ __INSTANCE_METHODS_LACMutableEvaluationEventValueCompanionStatus
++ __INSTANCE_METHODS_LACMutableEvaluationEventValuePasscodeStatus
++ __INSTANCE_METHODS_LACMutableEvaluationEventValuePushButtonStatus
++ __INSTANCE_METHODS_LACMutablePasscodeVerificationRequestExtended
++ __INSTANCE_METHODS_LACPasscodeHelper
++ __INSTANCE_METHODS_LACPersistentStoreFactory
++ __INSTANCE_METHODS_LACPreboardErrorBuilder
++ __INSTANCE_METHODS_LACUserCredentialHash
++ __INSTANCE_METHODS_LACUserPasswordHash
++ __INSTANCE_METHODS__TtC23LocalAuthenticationCore18LACPasscodeMonitor
++ __INSTANCE_METHODS__TtC23LocalAuthenticationCore19LACPasscodeVerifier
++ __INSTANCE_METHODS__TtC23LocalAuthenticationCore19LACUserDaemonClient
++ __INSTANCE_METHODS__TtC23LocalAuthenticationCore21LACPasscodeSuccessAge
++ __INSTANCE_METHODS__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ __INSTANCE_METHODS__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener
++ __INSTANCE_METHODS__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS
++ __IVARS_LACAuthenticationUIManagerComposite
++ __IVARS_LACAuthenticationUIManagerCustom
++ __IVARS_LACAuthenticationUIManagerDefault
++ __IVARS_LACBackgroundTask
++ __IVARS_LACBackgroundTaskQueued
++ __IVARS_LACConcurrentEvaluationConfiguration
++ __IVARS_LACConcurrentEvaluationController
++ __IVARS_LACConcurrentEvaluationHelper
++ __IVARS_LACConcurrentEvaluationManager
++ __IVARS_LACEvaluationEvent
++ __IVARS_LACMaxBiometryFailureProcessor
++ __IVARS_LACMutableEvaluationEventValueActivity
++ __IVARS_LACMutableEvaluationEventValueBiometricStatus
++ __IVARS_LACMutableEvaluationEventValueBootstrap
++ __IVARS_LACMutableEvaluationEventValueCoachingFeedback
++ __IVARS_LACMutableEvaluationEventValueCompanionStatus
++ __IVARS_LACMutableEvaluationEventValuePasscodeStatus
++ __IVARS_LACMutableEvaluationEventValuePushButtonStatus
++ __IVARS_LACMutablePasscodeVerificationRequestExtended
++ __IVARS_LACPasscodeHelper
++ __IVARS_LACUserCredentialHash
++ __IVARS_LACUserPasswordHash
++ __IVARS__TtC23LocalAuthenticationCore18LACPasscodeMonitor
++ __IVARS__TtC23LocalAuthenticationCore19LACPasscodeVerifier
++ __IVARS__TtC23LocalAuthenticationCore20LACPasscodeOTIHelper
++ __IVARS__TtC23LocalAuthenticationCore21LACPasscodeSuccessAge
++ __IVARS__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ __IVARS__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener
++ __IVARS__TtC23LocalAuthenticationCore26LACUserAuthDaemonContainer
++ __IVARS__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS
++ __IVARS__TtC23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOS
++ __IVARS__TtC23LocalAuthenticationCore9LACAtomic
++ __IVARS__TtC23LocalAuthenticationCoreP33_53C4CF2605483CE5CE76F1EC3A4D036F37LACConcurrentEvaluationManagedRequest
++ __IVARS__TtCE23LocalAuthenticationCoreCSo21LACUserCredentialHashP33_6053F70B4993339D78D3AEF8B2C99DAF10Properties
++ __METACLASS_DATA_LACAnalyticsReporter
++ __METACLASS_DATA_LACAuthenticationUIManagerComposite
++ __METACLASS_DATA_LACAuthenticationUIManagerCustom
++ __METACLASS_DATA_LACAuthenticationUIManagerDefault
++ __METACLASS_DATA_LACAuthenticationUIManagerFactory
++ __METACLASS_DATA_LACBackgroundTask
++ __METACLASS_DATA_LACBackgroundTaskQueued
++ __METACLASS_DATA_LACConcurrentEvaluationConfiguration
++ __METACLASS_DATA_LACConcurrentEvaluationController
++ __METACLASS_DATA_LACConcurrentEvaluationHelper
++ __METACLASS_DATA_LACConcurrentEvaluationManager
++ __METACLASS_DATA_LACEvaluationEvent
++ __METACLASS_DATA_LACMaxBiometryFailureProcessor
++ __METACLASS_DATA_LACMutableEvaluationEventValueActivity
++ __METACLASS_DATA_LACMutableEvaluationEventValueBiometricStatus
++ __METACLASS_DATA_LACMutableEvaluationEventValueBootstrap
++ __METACLASS_DATA_LACMutableEvaluationEventValueCoachingFeedback
++ __METACLASS_DATA_LACMutableEvaluationEventValueCompanionStatus
++ __METACLASS_DATA_LACMutableEvaluationEventValuePasscodeStatus
++ __METACLASS_DATA_LACMutableEvaluationEventValuePushButtonStatus
++ __METACLASS_DATA_LACMutablePasscodeVerificationRequestExtended
++ __METACLASS_DATA_LACPasscodeHelper
++ __METACLASS_DATA_LACPersistentStoreFactory
++ __METACLASS_DATA_LACPreboardErrorBuilder
++ __METACLASS_DATA_LACUserCredentialHash
++ __METACLASS_DATA_LACUserPasswordHash
++ __METACLASS_DATA__TtC23LocalAuthenticationCore18LACPasscodeMonitor
++ __METACLASS_DATA__TtC23LocalAuthenticationCore19LACPasscodeVerifier
++ __METACLASS_DATA__TtC23LocalAuthenticationCore19LACUserDaemonClient
++ __METACLASS_DATA__TtC23LocalAuthenticationCore20LACPasscodeOTIHelper
++ __METACLASS_DATA__TtC23LocalAuthenticationCore21LACPasscodeSuccessAge
++ __METACLASS_DATA__TtC23LocalAuthenticationCore23LACBiometryTypeProvider
++ __METACLASS_DATA__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ __METACLASS_DATA__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener
++ __METACLASS_DATA__TtC23LocalAuthenticationCore26LACUserAuthDaemonContainer
++ __METACLASS_DATA__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS
++ __METACLASS_DATA__TtC23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOS
++ __METACLASS_DATA__TtC23LocalAuthenticationCoreP33_53C4CF2605483CE5CE76F1EC3A4D036F37LACConcurrentEvaluationManagedRequest
++ __METACLASS_DATA__TtCE23LocalAuthenticationCoreCSo21LACUserCredentialHashP33_6053F70B4993339D78D3AEF8B2C99DAF10Properties
++ __MergedGlobals
++ __NSDictionaryFromACMRequirement_block_invoke.291
++ __NSDictionaryFromACMRequirement_block_invoke_2.292
++ __OBJC_$_CLASS_METHODS_LACBootArgParser
++ __OBJC_$_CLASS_METHODS_LACInstanceIDGenerator
++ __OBJC_$_CLASS_METHODS_LACUserMembershipHelper
++ __OBJC_$_CLASS_PROP_LIST_LACBootArgParser
++ __OBJC_$_CLASS_PROP_LIST_LACInstanceIDGenerator
++ __OBJC_$_CLASS_PROP_LIST_LACUserMembershipHelper
++ __OBJC_$_INSTANCE_METHODS_LACAKSFileVaultHelper
++ __OBJC_$_INSTANCE_METHODS_LACAgentProxyWithErrorHandler
++ __OBJC_$_INSTANCE_METHODS_LACAuthenticationUINotificationCenter
++ __OBJC_$_INSTANCE_METHODS_LACBootArgParser
++ __OBJC_$_INSTANCE_METHODS_LACConcurrentEvaluationController(LocalAuthenticationCore)
++ __OBJC_$_INSTANCE_METHODS_LACDefaultServiceSession
++ __OBJC_$_INSTANCE_METHODS_LACExternalizedContextProvider
++ __OBJC_$_INSTANCE_METHODS_LACInstanceIDGenerator
++ __OBJC_$_INSTANCE_METHODS_LACMutableXPCClient
++ __OBJC_$_INSTANCE_METHODS_LACPasscodeMKBHelper
++ __OBJC_$_INSTANCE_METHODS_LACPasscodeODHelper
++ __OBJC_$_INSTANCE_METHODS_LACPasscodePAMHelper
++ __OBJC_$_INSTANCE_METHODS_LACPasscodeUserHelper
++ __OBJC_$_INSTANCE_METHODS_LACRemoteUIParams
++ __OBJC_$_INSTANCE_METHODS_LACServiceAdapter
++ __OBJC_$_INSTANCE_METHODS_LACServiceBase
++ __OBJC_$_INSTANCE_METHODS_LACServiceManagerBase
++ __OBJC_$_INSTANCE_METHODS_LACUserMembershipHelper
++ __OBJC_$_INSTANCE_VARIABLES_LACAgentProxyWithErrorHandler
++ __OBJC_$_INSTANCE_VARIABLES_LACAuthenticationUINotificationCenter
++ __OBJC_$_INSTANCE_VARIABLES_LACDefaultServiceSession
++ __OBJC_$_INSTANCE_VARIABLES_LACExternalizedContextProvider
++ __OBJC_$_INSTANCE_VARIABLES_LACInstanceIDGenerator
++ __OBJC_$_INSTANCE_VARIABLES_LACPasscodeODHelper
++ __OBJC_$_INSTANCE_VARIABLES_LACPasscodeUserHelper
++ __OBJC_$_INSTANCE_VARIABLES_LACRemoteUIParams
++ __OBJC_$_INSTANCE_VARIABLES_LACServiceAdapter
++ __OBJC_$_INSTANCE_VARIABLES_LACServiceBase
++ __OBJC_$_INSTANCE_VARIABLES_LACServiceManagerBase
++ __OBJC_$_PROP_LIST_LACAuthenticationUIManaging
++ __OBJC_$_PROP_LIST_LACAuthenticationUINotificationCenter
++ __OBJC_$_PROP_LIST_LACAuthenticationUIProxy
++ __OBJC_$_PROP_LIST_LACBootArgParser
++ __OBJC_$_PROP_LIST_LACClientRequest
++ __OBJC_$_PROP_LIST_LACConcurrentEvaluationConfiguring
++ __OBJC_$_PROP_LIST_LACDefaultServiceSession
++ __OBJC_$_PROP_LIST_LACEvaluationEventValueActivity
++ __OBJC_$_PROP_LIST_LACEvaluationEventValueBiometricStatus
++ __OBJC_$_PROP_LIST_LACEvaluationEventValueBootstrap
++ __OBJC_$_PROP_LIST_LACEvaluationEventValueCoachingFeedback
++ __OBJC_$_PROP_LIST_LACEvaluationEventValueCompanionStatus
++ __OBJC_$_PROP_LIST_LACEvaluationEventValuePasscodeStatus
++ __OBJC_$_PROP_LIST_LACEvaluationEventValuePushButtonStatus
++ __OBJC_$_PROP_LIST_LACExternalizedContextProvider
++ __OBJC_$_PROP_LIST_LACKeyBagProvider
++ __OBJC_$_PROP_LIST_LACMutableXPCClient
++ __OBJC_$_PROP_LIST_LACPasscodeVerificationRequestExtended
++ __OBJC_$_PROP_LIST_LACRemoteUIParams
++ __OBJC_$_PROP_LIST_LACService
++ __OBJC_$_PROP_LIST_LACServiceBase
++ __OBJC_$_PROP_LIST_LACServiceManagerBase
++ __OBJC_$_PROP_LIST_LACServiceSession
++ __OBJC_$_PROP_LIST_LACUIMechanism
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACAnalyticsReporter
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACAuthenticationUIEventHandling
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACAuthenticationUIManaging
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACAuthenticationUINotifying
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACAuthenticationUIProxy
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACBootArgParsing
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACClientRequest
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACConcurrentEvaluationConfiguring
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventHandling
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventValueActivity
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventValueBiometricStatus
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventValueBootstrap
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventValueCoachingFeedback
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventValueCompanionStatus
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventValuePasscodeStatus
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACEvaluationEventValuePushButtonStatus
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACKeyBagProvider
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACPasscodeObserver
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACPasscodeRateLimiting
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACPasscodeVerificationRequestExtended
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACService
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACServiceManager
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACServiceSession
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACTimer
++ __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACUserAuthDaemonXPC
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACAnalyticsReporter
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACAuthenticationUIEventHandling
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACAuthenticationUIManaging
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACAuthenticationUINotifying
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACAuthenticationUIProxy
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACBootArgParsing
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACClientRequest
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACConcurrentEvaluationConfiguring
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventHandling
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventValueActivity
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventValueBiometricStatus
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventValueBootstrap
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventValueCoachingFeedback
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventValueCompanionStatus
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventValuePasscodeStatus
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACEvaluationEventValuePushButtonStatus
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACKeyBagProvider
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACPasscodeObserver
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACPasscodeRateLimiting
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACPasscodeVerificationRequestExtended
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACService
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACServiceManager
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACServiceSession
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACTimer
++ __OBJC_$_PROTOCOL_METHOD_TYPES_LACUserAuthDaemonXPC
++ __OBJC_$_PROTOCOL_REFS_LACAnalyticsReporter
++ __OBJC_$_PROTOCOL_REFS_LACAuthenticationUIEventHandling
++ __OBJC_$_PROTOCOL_REFS_LACAuthenticationUIManaging
++ __OBJC_$_PROTOCOL_REFS_LACAuthenticationUINotifying
++ __OBJC_$_PROTOCOL_REFS_LACAuthenticationUIProxy
++ __OBJC_$_PROTOCOL_REFS_LACBootArgParsing
++ __OBJC_$_PROTOCOL_REFS_LACClientRequest
++ __OBJC_$_PROTOCOL_REFS_LACConcurrentEvaluationConfiguring
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventHandling
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValue
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValueActivity
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValueBiometricStatus
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValueBootstrap
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValueCoachingFeedback
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValueCompanionStatus
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValuePasscodeStatus
++ __OBJC_$_PROTOCOL_REFS_LACEvaluationEventValuePushButtonStatus
++ __OBJC_$_PROTOCOL_REFS_LACGlobalDomainAutoLock
++ __OBJC_$_PROTOCOL_REFS_LACKeyBagProvider
++ __OBJC_$_PROTOCOL_REFS_LACPasscodeObserver
++ __OBJC_$_PROTOCOL_REFS_LACPasscodeRateLimiting
++ __OBJC_$_PROTOCOL_REFS_LACPasscodeVerificationRequestExtended
++ __OBJC_$_PROTOCOL_REFS_LACService
++ __OBJC_$_PROTOCOL_REFS_LACServiceManager
++ __OBJC_$_PROTOCOL_REFS_LACServiceSession
++ __OBJC_$_PROTOCOL_REFS_LACTimer
++ __OBJC_$_PROTOCOL_REFS_LACUserAuthDaemonXPC
++ __OBJC_CLASS_PROTOCOLS_$_LACAgentProxyWithErrorHandler
++ __OBJC_CLASS_PROTOCOLS_$_LACAuthenticationUINotificationCenter
++ __OBJC_CLASS_PROTOCOLS_$_LACBootArgParser
++ __OBJC_CLASS_PROTOCOLS_$_LACConcurrentEvaluationController(LocalAuthenticationCore)
++ __OBJC_CLASS_PROTOCOLS_$_LACDefaultServiceSession
++ __OBJC_CLASS_PROTOCOLS_$_LACKeyBagProvider
++ __OBJC_CLASS_PROTOCOLS_$_LACServiceBase
++ __OBJC_CLASS_PROTOCOLS_$_LACServiceManagerBase
++ __OBJC_CLASS_PROTOCOLS_$_LACTimer
++ __OBJC_CLASS_RO_$_LACAKSFileVaultHelper
++ __OBJC_CLASS_RO_$_LACAgentProxyWithErrorHandler
++ __OBJC_CLASS_RO_$_LACAuthenticationUINotificationCenter
++ __OBJC_CLASS_RO_$_LACBootArgParser
++ __OBJC_CLASS_RO_$_LACDefaultServiceSession
++ __OBJC_CLASS_RO_$_LACExternalizedContextProvider
++ __OBJC_CLASS_RO_$_LACInstanceIDGenerator
++ __OBJC_CLASS_RO_$_LACMutableXPCClient
++ __OBJC_CLASS_RO_$_LACPasscodeMKBHelper
++ __OBJC_CLASS_RO_$_LACPasscodeODHelper
++ __OBJC_CLASS_RO_$_LACPasscodePAMHelper
++ __OBJC_CLASS_RO_$_LACPasscodeUserHelper
++ __OBJC_CLASS_RO_$_LACRemoteUIParams
++ __OBJC_CLASS_RO_$_LACServiceAdapter
++ __OBJC_CLASS_RO_$_LACServiceBase
++ __OBJC_CLASS_RO_$_LACServiceManagerBase
++ __OBJC_CLASS_RO_$_LACUserMembershipHelper
++ __OBJC_LABEL_PROTOCOL_$_LACAnalyticsReporter
++ __OBJC_LABEL_PROTOCOL_$_LACAuthenticationUIEventHandling
++ __OBJC_LABEL_PROTOCOL_$_LACAuthenticationUIManaging
++ __OBJC_LABEL_PROTOCOL_$_LACAuthenticationUINotifying
++ __OBJC_LABEL_PROTOCOL_$_LACAuthenticationUIProxy
++ __OBJC_LABEL_PROTOCOL_$_LACBootArgParsing
++ __OBJC_LABEL_PROTOCOL_$_LACClientRequest
++ __OBJC_LABEL_PROTOCOL_$_LACConcurrentEvaluationConfiguring
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventHandling
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValue
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValueActivity
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValueBiometricStatus
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValueBootstrap
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValueCoachingFeedback
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValueCompanionStatus
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValuePasscodeStatus
++ __OBJC_LABEL_PROTOCOL_$_LACEvaluationEventValuePushButtonStatus
++ __OBJC_LABEL_PROTOCOL_$_LACGlobalDomainAutoLock
++ __OBJC_LABEL_PROTOCOL_$_LACKeyBagProvider
++ __OBJC_LABEL_PROTOCOL_$_LACPasscodeObserver
++ __OBJC_LABEL_PROTOCOL_$_LACPasscodeRateLimiting
++ __OBJC_LABEL_PROTOCOL_$_LACPasscodeVerificationRequestExtended
++ __OBJC_LABEL_PROTOCOL_$_LACService
++ __OBJC_LABEL_PROTOCOL_$_LACServiceManager
++ __OBJC_LABEL_PROTOCOL_$_LACServiceSession
++ __OBJC_LABEL_PROTOCOL_$_LACTimer
++ __OBJC_LABEL_PROTOCOL_$_LACUserAuthDaemonXPC
++ __OBJC_METACLASS_RO_$_LACAKSFileVaultHelper
++ __OBJC_METACLASS_RO_$_LACAgentProxyWithErrorHandler
++ __OBJC_METACLASS_RO_$_LACAuthenticationUINotificationCenter
++ __OBJC_METACLASS_RO_$_LACBootArgParser
++ __OBJC_METACLASS_RO_$_LACDefaultServiceSession
++ __OBJC_METACLASS_RO_$_LACExternalizedContextProvider
++ __OBJC_METACLASS_RO_$_LACInstanceIDGenerator
++ __OBJC_METACLASS_RO_$_LACMutableXPCClient
++ __OBJC_METACLASS_RO_$_LACPasscodeMKBHelper
++ __OBJC_METACLASS_RO_$_LACPasscodeODHelper
++ __OBJC_METACLASS_RO_$_LACPasscodePAMHelper
++ __OBJC_METACLASS_RO_$_LACPasscodeUserHelper
++ __OBJC_METACLASS_RO_$_LACRemoteUIParams
++ __OBJC_METACLASS_RO_$_LACServiceAdapter
++ __OBJC_METACLASS_RO_$_LACServiceBase
++ __OBJC_METACLASS_RO_$_LACServiceManagerBase
++ __OBJC_METACLASS_RO_$_LACUserMembershipHelper
++ __OBJC_PROTOCOL_$_LACAnalyticsReporter
++ __OBJC_PROTOCOL_$_LACAuthenticationUIEventHandling
++ __OBJC_PROTOCOL_$_LACAuthenticationUIManaging
++ __OBJC_PROTOCOL_$_LACAuthenticationUINotifying
++ __OBJC_PROTOCOL_$_LACAuthenticationUIProxy
++ __OBJC_PROTOCOL_$_LACBootArgParsing
++ __OBJC_PROTOCOL_$_LACClientRequest
++ __OBJC_PROTOCOL_$_LACConcurrentEvaluationConfiguring
++ __OBJC_PROTOCOL_$_LACEvaluationEventHandling
++ __OBJC_PROTOCOL_$_LACEvaluationEventValue
++ __OBJC_PROTOCOL_$_LACEvaluationEventValueActivity
++ __OBJC_PROTOCOL_$_LACEvaluationEventValueBiometricStatus
++ __OBJC_PROTOCOL_$_LACEvaluationEventValueBootstrap
++ __OBJC_PROTOCOL_$_LACEvaluationEventValueCoachingFeedback
++ __OBJC_PROTOCOL_$_LACEvaluationEventValueCompanionStatus
++ __OBJC_PROTOCOL_$_LACEvaluationEventValuePasscodeStatus
++ __OBJC_PROTOCOL_$_LACEvaluationEventValuePushButtonStatus
++ __OBJC_PROTOCOL_$_LACGlobalDomainAutoLock
++ __OBJC_PROTOCOL_$_LACKeyBagProvider
++ __OBJC_PROTOCOL_$_LACPasscodeObserver
++ __OBJC_PROTOCOL_$_LACPasscodeRateLimiting
++ __OBJC_PROTOCOL_$_LACPasscodeVerificationRequestExtended
++ __OBJC_PROTOCOL_$_LACService
++ __OBJC_PROTOCOL_$_LACServiceManager
++ __OBJC_PROTOCOL_$_LACServiceSession
++ __OBJC_PROTOCOL_$_LACTimer
++ __OBJC_PROTOCOL_$_LACUserAuthDaemonXPC
++ __OBJC_PROTOCOL_REFERENCE_$_LACServiceManager
++ __OBJC_PROTOCOL_REFERENCE_$_NSObject
++ __PROPERTIES_LACAuthenticationUIManagerComposite
++ __PROPERTIES_LACAuthenticationUIManagerCustom
++ __PROPERTIES_LACAuthenticationUIManagerDefault
++ __PROPERTIES_LACBackgroundTask
++ __PROPERTIES_LACBackgroundTaskQueued
++ __PROPERTIES_LACConcurrentEvaluationConfiguration
++ __PROPERTIES_LACConcurrentEvaluationController
++ __PROPERTIES_LACConcurrentEvaluationHelper
++ __PROPERTIES_LACConcurrentEvaluationManager
++ __PROPERTIES_LACEvaluationEvent
++ __PROPERTIES_LACMaxBiometryFailureProcessor
++ __PROPERTIES_LACMutableEvaluationEventValueActivity
++ __PROPERTIES_LACMutableEvaluationEventValueBiometricStatus
++ __PROPERTIES_LACMutableEvaluationEventValueBootstrap
++ __PROPERTIES_LACMutableEvaluationEventValueCoachingFeedback
++ __PROPERTIES_LACMutableEvaluationEventValueCompanionStatus
++ __PROPERTIES_LACMutableEvaluationEventValuePasscodeStatus
++ __PROPERTIES_LACMutableEvaluationEventValuePushButtonStatus
++ __PROPERTIES_LACMutablePasscodeVerificationRequestExtended
++ __PROPERTIES_LACPasscodeHelper
++ __PROPERTIES_LACUserCredentialHash
++ __PROPERTIES_LACUserPasswordHash
++ __PROPERTIES__TtC23LocalAuthenticationCore21LACPasscodeSuccessAge
++ __PROPERTIES__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ __PROTOCOLS_LACAnalyticsReporter
++ __PROTOCOLS_LACAuthenticationUIManagerComposite
++ __PROTOCOLS_LACAuthenticationUIManagerCustom
++ __PROTOCOLS_LACAuthenticationUIManagerDefault
++ __PROTOCOLS_LACConcurrentEvaluationConfiguration
++ __PROTOCOLS_LACConcurrentEvaluationManager
++ __PROTOCOLS_LACMaxBiometryFailureProcessor
++ __PROTOCOLS_LACMutableEvaluationEventValueActivity
++ __PROTOCOLS_LACMutableEvaluationEventValueBiometricStatus
++ __PROTOCOLS_LACMutableEvaluationEventValueBootstrap
++ __PROTOCOLS_LACMutableEvaluationEventValueCoachingFeedback
++ __PROTOCOLS_LACMutableEvaluationEventValueCompanionStatus
++ __PROTOCOLS_LACMutableEvaluationEventValuePasscodeStatus
++ __PROTOCOLS_LACMutableEvaluationEventValuePushButtonStatus
++ __PROTOCOLS_LACMutablePasscodeVerificationRequestExtended
++ __PROTOCOLS_LACUserCredentialHash
++ __PROTOCOLS_LACUserPasswordHash
++ __PROTOCOLS__TtC23LocalAuthenticationCore18LACPasscodeMonitor
++ __PROTOCOLS__TtC23LocalAuthenticationCore19LACUserDaemonClient
++ __PROTOCOLS__TtC23LocalAuthenticationCore24LACUserAuthDaemonService
++ __PROTOCOLS__TtC23LocalAuthenticationCore25LACUserAuthDaemonListener
++ __PROTOCOLS__TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS
++ ___34+[LACBootArgParser sharedInstance]_block_invoke
++ ___37-[LACPasscodeUserHelper deviceOwners]_block_invoke
++ ___40+[LACInstanceIDGenerator sharedInstance]_block_invoke
++ ___41+[LACUserMembershipHelper sharedInstance]_block_invoke
++ ___41-[LACPasscodeUserHelper userUUIDFromUID:]_block_invoke
++ ___46-[LACPasscodeUserHelper nonHiddenDeviceOwners]_block_invoke
++ ___53-[LACServiceBase listener:shouldAcceptNewConnection:]_block_invoke
++ ___59-[LACSecureStorage _storeObject:request:completionHandler:]_block_invoke
++ ___63-[LACExternalizedContextProvider externalizedContextWithReply:]_block_invoke
++ ___66-[LACFlags valueForFlagDTOBiometricLivenessEnrollmentAgeThreshold]_block_invoke
++ ___97-[LACServiceManagerBase bootstrapSessionServiceType:clientID:clientConnection:completionHandler:]_block_invoke
++ ___LACLogAuthorization_block_invoke
++ ___LACLogEvaluationMechanism_block_invoke
++ ___LACLogNetwork_block_invoke
++ ___LACLogOpticIDUI_block_invoke
++ ___LACLogSheet_block_invoke
++ ___LACLogUIManager_block_invoke
++ ___block_descriptor_48_e8_32r40w_e5_v8?0l
++ ___block_descriptor_64_e8_32s40s48bs56w_e34_v24?0"<LACService>"8"NSError"16l
++ ___copy_helper_block_e8_32r40w
++ ___copy_helper_block_e8_32s40s48b56w
++ ___destroy_helper_block_e8_32r40w
++ ___swift_instantiateGenericMetadata
++ ___swift_memcpy24_8
++ ___swift_memcpy40_8
++ ___swift_memcpy4_4
++ ___unnamed_1
++ __block_literal_global.157
++ __block_literal_global.160
++ __block_literal_global.163
++ __block_literal_global.166
++ __block_literal_global.169
++ _aks_fv_apfs_get_blob_by_uuid
++ _aks_fv_apfs_get_default_disk
++ _aks_fv_grant_ownership
++ _associated conformance 23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOSHAASQ
++ _associated conformance 23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAs23CustomStringConvertible
++ _associated conformance 23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLOs0F3KeyAAs28CustomDebugStringConvertible
++ _associated conformance 23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyOSHAASQ
++ _associated conformance So13LACEventParamaSHSCSQ
++ _associated conformance So13LACEventParamas20_SwiftNewtypeWrapperSCSY
++ _associated conformance So13LACEventParamas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentation
++ _associated conformance So16LACAuthenticatoraSHSCSQ
++ _associated conformance So16LACAuthenticatoras20_SwiftNewtypeWrapperSCSY
++ _associated conformance So16LACAuthenticatoras20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentation
++ _associated conformance So29LACUserIdentityCreationPolicyaSHSCSQ
++ _associated conformance So29LACUserIdentityCreationPolicyas20_SwiftNewtypeWrapperSCSY
++ _associated conformance So29LACUserIdentityCreationPolicyas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentation
++ _associated conformance So30LACEvaluationRequestPayloadKeyaSHSCSQ
++ _associated conformance So30LACEvaluationRequestPayloadKeyas20_SwiftNewtypeWrapperSCSY
++ _associated conformance So30LACEvaluationRequestPayloadKeyas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentation
++ _associated conformance So8LACEventaSHSCSQ
++ _associated conformance So8LACEventas20_SwiftNewtypeWrapperSCSY
++ _associated conformance So8LACEventas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentation
++ _flat unique So11LACRemoteUI_p
++ _flat unique So14NSSecureCoding_p
++ _flat unique So17LACKeyBagProvider_p
++ _flat unique So19LACPasscodeObserver_p
++ _flat unique So20LACUserAuthDaemonXPC_p
++ _flat unique So23LACEvaluationEventValue_p
++ _flat unique So23LACPasscodeRateLimiting_p
++ _flat unique So27LACAuthenticationUIManaging_p
++ _flat unique So29LACServiceXPCEndpointProvider_p
++ _flat unique So30LACPasscodeVerificationRequest_p
++ _flat unique So34LACConcurrentEvaluationConfiguring_p
++ _flat unique So38LACPasscodeVerificationRequestExtended_p
++ _flat unique So9LACKeyBag_p
++ _get_enum_tag_for_layout_string SDys11AnyHashableVypGSgs5Error_pSgIeggg_Sg
++ _get_enum_tag_for_layout_string So23LACBackgroundTaskResultCIegg_Sg
++ _kAKSIdentityProperty_HasKeybag
++ _keypath_get_selector_accessoryAuthorizationError
++ _keypath_get_selector_accessoryAuthorizationResult
++ _keypath_get_selector_authenticationHints
++ _keypath_get_selector_authenticationResult
++ _keypath_get_selector_authenticator
++ _keypath_get_selector_authorizingAccessoryId
++ _keypath_get_selector_dtoBiometricLivenessEnrollmentAgeThreshold
++ _keypath_get_selector_evaluationError
++ _keypath_get_selector_feedbackType
++ _keypath_get_selector_feedbackValue
++ _keypath_get_selector_hostedSceneConfiguration
++ _keypath_get_selector_idleUIListener
++ _keypath_get_selector_initialPosition
++ _keypath_get_selector_isActive
++ _keypath_get_selector_isAdminUser
++ _keypath_get_selector_isCredentialPresent
++ _keypath_get_selector_isCurrentUser
++ _keypath_get_selector_isEvaluationOffloaded
++ _keypath_get_selector_lockoutError
++ _keypath_get_selector_matchingStatus
++ _keypath_get_selector_pamService
++ _keypath_get_selector_pamToken
++ _keypath_get_selector_pamUser
++ _keypath_get_selector_parent
++ _keypath_get_selector_parentK
++ _keypath_get_selector_parentN
++ _keypath_get_selector_payload
++ _keypath_get_selector_postRequisite
++ _keypath_get_selector_preRequisite
++ _keypath_get_selector_uiEventDelegate
++ _keypath_get_selector_userUUID
++ _keypath_get_selector_verificationResult
++ _objc_msgSend$_assertRunningInCorrectQueue
++ _objc_msgSend$_checkIsRedundantNotification:
++ _objc_msgSend$_deriveKeyWithPassword:salt:iterations:size:prf:error:
++ _objc_msgSend$_disconnectClient:
++ _objc_msgSend$_error:hasCode:subcodeValue:
++ _objc_msgSend$_freeFVData:
++ _objc_msgSend$_postDarwinNotificationWithIdentifier:
++ _objc_msgSend$_shutdownSessionsWithServiceType:
++ _objc_msgSend$_storeObject:request:completionHandler:
++ _objc_msgSend$accessoryAuthorizationError
++ _objc_msgSend$accessoryAuthorizationResult
++ _objc_msgSend$activeMechanisms
++ _objc_msgSend$addObserver:forRequest:
++ _objc_msgSend$addRecoveryKey:authorizer:reply:
++ _objc_msgSend$addRecoveryKey:authorizerKey:reply:
++ _objc_msgSend$addRecoveryKey:reply:
++ _objc_msgSend$aesGCMDecryptData:key:error:
++ _objc_msgSend$aesGCMEncryptData:key:error:
++ _objc_msgSend$aesGCMKeyWithPassword:salt:iterations:error:
++ _objc_msgSend$ageForDataWithType:error:
++ _objc_msgSend$allowList
++ _objc_msgSend$allowsMultipleClientsForServiceType:
++ _objc_msgSend$anonymousListener
++ _objc_msgSend$anonymousListenerWithIdentifier:
++ _objc_msgSend$anonymousListeners
++ _objc_msgSend$applicationIsRunningWithSDKVersionAtLeast:
++ _objc_msgSend$attributesOfItemAtPath:error:
++ _objc_msgSend$auditSessionIdentifier
++ _objc_msgSend$authProvider
++ _objc_msgSend$authenticateRequest:completion:
++ _objc_msgSend$authenticateUser:credential:domain:disk:error:
++ _objc_msgSend$authenticateUser:domain:targetDisk:contextRef:reply:
++ _objc_msgSend$authenticateUser:domain:targetDisk:reply:
++ _objc_msgSend$authenticateUser:targetDisk:contextRef:reply:
++ _objc_msgSend$authenticateUser:targetDisk:reply:
++ _objc_msgSend$authenticateWithRequest:
++ _objc_msgSend$authenticationHints
++ _objc_msgSend$authenticationProvider
++ _objc_msgSend$authenticationProvider:didCompleteAuthenticationWithID:
++ _objc_msgSend$authenticationProvider:didFailAuthenticationWithID:error:
++ _objc_msgSend$authenticationRequirementsForMechanismEvent:
++ _objc_msgSend$authenticationResult
++ _objc_msgSend$authenticator
++ _objc_msgSend$authorizingAccessoryId
++ _objc_msgSend$backoff
++ _objc_msgSend$backoffCounter
++ _objc_msgSend$backoffTimeIntervalForUserID:
++ _objc_msgSend$bootstrapServiceWithType:clientConnection:completionHandler:
++ _objc_msgSend$bootstrapSessionServiceType:clientID:clientConnection:completionHandler:
++ _objc_msgSend$bootstrapSessionServiceType:clientID:completionHandler:
++ _objc_msgSend$bootstrapSessionServiceType:completionHandler:
++ _objc_msgSend$canAuthenticateRequest:availabilityError:error:
++ _objc_msgSend$canCurrentSessionSatisfyAuthenticationRequirements:error:
++ _objc_msgSend$cancelAuthenticationForRequestIdentifier:
++ _objc_msgSend$cancelAuthenticationWithID:
++ _objc_msgSend$changePasswordForUser:to:reply:
++ _objc_msgSend$changeUserPassword:from:to:error:
++ _objc_msgSend$checkDiskOwnership:error:
++ _objc_msgSend$checkExistsOTIForUserWithUUID:targetDisk:reply:
++ _objc_msgSend$checkExistsUserWithUUID:targetDisk:reply:
++ _objc_msgSend$checkOwnershipStatusForTargetDisk:reply:
++ _objc_msgSend$children
++ _objc_msgSend$clientID
++ _objc_msgSend$companion
++ _objc_msgSend$companionAuthentication
++ _objc_msgSend$companionAuthenticationSessionMonitorDidUpdate:
++ _objc_msgSend$configureRequestForPreflight:
++ _objc_msgSend$connectedUIInstances
++ _objc_msgSend$connectionInvalidatedForIdentifier:
++ _objc_msgSend$contextRef
++ _objc_msgSend$createDirectoryAtURL:withIntermediateDirectories:attributes:error:
++ _objc_msgSend$createFileAtPath:contents:attributes:
++ _objc_msgSend$createRecoveryKey:recoveryCredential:externalDataUUID:externalData:authorizerUUID:authorizerCredential:error:
++ _objc_msgSend$createRecoveryKey:recoveryCredential:externalDataUUID:externalData:error:
++ _objc_msgSend$createUPPControlForTeamID:
++ _objc_msgSend$createUser:authorizer:reply:
++ _objc_msgSend$createUser:credential:authorizerUUID:authorizerCredential:error:
++ _objc_msgSend$createUser:credential:error:
++ _objc_msgSend$createUser:identityCreationPolicy:reply:
++ _objc_msgSend$createUser:recoveryCredential:reply:
++ _objc_msgSend$createUserWithHash:identityCreationPolicy:reply:
++ _objc_msgSend$createUserWithKeybag:credential:error:
++ _objc_msgSend$createUserWithKeybag:salt:iterations:credentialHash:error:
++ _objc_msgSend$currentSession
++ _objc_msgSend$customUIManagers
++ _objc_msgSend$darwinNotificationCenter
++ _objc_msgSend$dataForKey:completion:
++ _objc_msgSend$debugDescription
++ _objc_msgSend$defaultConfiguration
++ _objc_msgSend$defaultManager
++ _objc_msgSend$defaultUIManagers
++ _objc_msgSend$deletePasswordHintForUserWithUUID:reply:
++ _objc_msgSend$deleteRecoveryKey:externalDataUUID:error:
++ _objc_msgSend$deleteUser:error:
++ _objc_msgSend$deleteUserWithUUID:reply:
++ _objc_msgSend$destroyIdleUI
++ _objc_msgSend$deviceLockState
++ _objc_msgSend$deviceOwners
++ _objc_msgSend$dismissRemoteUI:uiMechanism:uiDisappeared:shouldIdle:reply:
++ _objc_msgSend$doesNotRecognizeSelector:
++ _objc_msgSend$dtoBiometricLivenessEnrollmentAgeThreshold
++ _objc_msgSend$eligibilityHelper
++ _objc_msgSend$encodeDouble:forKey:
++ _objc_msgSend$endpoint
++ _objc_msgSend$environmentProvider
++ _objc_msgSend$evaluationError
++ _objc_msgSend$evaluationMode
++ _objc_msgSend$evaluationRequest
++ _objc_msgSend$event:params:reply:
++ _objc_msgSend$eventType
++ _objc_msgSend$expectReconnectionOfIdleUI
++ _objc_msgSend$extendedInternalInfo
++ _objc_msgSend$extendedInternalInfoForRemoteUI
++ _objc_msgSend$externalData
++ _objc_msgSend$extractableCredentialFailedReadAttemptWithAge:signingID:
++ _objc_msgSend$extractableCredentialFailedWriteAttemptWithSigningID:
++ _objc_msgSend$extractableCredentialReadAttemptWithAge:accessAllowed:
++ _objc_msgSend$extractableCredentialWriteAttemptWithAccessAllowed:
++ _objc_msgSend$failedAttempts
++ _objc_msgSend$featureFlagAllowTouchIDLandscapeEnabled
++ _objc_msgSend$featureFlagExtractableCredentialProtectionEnabled
++ _objc_msgSend$featureFlagPhoneIntegrationEnabled
++ _objc_msgSend$featureFlagPreboardDeveloperModeEnabled
++ _objc_msgSend$featureFlagPreboardEnabled
++ _objc_msgSend$featureFlagPreboardUPPEnabled
++ _objc_msgSend$feedbackType
++ _objc_msgSend$feedbackValue
++ _objc_msgSend$fetchPasswordHintForUserWithUUID:reply:
++ _objc_msgSend$fetchRecoveryKeysInTargetDisk:reply:
++ _objc_msgSend$fetchUIDForUserWithUUID:error:
++ _objc_msgSend$fetchUIDForUserWithUUID:reply:
++ _objc_msgSend$fetchUsersInTargetDisk:reply:
++ _objc_msgSend$fileExistsAtPath:
++ _objc_msgSend$findUserWithUID:
++ _objc_msgSend$finishRunWithResult:error:
++ _objc_msgSend$flagCompanionMockDevicesKey
++ _objc_msgSend$flagCompanionSessionAuthenticationKey
++ _objc_msgSend$flagDTOBiometricLivenessEnrollmentAgeThresholdKey
++ _objc_msgSend$flagDTOStrictModeEnabledKey
++ _objc_msgSend$flagOnenessSessionActiveKey
++ _objc_msgSend$flagPhoneIntegrationSessionActiveKey
++ _objc_msgSend$flagPreboardModeKey
++ _objc_msgSend$flagReleaseUIDelegateKey
++ _objc_msgSend$flagRunningInBATSKey
++ _objc_msgSend$flagSharedModeActiveKey
++ _objc_msgSend$flagSharedModeLatencyKey
++ _objc_msgSend$flagUseTestAppleKeyStoreDaemonKey
++ _objc_msgSend$forSiri
++ _objc_msgSend$forSoftwareUpdate
++ _objc_msgSend$getUPPProfile
++ _objc_msgSend$handleEvaluationEvent:completion:
++ _objc_msgSend$handler
++ _objc_msgSend$hasPairedDevices
++ _objc_msgSend$hash
++ _objc_msgSend$helper
++ _objc_msgSend$hostedRemoteController
++ _objc_msgSend$hostedSceneConfiguration
++ _objc_msgSend$idleUIListener
++ _objc_msgSend$idleUIListenerProvider
++ _objc_msgSend$ignoreUIDisappearance
++ _objc_msgSend$increaseFailedAttemptCountForUserID:
++ _objc_msgSend$infoForSession:error:
++ _objc_msgSend$initForCompanion:environmentProvider:replyQueue:
++ _objc_msgSend$initWithACMHelper:
++ _objc_msgSend$initWithACMHelper:featureFlags:signPoster:
++ _objc_msgSend$initWithAuthenticator:environmentProvider:sessionMonitor:replyQueue:
++ _objc_msgSend$initWithAuthenticator:environmentProvider:sessionMonitor:uiPresenter:replyQueue:
++ _objc_msgSend$initWithBool:
++ _objc_msgSend$initWithChildren:isAndNode:
++ _objc_msgSend$initWithCoder:
++ _objc_msgSend$initWithCompanion:replyQueue:
++ _objc_msgSend$initWithContextProvider:
++ _objc_msgSend$initWithContextRef:
++ _objc_msgSend$initWithContextRef:salt:iterations:
++ _objc_msgSend$initWithCredential:externalData:
++ _objc_msgSend$initWithDomain:code:userInfo:
++ _objc_msgSend$initWithEligibilityHelper:sharingManager:workQueue:
++ _objc_msgSend$initWithEndpointProvider:remoteObjectInterface:serviceIdentifier:
++ _objc_msgSend$initWithEnvironmentProvider:monitor:
++ _objc_msgSend$initWithEvaluationRequest:clientInfo:companionType:
++ _objc_msgSend$initWithExportedInterface:exportedObject:queue:
++ _objc_msgSend$initWithFeatureAvailable:featureSupported:
++ _objc_msgSend$initWithHandler:replyQueue:
++ _objc_msgSend$initWithHelper:manager:replyQueue:
++ _objc_msgSend$initWithHelper:replyQueue:
++ _objc_msgSend$initWithIdentifier:optionalRequest:
++ _objc_msgSend$initWithInt:
++ _objc_msgSend$initWithInteger:
++ _objc_msgSend$initWithInternalInfo:
++ _objc_msgSend$initWithKeyBagStateProvider:notificationCenter:userId:
++ _objc_msgSend$initWithKeybagProvider:
++ _objc_msgSend$initWithMachServiceName:
++ _objc_msgSend$initWithMechanism:
++ _objc_msgSend$initWithMechanism:evaluationMode:eventType:value:
++ _objc_msgSend$initWithMechanism:hostedRemoteController:
++ _objc_msgSend$initWithPasscode:acmContext:auditToken:
++ _objc_msgSend$initWithPasscode:acmContext:auditToken:pamService:pamUser:pamToken:
++ _objc_msgSend$initWithRawValue:backoff:maxAttempts:failedAttempts:
++ _objc_msgSend$initWithReceiver:
++ _objc_msgSend$initWithRequest:
++ _objc_msgSend$initWithRequest:managers:
++ _objc_msgSend$initWithRequest:remoteUIManager:
++ _objc_msgSend$initWithRequest:uiDelegate:
++ _objc_msgSend$initWithRootDir:posixPermissions:
++ _objc_msgSend$initWithService:serviceType:client:
++ _objc_msgSend$initWithUUID:contextRef:
++ _objc_msgSend$initWithUUID:data:
++ _objc_msgSend$initWithUUID:lockState:
++ _objc_msgSend$initWithUUID:password:
++ _objc_msgSend$initWithUUID:passwordHash:
++ _objc_msgSend$initWithUnsignedInt:
++ _objc_msgSend$initWithUserHelper:
++ _objc_msgSend$initWithUserProvider:
++ _objc_msgSend$initWithVerifier:passcodeSuccessAge:rateLimiting:mkbHelper:userHelper:keyBagProvider:
++ _objc_msgSend$initialPosition
++ _objc_msgSend$installProfileWithUUID:signature:error:
++ _objc_msgSend$instanceId
++ _objc_msgSend$internalInfo
++ _objc_msgSend$internalInfoWithReply:
++ _objc_msgSend$interruptionHandler
++ _objc_msgSend$isAdminUser
++ _objc_msgSend$isAdministratorRequiredForUserID:authenticator:
++ _objc_msgSend$isAnd
++ _objc_msgSend$isAvailable
++ _objc_msgSend$isBootArgEnabled:
++ _objc_msgSend$isClientAllowListedWithClientInfo:
++ _objc_msgSend$isConcurrentEvaluationAvailable
++ _objc_msgSend$isConcurrentEvaluationEnabled
++ _objc_msgSend$isConcurrentEvaluationEnabledForClientInfo:
++ _objc_msgSend$isCredentialPresent
++ _objc_msgSend$isCurrentUser
++ _objc_msgSend$isDTOPolicy:options:
++ _objc_msgSend$isDTOStrictModeEnabled
++ _objc_msgSend$isDynamicIslandAvailable
++ _objc_msgSend$isEligibleForDomain:
++ _objc_msgSend$isEvaluationOffloaded
++ _objc_msgSend$isFeatureAvailable
++ _objc_msgSend$isFeatureSupported
++ _objc_msgSend$isFirstPartyClient
++ _objc_msgSend$isKeyAvailable:operation:
++ _objc_msgSend$isMacCompanionSessionActive
++ _objc_msgSend$isMonitoring
++ _objc_msgSend$isOnenessAssertionActive
++ _objc_msgSend$isOwnerRequiredForUserID:authenticator:
++ _objc_msgSend$isSatisfiableWithValue:
++ _objc_msgSend$isSessionActive
++ _objc_msgSend$isSharingError:
++ _objc_msgSend$isSubtitleLocalized
++ _objc_msgSend$isUnderlyingSessionActive
++ _objc_msgSend$isValue:replaceableByValue:
++ _objc_msgSend$isValueRequired:
++ _objc_msgSend$isVisionCompanionSessionActive
++ _objc_msgSend$iterations
++ _objc_msgSend$keyEnumerator
++ _objc_msgSend$launchPreboardWithCompletion:
++ _objc_msgSend$localizedStringWithKey:value:table:
++ _objc_msgSend$localizedStringWithKey:value:tableSuffix:
++ _objc_msgSend$lockSession:error:
++ _objc_msgSend$lockSessionID:reply:
++ _objc_msgSend$lockState
++ _objc_msgSend$lockStateForUserWithUUID:sessionID:reply:
++ _objc_msgSend$lockoutError
++ _objc_msgSend$lockoutStateForUserWithUUID:domain:reply:
++ _objc_msgSend$lockoutStateForUserWithUUID:reply:
++ _objc_msgSend$loginUser:credential:session:disk:error:
++ _objc_msgSend$loginUser:sessionID:targetDisk:reply:
++ _objc_msgSend$logoutSessionID:reply:
++ _objc_msgSend$lsApplicationIdentity
++ _objc_msgSend$makeProcessorWithSubprocessors:
++ _objc_msgSend$manager
++ _objc_msgSend$managers
++ _objc_msgSend$mapError:
++ _objc_msgSend$matchingStatus
++ _objc_msgSend$maxAttempts
++ _objc_msgSend$mechanism
++ _objc_msgSend$mechanismEvent:value:reply:
++ _objc_msgSend$mechanismTreeFromError:
++ _objc_msgSend$mechanismTreeFromSerializedTree:
++ _objc_msgSend$migrated
++ _objc_msgSend$mkbHelper
++ _objc_msgSend$mockedAuthProvider
++ _objc_msgSend$monitor
++ _objc_msgSend$mutableValue
++ _objc_msgSend$nextInstanceIDInDomain:
++ _objc_msgSend$nextProcessor
++ _objc_msgSend$nonHiddenDeviceOwners
++ _objc_msgSend$notSupportedError
++ _objc_msgSend$notificationCenter
++ _objc_msgSend$nullInstance
++ _objc_msgSend$observers
++ _objc_msgSend$pairedDevicesForCompanion:completion:
++ _objc_msgSend$pamService
++ _objc_msgSend$pamToken
++ _objc_msgSend$pamUser
++ _objc_msgSend$parent
++ _objc_msgSend$parentK
++ _objc_msgSend$parentN
++ _objc_msgSend$passcodeSetDidChangeForUser:
++ _objc_msgSend$passcodeSuccessAgeController
++ _objc_msgSend$passcodeVerificationErrorWithMessage:
++ _objc_msgSend$password
++ _objc_msgSend$passwordHash
++ _objc_msgSend$policyStatusForUser:domain:error:
++ _objc_msgSend$posixPermissions
++ _objc_msgSend$postNotification:
++ _objc_msgSend$postNotificationUIDidDisappear
++ _objc_msgSend$postProcessRequest:result:completion:
++ _objc_msgSend$postRequisite
++ _objc_msgSend$preRequisite
++ _objc_msgSend$preboardMode
++ _objc_msgSend$presentUIForIdentifier:request:completion:
++ _objc_msgSend$presentedController
++ _objc_msgSend$processRequest:configuration:completion:
++ _objc_msgSend$profileInstallErrorWithMessage:
++ _objc_msgSend$queue
++ _objc_msgSend$randomDataWithSize:error:
++ _objc_msgSend$rateLimiting
++ _objc_msgSend$recoverUser:userCredential:recoveryUUID:recoveryCredential:disk:error:
++ _objc_msgSend$recoverUser:userCredential:recoveryUUID:recoveryCredential:error:
++ _objc_msgSend$refreshWithCompletion:
++ _objc_msgSend$registerRequest:
++ _objc_msgSend$registeredNotificationsForDomains
++ _objc_msgSend$releaseUIDelegate
++ _objc_msgSend$remoteUI
++ _objc_msgSend$remoteUIManager
++ _objc_msgSend$removeItemAtURL:error:
++ _objc_msgSend$removeObserver:forRequest:
++ _objc_msgSend$removeRecoveryKey:externalDataUUID:reply:
++ _objc_msgSend$requestID
++ _objc_msgSend$resetAllPasswords:credential:disk:error:
++ _objc_msgSend$resetAllPasswords:targetDisk:reply:
++ _objc_msgSend$resetFailedAttemptCountForUserID:
++ _objc_msgSend$resetPassword:credential:authorizerUUID:authorizerCredential:disk:error:
++ _objc_msgSend$resetPasswordForUser:authorizer:targetDisk:reply:
++ _objc_msgSend$resetPasswordForUser:recoveryCredential:reply:
++ _objc_msgSend$resetPasswordForUser:recoveryCredential:targetDisk:reply:
++ _objc_msgSend$resetPasswordWithHashForUser:reply:
++ _objc_msgSend$resetPausedEvents
++ _objc_msgSend$resultWithFailure:
++ _objc_msgSend$resultWithRetry:error:
++ _objc_msgSend$resultWithSuccess:
++ _objc_msgSend$rootDir
++ _objc_msgSend$salt
++ _objc_msgSend$sdkHelper
++ _objc_msgSend$service
++ _objc_msgSend$serviceID
++ _objc_msgSend$serviceType
++ _objc_msgSend$sessionID
++ _objc_msgSend$sessionMonitor
++ _objc_msgSend$setAccessoryAuthorizationError:
++ _objc_msgSend$setAccessoryAuthorizationResult:
++ _objc_msgSend$setActiveMechanisms:
++ _objc_msgSend$setAllowList:
++ _objc_msgSend$setAnonymousListeners:
++ _objc_msgSend$setAuthProvider:
++ _objc_msgSend$setAuthenticationHints:
++ _objc_msgSend$setAuthenticationResult:
++ _objc_msgSend$setAuthenticator:
++ _objc_msgSend$setAuthorizingAccessoryId:
++ _objc_msgSend$setBioLockoutRecovery:
++ _objc_msgSend$setCompanionAuthentication:
++ _objc_msgSend$setData:forKey:completion:
++ _objc_msgSend$setDtoBiometricLivenessEnrollmentAgeThreshold:
++ _objc_msgSend$setEvaluationError:
++ _objc_msgSend$setExtendedInternalInfo:
++ _objc_msgSend$setFeedbackType:
++ _objc_msgSend$setFeedbackValue:
++ _objc_msgSend$setHasPairedDevices:
++ _objc_msgSend$setHostedSceneConfiguration:
++ _objc_msgSend$setIdleUIListener:
++ _objc_msgSend$setIgnoreUIDisappearance:
++ _objc_msgSend$setInitialPosition:
++ _objc_msgSend$setIsActive:
++ _objc_msgSend$setIsAdminUser:
++ _objc_msgSend$setIsCompanionDeviceMocked:
++ _objc_msgSend$setIsCredentialPresent:
++ _objc_msgSend$setIsCurrentUser:
++ _objc_msgSend$setIsDTOStrictModeEnabled:
++ _objc_msgSend$setIsEvaluationOffloaded:
++ _objc_msgSend$setIsFallbackAvailable:
++ _objc_msgSend$setIsMacCompanionSessionActive:
++ _objc_msgSend$setIsSharedModeActive:
++ _objc_msgSend$setIsUnderlyingSessionActive:
++ _objc_msgSend$setIsVisionCompanionSessionActive:
++ _objc_msgSend$setLastNotification:
++ _objc_msgSend$setLockoutError:
++ _objc_msgSend$setManager:
++ _objc_msgSend$setMatchingStatus:
++ _objc_msgSend$setMutableValue:
++ _objc_msgSend$setNotificationCenter:
++ _objc_msgSend$setOptions:
++ _objc_msgSend$setPamService:
++ _objc_msgSend$setPamToken:
++ _objc_msgSend$setPamUser:
++ _objc_msgSend$setParent:
++ _objc_msgSend$setParentK:
++ _objc_msgSend$setParentN:
++ _objc_msgSend$setPayload:
++ _objc_msgSend$setPersistentDomain:forName:
++ _objc_msgSend$setPolicy:
++ _objc_msgSend$setPostRequisite:
++ _objc_msgSend$setPreRequisite:
++ _objc_msgSend$setPreboardMode:
++ _objc_msgSend$setPresentedController:
++ _objc_msgSend$setRegisteredNotificationsForDomains:
++ _objc_msgSend$setReleaseUIDelegate:
++ _objc_msgSend$setRemoteUI:
++ _objc_msgSend$setRetryingForError:
++ _objc_msgSend$setSdkHelper:
++ _objc_msgSend$setSharedModeLatency:
++ _objc_msgSend$setSubscription:
++ _objc_msgSend$setUiDisappeared:
++ _objc_msgSend$setUiEventDelegate:
++ _objc_msgSend$setUiTransitioning:
++ _objc_msgSend$setUnitsStyle:
++ _objc_msgSend$setUseTestAppleKeyStoreDaemon:
++ _objc_msgSend$setUserUUID:
++ _objc_msgSend$setVerificationResult:
++ _objc_msgSend$shallowCopy
++ _objc_msgSend$sharingManager
++ _objc_msgSend$shouldFinishRunWithResult:error:
++ _objc_msgSend$showUIWithParams:reply:
++ _objc_msgSend$shutdownSessionsWithMatchingID:
++ _objc_msgSend$signingID
++ _objc_msgSend$specializedObservers
++ _objc_msgSend$startMonitoring
++ _objc_msgSend$stashRequest:acceptsIdleUI:
++ _objc_msgSend$storePasswordHintForUserWithUUID:passwordHint:reply:
++ _objc_msgSend$stringFromTimeInterval:
++ _objc_msgSend$subtitle
++ _objc_msgSend$synchronize
++ _objc_msgSend$systemDidCancelRequest:manager:
++ _objc_msgSend$systemReadyForRequest:manager:
++ _objc_msgSend$teamID
++ _objc_msgSend$teamName
++ _objc_msgSend$transferOwnershipFromAuthorizer:authorizerCredential:toExistingUser:existingUserCredential:disk:error:
++ _objc_msgSend$transferOwnershipFromAuthorizer:authorizerCredential:toNewRecoveryKey:recoveryCredential:targetDisk:error:
++ _objc_msgSend$transferOwnershipFromUser:toExistingUser:targetDisk:reply:
++ _objc_msgSend$transferOwnershipFromUser:toNewRecoveryKey:targetDisk:reply:
++ _objc_msgSend$transitionToController:internalInfo:completionHandler:
++ _objc_msgSend$uiDelegate
++ _objc_msgSend$uiDisappeared
++ _objc_msgSend$uiEvent:options:
++ _objc_msgSend$uiEventDelegate
++ _objc_msgSend$uiMechanism
++ _objc_msgSend$uiPresenter
++ _objc_msgSend$uiTransitioning
++ _objc_msgSend$uidForUUID:
++ _objc_msgSend$underlyingErrors
++ _objc_msgSend$unloadSession:error:
++ _objc_msgSend$unlockUser:credential:session:error:
++ _objc_msgSend$unlockUser:sessionID:reply:
++ _objc_msgSend$unregisterRequest:
++ _objc_msgSend$unsignedShortValue
++ _objc_msgSend$updateOptions:
++ _objc_msgSend$updatePayload:
++ _objc_msgSend$updateUserRegistryConfig:reply:
++ _objc_msgSend$useTestAppleKeyStoreDaemon
++ _objc_msgSend$userHelper
++ _objc_msgSend$userNameFromUID:
++ _objc_msgSend$userProvider
++ _objc_msgSend$userUUID
++ _objc_msgSend$userUUIDFromUID:
++ _objc_msgSend$valueForFlagCompanionMockDevices
++ _objc_msgSend$valueForFlagCompanionSessionAuthentication
++ _objc_msgSend$valueForFlagDTOBiometricLivenessEnrollmentAgeThreshold
++ _objc_msgSend$valueForFlagDTOStrictModeEnabled
++ _objc_msgSend$valueForFlagOnenessSessionActive
++ _objc_msgSend$valueForFlagPhoneIntegrationSessionActive
++ _objc_msgSend$valueForFlagPreboardMode
++ _objc_msgSend$valueForFlagReleaseUIDelegate
++ _objc_msgSend$valueForFlagRunningInBATS
++ _objc_msgSend$valueForFlagSharedModeActive
++ _objc_msgSend$valueForFlagSharedModeLatency
++ _objc_msgSend$valueForFlagUseTestAppleKeyStoreDaemon
++ _objc_msgSend$variableSetErrorWithMessage:
++ _objc_msgSend$verificationResult
++ _objc_msgSend$verifier
++ _objc_msgSend$verifyPasscodeUsingMKB:
++ _objc_msgSend$verifyPasscodeUsingOD:
++ _objc_msgSend$verifyPasscodeUsingPAM:
++ _objc_msgSend$weakToStrongObjectsMapTable
++ _objc_msgSend$xpcController
++ _os_parse_boot_arg_int
++ _os_transaction_create
++ _swift_allocateGenericClassMetadata
++ _swift_checkMetadataState
++ _swift_dynamicCastObjCProtocolConditional
++ _swift_initClassMetadata2
++ _symbolic $s23LocalAuthenticationCore24LACBiometryTypeProvidingP
++ _symbolic $s23LocalAuthenticationCore27LACPasscodeVerifierStrategyP
++ _symbolic $s23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP
++ _symbolic SDySSSaySo8NSNumberCGG
++ _symbolic SDySSSo8NSObjectCG
++ _symbolic SDySSySo23LACBackgroundTaskResultCcG
++ _symbolic SDySiypGSg
++ _symbolic SDySo8NSNumberCypG
++ _symbolic SDy_____SiG s6UInt32V
++ _symbolic SDy__________G s6UInt32V 10Foundation4DateV
++ _symbolic SDy_____ypGIeghg_ s11AnyHashableV
++ _symbolic SDy_____ypGSg______pSgIeggg_Sg s11AnyHashableV s5ErrorP
++ _symbolic SDy_____ypGSg______pSgIeghgg_Sg s11AnyHashableV s5ErrorP
++ _symbolic SS3key_yp5valuet
++ _symbolic SS9suiteName_t
++ _symbolic SSSg
++ _symbolic SS_SaySo8NSNumberCGt
++ _symbolic Say_____G 23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC
++ _symbolic Say______pG So19LACPasscodeObserverP
++ _symbolic Say______pG So27LACAuthenticationUIManagingP
++ _symbolic Sb______pSgIegyg_ s5ErrorP
++ _symbolic So11NSHashTableCy______pG So19LACPasscodeObserverP
++ _symbolic So12NSDictionaryCIeyBhy_
++ _symbolic So12NSDictionaryCSgSo7NSErrorCSgIeyBhyy_
++ _symbolic So13LACClientInfoCSg
++ _symbolic So13NSXPCListenerC
++ _symbolic So14LACUserServiceC
++ _symbolic So17LACBackgroundTaskC
++ _symbolic So17LACBackgroundTaskCSgXw
++ _symbolic So17LACBackgroundTaskCSgXwz_Xx
++ _symbolic So18LACEvaluationEventC
++ _symbolic So19LACPasscodeODHelperC
++ _symbolic So20LACPasscodeMKBHelperC
++ _symbolic So20LACPasscodePAMHelperC
++ _symbolic So21LACPasscodeUserHelperC
++ _symbolic So21LACServiceManagerBaseC
++ _symbolic So21LACUserCredentialHashC
++ _symbolic So21NSXPCListenerEndpointCSg
++ _symbolic So21NSXPCListenerEndpointCSgSo7NSErrorCSgIeyByy_
++ _symbolic So21NSXPCListenerEndpointCSgz_Xx
++ _symbolic So23LACBackgroundTaskQueuedC
++ _symbolic So23LACBackgroundTaskQueuedCSgXw
++ _symbolic So23LACBackgroundTaskQueuedCSgXwz_Xx
++ _symbolic So23LACBackgroundTaskResultC
++ _symbolic So23LACBackgroundTaskResultCIegg_
++ _symbolic So23LACBackgroundTaskResultCIegg_Iegg_
++ _symbolic So23LACBackgroundTaskResultCIeyBy_
++ _symbolic So23LACBackgroundTaskResultCIeyBy_IeyBy_
++ _symbolic So23LACBackgroundTaskResultCSg
++ _symbolic So23LACBackgroundTaskResultCSgz_Xx
++ _symbolic So30LACConcurrentEvaluationManagerCSgXw
++ _symbolic So30LACConcurrentEvaluationManagerCSgXwz_Xx
++ _symbolic So32LACAuthenticationUIManagerCustomC
++ _symbolic So33LACAuthenticationUIManagerDefaultC
++ _symbolic So33LACAuthenticationUIManagerDefaultCSgXw
++ _symbolic So33LACAuthenticationUIManagerDefaultCSgXwz_Xx
++ _symbolic So35LACAuthenticationUIManagerCompositeCSgXw
++ _symbolic So35LACAuthenticationUIManagerCompositeCSgXwz_Xx
++ _symbolic So8LACTimerCSg
++ _symbolic So8NSNumberC_ypt
++ _symbolic _____ 10Foundation4DateV
++ _symbolic _____ 23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLV
++ _symbolic _____ 23LocalAuthenticationCore12LACDateRangeV
++ _symbolic _____ 23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLO
++ _symbolic _____ 23LocalAuthenticationCore18LACPasscodeMonitorC
++ _symbolic _____ 23LocalAuthenticationCore19LACPasscodeVerifierC
++ _symbolic _____ 23LocalAuthenticationCore19LACUserDaemonClientC
++ _symbolic _____ 23LocalAuthenticationCore20LACPasscodeOTIHelperC
++ _symbolic _____ 23LocalAuthenticationCore21LACPasscodeSuccessAgeC
++ _symbolic _____ 23LocalAuthenticationCore22LACPersistentStoreTypeO
++ _symbolic _____ 23LocalAuthenticationCore22LACUserAuthDaemonQueueV
++ _symbolic _____ 23LocalAuthenticationCore23LACBiometryTypeProviderC
++ _symbolic _____ 23LocalAuthenticationCore24LACUserAuthDaemonServiceC
++ _symbolic _____ 23LocalAuthenticationCore25LACUserAuthDaemonListenerC
++ _symbolic _____ 23LocalAuthenticationCore26LACUserAuthDaemonContainerC
++ _symbolic _____ 23LocalAuthenticationCore28LACPasscodeRateLimitingMacOSC
++ _symbolic _____ 23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOSC
++ _symbolic _____ 23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO
++ _symbolic _____ 23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC
++ _symbolic _____ 23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLV
++ _symbolic _____ 23LocalAuthenticationCore9LACAtomicC
++ _symbolic _____ 8Dispatch0A8WorkItemC
++ _symbolic _____ So13LACEventParama
++ _symbolic _____ So16LACAuthenticatora
++ _symbolic _____ So16os_unfair_lock_sV
++ _symbolic _____ So17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLV
++ _symbolic _____ So17LACEvaluationModeV
++ _symbolic _____ So17LACMechanismEventV
++ _symbolic _____ So21LACRemoteUIControllerV
++ _symbolic _____ So21LACUserCredentialHashC23LocalAuthenticationCoreE10Properties33_6053F70B4993339D78D3AEF8B2C99DAFLLC
++ _symbolic _____ So22LACEvaluationEventTypeV
++ _symbolic _____ So23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLV
++ _symbolic _____ So29LACUserIdentityCreationPolicya
++ _symbolic _____ So30LACEvaluationRequestPayloadKeya
++ _symbolic _____ So8LACEventa
++ _symbolic _____3key_yp5valuet So13LACEventParama
++ _symbolic _____3key_yp5valuet s11AnyHashableV
++ _symbolic _____5event_ypSg5valuetSg So17LACMechanismEventV
++ _symbolic _____Sg 10Foundation4DateV
++ _symbolic _____Sg 23LocalAuthenticationCore35LACUserRecordIdentityCreationPolicyO
++ _symbolic ___________t s6UInt32V 10Foundation4DateV
++ _symbolic ______p 23LocalAuthenticationCore27LACPasscodeVerifierStrategyP
++ _symbolic ______p 23LocalAuthenticationCore28LACPasscodeOTIHelperProtocolP
++ _symbolic ______p So11LACRemoteUIP
++ _symbolic ______p So17LACKeyBagProviderP
++ _symbolic ______p So19LACPasscodeObserverP
++ _symbolic ______p So20LACUserAuthDaemonXPCP
++ _symbolic ______p So23LACPasscodeRateLimitingP
++ _symbolic ______p So27LACAuthenticationUIManagingP
++ _symbolic ______p So29LACServiceXPCEndpointProviderP
++ _symbolic ______p So30LACPasscodeVerificationRequestP
++ _symbolic ______p So34LACConcurrentEvaluationConfiguringP
++ _symbolic ______p So38LACPasscodeVerificationRequestExtendedP
++ _symbolic ______p So9LACKeyBagP
++ _symbolic ______pSg So11LACRemoteUIP
++ _symbolic ______pSg So14NSSecureCodingP
++ _symbolic ______pSg So23LACEvaluationEventValueP
++ _symbolic ______ypt So13LACEventParama
++ _symbolic ______ypt So30LACEvaluationRequestPayloadKeya
++ _symbolic _____ySSSaySo8NSNumberCGG s18_DictionaryStorageC
++ _symbolic _____ySSSay_____GG s18_DictionaryStorageC 23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_53C4CF2605483CE5CE76F1EC3A4D036FLLC
++ _symbolic _____ySSSo8NSObjectCG s18_DictionaryStorageC
++ _symbolic _____ySS_SaySo8NSNumberCGtG s23_ContiguousArrayStorageC
++ _symbolic _____ySSySo23LACBackgroundTaskResultCcG s18_DictionaryStorageC
++ _symbolic _____ySo8NSNumberC_yptG s23_ContiguousArrayStorageC
++ _symbolic _____ySo8NSNumberCypG s18_DictionaryStorageC
++ _symbolic _____y_____G s11_SetStorageC So8LACEventa
++ _symbolic _____y_____G s22KeyedDecodingContainerV 23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLO
++ _symbolic _____y_____G s22KeyedEncodingContainerV 23LocalAuthenticationCore12LACDateRangeV10CodingKeys33_BF8318CDEB10F8F68CBD9C0FE91B4600LLO
++ _symbolic _____y_____G s23_ContiguousArrayStorageC 23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLV
++ _symbolic _____y_____G s23_ContiguousArrayStorageC 23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLV
++ _symbolic _____y_____G s23_ContiguousArrayStorageC 23LocalAuthenticationCore42LACConcurrentEvaluationAllowListBinaryPathO
++ _symbolic _____y_____SiG s18_DictionaryStorageC s6UInt32V
++ _symbolic _____y__________G s18_DictionaryStorageC s6UInt32V 10Foundation4DateV
++ _symbolic _____y______yptG s23_ContiguousArrayStorageC s11AnyHashableV
++ _symbolic _____y_____ypG s18_DictionaryStorageC So13LACEventParama
++ _symbolic _____y_____ypG s18_DictionaryStorageC So30LACEvaluationRequestPayloadKeya
++ _symbolic _____yySo23LACBackgroundTaskResultCcG s23_ContiguousArrayStorageC
++ _symbolic _____yytG 2os21OSAllocatedUnfairLockV
++ _symbolic _____yyt_____G s13ManagedBufferCsRi__rlE So16os_unfair_lock_sV
++ _symbolic ySDy_____ypGSg_______pSgtcSg s11AnyHashableV s5ErrorP
++ _symbolic ySo23LACBackgroundTaskResultCcSg
++ _symbolic ytSg______pSgIegng_ s5ErrorP
++ _symbolic ytSg______pSgIegyg_ s5ErrorP
++ _type_layout_string 23LocalAuthenticationCore11QueuedEvent33_4B59AD686FF385BF9B0F48EB7A134915LLV
++ _type_layout_string 23LocalAuthenticationCore22LACPersistentStoreTypeO
++ _type_layout_string 23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_B20759493EBCB91BB3A15EB6EC943959LLV
++ _type_layout_string So16os_unfair_lock_sV
++ _type_layout_string So17LACBackgroundTaskC23LocalAuthenticationCoreE0B5State33_70631AC639A26B64108710D7F0F76DF2LLV
++ _type_layout_string So23LACBackgroundTaskQueuedC23LocalAuthenticationCoreE0B5State33_33D35B07E87CE40E9102E3935A3971C0LLV
++ _type_layout_string So30LACEvaluationRequestPayloadKeya
++ block_copy_helper.101
++ block_copy_helper.104
++ block_copy_helper.107
++ block_copy_helper.110
++ block_copy_helper.113
++ block_copy_helper.116
++ block_copy_helper.119
++ block_copy_helper.122
++ block_copy_helper.125
++ block_copy_helper.128
++ block_copy_helper.13
++ block_copy_helper.131
++ block_copy_helper.134
++ block_copy_helper.137
++ block_copy_helper.140
++ block_copy_helper.143
++ block_copy_helper.146
++ block_copy_helper.15
++ block_copy_helper.16
++ block_copy_helper.19
++ block_copy_helper.22
++ block_copy_helper.24
++ block_copy_helper.28
++ block_copy_helper.30
++ block_copy_helper.33
++ block_copy_helper.34
++ block_copy_helper.35
++ block_copy_helper.36
++ block_copy_helper.40
++ block_copy_helper.42
++ block_copy_helper.45
++ block_copy_helper.47
++ block_copy_helper.49
++ block_copy_helper.51
++ block_copy_helper.52
++ block_copy_helper.54
++ block_copy_helper.57
++ block_copy_helper.58
++ block_copy_helper.6
++ block_copy_helper.63
++ block_copy_helper.7
++ block_copy_helper.70
++ block_copy_helper.9
++ block_copy_helper.94
++ block_descriptor.103
++ block_descriptor.106
++ block_descriptor.109
++ block_descriptor.11
++ block_descriptor.112
++ block_descriptor.115
++ block_descriptor.118
++ block_descriptor.121
++ block_descriptor.124
++ block_descriptor.127
++ block_descriptor.130
++ block_descriptor.133
++ block_descriptor.136
++ block_descriptor.139
++ block_descriptor.142
++ block_descriptor.145
++ block_descriptor.148
++ block_descriptor.15
++ block_descriptor.17
++ block_descriptor.18
++ block_descriptor.21
++ block_descriptor.24
++ block_descriptor.26
++ block_descriptor.30
++ block_descriptor.32
++ block_descriptor.35
++ block_descriptor.36
++ block_descriptor.37
++ block_descriptor.38
++ block_descriptor.42
++ block_descriptor.44
++ block_descriptor.47
++ block_descriptor.49
++ block_descriptor.51
++ block_descriptor.53
++ block_descriptor.54
++ block_descriptor.56
++ block_descriptor.59
++ block_descriptor.60
++ block_descriptor.65
++ block_descriptor.72
++ block_descriptor.8
++ block_descriptor.9
++ block_descriptor.96
++ block_destroy_helper.10
++ block_destroy_helper.102
++ block_destroy_helper.105
++ block_destroy_helper.108
++ block_destroy_helper.111
++ block_destroy_helper.114
++ block_destroy_helper.117
++ block_destroy_helper.120
++ block_destroy_helper.123
++ block_destroy_helper.126
++ block_destroy_helper.129
++ block_destroy_helper.132
++ block_destroy_helper.135
++ block_destroy_helper.138
++ block_destroy_helper.14
++ block_destroy_helper.141
++ block_destroy_helper.144
++ block_destroy_helper.147
++ block_destroy_helper.16
++ block_destroy_helper.17
++ block_destroy_helper.20
++ block_destroy_helper.23
++ block_destroy_helper.25
++ block_destroy_helper.29
++ block_destroy_helper.31
++ block_destroy_helper.34
++ block_destroy_helper.35
++ block_destroy_helper.36
++ block_destroy_helper.37
++ block_destroy_helper.41
++ block_destroy_helper.43
++ block_destroy_helper.46
++ block_destroy_helper.48
++ block_destroy_helper.50
++ block_destroy_helper.52
++ block_destroy_helper.53
++ block_destroy_helper.55
++ block_destroy_helper.58
++ block_destroy_helper.59
++ block_destroy_helper.64
++ block_destroy_helper.7
++ block_destroy_helper.71
++ block_destroy_helper.8
++ block_destroy_helper.95
++ objectdestroy.16Tm
++ objectdestroy.20Tm
++ objectdestroy.26Tm
++ objectdestroy.38Tm
+- $s23LocalAuthenticationCore23LACUserControllerClientC10deleteUser4uuidy10Foundation4UUIDV_tKFyyKXEfU_TA.4
+- $s23LocalAuthenticationCore23LACUserControllerDaemonC10deleteUser4uuidy10Foundation4UUIDV_tKFyyKXEfU_TA.8
+- $s23LocalAuthenticationCore23LACUserServiceXPCClientC15remoteSyncProxy33_4E768DF7C269E6DB4857A6FD68AC8695LLyxxSo0dE3XPC_pKXEKlFys5Error_pSgcfU_TA.13
+- $s23LocalAuthenticationCore37LACEvaluationRequestCompoundProcessorC011postProcessE033_67FF00A455547C1BDA52EFCE110F14A3LL_6result03subG5Index10completionySo0dE0_p_So0D6ResultCSiyAKctFyAKcfU_TA.30
+- $s23LocalAuthenticationCore37LACEvaluationRequestCompoundProcessorC07processE033_67FF00A455547C1BDA52EFCE110F14A3LL_03subG5Index10completionySo0dE0_p_SiySo0D6ResultCctFyAJYbcfU_TA.38
+- $sIeAgH_ytIeAgHr_TRTA.61
+- $sIeAgH_ytIeAgHr_TRTA.61TQ0_
+- $sIeAgH_ytIeAgHr_TRTA.61Tu
+- $sIeAgH_ytIeAgHr_TRTA.76
+- $sIeAgH_ytIeAgHr_TRTA.76TQ0_
+- $sIeAgH_ytIeAgHr_TRTA.76Tu
+- $sIeghH_IeAgH_TRTA.56
+- $sIeghH_IeAgH_TRTA.56TQ0_
+- $sIeghH_IeAgH_TRTA.56Tu
+- $sIeghH_IeAgH_TRTA.71
+- $sIeghH_IeAgH_TRTA.71TQ0_
+- $sIeghH_IeAgH_TRTA.71Tu
+- $sSTsSQ7ElementRpzrlE8containsySbABFSbABXEfU_SaySSG_TG5TA.1
+- $sSay10Foundation4UUIDVGSgs5Error_pSgIegng_AeGIeggg_TRTA.86
+- $sSayxGSlsSly7ElementQz5IndexQzcirTW23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC_Tg5.resume.0
+- $sSo12NSDictionaryCSgSo7NSErrorCSgIeyByy_SDys11AnyHashableVypGSgs5Error_pSgIeggg_TRTA.24
+- $sSo19LACEvaluationResultCIeyBy_ABIegg_TRTA.10
+- $sSo8NSNumberCSgs5Error_pSgIegng_AcEIeggg_TRTA.65
+- $sSo8NSNumberCSgs5Error_pSgIegng_AcEIeggg_TRTA.72
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.101
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.101TQ0_
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.101Tu
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.106
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.106TQ0_
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.106Tu
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.94
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.94TQ0_
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA.94Tu
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tgq5TA.43
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tgq5TA.43TQ0_
+- $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tgq5TA.43Tu
+- +[LACConcurrentEvaluationHelper sharedInstance]
+- +[LACConcurrentEvaluationHelper sharedInstance].cold.1
+- +[LACPasscodeHelper newInstance]
+- +[LACPasscodeHelper sharedInstance]
+- +[LACPasscodeHelper sharedInstance].cold.1
+- +[LACPersistentStoreFactory makePersistentStoreWithSuiteName:]
+- -[LACAKSIdentityHelper createRecoveryKey:recoveryCredential:authorizerUUID:authorizerCredential:targetDisk:error:]
+- -[LACBackgroundTask .cxx_destruct]
+- -[LACBackgroundTask _queuedCompleteTaskWithResult:]
+- -[LACBackgroundTask _queuedRunInReplyQueue:]
+- -[LACBackgroundTask _queuedRunWithTimeout:replyQueue:completion:]
+- -[LACBackgroundTask _queuedStartWorkerIfNeeded]
+- -[LACBackgroundTask _queuedStartWorkerIfNeeded].cold.1
+- -[LACBackgroundTask _queuedStartWorkerWatchdogWithTimeout:]
+- -[LACBackgroundTask _queuedStopWorkerWatchdog]
+- -[LACBackgroundTask dealloc]
+- -[LACBackgroundTask dealloc].cold.1
+- -[LACBackgroundTask delegate]
+- -[LACBackgroundTask description]
+- -[LACBackgroundTask initWithIdentifier:worker:]
+- -[LACBackgroundTask initWithWorker:]
+- -[LACBackgroundTask runSynchronouslyWithTimeout:]
+- -[LACBackgroundTask runWithTimeout:completion:]
+- -[LACBackgroundTask runWithTimeout:queue:completion:]
+- -[LACBackgroundTask setDelegate:]
+- -[LACCachedExternalizedContext .cxx_destruct]
+- -[LACCachedExternalizedContext cachedExternalizedContext]
+- -[LACCachedExternalizedContext externalizationObserver]
+- -[LACCachedExternalizedContext externalizedContextWithError:]
+- -[LACCachedExternalizedContext externalizedContextWithReply:]
+- -[LACCachedExternalizedContext externalizedContext]
+- -[LACCachedExternalizedContext externalizedContext].cold.1
+- -[LACCachedExternalizedContext initWithExternalizationDelegate:]
+- -[LACCachedExternalizedContext initWithExternalizedContext:]
+- -[LACCachedExternalizedContext invalidateBecauseOfInvalidConnection:]
+- -[LACCachedExternalizedContext setCachedExternalizedContext:]
+- -[LACCachedExternalizedContext setExternalizationObserver:]
+- -[LACConcurrentEvaluationController .cxx_destruct]
+- -[LACConcurrentEvaluationController initWithManager:replyQueue:]
+- -[LACConcurrentEvaluationController manager]
+- -[LACConcurrentEvaluationController model]
+- -[LACConcurrentEvaluationController replyQueue]
+- -[LACConcurrentEvaluationHelper .cxx_destruct]
+- -[LACConcurrentEvaluationHelper allowList]
+- -[LACConcurrentEvaluationHelper flags]
+- -[LACConcurrentEvaluationHelper initWithAllowList:flags:sdkHelper:]
+- -[LACConcurrentEvaluationHelper sdkHelper]
+- -[LACConcurrentEvaluationManager .cxx_destruct]
+- -[LACConcurrentEvaluationManager initWithReplyQueue:]
+- -[LACConcurrentEvaluationManager model]
+- -[LACConcurrentEvaluationManager replyQueue]
+- -[LACEvaluationRequestDefault setClient:]
+- -[LACFlags featureFlagConcurrentEvaluationsEnabled]
+- -[LACFlags featureFlagLaunchAngelEnabled]
+- -[LACKeyBagMKBAdapter initWithKeyBagStateProvider:notificationCenter:]
+- -[LACMutableCredentialRequest contextID]
+- -[LACMutableCredentialRequest setContextID:]
+- -[LACPasscodeHelper .cxx_destruct]
+- -[LACPasscodeHelper _currentUserID]
+- -[LACPasscodeHelper _increaseFailedAttemptCountForUserID:]
+- -[LACPasscodeHelper _isOTIVerifierEnabled]
+- -[LACPasscodeHelper _keybagHandleForUserId:]
+- -[LACPasscodeHelper _notifyObserversAboutUpdate]
+- -[LACPasscodeHelper _passcodePolicyStatusForUserID:]
+- -[LACPasscodeHelper _resetFailedAttemptCountForUserID:]
+- -[LACPasscodeHelper _shouldUseODVerifierForUserId:policy:options:]
+- -[LACPasscodeHelper _shouldUseOTIVerifierForUserUUID:policy:options:]
+- -[LACPasscodeHelper _shouldUsePAMVerifierForUserId:policy:options:]
+- -[LACPasscodeHelper _updatePasscodeSuccessAgeWithUptime:]
+- -[LACPasscodeHelper _userNameFromUID:]
+- -[LACPasscodeHelper _userUUIDFromUID:]
+- -[LACPasscodeHelper _userUUIDFromUID:].cold.1
+- -[LACPasscodeHelper _verifyFvPassword:acmContext:kek:vek:options:]
+- -[LACPasscodeHelper _verifyPasscode:]
+- -[LACPasscodeHelper _verifyPasscode:].cold.1
+- -[LACPasscodeHelper _verifyPasscode:].cold.2
+- -[LACPasscodeHelper _verifyPasscode:].cold.3
+- -[LACPasscodeHelper _verifyPasscode:].cold.4
+- -[LACPasscodeHelper _verifyPasscodeUsingMKB:acmContext:userId:options:]
+- -[LACPasscodeHelper _verifyPasscodeUsingOD:acmContext:userId:options:]
+- -[LACPasscodeHelper _verifyPasscodeUsingOD:acmContext:userId:options:].cold.1
+- -[LACPasscodeHelper _verifyPasscodeUsingOD:acmContext:userId:options:].cold.2
+- -[LACPasscodeHelper _verifyPasscodeUsingOTI:acmContext:userUUID:]
+- -[LACPasscodeHelper _verifyPasscodeUsingOTI:acmContext:userUUID:].cold.1
+- -[LACPasscodeHelper _verifyPasscodeUsingOTI:acmContext:userUUID:].cold.2
+- -[LACPasscodeHelper _verifyPasscodeUsingOTI:acmContext:userUUID:].cold.3
+- -[LACPasscodeHelper accountBlockedForUserID:]
+- -[LACPasscodeHelper addObserver:]
+- -[LACPasscodeHelper backoffTimeIntervalForUserID:]
+- -[LACPasscodeHelper backoffTimeIntervalForUserID:].cold.1
+- -[LACPasscodeHelper createStash:mode:manifest:]
+- -[LACPasscodeHelper deviceOwners]
+- -[LACPasscodeHelper failedAttemptsForUserID:]
+- -[LACPasscodeHelper init]
+- -[LACPasscodeHelper isPasscodeSetForUser:error:]
+- -[LACPasscodeHelper keybagStateDidChange:]
+- -[LACPasscodeHelper maxUnlockAttemptsForUserID:]
+- -[LACPasscodeHelper nonHiddenDeviceOwners]
+- -[LACPasscodeHelper passcodeSuccessAge]
+- -[LACPasscodeHelper removeObserver:]
+- -[LACPasscodeHelper updatePasscodeSuccessAgeWithCurrentSystemUptime]
+- -[LACPasscodeHelper updatePasscodeSuccessAgeWithUptime:]
+- -[LACPasscodeHelper verifyFvPassword:acmContext:kek:vek:options:error:]
+- -[LACPasscodeHelper verifyPasscode:]
+- -[LACPasscodeHelper verifyPasscode:acmContext:userId:auditToken:]
+- -[LACPasscodeHelper verifyPasscode:acmContext:userId:auditToken:].cold.1
+- -[LACPasscodeHelper verifyPasscode:acmContext:userId:auditToken:].cold.2
+- -[LACPasscodeHelper verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:]
+- -[LACPasscodeHelper verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:].cold.1
+- -[LACPasscodeHelper verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:].cold.2
+- -[LACPasscodeHelper verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:].cold.3
+- -[LACPasscodeHelper verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:].cold.4
+- -[LACPasscodeHelper verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:].cold.5
+- -[LACPasscodeHelper verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:].cold.6
+- -[LACSecureStorage _bundleIDForRequest:]
+- -[LACSecureStorage _errorNotSupported]
+- -[LACSecureStorage _protectedDataWithBundleId:contextID:completionHandler:]
+- -[LACSecureStorage _setProtectedData:acl:contextID:completionHandler:]
+- -[LACSecureStorage aclForRequest:completionHandler:]
+- -[LACSharedModePolicyCoordinatorACMStorageRequest acl]
+- -[LACSharedModePolicyCoordinatorACMStorageRequest setAcl:]
+- -[LACUserInterfaceRequest initWithIdentifier:evaluationRequest:contextID:]
+- -[LACUserInterfaceSpringBoardAdapter .cxx_destruct]
+- -[LACUserInterfaceSpringBoardAdapter dealloc]
+- -[LACUserInterfaceSpringBoardAdapter initWithBundleId:configurationId:]
+- -[LACUserInterfaceSpringBoardAdapter processRequest:completion:]
+- -[LACUserInterfaceSpringBoardAdapter terminateWithReason:]
+- -[LACXPCClient initWithProcessId:auditToken:userId:]
+- GCC_except_table23
+- GCC_except_table49
+- GCC_except_table56
+- GCC_except_table63
+- GCC_except_table66
+- GCC_except_table68
+- LACLogUIAuthenticationSheet.__logObj
+- LACLogUIAuthenticationSheet.cold.1
+- LACLogUIAuthenticationSheet.onceToken
+- OBJC_IVAR_$_LACBackgroundTask._currentHandler
+- OBJC_IVAR_$_LACBackgroundTask._delegate
+- OBJC_IVAR_$_LACBackgroundTask._identifier
+- OBJC_IVAR_$_LACBackgroundTask._innerQueue
+- OBJC_IVAR_$_LACBackgroundTask._isWorkerRunning
+- OBJC_IVAR_$_LACBackgroundTask._replyQueue
+- OBJC_IVAR_$_LACBackgroundTask._watchdog
+- OBJC_IVAR_$_LACBackgroundTask._worker
+- OBJC_IVAR_$_LACCachedExternalizedContext._cachedExternalizedContext
+- OBJC_IVAR_$_LACCachedExternalizedContext._externalizationDelegate
+- OBJC_IVAR_$_LACCachedExternalizedContext._externalizationObserver
+- OBJC_IVAR_$_LACConcurrentEvaluationController._manager
+- OBJC_IVAR_$_LACConcurrentEvaluationController._model
+- OBJC_IVAR_$_LACConcurrentEvaluationController._replyQueue
+- OBJC_IVAR_$_LACConcurrentEvaluationHelper._allowList
+- OBJC_IVAR_$_LACConcurrentEvaluationHelper._flags
+- OBJC_IVAR_$_LACConcurrentEvaluationHelper._minSDKVersion
+- OBJC_IVAR_$_LACConcurrentEvaluationHelper._sdkHelper
+- OBJC_IVAR_$_LACConcurrentEvaluationManager._model
+- OBJC_IVAR_$_LACConcurrentEvaluationManager._replyQueue
+- OBJC_IVAR_$_LACMutableCredentialRequest._contextID
+- OBJC_IVAR_$_LACPasscodeHelper._aksIdentityHelper
+- OBJC_IVAR_$_LACPasscodeHelper._backoffEndTimeDictionary
+- OBJC_IVAR_$_LACPasscodeHelper._failedAttemptsDictionary
+- OBJC_IVAR_$_LACPasscodeHelper._keyBagAdapter
+- OBJC_IVAR_$_LACPasscodeHelper._keyBagDisabled
+- OBJC_IVAR_$_LACPasscodeHelper._keyBagProvider
+- OBJC_IVAR_$_LACPasscodeHelper._lastPasscodeSuccessUptime
+- OBJC_IVAR_$_LACPasscodeHelper._observers
+- OBJC_IVAR_$_LACSharedModePolicyCoordinatorACMStorageRequest._acl
+- OBJC_IVAR_$_LACUserInterfaceSpringBoardAdapter._bundleId
+- OBJC_IVAR_$_LACUserInterfaceSpringBoardAdapter._configurationId
+- OBJC_IVAR_$_LACXPCClient._auditToken
+- _$s23LocalAuthenticationCore013LACUserRecordB9AuthorityOSYAASY8rawValuexSg03RawH0Qz_tcfCTWTv_r
+- _$s23LocalAuthenticationCore13LACUserRecordV4uuid25authenticationAuthorities12passwordHintAC10Foundation4UUIDV_ShyAA0deB9AuthorityOGSSSgtcfC
+- _$s23LocalAuthenticationCore15LACUserRegistryV16makeRecordCipher33_A9C683B1C99A0B914C88A15F6A61A973LL4uuidAA0dG14FieldCiphering_p10Foundation4UUIDV_tKF
+- _$s23LocalAuthenticationCore15LACUserRegistryVWOc
+- _$s23LocalAuthenticationCore15LACUserRegistryVWOh
+- _$s23LocalAuthenticationCore19LACUserRecordCoding_pWOb
+- _$s23LocalAuthenticationCore21LACPreboardControllerC12launchResult33_C44476873627167F9A3BECB121D28FD0LLs0G0Oyyts5Error_pGSgvpWvd
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKF
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFSbyXEfU_TA
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFTo
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyKXEfU2_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyKXEfU2_TA
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_TA
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_TATQ0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_TATu
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_TQ0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_TY1_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_TY2_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU0_Tu
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU1_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU1_TA
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU1_TATQ0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU1_TATu
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU1_TQ0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU1_TY1_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC14launchPreboardyyKFyyYacfU1_Tu
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKF
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTQ1_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTQ2_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTQ3_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTY0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTY4_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTY5_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTY6_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTY7_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTo
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFTu
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFyyYacfU_To
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFyyYacfU_ToTA
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFyyYacfU_ToTATQ0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFyyYacfU_ToTATu
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFyyYacfU_ToTQ0_
+- _$s23LocalAuthenticationCore21LACPreboardControllerC20enableCurrentUseCase12withPasscodeySS_tYaKFyyYacfU_ToTu
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC011variableSetE04withs0E0_pSSSg_tFZ
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC011variableSetE04withs0E0_pSSSg_tFZTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC012notSupportedE0s0E0_pyFZ
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC012notSupportedE0s0E0_pyFZTf4d_n
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC012notSupportedE0s0E0_pyFZTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC014profileInstallE04withs0E0_pSSSg_tFZ
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC014profileInstallE04withs0E0_pSSSg_tFZTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC020passcodeVerificationE04withs0E0_pSSSg_tFZ
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC020passcodeVerificationE04withs0E0_pSSSg_tFZTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC020passcodeVerificationE04withs0E0_pSSSg_tFZToTm
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC07genericE04withs0E0_pSS_tFZ
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC07genericE04withs0E0_pSS_tFZTf4nd_n
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC07genericE04withs0E0_pSS_tFZTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC07genericE04withs0E0_psAF_pSg_tFZ
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC07genericE04withs0E0_psAF_pSg_tFZTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC5error018_8A82AD89295E086A9K13D159321BEB6BCLL4code010underlyingE0s0E0_pSo0dE4Codea_sAH_pSgtFZTf4nnd_n
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC5error018_8A82AD89295E086A9K13D159321BEB6BCLL4code7messages0E0_pSo0dE4Codea_SSSgtFZTf4nnd_n
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC7hasCode_4codeSbs0E0_p_So0deH0atFZ
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC7hasCode_4codeSbs0E0_p_So0deH0atFZTf4nnd_n
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderC7hasCode_4codeSbs0E0_p_So0deH0atFZTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCACycfC
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCACycfc
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCACycfcTo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCMF
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCMa
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCMf
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCMn
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCMo
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCN
+- _$s23LocalAuthenticationCore23LACPreboardErrorBuilderCfD
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUser_10authorizerySo0D10CredentialC_AGtKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUseryySo0D10CredentialCKF
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUseryySo0D10CredentialCKFTj
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUseryySo0D10CredentialCKFTo
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUseryySo0D10CredentialCKFToTm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUseryySo0D10CredentialCKFTq
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUseryySo0D10CredentialCKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_TA
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10createUseryySo0D10CredentialCKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10deleteUser4uuidy10Foundation4UUIDV_tKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC10fetchUsers10targetDiskSay10Foundation4UUIDVGSS_tKFAIyKXEfU_ySo0D10ServiceXPC_p_yAISg_s5Error_pSgtctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKF
+- _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFTj
+- _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFTo
+- _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFTq
+- _$s23LocalAuthenticationCore23LACUserControllerClientC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_TA
+- _$s23LocalAuthenticationCore23LACUserControllerClientC15checkExistsUser4uuid10targetDiskSo8NSNumberC10Foundation4UUIDV_SStKFAHyKXEfU_ySo0D10ServiceXPC_p_yAHSg_s5Error_pSgtctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16authenticateUser_10targetDiskySo0D10CredentialC_SStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16authenticateUser_6domain10targetDiskySo0D10CredentialC_So0D12PolicyDomainaSStKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProvider33_C8C7050F3E6F73D818EF0B35C0843FA2LLSo021LACServiceXPCEndpointH0CvpWvd
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0C_tcfC
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0C_tcfCTj
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0C_tcfCTq
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0C_tcfc
+- _$s23LocalAuthenticationCore23LACUserControllerClientC16endpointProviderACSo021LACServiceXPCEndpointH0C_tcfcTf4gn_n
+- _$s23LocalAuthenticationCore23LACUserControllerClientC4lock9sessionIDys6UInt32V_tKFyyKXEfU_ySo0D10ServiceXPC_p_ys5Error_pSgctXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerClientC7perform33_C8C7050F3E6F73D818EF0B35C0843FA2LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF42C10createUseryySo0D10CredentialCKFyyKXEfU_ACSo0dX0CTf1nncn_nTm
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC03mapB5Error33_EEDF2538C2551ABD076707AE90BEA6D3LLys0H0_psAF_pF
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC03mapB5Error33_EEDF2538C2551ABD076707AE90BEA6D3LLys0H0_psAF_pFTf4nd_n
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_10authorizerySo0D10CredentialC_AGtKFyyKXEfU_Tv_r
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUser_18recoveryCredentialySo0dJ0C_So011LACRecoveryJ0CtKFyyKXEfU_Tv_r
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUseryySo0D10CredentialCKF
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUseryySo0D10CredentialCKFTj
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUseryySo0D10CredentialCKFTo
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUseryySo0D10CredentialCKFToTm
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUseryySo0D10CredentialCKFTq
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUseryySo0D10CredentialCKFyyKXEfU_
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC10createUseryySo0D10CredentialCKFyyKXEfU_Tv_r
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKF
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFTj
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFTo
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFTq
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFyyKXEfU_
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC15checkExistsUser4uuid10targetDiskSo8NSNumberC10Foundation4UUIDV_SStKFAHyKXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC3aks4disk8registry2dbACSo20LACAKSIdentityHelperC_So07LACDiskL0CAA0D17RegistryProviding_pSo0D8Database_ptcfcTf4nnenn_n
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC4lock9sessionIDys6UInt32V_tKFyyKXEfU_Tm
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFSay10Foundation4UUIDVG_Tg504$s23ab6Core23deF62C10fetchUsers10targetDiskSay10Foundation4UUIDVGSS_tKFAIyKXEfU_ACSSTf1ncn_nTf4ndgg_nTm
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF42C10createUseryySo0D10CredentialCKFyyKXEfU_ACSo0dT0CTf1nncn_nTm
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23deF93C14addRecoveryKey_10authorizer10targetDiskySo011LACRecoveryI0C_So0D10CredentialCSStKFyyKXEfU_So0vR0CACSo0dZ0CSSTf1nncn_n
+- _$s23LocalAuthenticationCore23LACUserControllerDaemonC7perform33_EEDF2538C2551ABD076707AE90BEA6D3LLyxSS_xyKXEtKlFyt_Tg504$s23ab6Core23def70C16authenticateUser_6domain10targetDisk10contextRefySo0D10CredentialC_U47D12PolicyDomainaSS10Foundation4DataVtKFyyKXEfU_ACSo0dW0CSo0dY6DomainaSS10Foundation4DataVTf1nncn_n
+- _$s23LocalAuthenticationCore23LACUserServiceXPCClientC11performSyncyyySo0dE3XPC_p_ys5Error_pSgctXEKFySoAE_pKXEfU_yAGcfU_TA
+- _$s23LocalAuthenticationCore23LACUserServiceXPCClientC11performSyncyyySo0dE3XPC_p_ys5Error_pSgctXEKFySoAE_pKXEfU_yAGcfU_Tm
+- _$s23LocalAuthenticationCore23LACUserServiceXPCClientC15remoteSyncProxy33_4E768DF7C269E6DB4857A6FD68AC8695LLyxxSo0dE3XPC_pKXEKlFyt_Tg504$s23ab6Core23def23C11performSyncyyySo0dE3R34_p_ys5Error_pSgctXEKFySoAE_pKXEfU_SoAF_ps0Z0_pSgIegg_Iggg_Tf1ncn_n
+- _$s23LocalAuthenticationCore23LACUserServiceXPCClientC16endpointProviderACSo021LACServiceXPCEndpointH0_p_tcfCTfq4en_n
+- _$s23LocalAuthenticationCore23LACUserServiceXPCClientC16endpointProviderACSo021LACServiceXPCEndpointH0_p_tcfcTf4en_n
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_5replyySo0D10CredentialC_ys5Error_pSgctF
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_5replyySo0D10CredentialC_ys5Error_pSgctFTj
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_5replyySo0D10CredentialC_ys5Error_pSgctFTo
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC10createUser_5replyySo0D10CredentialC_ys5Error_pSgctFTq
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC14addRecoveryKey_10authorizer10targetDisk5replyySo011LACRecoveryI0C_So0D10CredentialCSSys5Error_pSgctF
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC14addRecoveryKey_10authorizer10targetDisk5replyySo011LACRecoveryI0C_So0D10CredentialCSSys5Error_pSgctFTj
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC14addRecoveryKey_10authorizer10targetDisk5replyySo011LACRecoveryI0C_So0D10CredentialCSSys5Error_pSgctFTo
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC14addRecoveryKey_10authorizer10targetDisk5replyySo011LACRecoveryI0C_So0D10CredentialCSSys5Error_pSgctFTq
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16authenticateUser_10targetDisk10contextRef5replyySo0D10CredentialC_SS10Foundation4DataVys5Error_pSgctFyyKXEfU_
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16authenticateUser_10targetDisk5replyySo0D10CredentialC_SSys5Error_pSgctFyyKXEfU_
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC16authenticateUser_6domain10targetDisk5replyySo0D10CredentialC_So0D12PolicyDomainaSSys5Error_pSgctFyyKXEfU_
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC24updateUserRegistryConfig_5replyySo0diJ0C_ys5Error_pSgctFyyKXEfU_
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC7perform33_ECA28678B61E441590EFA97C3EFA30CFLLyyxyKXE_yxSg_s5Error_pSgtctlF
+- _$s23LocalAuthenticationCore23LACUserServiceXPCDaemonC7perform33_ECA28678B61E441590EFA97C3EFA30CFLLyyyyKXE_ys5Error_pSgctF
+- _$s23LocalAuthenticationCore24LACUserRecordFieldCipherV7encrypty10Foundation4DataVAGKFTm
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3acl10Foundation4DataVSgvg
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3acl10Foundation4DataVSgvgTo
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3acl10Foundation4DataVSgvpMV
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3acl10Foundation4DataVSgvpWvd
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID7optionsACSo13LACStorageKeya_10Foundation4UUIDVSDys11AnyHashableVypGSgtcfC
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID7optionsACSo13LACStorageKeya_10Foundation4UUIDVSDys11AnyHashableVypGSgtcfCTj
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID7optionsACSo13LACStorageKeya_10Foundation4UUIDVSDys11AnyHashableVypGSgtcfCTq
+- _$s23LocalAuthenticationCore25LACPreboardStorageRequestC3for9contextID7optionsACSo13LACStorageKeya_10Foundation4UUIDVSDys11AnyHashableVypGSgtcfc
+- _$s23LocalAuthenticationCore25LACUserDatabaseRecoveryOSC22findAirDBRecordForUser33_A417574EBBA9A0137BA9763F023B97D3LL4uuidSDys11AnyHashableVypG10Foundation4UUIDV_tKFSbAIXEfU_
+- _$s23LocalAuthenticationCore25LACUserDatabaseRecoveryOSC22findAirDBRecordForUser33_A417574EBBA9A0137BA9763F023B97D3LL4uuidSDys11AnyHashableVypG10Foundation4UUIDV_tKFSbAIXEfU_TA
+- _$s23LocalAuthenticationCore30LACUserDefaultsPersistentStoreC9suiteNameACSSSg_tcfcTo
+- _$s23LocalAuthenticationCore32LACUserRegistryEnvironmentCoding_pWOb
+- _$s23LocalAuthenticationCore34LACUserRegistryFileRecordAccessing_pWOb
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC10replyQueue33_C817701C53905B142550A8026D25F95DLLSo17OS_dispatch_queueCvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC12stashRequest33_C817701C53905B142550A8026D25F95DLLyyAA0de7ManagedI0AELLCF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC12stashRequest_13acceptsIdleUIySo013LACEvaluationI0_p_SbtF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC12stashRequest_13acceptsIdleUIySo013LACEvaluationI0_p_SbtFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14activeRequests33_C817701C53905B142550A8026D25F95DLLSDySSSayAA0dE14ManagedRequestAELLCGGvW
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14activeRequests33_C817701C53905B142550A8026D25F95DLLSDySSSayAA0dE14ManagedRequestAELLCGGvWyyYbcfU_
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14activeRequests33_C817701C53905B142550A8026D25F95DLLSDySSSayAA0dE14ManagedRequestAELLCGGvWyyYbcfU_TA
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14activeRequests33_C817701C53905B142550A8026D25F95DLLSDySSSayAA0dE14ManagedRequestAELLCGGvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14cancelRequests12forContextIDy10Foundation4UUIDV_tF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14cancelRequests12forContextIDy10Foundation4UUIDV_tFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14cancelRequests33_C817701C53905B142550A8026D25F95DLLyySayAA0dE14ManagedRequestAELLCGF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14idleUIGotFocus_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14idleUIGotFocus_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctFTf4dnnn_n
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14idleUIGotFocus_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14idleUIGotFocus_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctFyyYbcfU_
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14idleUIGotFocus_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCys5Error_pSgctFyyYbcfU_TA
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC14unstashRequest33_C817701C53905B142550A8026D25F95DLLyyAA0de7ManagedI0AELLCF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC15restartRequests12forContextIDSb10Foundation4UUIDV_tF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC15restartRequests12forContextIDSb10Foundation4UUIDV_tFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC15stashedRequests33_C817701C53905B142550A8026D25F95DLLSayAA0dE14ManagedRequestAELLCGvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC17sessionIdentifier33_C817701C53905B142550A8026D25F95DLL3forSSSgSo20LACEvaluationRequest_p_tF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC17unregisterRequestyySo013LACEvaluationI0_pF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC17unregisterRequestyySo013LACEvaluationI0_pFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC18clientInfoProvider33_C817701C53905B142550A8026D25F95DLLSo09LACClientI9Providing_pvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC18clientInfoProvider6helper10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo17OS_dispatch_queueCtcfC
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC18clientInfoProvider6helper10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo17OS_dispatch_queueCtcfCTj
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC18clientInfoProvider6helper10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo17OS_dispatch_queueCtcfCTq
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC18clientInfoProvider6helper10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo17OS_dispatch_queueCtcfc
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC18clientInfoProvider6helper10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo17OS_dispatch_queueCtcfcTf4ennn_n
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC18clientInfoProvider6helper10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo17OS_dispatch_queueCtcfcTf4ennn_nSo0niJ0C_Tg5
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC19removeActiveRequest33_C817701C53905B142550A8026D25F95DLL_4withyAA0de7ManagedJ0AELLC_SStF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC20connectedUIInstances33_C817701C53905B142550A8026D25F95DLLSo10NSMapTableCySo8NSNumberCSo0D16IdleUIPresenting_pGvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC20retryStashedRequests33_C817701C53905B142550A8026D25F95DLL9contextIDSb10Foundation4UUIDV_tF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC20retryStashedRequests33_C817701C53905B142550A8026D25F95DLL9contextIDSb10Foundation4UUIDV_tFSbAA0dE14ManagedRequestAELLCXEfU_TA
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC20retryStashedRequests33_C817701C53905B142550A8026D25F95DLL9contextIDSb10Foundation4UUIDV_tFSbAA0dE14ManagedRequestAELLCXEfU_Tm
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC20specializedObservers33_C817701C53905B142550A8026D25F95DLLSo10NSMapTableCySo20LACEvaluationRequest_pSo0deF8Observer_pGvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC21cancelStashedRequests33_C817701C53905B142550A8026D25F95DLL9contextIDy10Foundation4UUIDV_tF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC21cancelStashedRequests33_C817701C53905B142550A8026D25F95DLL9contextIDy10Foundation4UUIDV_tFSbAA0dE14ManagedRequestAELLCXEfU0_
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC21cancelStashedRequests33_C817701C53905B142550A8026D25F95DLL9contextIDy10Foundation4UUIDV_tFSbAA0dE14ManagedRequestAELLCXEfU0_TA
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC21cancelStashedRequests33_C817701C53905B142550A8026D25F95DLL9contextIDy10Foundation4UUIDV_tFSbAA0dE14ManagedRequestAELLCXEfU_TA
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC21connectionInvalidated13forIdentifierySo8NSNumberCSg_tF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC21connectionInvalidated13forIdentifierySo8NSNumberCSg_tFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC22activeOrStashedRequest33_C817701C53905B142550A8026D25F95DLL4withAA0de7ManagedK0AELLCSgs6UInt32V_tF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC24unstashRequestIfPossible33_C817701C53905B142550A8026D25F95DLLyyF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC3add8observer3forySo0deF8Observer_p_So20LACEvaluationRequest_pSgtF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC3add8observer3forySo0deF8Observer_p_So20LACEvaluationRequest_pSgtFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC3add8observer3forySo0deF8Observer_p_So20LACEvaluationRequest_pSgtFToTm
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC6helper33_C817701C53905B142550A8026D25F95DLLSo0dE6HelperCvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC6remove8observer3forySo0deF8Observer_p_So20LACEvaluationRequest_pSgtF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC6remove8observer3forySo0deF8Observer_p_So20LACEvaluationRequest_pSgtFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC7connect_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCySo0dK10UIHandling_pSg_s5Error_pSgtctF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC7connect_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCySo0dK10UIHandling_pSg_s5Error_pSgtctFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC7connect_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCySo0dK10UIHandling_pSg_s5Error_pSgtctFyyYbcfU_
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC7connect_10identifier10completionySo0D16IdleUIPresenting_p_So8NSNumberCySo0dK10UIHandling_pSg_s5Error_pSgtctFyyYbcfU_TA
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC8registeryySo20LACEvaluationRequest_pF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC8registeryySo20LACEvaluationRequest_pFTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC8registeryySo20LACEvaluationRequest_pFToTm
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC9observers33_C817701C53905B142550A8026D25F95DLLSo11NSHashTableCySo0deF8Observer_pGvpWvd
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCACycfC
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCACycfc
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCACycfcTo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCMF
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCMa
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCMf
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCMn
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCMo
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCMu
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCN
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCfD
+- _$s23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelCfETo
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC11descriptionSSvg
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC13acceptsIdleUISbvpWvd
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC17sessionIdentifierSSvpWvd
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC6idleUISo0D16IdleUIPresenting_pSgvpWvd
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC7requestSo013LACEvaluationG0_pvpWvd
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCMF
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCMXX
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCMa
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCMf
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCMm
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCMn
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCN
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCSQAAMc
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCSQAAMcMK
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCSQAASQ2eeoiySbx_xtFZTW
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCfD
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCs23CustomStringConvertibleAAMc
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCs23CustomStringConvertibleAAMcMK
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCs23CustomStringConvertibleAAsAEP11descriptionSSvgTW
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVMF
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVMXX
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVMa
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVMf
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVMn
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVN
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVWV
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVwet
+- _$s23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVwst
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC10replyQueue33_7BE1DBB9B1828B4CA409B089164F0707LLSo17OS_dispatch_queueCvpWvd
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC11shouldStash33_7BE1DBB9B1828B4CA409B089164F0707LL7request3forSbSo20LACEvaluationRequest_p_So0S6ResultCtF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC11systemReady3for7managerySo20LACEvaluationRequest_p_So0dE8Managing_ptF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC11systemReady3for7managerySo20LACEvaluationRequest_p_So0dE8Managing_ptFTo
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC11systemReady3for7managerySo20LACEvaluationRequest_p_So0dE8Managing_ptFToTm
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC12stashRequest33_7BE1DBB9B1828B4CA409B089164F0707LL_3for10completionySo013LACEvaluationI0_p_s5Error_pySo0S6ResultCctF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC14processRequest_13configuration10completionySo013LACEvaluationI0_p_So26LACProcessingConfigurationCySo0L6ResultCctF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC14processRequest_13configuration10completionySo013LACEvaluationI0_p_So26LACProcessingConfigurationCySo0L6ResultCctF06$sSo19lO16CIeyBy_ABIegg_TRAKIeyBy_Tf1nncn_nTf4ndng_n
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC14processRequest_13configuration10completionySo013LACEvaluationI0_p_So26LACProcessingConfigurationCySo0L6ResultCctFTo
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC15stashedRequests33_7BE1DBB9B1828B4CA409B089164F0707LLSayAA0dE14StashedRequestAELLVGvpWvd
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC15systemDidCancel_7managerySo20LACEvaluationRequest_p_So0dE8Managing_ptF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC15systemDidCancel_7managerySo20LACEvaluationRequest_p_So0dE8Managing_ptFTo
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC17canProcessRequestySbSo013LACEvaluationJ0_pF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC17canProcessRequestySbSo013LACEvaluationJ0_pFTo
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC18clientInfoProvider33_7BE1DBB9B1828B4CA409B089164F0707LLSo09LACClientI9Providing_pvpWvd
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC18clientInfoProvider6helper7manager10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo0dE8Managing_pSo17OS_dispatch_queueCtcfC
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC18clientInfoProvider6helper7manager10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo0dE8Managing_pSo17OS_dispatch_queueCtcfCTj
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC18clientInfoProvider6helper7manager10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo0dE8Managing_pSo17OS_dispatch_queueCtcfCTq
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC18clientInfoProvider6helper7manager10replyQueueACSo09LACClientI9Providing_p_So0dE6HelperCSo0dE8Managing_pSo17OS_dispatch_queueCtcfc
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC18postProcessRequest_6result10completionySo013LACEvaluationJ0_p_So0M6ResultCyAIctF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC18postProcessRequest_6result10completionySo013LACEvaluationJ0_p_So0M6ResultCyAIctFTo
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC21isConcurrencyDisabled33_7BE1DBB9B1828B4CA409B089164F0707LL3forSbSo20LACEvaluationRequest_p_tF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC22idleUIListenerProvider33_7BE1DBB9B1828B4CA409B089164F0707LLSo0d4IdleiJ0CvpWvd
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC6helper33_7BE1DBB9B1828B4CA409B089164F0707LLSo0dE6HelperCvpWvd
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC7manager33_7BE1DBB9B1828B4CA409B089164F0707LLSo0dE8Managing_pvpWvd
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCACycfC
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCACycfc
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCACycfcTo
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCMF
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCMa
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCMf
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCMn
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCMo
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCMu
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCN
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCfD
+- _$s23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelCfETo
+- _$s23LocalAuthenticationCore39LACUserRegistryFileEnvironmentAccessing_pWOb
+- _$s23LocalAuthenticationCore42LACConcurrentEvaluationAllowListBinaryPathOSYAASY8rawValuexSg03RawK0Qz_tcfCTWTv_r
+- _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSS_SDySiypGTt0g5Tf4g_nTm
+- _$sSD17dictionaryLiteralSDyxq_Gx_q_td_tcfCSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGTt0g5Tf4g_n
+- _$sSDyq_SgxcisSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGTg5
+- _$sSMsE20_halfStablePartition15isSuffixElement5IndexQzSb0F0QzKXE_tKFSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCG_Tg504$s23hi6Core35kl32ManagerModelC14unstashRequest33_opqrst11DLLyyAA0de7M17I0AELLCFSbAGXEfU_AJTf1cn_nTf4ng_nTm
+- _$sSTsE5first5where7ElementQzSgSbADKXE_tKFSaySDys11AnyHashableVypGG_Tg5
+- _$sSTsE6filterySay7ElementQzGSbACKXEKFSD6ValuesVy10Foundation4UUIDV23LocalAuthenticationCore012LACCompanionG24ControllerPendingRequestC_G_Tg5
+- _$sSTsE7flatMapySay7ElementQyd__Gqd__ABQzKXEKSTRd__lFSD6ValuesVySSSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCG_G_ALTg504$s23ef6Core35hi40ManagerModelC22activeOrStashedRequest33_lmnopq14DLL4withAA0de7J44K0AELLCSgs6UInt32V_tFAIyKXEfu_SayAHGALXEfU0_Tf1cn_n
+- _$sSTsE8contains5whereS2b7ElementQzKXE_tKFSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCG_Tg5
+- _$sSTsE8contains5whereS2b7ElementQzKXE_tKFSaySSG_Tg5
+- _$sSTsE8contains5whereS2b7ElementQzKXE_tKFSaySo20LACEligibilityDomainaG_Tg5
+- _$sSTsSQ7ElementRpzrlE8containsySbABFSbABXEfU_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCG_TG5TA
+- _$sSTsSQ7ElementRpzrlE8containsySbABFSbABXEfU_SaySSG_TG5TA
+- _$sSTsSQ7ElementRpzrlE8containsySbABFSbABXEfU_SaySSG_TG5TATm
+- _$sSTsSQ7ElementRpzrlE8containsySbABFSbABXEfU_SaySo20LACEligibilityDomainaG_TG5
+- _$sSTsSQ7ElementRpzrlE8containsySbABFSbABXEfU_SaySo20LACEligibilityDomainaG_TG5TA
+- _$sSa15replaceSubrange_4withySnySiG_qd__nt7ElementQyd__RszSlRd__lF23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC_s15EmptyCollectionVyAIGTg5Tf4ndn_n
+- _$sSa20_reserveCapacityImpl07minimumB013growForAppendySi_SbtF23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC_Tg5
+- _$sSa20_reserveCapacityImpl07minimumB013growForAppendySi_SbtFSo29LACEvaluationRequestProcessor_p_Tg5
+- _$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lFSo29LACEvaluationRequestProcessor_p_SaySoAE_pGTg5
+- _$sSa6remove2atxSi_tF23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLV_Tg5
+- _$sSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGMR
+- _$sSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGMd
+- _$sSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGSayxGSlsWL
+- _$sSaySo29LACEvaluationRequestProcessor_pGSayxGSlsWl
+- _$sSayxGSlsSly7ElementQz5IndexQzcirTW23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC_Tg5
+- _$sScS12ContinuationVyyyYac_GSgWOc
+- _$sSlsE10firstIndex5where0B0QzSgSb7ElementQzKXE_tKFSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCG_Tg504$s23ef6Core35hi32ManagerModelC14unstashRequest33_lmnopq11DLLyyAA0de7J17I0AELLCFSbAGXEfU_AKTf1cn_nTf4ng_nTm
+- _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE22isDTOStrictModeEnabledSo8NSNumberCSgvgTm
+- _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE22isDTOStrictModeEnabledSo8NSNumberCSgvgToTm
+- _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE22isDTOStrictModeEnabledSo8NSNumberCSgvsTf4nd_nTm
+- _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE23isCompanionDeviceMockedSbvgZTm
+- _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE23isCompanionDeviceMockedSbvgZToTm
+- _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE23isCompanionDeviceMockedSbvsZTm
+- _$sSo15LACGlobalDomainC23LocalAuthenticationCoreE23isCompanionDeviceMockedSbvsZToTm
+- _$sSo19LACUserPolicyDomainas21_ObjectiveCBridgeableSCsACP016_forceBridgeFromD1C_6resulty01_D5CTypeQz_xSgztFZTWTm
+- _$sSo19LACUserPolicyDomainas21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromD1C_6resultSb01_D5CTypeQz_xSgztFZTWTm
+- _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor11uiPresenter5replyABSo012LACCompanionD12Coordinating_p_So09LACClientH9Providing_pSo0pd11EnvironmentS0_pSo0pD17SessionMonitoring_pSo26LACUserInterfacePresenting_pSo17OS_dispatch_queueCtcfC
+- _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor11uiPresenter5replyABSo012LACCompanionD12Coordinating_p_So09LACClientH9Providing_pSo0pd11EnvironmentS0_pSo0pD17SessionMonitoring_pSo26LACUserInterfacePresenting_pSo17OS_dispatch_queueCtcfc
+- _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor11uiPresenter5replyABSo012LACCompanionD12Coordinating_p_So09LACClientH9Providing_pSo0pd11EnvironmentS0_pSo0pD17SessionMonitoring_pSo26LACUserInterfacePresenting_pSo17OS_dispatch_queueCtcfcTo
+- _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor5replyABSo012LACCompanionD12Coordinating_p_So09LACClientH9Providing_pSo0nd11EnvironmentQ0_pSo0nD17SessionMonitoring_pSo17OS_dispatch_queueCtcfC
+- _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor5replyABSo012LACCompanionD12Coordinating_p_So09LACClientH9Providing_pSo0nd11EnvironmentQ0_pSo0nD17SessionMonitoring_pSo17OS_dispatch_queueCtcfc
+- _$sSo20LACOnenessControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor5replyABSo012LACCompanionD12Coordinating_p_So09LACClientH9Providing_pSo0nd11EnvironmentQ0_pSo0nD17SessionMonitoring_pSo17OS_dispatch_queueCtcfcTo
+- _$sSo20NSDataWritingOptionsVs10SetAlgebraSCsACP12intersectionyxxFTW
+- _$sSo20NSDataWritingOptionsVs10SetAlgebraSCsACP16formIntersectionyyxFTW
+- _$sSo20NSDataWritingOptionsVs10SetAlgebraSCsACP6insertySb8inserted_7ElementQz17memberAfterInserttAHnFTW
+- _$sSo20NSDataWritingOptionsVs10SetAlgebraSCsACP9formUnionyyxnFTW
+- _$sSo27LACConcurrentIdleUIHandling_pSgs5Error_pSgIeghgg_ABSo7NSErrorCSgIeyBhyy_TR
+- _$sSo29LACPhoneIntegrationControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentJ014sessionMonitor5replyABSo012LACCompanionE12Coordinating_p_So09LACClientI9Providing_pSo0oe11EnvironmentR0_pSo0oE17SessionMonitoring_pSo17OS_dispatch_queueCtcfC
+- _$sSo29LACPhoneIntegrationControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentJ014sessionMonitor5replyABSo012LACCompanionE12Coordinating_p_So09LACClientI9Providing_pSo0oe11EnvironmentR0_pSo0oE17SessionMonitoring_pSo17OS_dispatch_queueCtcfc
+- _$sSo29LACPhoneIntegrationControllerC23LocalAuthenticationCoreE13authenticator18clientInfoProvider011environmentJ014sessionMonitor5replyABSo012LACCompanionE12Coordinating_p_So09LACClientI9Providing_pSo0oe11EnvironmentR0_pSo0oE17SessionMonitoring_pSo17OS_dispatch_queueCtcfcTo
+- _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE15restartRequests12forContextIDSb10Foundation4UUIDV_tF
+- _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE15restartRequests12forContextIDSb10Foundation4UUIDV_tFTo
+- _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE3add8observer3forySo0abC8Observer_p_So20LACEvaluationRequest_pSgtFTm
+- _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE8registeryySo20LACEvaluationRequest_pFTm
+- _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE9makeModelSo0aB8Managing_pyF
+- _$sSo30LACConcurrentEvaluationManagerC23LocalAuthenticationCoreE9makeModelSo0aB8Managing_pyFTo
+- _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE9makeModelSo0aB11Controlling_pyF
+- _$sSo33LACConcurrentEvaluationControllerC23LocalAuthenticationCoreE9makeModelSo0aB11Controlling_pyFTo
+- _$sSo35LACConcurrentIdleUIListenerProviderC7handler10replyQueueABSo0aB10UIHandling_So0aB13UIXPCHandlingp_So17OS_dispatch_queueCtcfCTfq4enn_nTf4ggn_n
+- _$sSo35LACConcurrentIdleUIListenerProviderCMa
+- _$sSo35LACConcurrentIdleUIListenerProviderCMaTm
+- _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor5replyABSo0aB12Coordinating_p_So09LACClientH9Providing_pSo0ab11EnvironmentP0_pSo0aB17SessionMonitoring_pSo17OS_dispatch_queueCtcfC
+- _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor5replyABSo0aB12Coordinating_p_So09LACClientH9Providing_pSo0ab11EnvironmentP0_pSo0aB17SessionMonitoring_pSo17OS_dispatch_queueCtcfc
+- _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE13authenticator18clientInfoProvider011environmentI014sessionMonitor5replyABSo0aB12Coordinating_p_So09LACClientH9Providing_pSo0ab11EnvironmentP0_pSo0aB17SessionMonitoring_pSo17OS_dispatch_queueCtcfcTo
+- _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE18clientInfoProvider33_3FF1EF0A535C5E80FA6CB882A64ACC62LLSo09LACClientG9Providing_pvgTo
+- _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE18clientInfoProvider33_3FF1EF0A535C5E80FA6CB882A64ACC62LLSo09LACClientG9Providing_pvpWvd
+- _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE21cancelPendingRequests33_3FF1EF0A535C5E80FA6CB882A64ACC62LL9contextIDy10Foundation4UUIDVSg_tFSbAC0abcG7RequestCXEfU_
+- _$sSo36LACCompanionAuthenticationControllerC05LocalB4CoreE21cancelPendingRequests33_3FF1EF0A535C5E80FA6CB882A64ACC62LL9contextIDy10Foundation4UUIDVSg_tFSbAC0abcG7RequestCXEfU_TA
+- _$sSo40LACCompanionAuthenticationSessionMonitorC05LocalB4CoreE3addyySo0abcD8Observer_pFyyYbcfU_Tm
+- _$ss12_ArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLV_Tg5
+- _$ss12_ArrayBufferV20_consumeAndCreateNewAByxGyF23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC_Tg5
+- _$ss12_ArrayBufferV20_consumeAndCreateNewAByxGyF23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLV_Tg5
+- _$ss14_ArrayProtocolPsE6filterySay7ElementQzGSbAEKXEKFSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCG_Tg5
+- _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGTg5
+- _$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSo18NSFileAttributeKeya_ypTg5
+- _$ss17_NativeDictionaryV4copyyyFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGTg5
+- _$ss17_NativeDictionaryV7_delete2atys10_HashTableV6BucketV_tFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGTg5
+- _$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtFSS_Say23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGTg5
+- _$ss18_DictionaryStorageCySSSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGGMR
+- _$ss18_DictionaryStorageCySSSay23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCGGMd
+- _$ss20_ArrayBufferProtocolPsE15replaceSubrange_4with10elementsOfySnySiG_Siqd__ntSlRd__7ElementQyd__AGRtzlFs01_aB0Vy23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLCG_s15EmptyCollectionVyAOGTg5Tf4nndn_n
+- _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVGMR
+- _$ss23_ContiguousArrayStorageCy23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLVGMd
+- _$ss6ResultOMn
+- _$ss6ResultOyyts5Error_pGSgWOe
+- _$ss6ResultOyyts5Error_pGSgWOy
+- _$ss6ResultOyyts5Error_pGWOe
+- _$ss6ResultOyyts5Error_pGWOy
+- _LACEvaluationRequestPayloadKeyConcurrentIdleUIListener
+- _LACEventParamRemoteViewControllerName
+- _LACEventParamRemoteViewServiceBundleID
+- _LACEventProcessingOptionRemoteViewController
+- _LACLogUIAuthenticationSheet
+- _LACStorageKeyAclProtectedPassword
+- _LACUserInterfaceBundleIdentifierDefault
+- _LACUserInterfaceBundleIdentifierViewService
+- _OBJC_$_PROP_LIST_LACXPCClient.90
+- _OBJC_CLASS_$_LACCachedExternalizedContext
+- _OBJC_CLASS_$_LACUserInterfaceSpringBoardAdapter
+- _OBJC_CLASS_$__TtC23LocalAuthenticationCore23LACPreboardErrorBuilder
+- _OBJC_CLASS_$__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel
+- _OBJC_CLASS_$__TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel
+- _OBJC_METACLASS_$_LACCachedExternalizedContext
+- _OBJC_METACLASS_$_LACUserInterfaceSpringBoardAdapter
+- _OBJC_METACLASS_$__TtC23LocalAuthenticationCore23LACPreboardErrorBuilder
+- _OBJC_METACLASS_$__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel
+- _OBJC_METACLASS_$__TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel
+- _PROTOCOLS_LACMutablePasscodeVerificationRequest.8
+- _PROTOCOLS__TtC23LocalAuthenticationCore21LACPreboardController.22
+- _PROTOCOLS__TtC23LocalAuthenticationCore21LACUserDatabaseClient.16
+- _PROTOCOLS__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel.5
+- __37-[LACPasscodeHelper _verifyPasscode:]_block_invoke.30
+- __37-[LACPasscodeHelper _verifyPasscode:]_block_invoke.cold.1
+- __41-[LACACMHelper ageForDataWithType:error:]_block_invoke.40
+- __41-[LACACMHelper ageForDataWithType:error:]_block_invoke.40.cold.1
+- __49-[LACBackgroundTask runSynchronouslyWithTimeout:]_block_invoke.5
+- __51-[LACBackgroundTask _queuedCompleteTaskWithResult:]_block_invoke.30
+- __52-[LACSecureStorage aclForRequest:completionHandler:]_block_invoke.26
+- __55-[LACSecureStorage objectForRequest:completionHandler:]_block_invoke.3
+- __59-[LACSecureStorage setObject:forRequest:completionHandler:]_block_invoke.25
+- __62-[LACSecureStorage _exchangeObject:request:completionHandler:]_block_invoke.49
+- __62-[LACSecureStorage processError:forRequest:completionHandler:]_block_invoke.38
+- __62-[LACSecureStorage processError:forRequest:completionHandler:]_block_invoke.39
+- __65-[LACBackgroundTask _queuedRunWithTimeout:replyQueue:completion:]_block_invoke.cold.1
+- __66-[LACACMHelper _verifyRequirement:satisfiedForType:present:flags:]_block_invoke.93
+- __CLASS_METHODS__TtC23LocalAuthenticationCore23LACPreboardErrorBuilder
+- __DATA__TtC23LocalAuthenticationCore23LACPreboardErrorBuilder
+- __DATA__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel
+- __DATA__TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel
+- __DATA__TtC23LocalAuthenticationCoreP33_C817701C53905B142550A8026D25F95D37LACConcurrentEvaluationManagedRequest
+- __INSTANCE_METHODS__TtC23LocalAuthenticationCore23LACPreboardErrorBuilder
+- __IVARS__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel
+- __IVARS__TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel
+- __IVARS__TtC23LocalAuthenticationCoreP33_C817701C53905B142550A8026D25F95D37LACConcurrentEvaluationManagedRequest
+- __METACLASS_DATA__TtC23LocalAuthenticationCore23LACPreboardErrorBuilder
+- __METACLASS_DATA__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel
+- __METACLASS_DATA__TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel
+- __METACLASS_DATA__TtC23LocalAuthenticationCoreP33_C817701C53905B142550A8026D25F95D37LACConcurrentEvaluationManagedRequest
+- __NSDictionaryFromACMRequirement_block_invoke.290
+- __NSDictionaryFromACMRequirement_block_invoke_2.291
+- __OBJC_$_CLASS_METHODS_LACConcurrentEvaluationHelper
+- __OBJC_$_CLASS_METHODS_LACPasscodeHelper
+- __OBJC_$_CLASS_METHODS_LACPersistentStoreFactory
+- __OBJC_$_CLASS_PROP_LIST_LACConcurrentEvaluationHelper
+- __OBJC_$_INSTANCE_METHODS_LACBackgroundTask
+- __OBJC_$_INSTANCE_METHODS_LACCachedExternalizedContext
+- __OBJC_$_INSTANCE_METHODS_LACConcurrentEvaluationController(Base|InternalBase)
+- __OBJC_$_INSTANCE_METHODS_LACConcurrentEvaluationHelper(Base)
+- __OBJC_$_INSTANCE_METHODS_LACConcurrentEvaluationManager(Base|InternalBase)
+- __OBJC_$_INSTANCE_METHODS_LACPasscodeHelper
+- __OBJC_$_INSTANCE_METHODS_LACUserInterfaceSpringBoardAdapter
+- __OBJC_$_INSTANCE_METHODS__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel(LocalAuthenticationCore|LocalAuthenticationCore1)
+- __OBJC_$_INSTANCE_METHODS__TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel(LocalAuthenticationCore)
+- __OBJC_$_INSTANCE_VARIABLES_LACBackgroundTask
+- __OBJC_$_INSTANCE_VARIABLES_LACCachedExternalizedContext
+- __OBJC_$_INSTANCE_VARIABLES_LACConcurrentEvaluationController
+- __OBJC_$_INSTANCE_VARIABLES_LACConcurrentEvaluationHelper
+- __OBJC_$_INSTANCE_VARIABLES_LACConcurrentEvaluationManager
+- __OBJC_$_INSTANCE_VARIABLES_LACPasscodeHelper
+- __OBJC_$_INSTANCE_VARIABLES_LACUserInterfaceSpringBoardAdapter
+- __OBJC_$_PROP_LIST_LACBackgroundTask
+- __OBJC_$_PROP_LIST_LACCachedExternalizedContext
+- __OBJC_$_PROP_LIST_LACPasscodeHelper
+- __OBJC_$_PROP_LIST_LACUserInterfaceSpringBoardAdapter
+- __OBJC_$_PROTOCOL_INSTANCE_METHODS_LACContextExternalizing
+- __OBJC_$_PROTOCOL_INSTANCE_METHODS_NSXPCProxyCreating
+- __OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_LACContextExternalizing
+- __OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSXPCProxyCreating
+- __OBJC_$_PROTOCOL_METHOD_TYPES_LACContextExternalizing
+- __OBJC_$_PROTOCOL_METHOD_TYPES_NSXPCProxyCreating
+- __OBJC_$_PROTOCOL_REFS_LACContextExternalizing
+- __OBJC_CLASS_PROTOCOLS_$_LACConcurrentEvaluationController(Base|InternalBase)
+- __OBJC_CLASS_PROTOCOLS_$_LACConcurrentEvaluationManager(Base|InternalBase)
+- __OBJC_CLASS_PROTOCOLS_$_LACPasscodeHelper
+- __OBJC_CLASS_PROTOCOLS_$_LACUserInterfaceSpringBoardAdapter
+- __OBJC_CLASS_PROTOCOLS_$__TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel(LocalAuthenticationCore)
+- __OBJC_CLASS_RO_$_LACBackgroundTask
+- __OBJC_CLASS_RO_$_LACCachedExternalizedContext
+- __OBJC_CLASS_RO_$_LACConcurrentEvaluationController
+- __OBJC_CLASS_RO_$_LACConcurrentEvaluationHelper
+- __OBJC_CLASS_RO_$_LACConcurrentEvaluationManager
+- __OBJC_CLASS_RO_$_LACPasscodeHelper
+- __OBJC_CLASS_RO_$_LACPersistentStoreFactory
+- __OBJC_CLASS_RO_$_LACUserInterfaceSpringBoardAdapter
+- __OBJC_LABEL_PROTOCOL_$_LACContextExternalizing
+- __OBJC_LABEL_PROTOCOL_$_NSXPCProxyCreating
+- __OBJC_METACLASS_RO_$_LACBackgroundTask
+- __OBJC_METACLASS_RO_$_LACCachedExternalizedContext
+- __OBJC_METACLASS_RO_$_LACConcurrentEvaluationController
+- __OBJC_METACLASS_RO_$_LACConcurrentEvaluationHelper
+- __OBJC_METACLASS_RO_$_LACConcurrentEvaluationManager
+- __OBJC_METACLASS_RO_$_LACPasscodeHelper
+- __OBJC_METACLASS_RO_$_LACPersistentStoreFactory
+- __OBJC_METACLASS_RO_$_LACUserInterfaceSpringBoardAdapter
+- __OBJC_PROTOCOL_$_LACContextExternalizing
+- __OBJC_PROTOCOL_$_NSXPCProxyCreating
+- __OBJC_PROTOCOL_REFERENCE_$_NSXPCProxyCreating
+- __PROTOCOLS__TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel
+- ___33-[LACPasscodeHelper deviceOwners]_block_invoke
+- ___35+[LACPasscodeHelper sharedInstance]_block_invoke
+- ___37-[LACPasscodeHelper _verifyPasscode:]_block_invoke
+- ___38-[LACPasscodeHelper _userUUIDFromUID:]_block_invoke
+- ___42-[LACPasscodeHelper nonHiddenDeviceOwners]_block_invoke
+- ___47+[LACConcurrentEvaluationHelper sharedInstance]_block_invoke
+- ___47-[LACBackgroundTask _queuedStartWorkerIfNeeded]_block_invoke
+- ___47-[LACBackgroundTask _queuedStartWorkerIfNeeded]_block_invoke_2
+- ___47-[LACBackgroundTask _queuedStartWorkerIfNeeded]_block_invoke_3
+- ___49-[LACBackgroundTask runSynchronouslyWithTimeout:]_block_invoke
+- ___51-[LACBackgroundTask _queuedCompleteTaskWithResult:]_block_invoke
+- ___52-[LACSecureStorage aclForRequest:completionHandler:]_block_invoke
+- ___53-[LACBackgroundTask runWithTimeout:queue:completion:]_block_invoke
+- ___59-[LACBackgroundTask _queuedStartWorkerWatchdogWithTimeout:]_block_invoke
+- ___61-[LACCachedExternalizedContext externalizedContextWithError:]_block_invoke
+- ___61-[LACCachedExternalizedContext externalizedContextWithReply:]_block_invoke
+- ___65-[LACBackgroundTask _queuedRunWithTimeout:replyQueue:completion:]_block_invoke
+- ___70-[LACSecureStorage _setProtectedData:acl:contextID:completionHandler:]_block_invoke
+- ___75-[LACSecureStorage _protectedDataWithBundleId:contextID:completionHandler:]_block_invoke
+- ___75-[LACSecureStorage _protectedDataWithBundleId:contextID:completionHandler:]_block_invoke_2
+- ___LACLogUIAuthenticationSheet_block_invoke
+- ___block_descriptor_40_e8_32w_e33_v16?0"LACBackgroundTaskResult"8l
+- ___block_descriptor_48_e8_32bs40r_e33_v16?0"LACBackgroundTaskResult"8l
+- ___block_descriptor_48_e8_32s40r_e28_v24?0"NSData"8"NSError"16l
+- ___block_descriptor_48_e8_32w_e5_v8?0l
+- ___block_descriptor_56_e8_32s40bs48r_e20_v24?08"NSError"16l
+- ___block_descriptor_56_e8_32s40s48s_e40_v16?0?<v?"LACBackgroundTaskResult">8l
+- ___block_descriptor_81_e8_32s40s48s56s64s_e5_i8?0l
+- ___copy_helper_block_e8_32s40s48s56s64s
+- __connect
+- __initialized
+- _dispatch_block_create
+- _dispatch_block_wait
+- _dispatch_semaphore_signal
+- _dispatch_semaphore_wait
+- _flat unique So22LACClientInfoProviding_p
+- _flat unique So31LACConcurrentEvaluationManaging_p
+- _objc_msgSend$_bundleIDForRequest:
+- _objc_msgSend$_currentUserID
+- _objc_msgSend$_errorNotSupported
+- _objc_msgSend$_increaseFailedAttemptCountForUserID:
+- _objc_msgSend$_isOTIVerifierEnabled
+- _objc_msgSend$_notifyObserversAboutUpdate
+- _objc_msgSend$_protectedDataWithBundleId:contextID:completionHandler:
+- _objc_msgSend$_queuedCompleteTaskWithResult:
+- _objc_msgSend$_queuedRunInReplyQueue:
+- _objc_msgSend$_queuedRunWithTimeout:replyQueue:completion:
+- _objc_msgSend$_queuedStartWorkerIfNeeded
+- _objc_msgSend$_queuedStartWorkerWatchdogWithTimeout:
+- _objc_msgSend$_queuedStopWorkerWatchdog
+- _objc_msgSend$_resetFailedAttemptCountForUserID:
+- _objc_msgSend$_setProtectedData:acl:contextID:completionHandler:
+- _objc_msgSend$_shouldUseODVerifierForUserId:policy:options:
+- _objc_msgSend$_shouldUseOTIVerifierForUserUUID:policy:options:
+- _objc_msgSend$_shouldUsePAMVerifierForUserId:policy:options:
+- _objc_msgSend$_updatePasscodeSuccessAgeWithUptime:
+- _objc_msgSend$_userNameFromUID:
+- _objc_msgSend$_userUUIDFromUID:
+- _objc_msgSend$_verifyPasscode:
+- _objc_msgSend$_verifyPasscodeUsingMKB:acmContext:userId:options:
+- _objc_msgSend$_verifyPasscodeUsingOD:acmContext:userId:options:
+- _objc_msgSend$_verifyPasscodeUsingOTI:acmContext:userUUID:
+- _objc_msgSend$acl
+- _objc_msgSend$backgroundTask:didCompleteTaskWithResult:
+- _objc_msgSend$connection
+- _objc_msgSend$date
+- _objc_msgSend$dateByAddingTimeInterval:
+- _objc_msgSend$defaultInstance
+- _objc_msgSend$initWithAllowList:flags:sdkHelper:
+- _objc_msgSend$initWithIdentifier:evaluationRequest:contextID:
+- _objc_msgSend$initWithKeyBagStateProvider:notificationCenter:
+- _objc_msgSend$makeModel
+- _objc_msgSend$passcodeSetDidChangeForHelper:
+- _objc_msgSend$synchronousExternalizedContextWithError:
+- _objc_msgSend$timeIntervalSinceDate:
+- _objc_msgSend$updatePasscodeSuccessAgeWithCurrentSystemUptime
+- _objc_msgSend$verifyPasscode:
+- _objc_msgSend$verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:
+- _symbolic SDySSSay_____GG 23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC
+- _symbolic Say_____G 23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC
+- _symbolic Say_____G 23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLV
+- _symbolic So10NSMapTableCySo8NSNumberC______pG So29LACConcurrentIdleUIPresentingP
+- _symbolic So10NSMapTableCy______p______pG So20LACEvaluationRequestP So38LACConcurrentEvaluationManagerObserverP
+- _symbolic So11NSHashTableCy______pG So38LACConcurrentEvaluationManagerObserverP
+- _symbolic So29LACConcurrentEvaluationHelperC
+- _symbolic So29LACServiceXPCEndpointProviderC
+- _symbolic So35LACConcurrentIdleUIListenerProviderC
+- _symbolic _____ 23LocalAuthenticationCore23LACPreboardErrorBuilderC
+- _symbolic _____ 23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC
+- _symbolic _____ 23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC
+- _symbolic _____ 23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLV
+- _symbolic _____ 23LocalAuthenticationCore38LACConcurrentEvaluationControllerModelC
+- _symbolic _____SgXw 23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC
+- _symbolic _____SgXwz_Xx 23LocalAuthenticationCore35LACConcurrentEvaluationManagerModelC
+- _symbolic ______p So22LACClientInfoProvidingP
+- _symbolic ______p So31LACConcurrentEvaluationManagingP
+- _symbolic _____ySSSay_____GG s18_DictionaryStorageC 23LocalAuthenticationCore37LACConcurrentEvaluationManagedRequest33_C817701C53905B142550A8026D25F95DLLC
+- _symbolic _____y_____G s23_ContiguousArrayStorageC 23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLV
+- _symbolic _____yyt______pGSg s6ResultOsRi_zRi0_zrlE s5ErrorP
+- _type_layout_string 23LocalAuthenticationCore37LACConcurrentEvaluationStashedRequest33_7BE1DBB9B1828B4CA409B089164F0707LLV
+- _type_layout_string So20LACEligibilityDomaina
+- block_copy_helper.102
+- block_copy_helper.105
+- block_copy_helper.108
+- block_copy_helper.111
+- block_copy_helper.114
+- block_copy_helper.117
+- block_copy_helper.120
+- block_copy_helper.123
+- block_copy_helper.126
+- block_copy_helper.129
+- block_copy_helper.20
+- block_copy_helper.25
+- block_copy_helper.32
+- block_copy_helper.38
+- block_copy_helper.44
+- block_copy_helper.50
+- block_copy_helper.53
+- block_copy_helper.8
+- block_copy_helper.90
+- block_copy_helper.93
+- block_copy_helper.96
+- block_copy_helper.99
+- block_descriptor.10
+- block_descriptor.101
+- block_descriptor.104
+- block_descriptor.107
+- block_descriptor.110
+- block_descriptor.113
+- block_descriptor.116
+- block_descriptor.119
+- block_descriptor.122
+- block_descriptor.125
+- block_descriptor.128
+- block_descriptor.131
+- block_descriptor.22
+- block_descriptor.27
+- block_descriptor.34
+- block_descriptor.40
+- block_descriptor.46
+- block_descriptor.52
+- block_descriptor.55
+- block_descriptor.92
+- block_descriptor.95
+- block_descriptor.98
+- block_destroy_helper.100
+- block_destroy_helper.103
+- block_destroy_helper.106
+- block_destroy_helper.109
+- block_destroy_helper.112
+- block_destroy_helper.115
+- block_destroy_helper.118
+- block_destroy_helper.121
+- block_destroy_helper.124
+- block_destroy_helper.127
+- block_destroy_helper.130
+- block_destroy_helper.21
+- block_destroy_helper.26
+- block_destroy_helper.33
+- block_destroy_helper.39
+- block_destroy_helper.45
+- block_destroy_helper.51
+- block_destroy_helper.54
+- block_destroy_helper.9
+- block_destroy_helper.91
+- block_destroy_helper.94
+- block_destroy_helper.97
+- keypath_get.3Tm
+- keypath_get.5Tm
+- keypath_set.4Tm
+- keypath_set.6Tm
+- objectdestroy.25Tm
+- objectdestroy.37Tm
+CStrings:
++ " already connected while "
++ " attempted to connect"
++ " corresponds to a recovery key, not a user"
++ " toExistingUser: "
++ " toNewRecoveryKey: "
++ "$__lazy_storage_$_biometryType"
++ "$__lazy_storage_$_customUIManagers"
++ "$__lazy_storage_$_defaultUIManagers"
++ "%@ -> %s"
++ "%@ Custom UI replied for rid: %u to event (%s) with params: %{public}s"
++ "%@ Failed to externalize context with error: : %@"
++ "%@ No UI delegate to send custom UI event %ld (%s)"
++ "%@ No parameters to be sent to custom UI for event %ld (%s)"
++ "%@ Sending custom UI for rid: %u event (%s) with params: %{public}s"
++ "%@ created for rid: %u"
++ "%@ dumping event queue"
++ "%@ error: %@"
++ "%@ handles event: %@"
++ "%@ is handling %@ with %s"
++ "%@ isActive: %{bool}d"
++ "%@ no queued event"
++ "%@ replied with %s to event: %@"
++ "%s CoreAnalytics event: %s"
++ "%u-%u-%li"
++ "%{public}@ finished running worker"
++ "%{public}@ handler queued with timeout %fsecs"
++ "%{public}@ redundant result %{public}@, task already finished"
++ "%{public}@ started running worker"
++ "%{public}s failedAttempts: %ld"
++ "%{public}s has %ld failed passcode attempts out of %ld"
++ "%{public}s has backoff interval of %f seconds"
++ "' is already running"
++ "' timed out after %.3f secs"
++ ", accessoryAuthorizationError: "
++ ", accessoryAuthorizationResult: "
++ ", evaluationError: "
++ ", feedbackValue: "
++ ", hostedSceneConfiguration: "
++ ", isCredentialPresent: "
++ ", matchingStatus: "
++ ", postRequisite: "
++ ", preRequisite: "
++ "/AppleInternal/Library/BuildRoots/4~CJ8MugAnK6BfhEQ30xvMyXRunsayfm_REVO5tpM/Library/Caches/com.apple.xbs/TemporaryDirectory.lU4mI1/Sources/AppleCredentialManager_ClientLibs/ACMLib/ACMLib.c"
++ "/AppleInternal/Library/BuildRoots/4~CJ8MugAnK6BfhEQ30xvMyXRunsayfm_REVO5tpM/Library/Caches/com.apple.xbs/TemporaryDirectory.lU4mI1/Sources/AppleCredentialManager_ClientLibs/common/CommonUtil.c"
++ "/AppleInternal/Library/BuildRoots/4~CJ8MugAnK6BfhEQ30xvMyXRunsayfm_REVO5tpM/Library/Caches/com.apple.xbs/TemporaryDirectory.lU4mI1/Sources/AppleCredentialManager_ClientLibs/common/LibCall.c"
++ "/AppleInternal/Library/BuildRoots/4~CJ8MugAnK6BfhEQ30xvMyXRunsayfm_REVO5tpM/Library/Caches/com.apple.xbs/TemporaryDirectory.lU4mI1/Sources/AppleCredentialManager_ClientLibs/common/LibCallBlock.c"
++ "/AppleInternal/Library/BuildRoots/4~CJ8MugAnK6BfhEQ30xvMyXRunsayfm_REVO5tpM/Library/Caches/com.apple.xbs/TemporaryDirectory.lU4mI1/Sources/AppleCredentialManager_ClientLibs/common/LibSerialization.c"
++ "<LACBackgroundTask; identifier: "
++ "<LACBackgroundTaskQueued; identifier: "
++ "<LACRemoteUIParams ID:%@, SU: %d, Siri: %d, uid: %@, pid: %u, lsai: %d>"
++ "@\"<LACAuthenticationUINotifying>\""
++ "@\"<LACAuthenticationUIProxy>\"16@0:8"
++ "@\"<LACBackoffCounter>\"16@0:8"
++ "@\"<LACEvaluationEventValue>\""
++ "@\"<LACKeyBag>\"20@0:8I16"
++ "@\"<LACKeyBagProvider>\""
++ "@\"<LACPasscodeRateLimiting>\""
++ "@\"<LACRemoteUI>\""
++ "@\"<LACRemoteUIManaging>\""
++ "@\"<LACService>\""
++ "@\"<LACService>\"16@0:8"
++ "@\"<LACServiceManager>\""
++ "@\"<LACUIMechanism><LACRemoteUIHost>\""
++ "@\"<NSSecureCoding>\""
++ "@\"<NSSecureCoding>\"16@0:8"
++ "@\"LACConcurrentEvaluationHelper\""
++ "@\"LACConcurrentIdleUIListenerProvider\""
++ "@\"LACPasscodeMKBHelper\""
++ "@\"LACPasscodeUserHelper\""
++ "@\"LACUserInterfaceRequest\""
++ "@\"LACUserLockoutState\"32@0:8@\"NSUUID\"16^@24"
++ "@\"LACUserPasswordHash\""
++ "@\"NSData\"60@0:8@\"NSData\"16@\"NSData\"24I32Q36q44^@52"
++ "@\"NSDictionary\"8@?0"
++ "@\"NSXPCListener\""
++ "@\"NSXPCListener\"16@0:8"
++ "@\"NSXPCListenerEndpoint\"16@0:8"
++ "@\"_TtC23LocalAuthenticationCore18LACPasscodeMonitor\""
++ "@\"_TtC23LocalAuthenticationCore19LACPasscodeVerifier\""
++ "@\"_TtC23LocalAuthenticationCore21LACPasscodeSuccessAge\""
++ "@48@0:8q16q24@32@40"
++ "@48@0:8q16q24q32@40"
++ "@56@0:8@16@24I32Q36I44^@48"
++ "@60@0:8@16@24I32Q36q44^@52"
++ "ACMContextCredentialGetPropertyEx"
++ "Accepting new connection: %@"
++ "Actively served requests count: %ld"
++ "Added client to service: %@ clientID: %@"
++ "Allocated service: %@"
++ "Allocated session service: %@ clientID: %@"
++ "Authorization"
++ "B24@0:8@\"NSNumber\"16"
++ "B32@0:8@\"LACUserCredentialHash\"16^@24"
++ "B32@0:8@\"NSDictionary\"16@\"NSError\"24"
++ "B32@0:8@\"NSString\"16@\"NSDictionary\"24"
++ "B40@0:8@\"LACUserCredential\"16q24^@32"
++ "B40@0:8@\"LACUserCredentialHash\"16q24^@32"
++ "B40@0:8@16q24^@32"
++ "B48@0:8@\"LACUserCredential\"16@\"LACRecoveryKey\"24@\"NSString\"32^@40"
++ "B56@0:8@16@24Q32@40^@48"
++ "B64@0:8@16@24@32@40q48^@56"
++ "BiometryDatabaseHash"
++ "BiometryType"
++ "BottomFaceOccluded"
++ "Caller not in foreground"
++ "CameraObstructed"
++ "Cannot use OTI verifier for user %{public}s (%@)"
++ "Cannot use OTI verifier for user %{public}s without OTI"
++ "Cannot use OTI verifier for user without UUID"
++ "Client requested 'console' domain but missing required entitlements"
++ "Connection failed with error %{public}@"
++ "Connection interrupted: %s"
++ "Connection invalidated: %s"
++ "Control for key: %d not available in ACM"
++ "Could not bootstrap service with type: %{public}@ (%{public}@)"
++ "Could not create obtained externalized context with credential data"
++ "Could not find UUID for UID: %{public}@"
++ "Could not find user for ID: %{public}s"
++ "Could not inject ACMContextDataType(%{public}u) (%{public}s)"
++ "CreateUserWithHash "
++ "Deallocated service: %@ clients: %ld"
++ "Deallocated session service: %@ clientID: %@"
++ "Did post notification with identifier: %{public}@"
++ "Did skip notification with identifier: %{public}@"
++ "DimpleKey_AutoEnablement"
++ "DimpleKey_PLT"
++ "EvaluationMechanism"
++ "Externalization proxy unavailable"
++ "FaceIdAtPasscode"
++ "FaceNotDetected"
++ "FaceOccluded"
++ "FacePartiallyOutOfView"
++ "FaceTooClose"
++ "FaceTooFar"
++ "Failed service bootstrap serviceType: %@ clientID: %@ error: %@"
++ "Failed to convert payload to NSObject dictionary for event: %s"
++ "Failed to get KEK blob for destination user (%d)"
++ "Failed to get KEK blob for source user (%d)"
++ "Failed to get daemon proxy: %@"
++ "Failed to get default disk (%d)"
++ "Failed to grant ownership (%d)"
++ "Failed to read identity policy for user %s, defaulting to manual: %{public}@"
++ "Failed to verify passcode using PAM %{public}s"
++ "First party client %@ is missing LA entitlement"
++ "Ignoring event %ld, because UI is transitioning."
++ "Interruption invoked in service: %@"
++ "Invalid LACCoachingFeedback: %d"
++ "Invalid LACCoachingFeedbackOpticID: %d"
++ "Invalid LACEventSimpleStatusOpticID: %d"
++ "Invalid serviceType: "
++ "Keeping service alive because there are still %d clients"
++ "Keybag state for uid %u is '%s'"
++ "LA.dto.biometricLivenessEnrollmentAgeThreshold"
++ "LACAKSFileVaultHelper"
++ "LACAgentProxyWithErrorHandler"
++ "LACAnalyticsReporter"
++ "LACAuthenticationUIEventHandling"
++ "LACAuthenticationUIManagerComposite"
++ "LACAuthenticationUIManagerCustom"
++ "LACAuthenticationUIManagerDefault"
++ "LACAuthenticationUIManagerFactory"
++ "LACAuthenticationUIManaging"
++ "LACAuthenticationUINotificationCenter"
++ "LACAuthenticationUINotifying"
++ "LACAuthenticationUIProxy"
++ "LACBackgroundTask-"
++ "LACBackgroundTaskQueued"
++ "LACBootArgParser"
++ "LACBootArgParsing"
++ "LACClientRequest"
++ "LACConcurrentEvaluationConfiguration"
++ "LACConcurrentEvaluationConfiguring"
++ "LACDefaultServiceSession"
++ "LACEvaluationEvent"
++ "LACEvaluationEvent("
++ "LACEvaluationEventHandling"
++ "LACEvaluationEventResponseKeyIsShowingUIBeforeFailure"
++ "LACEvaluationEventValue"
++ "LACEvaluationEventValueActivity"
++ "LACEvaluationEventValueActivity(isActive: "
++ "LACEvaluationEventValueBiometricStatus"
++ "LACEvaluationEventValueBiometricStatus(lockoutError: "
++ "LACEvaluationEventValueBootstrap"
++ "LACEvaluationEventValueBootstrap(initialPosition: "
++ "LACEvaluationEventValueCoachingFeedback"
++ "LACEvaluationEventValueCoachingFeedback(feedbackType: "
++ "LACEvaluationEventValueCompanionStatus"
++ "LACEvaluationEventValueCompanionStatus(authenticationResult: "
++ "LACEvaluationEventValuePasscodeStatus"
++ "LACEvaluationEventValuePasscodeStatus(verificationResult: "
++ "LACEvaluationEventValuePushButtonStatus"
++ "LACEvaluationEventValuePushButtonStatus(authorizingAccessoryId: "
++ "LACEvaluationRequestPayloadKeyConcurrentEvaluationConfig"
++ "LACExternalizedContextProvider"
++ "LACGlobalDomainAutoLock"
++ "LACInstanceIDGenerator"
++ "LACMaxBiometryFailureProcessor"
++ "LACMechanismUserInfoKeyHardwareIssue"
++ "LACMechanismUserInfoKeyMaxFailuresExceeded"
++ "LACMechanismUserInfoKeyUnboundMatch"
++ "LACMechanismUserInfoKeyUnderlyingError"
++ "LACMechanismUserInfoKeyViewOrigin"
++ "LACMechanismUserInfoKeyWillTryToRecover"
++ "LACMutableEvaluationEventValueActivity"
++ "LACMutableEvaluationEventValueBiometricStatus"
++ "LACMutableEvaluationEventValueBootstrap"
++ "LACMutableEvaluationEventValueCoachingFeedback"
++ "LACMutableEvaluationEventValueCompanionStatus"
++ "LACMutableEvaluationEventValuePasscodeStatus"
++ "LACMutableEvaluationEventValuePushButtonStatus"
++ "LACMutablePasscodeVerificationRequestExtended"
++ "LACMutableXPCClient"
++ "LACPasscodeMKBHelper"
++ "LACPasscodeODHelper"
++ "LACPasscodeObserver"
++ "LACPasscodePAMHelper"
++ "LACPasscodeRateLimiting"
++ "LACPasscodeUserHelper"
++ "LACPasscodeVerificationRequestExtended"
++ "LACPreboardErrorBuilder"
++ "LACRemoteUIParams"
++ "LACService"
++ "LACServiceAdapter"
++ "LACServiceBase"
++ "LACServiceKitErrorDomain"
++ "LACServiceManager"
++ "LACServiceManagerBase"
++ "LACServiceSession"
++ "LACUserAuthDaemonXPC"
++ "LACUserCredentialHash"
++ "LACUserMembershipHelper"
++ "LACUserPasswordHash"
++ "LibCall_ACMSecContextCopyCredentialsArrayEx"
++ "LocalAuthenticationCore.LACAuthenticationUIManagerComposite"
++ "LocalAuthenticationCore.LACAuthenticationUIManagerCustom"
++ "LocalAuthenticationCore.LACAuthenticationUIManagerDefault"
++ "LocalAuthenticationCore.LACBackgroundTask"
++ "LocalAuthenticationCore.LACBackgroundTaskQueued"
++ "LocalAuthenticationCore.LACConcurrentEvaluationController"
++ "LocalAuthenticationCore.LACConcurrentEvaluationManager"
++ "LocalAuthenticationCore.LACEvaluationEvent"
++ "LocalAuthenticationCore.LACPasscodeHelper"
++ "LocalAuthenticationCore.LACPasscodeMonitor"
++ "LocalAuthenticationCore.LACPasscodeRateLimitingMacOS"
++ "LocalAuthenticationCore.LACPasscodeVerifier"
++ "LocalAuthenticationCore.LACUserAuthDaemonListener"
++ "LocalAuthenticationCore.LACUserAuthDaemonService"
++ "LocalAuthenticationCore.LACUserCredentialHash"
++ "LocalAuthenticationCore.LACUserPasswordHash"
++ "Missing remote UI instance"
++ "Missing required console domain entitlement"
++ "Missing user ID"
++ "Network"
++ "No UI event delegate set, cannot connect UI mechanism"
++ "No result returned"
++ "NoAttention"
++ "OpticIDUI"
++ "Passcode verification request %{public}s will start"
++ "Passcode verification request did finish: %{public}ld"
++ "PoseMarginal"
++ "PoseOutOfNegativePitchRange"
++ "PoseOutOfRange"
++ "PresentationContext"
++ "Recovery keys with external data cannot be used during ownership transfer"
++ "Registered session service: %@ client: %@"
++ "Removed client from service: %@ clientID: %@"
++ "Request mismatch: "
++ "Requested termination of service: %@"
++ "ResetPasswordWithHash "
++ "ResetPasswordWithHash for "
++ "Restarting remote UI"
++ "Reused session service: %@ clientID: %@"
++ "Service bootstrapping service not implemented"
++ "ServiceManager did become unavailable"
++ "Session not suitable for %@: %{public}@"
++ "Sheet"
++ "Start date (%s) must not be after end date (%s)"
++ "Started and listening on %s"
++ "StimulusPoint"
++ "Subclasses of %@ must provide an `exportedInterface`"
++ "T@\"<LACAuthenticationUINotifying>\",&,N,V_notificationCenter"
++ "T@\"<LACAuthenticationUINotifying>\",N,&,VnotificationCenter"
++ "T@\"<LACAuthenticationUIProxy>\",N,W,VuiEventDelegate"
++ "T@\"<LACAuthenticationUIProxy>\",W,N"
++ "T@\"<LACBackoffCounter>\",N,R"
++ "T@\"<LACBackoffCounter>\",R,N"
++ "T@\"<LACConcurrentEvaluationManaging>\",N,R,Vmanager"
++ "T@\"<LACContextUIDelegate>\",N,W,VuiDelegate"
++ "T@\"<LACEvaluationEventValue>\",N,&,VmutableValue"
++ "T@\"<LACEvaluationEventValue>\",N,R"
++ "T@\"<LACEvaluationRequest>\",N,R,Vrequest"
++ "T@\"<LACEvaluationRequest>\",R,N"
++ "T@\"<LACEvaluationRequest>\",R,N,V_evaluationRequest"
++ "T@\"<LACPasscodeRateLimiting>\",N,R,VrateLimiting"
++ "T@\"<LACRemoteUI>\",&,N,V_remoteUI"
++ "T@\"<LACRemoteUI>\",N,&,VremoteUI"
++ "T@\"<LACRemoteUIManaging>\",N,R,VremoteUIManager"
++ "T@\"<LACService>\",R,N"
++ "T@\"<LACService>\",R,N,V_service"
++ "T@\"<LACServiceManager>\",W,N,Vmanager"
++ "T@\"<LACUIMechanism><LACRemoteUIHost>\",R,N,V_uiMechanism"
++ "T@\"<LACXPCClient>\",R,N,Vclient"
++ "T@\"<NSSecureCoding>\",N,&,VhostedSceneConfiguration"
++ "T@\"<NSSecureCoding>\",R,N"
++ "T@\"LACAuditToken\",&,N,V_token"
++ "T@\"LACBootArgParser\",R,N"
++ "T@\"LACClientInfo\",N,&,VclientInfo"
++ "T@\"LACClientInfo\",R,N,VclientInfo"
++ "T@\"LACConcurrentEvaluationHelper\",N,R"
++ "T@\"LACConcurrentEvaluationHelper\",N,R,Vhelper"
++ "T@\"LACConcurrentIdleUIListenerProvider\",N,R,VidleUIListenerProvider"
++ "T@\"LACFlags\",N,&,Vflags"
++ "T@\"LACInstanceIDGenerator\",R"
++ "T@\"LACPasscodeMKBHelper\",N,R,VmkbHelper"
++ "T@\"LACPasscodeUserHelper\",N,R,VuserHelper"
++ "T@\"LACSDKHelper\",N,&,VsdkHelper"
++ "T@\"LACUserMembershipHelper\",R,N"
++ "T@\"LACUserPasswordHash\",N,R,VpasswordHash"
++ "T@\"NSDictionary\",&,N"
++ "T@\"NSError\",N,C"
++ "T@\"NSError\",R,N"
++ "T@\"NSNumber\",N,&,VaccessoryAuthorizationResult"
++ "T@\"NSNumber\",N,&,VauthenticationResult"
++ "T@\"NSNumber\",N,&,VfeedbackType"
++ "T@\"NSNumber\",N,&,VisCredentialPresent"
++ "T@\"NSNumber\",N,&,VmatchingStatus"
++ "T@\"NSNumber\",N,&,Vparent"
++ "T@\"NSNumber\",N,&,VparentK"
++ "T@\"NSNumber\",N,&,VparentN"
++ "T@\"NSNumber\",N,&,VpostRequisite"
++ "T@\"NSNumber\",N,&,VpreRequisite"
++ "T@\"NSNumber\",N,&,VverificationResult"
++ "T@\"NSObject<OS_dispatch_queue>\",R,N,V_queue"
++ "T@\"NSSet\",N,C"
++ "T@\"NSString\",&,N,V_subtitle"
++ "T@\"NSString\",N,C"
++ "T@\"NSString\",R,N,V_clientID"
++ "T@\"NSString\",R,N,V_identifier"
++ "T@\"NSString\",R,N,V_serviceID"
++ "T@\"NSString\",R,N,V_serviceType"
++ "T@\"NSUUID\",N,C"
++ "T@\"NSUUID\",R,N,V_sessionID"
++ "T@\"NSXPCListener\",&,N"
++ "T@\"NSXPCListener\",N,&,VidleUIListener"
++ "T@\"NSXPCListenerEndpoint\",R,N"
++ "T@\"NSXPCListenerEndpoint\",R,N,V_endpoint"
++ "T@\"OS_dispatch_queue\",N,R"
++ "T@\"_TtC23LocalAuthenticationCore18LACPasscodeMonitor\",N,R,Vmonitor"
++ "T@\"_TtC23LocalAuthenticationCore19LACPasscodeVerifier\",N,R,Vverifier"
++ "T@\"_TtC23LocalAuthenticationCore21LACPasscodeSuccessAge\",N,R,VpasscodeSuccessAgeController"
++ "T@\"_TtC23LocalAuthenticationCore32LACConcurrentEvaluationAllowList\",N,&,VallowList"
++ "T@,N,&,VconnectedUIInstances"
++ "T@,N,&,VspecializedObservers"
++ "T@,N,C"
++ "TB,N,V_bypassEntitlement"
++ "TB,N,V_isSubtitleLocalized"
++ "TB,N,VignoreUIDisappearance"
++ "TB,N,VisActive"
++ "TB,N,VisAdminUser"
++ "TB,N,VisCurrentUser"
++ "TB,N,VisEvaluationOffloaded"
++ "TB,N,VuiDisappeared"
++ "TB,N,VuiTransitioning"
++ "TB,R,N,VisPurposeInAppPayment"
++ "TCCServerPrompt"
++ "TCCService"
++ "TI,N,R,VinstanceId"
++ "TQ,R,N,VoriginatorId"
++ "T^{__CFString=},N,V_lastNotification"
++ "Ti,N,V_auditSessionId"
++ "TouchIDWatch"
++ "Tq,N"
++ "Tq,N,R,VevaluationMode"
++ "Tq,N,R,VeventType"
++ "Tq,N,R,Viterations"
++ "Tq,N,R,Vmechanism"
++ "Tq,N,R,VoriginatorId"
++ "Tq,N,R,Vtype"
++ "Tq,N,Vauthenticator"
++ "Tq,N,VpresentedController"
++ "Tq,R,N,V_hostedRemoteController"
++ "TransferOwnership from: "
++ "UI canceled by system."
++ "UIManager"
++ "Unexpected XPC result"
++ "Unmapped AKS error"
++ "Unregistered session service: %@ client: %@"
++ "UnsupportedGlasses"
++ "Updated max biometry failures for rid: %u to: %ld"
++ "User daemon failed to provide a valid endpoint"
++ "User is not device owner"
++ "UserAuthDaemon"
++ "Using 'console' domain as requested"
++ "Using 'other' domain as requested"
++ "Using client's default domain '%s'"
++ "Variable: %d not available in ACM"
++ "Will use OTI verifier for user: %{public}s"
++ "Will verify using MKB"
++ "Will verify using OD"
++ "Will verify using OD (any owner authenticator)"
++ "Will verify using OTI"
++ "Will verify using PAM"
++ "Will verify using PAM. No SEP credentials can be added"
++ "^{__CFString=}"
++ "^{__CFString=}16@0:8"
++ "_TtC23LocalAuthenticationCore18LACPasscodeMonitor"
++ "_TtC23LocalAuthenticationCore19LACPasscodeVerifier"
++ "_TtC23LocalAuthenticationCore19LACUserDaemonClient"
++ "_TtC23LocalAuthenticationCore20LACPasscodeOTIHelper"
++ "_TtC23LocalAuthenticationCore21LACPasscodeSuccessAge"
++ "_TtC23LocalAuthenticationCore23LACBiometryTypeProvider"
++ "_TtC23LocalAuthenticationCore24LACUserAuthDaemonService"
++ "_TtC23LocalAuthenticationCore25LACUserAuthDaemonListener"
++ "_TtC23LocalAuthenticationCore26LACUserAuthDaemonContainer"
++ "_TtC23LocalAuthenticationCore28LACPasscodeRateLimitingMacOS"
++ "_TtC23LocalAuthenticationCore32LACPasscodeVerifierStrategyMacOS"
++ "_TtC23LocalAuthenticationCoreP33_53C4CF2605483CE5CE76F1EC3A4D036F37LACConcurrentEvaluationManagedRequest"
++ "_TtCE23LocalAuthenticationCoreCSo21LACUserCredentialHashP33_6053F70B4993339D78D3AEF8B2C99DAF10Properties"
++ "_assertRunningInCorrectQueue"
++ "_auditSessionId"
++ "_bypassEntitlement"
++ "_checkIsRedundantNotification:"
++ "_clientID"
++ "_clients"
++ "_currentIDs"
++ "_deriveKeyWithPassword:salt:iterations:size:prf:error:"
++ "_disconnectClient:"
++ "_endpoint"
++ "_error:hasCode:subcodeValue:"
++ "_errorHandler"
++ "_evaluationRequest"
++ "_externalizer"
++ "_freeFVData:"
++ "_hostedRemoteController"
++ "_isSubtitleLocalized"
++ "_keybagProvider"
++ "_lastNotification"
++ "_listener"
++ "_postDarwinNotificationWithIdentifier:"
++ "_remoteUI"
++ "_service"
++ "_serviceID"
++ "_serviceType"
++ "_sessionID"
++ "_shutdownSessionsWithServiceType:"
++ "_storeObject:request:completionHandler:"
++ "_subtitle"
++ "_terminating"
++ "_token"
++ "_uiMechanism"
++ "_uiRequest"
++ "_userHelper"
++ "accessoryAuthorizationError"
++ "accessoryAuthorizationResult"
++ "activeMechanisms"
++ "aksIdentityHelper"
++ "allowLandscapeTouchID"
++ "allowsMultipleClientsForServiceType:"
++ "anonymousListeners"
++ "auditSessionId"
++ "auditSessionIdentifier"
++ "auditTokenData"
++ "authenticationHints"
++ "authenticationResult"
++ "authorizingAccessoryId"
++ "backoffCounter"
++ "backoffEndTimeDictionary"
++ "bootstrapServiceWithType:clientConnection:completionHandler:"
++ "bootstrapSessionServiceType:clientID:clientConnection:completionHandler:"
++ "bootstrapSessionServiceType:clientID:completionHandler:"
++ "bootstrapSessionServiceType:completionHandler:"
++ "bypassEntitlement"
++ "clientID"
++ "clientsCount"
++ "com.apple.LocalAuthentication.intent.not-waiting"
++ "com.apple.LocalAuthentication.intent.waiting"
++ "com.apple.LocalAuthentication.ui.dismissed"
++ "com.apple.LocalAuthentication.ui.presented"
++ "com.apple.LocalAuthentication.userauthd"
++ "com.apple.ahp"
++ "com.apple.keystore.console"
++ "com.apple.keystore.domain.select"
++ "com.apple.private.LocalAuthentication.NonDisposableContextPool"
++ "com.apple.private.LocalAuthentication.SecureUIRecording"
++ "com.apple.private.LocalAuthentication.SoftwareUpdate"
++ "com.apple.private.LocalAuthentication.Storage"
++ "com.apple.userauthd"
++ "connection: %lx"
++ "createUser:identityCreationPolicy:error:"
++ "createUser:identityCreationPolicy:reply:"
++ "createUserWithHash:identityCreationPolicy:error:"
++ "createUserWithHash:identityCreationPolicy:reply:"
++ "createUserWithKeybag:credential:error:"
++ "createUserWithKeybag:salt:iterations:credentialHash:error:"
++ "customUIManagers"
++ "d24@0:8@\"NSNumber\"16"
++ "daemonListener"
++ "daemonService"
++ "defaultUIManagers"
++ "deriveKeyWithPassword:salt:iterations:size:prf:error:"
++ "dismissRemoteUI:uiMechanism:uiDisappeared:shouldIdle:reply:"
++ "doesNotRecognizeSelector:"
++ "dtoBiometricLivenessEnrollmentAgeThreshold"
++ "enableCurrentUseCaseWithSecurePasscode:completion:"
++ "endpoint"
++ "errorWithCode:subcode:underlyingError:debugDescription:"
++ "errorWithCode:withUnderlyingErrors:"
++ "evaluationError"
++ "evaluationMode"
++ "event:params:reply:"
++ "eventQueue"
++ "eventType"
++ "extendedInternalInfo"
++ "extendedInternalInfoForRemoteUI"
++ "failAuthenticationWithError:"
++ "failedAttemptsDictionary"
++ "featureFlagAllowTouchIDLandscapeEnabled"
++ "featureFlagDimpleKeyAutoEnablementEnabled"
++ "featureFlagDimpleKeyiPadTelemetryEnabled"
++ "featureFlagPresentationContextEnabled"
++ "featureFlagUserAuthDaemonEnabled"
++ "feedbackType"
++ "feedbackValue"
++ "findUserWithUID:"
++ "finishRunWithResult:error:"
++ "firstParty: %d"
++ "flagDTOBiometricLivenessEnrollmentAgeThresholdKey"
++ "forSiri"
++ "forSoftwareUpdate"
++ "handleEvaluationEvent:completion:"
++ "hasStashedRequestsForContextID:"
++ "hostedRemoteController"
++ "hostedSceneConfiguration"
++ "identityCreationPolicy"
++ "idleUIListener"
++ "ignoreUIDisappearance"
++ "increaseFailedAttemptCountForUserID:"
++ "init(authenticator:environmentProvider:sessionMonitor:reply:)"
++ "initWithAgentProxy:errorHandler:"
++ "initWithAuthenticator:environmentProvider:sessionMonitor:replyQueue:"
++ "initWithAuthenticator:environmentProvider:sessionMonitor:uiPresenter:replyQueue:"
++ "initWithContextRef:salt:iterations:"
++ "initWithExportedInterface:exportedObject:queue:"
++ "initWithExternalizer:"
++ "initWithHelper:manager:replyQueue:"
++ "initWithHelper:replyQueue:"
++ "initWithIdentifier:optionalRequest:"
++ "initWithInt:"
++ "initWithKeyBagStateProvider:notificationCenter:userId:"
++ "initWithKeybagProvider:"
++ "initWithMachServiceName:"
++ "initWithMechanism:"
++ "initWithMechanism:evaluationMode:eventType:value:"
++ "initWithMechanism:hostedRemoteController:"
++ "initWithPasscode:acmContext:auditToken:pamService:pamUser:pamToken:"
++ "initWithRequest:"
++ "initWithRequest:managers:"
++ "initWithRequest:remoteUIManager:"
++ "initWithRequest:uiDelegate:"
++ "initWithService:serviceType:client:"
++ "initWithUUID:passwordHash:"
++ "initWithUserHelper:"
++ "initWithVerifier:passcodeSuccessAge:rateLimiting:mkbHelper:userHelper:keyBagProvider:"
++ "initialPosition"
++ "instanceId"
++ "interruptionHandler"
++ "isAdminUser"
++ "isBootArgEnabled:"
++ "isCredentialPresent"
++ "isCurrentUser"
++ "isEvaluationOffloaded"
++ "isEventPaused:"
++ "isInternalBootArgEnabled:"
++ "isOwnerRequiredForUserID:authenticator:"
++ "isPurposeInAppPayment"
++ "isSubtitleLocalized"
++ "iterations"
++ "kLACEvaluationRequestPayloadKeySecureIntentRequested"
++ "kLACServiceTypeAnalytics"
++ "kLACServiceTypeUser"
++ "keyBag"
++ "keyBagDisabled"
++ "keyBagProvider"
++ "lastNotification"
++ "lastPasscodeSuccessUptime"
++ "listener"
++ "lock"
++ "lockoutError"
++ "lockoutStateForUserWithUUID:error:"
++ "lockoutStateForUserWithUUID:reply:"
++ "lsApplicationIdentity"
++ "macOS strategy preprocessing failed"
++ "makeCustomUIManagerForRequest:uiDelegate:"
++ "makeManagerForRequest:uiDelegate:remoteUIManager:"
++ "makePersistentStoreWithCustomSuiteName:"
++ "makeStandardPersistentStore"
++ "managers"
++ "matchingStatus"
++ "mbr_uid_to_uuid failed to convert UID %u to UUID"
++ "mechanism"
++ "mkbHelper"
++ "mutableValue"
++ "nextInstanceIDInDomain:"
++ "notificationCenter"
++ "odHelper"
++ "originatorId"
++ "otiHelper"
++ "pamHelper"
++ "pamService"
++ "pamToken"
++ "pamUser"
++ "parent"
++ "parentK"
++ "parentN"
++ "passcodeSetDidChangeForUser:"
++ "passcodeSuccessAgeController"
++ "passcodeVerificationErrorWithMessage:"
++ "passwordHash"
++ "pause:event:"
++ "pid: %x"
++ "postNotificationUIDidAppear"
++ "postNotificationUIDidDisappear"
++ "postRequisite"
++ "preRequisite"
++ "presentedController"
++ "profileInstallErrorWithMessage:"
++ "queue"
++ "rateLimiting"
++ "remoteUI"
++ "remoteUIManager"
++ "requestID"
++ "resetFailedAttemptCountForUserID:"
++ "resetPasswordWithHashForUser:error:"
++ "resetPasswordWithHashForUser:reply:"
++ "resetPausedEvents"
++ "restartRequestsForContextID:unpauseEvents:"
++ "sendEventWithName:payload:"
++ "service"
++ "serviceID"
++ "serviceType"
++ "sessionID"
++ "sessionsCount"
++ "setAccessoryAuthorizationError:"
++ "setAccessoryAuthorizationResult:"
++ "setActiveMechanisms:"
++ "setAllowList:"
++ "setAnonymousListeners:"
++ "setAuditSessionId:"
++ "setAuthenticationHints:"
++ "setAuthenticationResult:"
++ "setAuthenticator:"
++ "setAuthorizingAccessoryId:"
++ "setBiometryType:"
++ "setBypassEntitlement:"
++ "setConnectedUIInstances:"
++ "setCustomUIManagers:"
++ "setDefaultUIManagers:"
++ "setDtoBiometricLivenessEnrollmentAgeThreshold:"
++ "setEvaluationError:"
++ "setExtendedInternalInfo:"
++ "setFeedbackType:"
++ "setFeedbackValue:"
++ "setFlags:"
++ "setHostedSceneConfiguration:"
++ "setIdleUIListener:"
++ "setIgnoreUIDisappearance:"
++ "setInitialPosition:"
++ "setIsActive:"
++ "setIsAdminUser:"
++ "setIsCredentialPresent:"
++ "setIsCurrentUser:"
++ "setIsEvaluationOffloaded:"
++ "setIsSubtitleLocalized:"
++ "setLastNotification:"
++ "setLockoutError:"
++ "setManager:"
++ "setMatchingStatus:"
++ "setMutableValue:"
++ "setNotificationCenter:"
++ "setObject rid:%u returned %{public}@"
++ "setPamService:"
++ "setPamToken:"
++ "setPamUser:"
++ "setParent:"
++ "setParentK:"
++ "setParentN:"
++ "setPayload:"
++ "setPostRequisite:"
++ "setPreRequisite:"
++ "setPresentedController:"
++ "setRemoteUI:"
++ "setSdkHelper:"
++ "setSpecializedObservers:"
++ "setSubtitle:"
++ "setToken:"
++ "setUiDelegate:"
++ "setUiDisappeared:"
++ "setUiEventDelegate:"
++ "setUiTransitioning:"
++ "setUserUUID:"
++ "setVerificationResult:"
++ "shouldFinishRunWithResult:error:"
++ "showUIWithParams:reply:"
++ "shutdownSessionsWithMatchingID:"
++ "strategy"
++ "subtitle"
++ "successAge"
++ "token"
++ "transferOwnershipFromAuthorizer:authorizerCredential:toExistingUser:existingUserCredential:disk:error:"
++ "transferOwnershipFromAuthorizer:authorizerCredential:toNewRecoveryKey:recoveryCredential:targetDisk:error:"
++ "transferOwnershipFromUser:toExistingUser:targetDisk:error:"
++ "transferOwnershipFromUser:toExistingUser:targetDisk:reply:"
++ "transferOwnershipFromUser:toNewRecoveryKey:targetDisk:error:"
++ "transferOwnershipFromUser:toNewRecoveryKey:targetDisk:reply:"
++ "transferOwnershipFromUser:userCredential:targetUserUUID:targetUserCredential:disk:error:"
++ "uiDelegate"
++ "uiDisappeared"
++ "uiEventDelegate"
++ "uiMechanism"
++ "uiTransitioning"
++ "uid: %x"
++ "updateValue:"
++ "updateWithCurrentSystemUptime"
++ "updateWithUptime:"
++ "userHelper"
++ "userNameFromUID:"
++ "userService"
++ "userUUID"
++ "userUUIDFromUID:"
++ "userauthd.checkExistsOTIForUser(uuid:targetDisk:reply:)"
++ "userauthd.checkExistsUser(uuid:targetDisk:reply:)"
++ "userauthd.checkOwnershipStatusForTargetDisk(_:reply:)"
++ "userauthd.fetchPasswordHintForUser(uuid:reply:)"
++ "userauthd.fetchRecoveryKeys(targetDisk:reply:)"
++ "userauthd.fetchUIDForUser(uuid:reply:)"
++ "userauthd.fetchUsers(targetDisk:reply:)"
++ "userauthd.lockStateForUser(uuid:sessionID:reply:)"
++ "userauthd.lockoutStateForUser(uuid:domain:reply:)"
++ "userauthd.lockoutStateForUser(uuid:reply:)"
++ "userauthd.perform(_:_:function:)"
++ "uuidForUserID:error:"
++ "v16@?0@\"NSDictionary\"8"
++ "v24@0:8@\"<LACAuthenticationUIProxy>\"16"
++ "v24@0:8@\"NSXPCListener\"16"
++ "v24@0:8^{aks_fv_data_s=^vQ}16"
++ "v24@?0@\"<LACService>\"8@\"NSError\"16"
++ "v28@0:8@\"NSUUID\"16B24"
++ "v28@0:8B16q20"
++ "v32@0:8@\"LACEvaluationEvent\"16@?<v@?@\"NSDictionary\"@\"NSError\">24"
++ "v32@0:8@\"LACUserCredentialHash\"16@?<v@?@\"NSError\">24"
++ "v32@0:8@\"NSData\"16@?<v@?@\"NSError\">24"
++ "v32@0:8@\"NSDictionary\"16@\"NSError\"24"
++ "v32@0:8@\"NSString\"16@?<v@?@\"NSXPCListenerEndpoint\"@\"NSError\">24"
++ "v32@0:8@\"NSUUID\"16@?<v@?@\"LACUserLockoutState\"@\"NSError\">24"
++ "v40@0:8@\"<LACRemoteUI>\"16@\"NSNumber\"24@?<v@?@\"<LACUIMechanism>\"@\"<LACBackoffCounter>\"@\"NSData\"@\"NSError\">32"
++ "v40@0:8@\"LACUserCredential\"16q24@?<v@?@\"NSError\">32"
++ "v40@0:8@\"LACUserCredentialHash\"16q24@?<v@?@\"NSError\">32"
++ "v40@0:8@\"NSString\"16@\"NSString\"24@?<v@?@\"NSXPCListenerEndpoint\"@\"NSError\">32"
++ "v40@0:8d16@\"NSObject<OS_dispatch_queue>\"24@?<v@?>32"
++ "v44@0:8d16@\"NSObject<OS_dispatch_queue>\"24B32@?<v@?>36"
++ "v48@0:8@\"LACUserCredential\"16@\"LACRecoveryKey\"24@\"NSString\"32@?<v@?@\"NSError\">40"
++ "v48@0:8@\"NSString\"16@\"NSString\"24@\"NSXPCConnection\"32@?<v@?@\"NSXPCListenerEndpoint\"@\"NSError\">40"
++ "valueForFlagDTOBiometricLivenessEnrollmentAgeThreshold"
++ "variableSetErrorWithMessage:"
++ "verificationResult"
++ "verifier"
++ "verifyPasscodeUsingMKB:"
++ "verifyPasscodeUsingOD:"
++ "verifyPasscodeUsingPAM:"
++ "worker"
+- "\""
+- "%@"
+- "%s: Admin [%@, %@, %@]"
+- "%s: missing user ID"
+- "%{public}@ has %d failed passcode attempts out of %d"
+- "%{public}@ has backoff interval of %.0f seconds"
+- "-[LACPasscodeHelper _shouldUseODVerifierForUserId:policy:options:]"
+- "/AppleInternal/Library/BuildRoots/4~CG4MugBj4js0SWc4mqWvowGpApf34QPCZDFHJ54/Library/Caches/com.apple.xbs/Sources/AppleCredentialManager_ClientLibs/ACMLib/ACMLib.c"
+- "/AppleInternal/Library/BuildRoots/4~CG4MugBj4js0SWc4mqWvowGpApf34QPCZDFHJ54/Library/Caches/com.apple.xbs/Sources/AppleCredentialManager_ClientLibs/common/CommonUtil.c"
+- "/AppleInternal/Library/BuildRoots/4~CG4MugBj4js0SWc4mqWvowGpApf34QPCZDFHJ54/Library/Caches/com.apple.xbs/Sources/AppleCredentialManager_ClientLibs/common/LibCall.c"
+- "/AppleInternal/Library/BuildRoots/4~CG4MugBj4js0SWc4mqWvowGpApf34QPCZDFHJ54/Library/Caches/com.apple.xbs/Sources/AppleCredentialManager_ClientLibs/common/LibCallBlock.c"
+- "/AppleInternal/Library/BuildRoots/4~CG4MugBj4js0SWc4mqWvowGpApf34QPCZDFHJ54/Library/Caches/com.apple.xbs/Sources/AppleCredentialManager_ClientLibs/common/LibSerialization.c"
+- "@\"<LACBackgroundTaskDelegate>\""
+- "@\"<LACClientInfoProviding>\""
+- "@\"<LACConcurrentEvaluationControlling>\""
+- "@\"LACAKSIdentityHelper\""
+- "@\"LACKeyBagMKBAdapter\""
+- "@\"LACKeyBagProvider\""
+- "@\"LACTimer\""
+- "@56@0:8i16{?=[8I]}20I52"
+- "ACM failed to retrieve protected data: %d"
+- "ACM failed to retrieve the ACL: %d"
+- "ACM failed to set protected data: %d"
+- "ACMContextCredentialGetProperty"
+- "AddRecoveryKey: "
+- "AnonymousTask"
+- "B32@0:8@\"LACUserCredential\"16^@24"
+- "B48@0:8@\"LACRecoveryKey\"16@\"LACUserCredential\"24@\"NSString\"32^@40"
+- "B48@0:8@16@24@32@40"
+- "Cannot use OTI verifier (%@)"
+- "Could not find UUID: %{public}@, for UID: %{public}@"
+- "Could not inject extractable password (%@)"
+- "Could not inject secure password (%@)"
+- "Device reboot failed"
+- "Found UUID: %{public}@, for UID: %{public}@"
+- "InternalBase"
+- "Invalid worker"
+- "LACCachedExternalizedContext"
+- "LACContextExternalizing"
+- "LACEvaluationRequestPayloadKeyConcurrentIdleUIListener"
+- "LACUserInterfaceSpringBoardAdapter"
+- "LAPreboard is already launching"
+- "LAPreboard was already launched"
+- "Launch semaphore timed out, rebooting now."
+- "LaunchAngel"
+- "LocalAuthenticationCore.LACConcurrentEvaluationControllerModel"
+- "LocalAuthenticationCore.LACConcurrentEvaluationManagerModel"
+- "Missing externalizationDelegate"
+- "NSXPCProxyCreating"
+- "Operation timed out"
+- "Passcode verification did finish: %{public}@"
+- "Passcode verification will start: %{public}@"
+- "Recovery keys with external data cannot be used to add recovery keys on a specific disk"
+- "RemoteViewControllerName"
+- "RemoteViewServiceBundleID"
+- "Request '%@' is already running"
+- "Request '%@' timed out after %.3f secs"
+- "Storage not supported on this device."
+- "Synchronous launch failed with %@, rebooting now."
+- "T@\"<LACBackgroundTaskDelegate>\",W,N,V_delegate"
+- "T@\"<LACClientInfoProviding>\",N,R,VclientInfoProvider"
+- "T@\"<LACXPCClient>\",W,N"
+- "T@\"<LACXPCClient>\",W,N,Vclient"
+- "T@\"LACConcurrentEvaluationHelper\",R,N"
+- "T@\"LACFlags\",R,N,V_flags"
+- "T@\"LACSDKHelper\",R,N,V_sdkHelper"
+- "T@\"NSData\",&,N,V_acl"
+- "T@\"_TtC23LocalAuthenticationCore32LACConcurrentEvaluationAllowList\",R,N,V_allowList"
+- "UIAuthenticationSheet"
+- "Unable to encode passcode"
+- "Undefined launch result"
+- "Unexpected XCP result"
+- "Will use OTI verifier for user: %{public}@"
+- "_TtC23LocalAuthenticationCore23LACPreboardErrorBuilder"
+- "_TtC23LocalAuthenticationCore35LACConcurrentEvaluationManagerModel"
+- "_TtC23LocalAuthenticationCore38LACConcurrentEvaluationControllerModel"
+- "_TtC23LocalAuthenticationCoreP33_C817701C53905B142550A8026D25F95D37LACConcurrentEvaluationManagedRequest"
+- "_acl"
+- "_aksIdentityHelper"
+- "_allowList"
+- "_backoffEndTimeDictionary"
+- "_bundleIDForRequest:"
+- "_configurationId"
+- "_currentHandler"
+- "_currentUserID"
+- "_errorNotSupported"
+- "_externalizationDelegate"
+- "_failedAttemptsDictionary"
+- "_flags"
+- "_increaseFailedAttemptCountForUserID:"
+- "_innerQueue"
+- "_isOTIVerifierEnabled"
+- "_isWorkerRunning"
+- "_keyBagAdapter"
+- "_keyBagDisabled"
+- "_keyBagProvider"
+- "_lastPasscodeSuccessUptime"
+- "_minSDKVersion"
+- "_model"
+- "_notifyObserversAboutUpdate"
+- "_protectedDataWithBundleId:contextID:completionHandler:"
+- "_queuedCompleteTaskWithResult:"
+- "_queuedRunInReplyQueue:"
+- "_queuedRunWithTimeout:replyQueue:completion:"
+- "_queuedStartWorkerIfNeeded"
+- "_queuedStartWorkerWatchdogWithTimeout:"
+- "_queuedStopWorkerWatchdog"
+- "_resetFailedAttemptCountForUserID:"
+- "_sdkHelper"
+- "_setProtectedData:acl:contextID:completionHandler:"
+- "_shouldUseODVerifierForUserId:policy:options:"
+- "_shouldUseOTIVerifierForUserUUID:policy:options:"
+- "_shouldUsePAMVerifierForUserId: %{public}@ [%@, %@, %@, %@]"
+- "_shouldUsePAMVerifierForUserId: missing user ID"
+- "_shouldUsePAMVerifierForUserId:policy:options:"
+- "_updatePasscodeSuccessAgeWithUptime:"
+- "_userNameFromUID:"
+- "_userUUIDFromUID:"
+- "_verifyPasscode:"
+- "_verifyPasscodeUsingMKB:acmContext:userId:options:"
+- "_verifyPasscodeUsingOD:acmContext:userId:options:"
+- "_verifyPasscodeUsingOTI:acmContext:userUUID:"
+- "_watchdog"
+- "_worker"
+- "aclForKey rid:%u returned %{private}@"
+- "aclForKey:%d rid:%u"
+- "aclForRequest:completionHandler:"
+- "addRecoveryKey:authorizer:targetDisk:error:"
+- "addRecoveryKey:authorizer:targetDisk:reply:"
+- "authMethodWithReply:"
+- "backgroundTask:didCompleteTaskWithResult:"
+- "clientInfoProvider"
+- "com.apple.CoreAuthUI"
+- "createRecoveryKey:recoveryCredential:authorizerUUID:authorizerCredential:targetDisk:error:"
+- "createUser:error:"
+- "createUser:reply:"
+- "current user"
+- "date"
+- "dateByAddingTimeInterval:"
+- "enableCurrentUseCaseWithPasscode:completion:"
+- "failedAttempts: %u"
+- "featureFlagConcurrentEvaluationsEnabled"
+- "featureFlagLaunchAngelEnabled"
+- "forciblyInvalidate"
+- "hasCode:code:"
+- "i48@0:8@16@24@32@40"
+- "init(authenticator:clientInfoProvider:environmentProvider:sessionMonitor:reply:)"
+- "initWithAllowList:flags:sdkHelper:"
+- "initWithAuthenticator:clientInfoProvider:environmentProvider:sessionMonitor:replyQueue:"
+- "initWithAuthenticator:clientInfoProvider:environmentProvider:sessionMonitor:uiPresenter:replyQueue:"
+- "initWithBundleId:configurationId:"
+- "initWithExternalizationDelegate:"
+- "initWithIdentifier:evaluationRequest:contextID:"
+- "initWithKeyBagStateProvider:notificationCenter:"
+- "initWithProcessId:auditToken:userId:"
+- "kLAServiceTypeAnalytics"
+- "kLAServiceTypeUser"
+- "launchPreboardWithError:"
+- "launchResult"
+- "makeModel"
+- "makePersistentStoreWithSuiteName:"
+- "model"
+- "newInstance"
+- "passcodeSetDidChangeForHelper:"
+- "passcodeVerificationErrorWith:"
+- "profileInstallErrorWith:"
+- "q40@0:8@16@24@32"
+- "q56@0:8@16@24@32@40@48"
+- "q72@0:8@16@24@32{?=[8I]}40"
+- "restartRequestsForContextID:"
+- "setAcl:"
+- "synchronousExternalizedContextWithError:"
+- "timeIntervalSinceDate:"
+- "updatePasscodeSuccessAgeWithCurrentSystemUptime"
+- "user %d"
+- "v24@0:8@\"<LACXPCClient>\"16"
+- "v24@0:8@?<v@?@\"NSData\"@\"NSError\">16"
+- "v24@?0@\"<LACConcurrentIdleUIHandling>\"8@\"NSError\"16"
+- "v32@0:8@\"<LACStorageRequest>\"16@?<v@?@\"NSData\"@\"NSError\">24"
+- "v32@0:8@\"LACUserCredential\"16@?<v@?@\"NSError\">24"
+- "v40@0:8@\"<LACRemoteUI>\"16@\"NSNumber\"24@?<v@?@\"<LACUIMechanism>\"@\"<LACBackoffCounter>\"@\"NSError\">32"
+- "v48@0:8@\"LACRecoveryKey\"16@\"LACUserCredential\"24@\"NSString\"32@?<v@?@\"NSError\">40"
+- "variableSetErrorWith:"
+- "verifyPasscode:acmContext:userId:auditToken:"
+- "verifyPasscodeUsingPAM:userID:pamService:pamUser:pamToken:"
+
+```
